@@ -59,18 +59,30 @@ interface EloquentRepositoryInterface
     public function delete($id);
     /**
      * make query
-     * 
+     *
      * @return mixed
      */
     public function getQueryBuilder();
+
+    public function getByQueryBuilder(array $filter, array $relations = []);
+
+    public function getQueryBuilderOrderBy();
+
+    public function getBy(array $filter, array $relations = []);
     /**
      * make query
-     * 
+     *
+     * @return mixed
+     */
+
+    /**
+     * make query
+     *
      * @param string $action
-     * 
+     *
      * @return boolean
      */
     public function authorize($action);
-    
+
     public function getInstance();
 }

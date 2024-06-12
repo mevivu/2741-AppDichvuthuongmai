@@ -10,6 +10,29 @@ return [
         'sub' => []
     ],
     [
+        'title' => 'area',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-article"></i>',
+        'roles' => [],
+        'permissions' => ['createArea','viewArea','updateArea','deleteArea'],
+        'sub' => [
+            [
+                'title' => 'Thêm khu vực',
+                'routeName' => 'admin.area.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createArea'],
+            ],
+            [
+                'title' => 'DS khu vực',
+                'routeName' => 'admin.area.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewArea'],
+            ]
+        ]
+    ],
+    [
         'title' => 'Bài viết',
         'routeName' => null,
         'icon' => '<i class="ti ti-article"></i>',

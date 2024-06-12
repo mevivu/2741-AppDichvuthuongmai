@@ -3,13 +3,15 @@
 namespace App\Admin\Repositories;
 
 use App\Admin\Repositories\EloquentRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 abstract class EloquentRepository implements EloquentRepositoryInterface
 {
     /**
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var Model
      */
     protected $model;
     /**
@@ -30,7 +32,7 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
     {
         $this->setModel();
     }
-    
+
     /**
      * get model
      * @return string
@@ -125,14 +127,68 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
 
         return false;
     }
+
+    public function getBy(array $filter, array $relations = [])
+    {
+
+        $this->getByQueryBuilder($filter, $relations);
+
+        return $this->instance->get();
+    }
     /**
      * get query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function getQueryBuilder()
     {
         $this->instance = $this->model->newQuery();
         return $this->instance;
+    }
+
+    public function getByQueryBuilder(array $filter, array $relations = [], $sort = ['id', 'desc'])
+    {
+
+        $this->getQueryBuilderOrderBy(...$sort);
+
+        $this->applyFilters($filter);
+
+        return $this->instance->with($relations);
+    }
+
+    protected function applyFilters(array $filter): void
+    {
+
+        foreach ($filter as $field => $value) {
+            if (is_array($value)) {
+
+                [$field, $condition, $val] = $value;
+
+                $this->instance = match (strtoupper($condition)) {
+                    'IN' => $this->instance->whereIn($field, $val),
+                    'NOT_IN' => $this->instance->whereNotIn($field, $val),
+                    default => $this->instance->where($field, $condition, $val)
+                };
+            } else {
+                $this->instance = $this->instance->where($field, $value);
+            }
+        }
+    }
+
+    public function getQueryBuilderOrderBy($column = 'id', $sort = 'DESC')
+    {
+
+        $this->getQueryBuilder();
+
+        $this->instance = $this->instance->orderBy($column, $sort);
+
+        return $this->instance;
+    }
+
+    public function updateAttribute(mixed $id, string $attribute, mixed $value): void
+    {
+        $model = $this->find($id);
+        $model->$attribute = $value;
+        $model->save();
     }
     public function authorize($action = 'view', $guard = 'web'){
         if(!$this->instance || auth()->guard($guard)->user()->can($action, $this->instance)){
@@ -152,4 +208,6 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
     public function getInstance(){
         return $this->instance;
     }
+
+
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\Area\AreaStatus;
+use App\Enums\DefaultStatus;
 use App\Enums\Order\OrderStatus;
 use App\Enums\PostCategory\PostCategoryStatus;
 use App\Enums\Post\PostStatus;
@@ -30,6 +32,14 @@ return [
         ProductType::Simple => 'Sản phẩm đơn giản',
         ProductType::Variable => 'Sản phẩm có biến thể'
     ],
+    DefaultStatus::class => array(
+        DefaultStatus::Published->value => 'Đã xuất bản',
+        DefaultStatus::Draft->value => 'Bản nháp'
+    ),
+    AreaStatus::class => array(
+        AreaStatus::On->value => 'Hoạt động',
+        AreaStatus::Off->value => 'Không hoạt động'
+    ),
     ProductVariationAction::class => [
         ProductVariationAction::AddSimple => 'Thêm biến thể',
         ProductVariationAction::AddFromAllVariations => 'Tạo biến thể từ tất cả thuộc tính'
