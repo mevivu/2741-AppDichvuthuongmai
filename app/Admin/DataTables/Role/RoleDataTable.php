@@ -10,10 +10,10 @@ class RoleDataTable extends BaseDataTable
 {
 
     use GetConfig;
-	
+
 	// ID ( Client ) của bảng DataTable
 	protected $nameTable = 'roleTable';
-	
+
     /**
      * Available button actions. When calling an action, the value will be used
      * as the function name (so it should be available)
@@ -40,8 +40,8 @@ class RoleDataTable extends BaseDataTable
             'action' => 'admin.role.datatable.action',
         ];
     }
-    
-    
+
+
     /**
      * Get query source of dataTable.
      *
@@ -55,7 +55,7 @@ class RoleDataTable extends BaseDataTable
         return $query;
     }
 
-    
+
 
     /**
      * Get columns.
@@ -67,7 +67,7 @@ class RoleDataTable extends BaseDataTable
         $this->customColumns = $this->traitGetConfigDatatableColumns('role'); // Truyền vào tên bảng trong datatable_columns Config
     }
 
-    
+
 	// Thiết lập Sửa một cột
 	protected function setCustomEditColumns(){
 		// Danh sách các mảng view cột sẽ sửa lại
@@ -76,8 +76,8 @@ class RoleDataTable extends BaseDataTable
             'guard_name' => $this->view['guardname']
         ];
     }
-	
-	
+
+
 	// Thiết lập Thêm một cột
     protected function setCustomAddColumns(){
 		// Danh sách các mảng view cột sẽ thêm
@@ -85,11 +85,22 @@ class RoleDataTable extends BaseDataTable
             'action' => $this->view['action'],
         ];
     }
-    
-	
+
+
 	// Thiết lập Cột Nguyên Thủy Không Bị Dính HTML
 	// Truyền vào là 1 mảng tên các cột
 	protected function setCustomRawColumns(){
         $this->customRawColumns = ['title', 'action','guard_name'];
+    }
+    public function setCustomFilterColumns(): void
+    {
+        $this->customFilterColumns = [
+            'driver_id' => function ($query, $keyword) {
+                $query->whereHas('driver.user', function ($subQuery) use ($keyword) {
+                    $subQuery->where('fullname', 'like', '%' . $keyword . '%');
+                });
+            },
+
+        ];
     }
 }

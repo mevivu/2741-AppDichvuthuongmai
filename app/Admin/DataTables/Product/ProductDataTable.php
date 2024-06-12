@@ -61,7 +61,7 @@ class ProductDataTable extends BaseDataTable
         $this->rawColumnsNew();
         return $this->instanceDataTable;
     }
-    
+
     /**
      * Get query source of dataTable.
      *
@@ -109,7 +109,7 @@ class ProductDataTable extends BaseDataTable
 
     protected function filterColumnCreatedAt(){
         $this->instanceDataTable = $this->instanceDataTable->filterColumn('created_at', function($query, $keyword) {
-            
+
             $query->whereDate('created_at', date('Y-m-d', strtotime($keyword)));
 
         });
@@ -162,11 +162,16 @@ class ProductDataTable extends BaseDataTable
             moveSearchColumnsDatatable('#productTable');
 
             searchColumsDataTable(this);
-        
+
             addSelect2();
         }";
 
         $this->instanceHtml = $this->instanceHtml
         ->parameters($this->parameters);
+    }
+
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
     }
 }

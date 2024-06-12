@@ -1,4 +1,10 @@
 <script>
+
+    $(document).ready(function() {
+        // define columns for the datatables
+        columns = window.LaravelDataTables[$("input[name=id_table]").val()].columns();
+        toggleColumnsDatatable(columns);
+    });
     function searchColumsDataTable(datatable) {
         var columns = datatable.api().columns().header().toArray();
 
@@ -10,6 +16,7 @@
             if (column.selector.cols == 1) {
                 input.setAttribute('type', 'date');
             }
+
             input.setAttribute('placeholder', 'Nhập từ khóa');
 
 
@@ -19,5 +26,6 @@
                 });
         });
     }
+
 
 </script>
