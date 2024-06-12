@@ -25,7 +25,7 @@
                 <div class="card-header justify-content-between">
                     <h2 class="mb-0">{{ __('Danh sách khu vực') }}</h2>
                     <x-link :href="route('admin.area.create')" class="btn btn-primary"><i
-                            class="ti ti-plus"></i>{{ __('Thêm khu vực') }}</x-link>
+                                class="ti ti-plus"></i>{{ __('Thêm khu vực') }}</x-link>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive position-relative">

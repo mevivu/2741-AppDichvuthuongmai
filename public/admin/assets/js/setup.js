@@ -1,5 +1,5 @@
 
-var token = jQuery('meta[name="X-TOKEN"]').attr('content'), 
+var token = jQuery('meta[name="X-TOKEN"]').attr('content'),
 urlHome = jQuery('meta[name="url-home"]').attr('content'),
 currency = jQuery('meta[name="currency"]').attr('content'),
 positionCurrency = jQuery('meta[name="position_currency"]').attr('content'),
@@ -34,6 +34,53 @@ function formatPrice(price = 0){
     return positionCurrency == 'left' ? currency + price : price + currency;
 }
 
+
+function searchColumsDataTable(datatable, column_search = [], column_date = [], column_select = [], column_select2 = [] ) {
+    datatable.api().columns(column_search).every(function () {
+
+        var column = this,
+            input = document.createElement("input"),
+            findColumnSelect, findColumnSelect2
+        input.setAttribute('class', 'form-control'),
+            flagColSelect2Ajax = false;
+
+        if(column_date.length > 0 && column_date.indexOf(column.selector.cols) !== -1){
+
+            input.setAttribute('type', 'date');
+
+        }else if(findColumnSelect = column_select.find(obj => obj.column === column.selector.cols)){
+
+            input = document.createElement("select");
+            createSelectColumnUniqueDatatableAll(input, findColumnSelect.data);
+
+        }else if(findColumnSelect2 = column_select2.find(obj => obj.column === column.selector.cols)){
+
+            var resultColumnSelect2 = $.grep(column_select2, function(element) {
+                return element.column === column.selector.cols;
+            });
+
+            if (resultColumnSelect2.length > 0) {
+                input = document.createElement("select");
+                if (findColumnSelect2.ajax === true && findColumnSelect2.url) {
+                    flagColSelect2Ajax = true;
+                    input.setAttribute('class', 'form-select select2-bs5-ajax-many');
+                    input.setAttribute('multiple', 'true');
+                    input.setAttribute('data-url', findColumnSelect2.url);
+                } else {
+                    createSelect2ColumnDatatable(input, findColumnSelect2.data);
+                }
+            }
+
+        }
+
+        input.setAttribute('placeholder', window.__trans('enterKeyword'));
+
+        $(input).appendTo($(column.footer()).empty())
+            .on('change', function () {
+                column.search($(this).val(), false, false, true).draw();
+            });
+    });
+}
 function addSelect2(elm = '.select2-bs5'){
     if($(elm).length){
         $(elm).select2({
@@ -81,7 +128,7 @@ function generateSelectOptions(selectElement, optionsArray) {
     optionAll.text = '--- Tất cả ---';
     optionAll.value = '';
     selectElement.appendChild(optionAll);
-    
+
     // Tạo và thêm option cho select dựa trên mảng optionsArray
     optionsArray.forEach(function(optionValue) {
         var option = document.createElement('option');
@@ -137,8 +184,8 @@ function createSelectColumnUniqueDatatableAll(input, data){
 }
 
 function toggleColumnsDatatable(columns){
-	var headerColumns = columns.header().map(d => d.textContent).toArray(), 
-    htmlToggleColumns = '', checked;
+    var headerColumns = columns.header().map(d => d.textContent).toArray(),
+        htmlToggleColumns = '', checked;
     $.each(headerColumns, function( index, value ){
         checked = '';
         if(columns.column(index).visible() === true){
@@ -210,7 +257,7 @@ function selectImageCKFinder( preview, in_value, type ) {
 				    var html = '', url_file;
 				    var value = $(in_value).val() ? $(in_value).val()+',' : '' ;
 				    files.forEach( function( file, i ) {
-						url_file = file.getUrl().replace(url_home, ''); 
+						url_file = file.getUrl().replace(url_home, '');
 				    	html += `<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-3">
                                     <span data-route="0" data-url="${url_file}" class="delete-image-ckfinder">
                                         <i class="ti ti-x"></i>
@@ -233,9 +280,9 @@ function selectImageCKFinder( preview, in_value, type ) {
 				}
 			} );
 		}
-		
+
 	} );
-	
+
 }
 
 function selectFileCKFinder( in_value ) {
@@ -252,21 +299,21 @@ function selectFileCKFinder( in_value ) {
 
 			} );
 		}
-		
+
 	} );
 }
 function deleteItemGallery(that, input) {
-	var url = that.data('url'), 
-		url_file = input.val().replace(url, ''); 
-        
+	var url = that.data('url'),
+		url_file = input.val().replace(url, '');
+
 	if(url_file.indexOf(',,') !== -1) {
-		url_file = url_file.replace(',,', ',');	
+		url_file = url_file.replace(',,', ',');
 	}
 	if(url_file.indexOf(',') == 0) {
-		url_file = url_file.slice(1);	
+		url_file = url_file.slice(1);
 	}
 	if(url_file.lastIndexOf(',') == url_file.length - 1) {
-		url_file = url_file.slice(0, -1);	
+		url_file = url_file.slice(0, -1);
 	}
 	input.val(url_file);
 
@@ -277,7 +324,7 @@ function endAjax(element, text){
     element = element.find('button[type="submit"]');
     element.removeAttr('disabled');
     element.html(text);
-    
+
     // $('.select2-selection__rendered').empty();
 }
 
@@ -295,7 +342,7 @@ $(document).on('click', '.add-image-ckfinder', function(e){
 //envent toggle columns datatables
 $(document).on('change', 'input.toggle-vis', function (e) {
 	e.preventDefault();
-	
+
 	// Get the column API object
 	var column = columns.column($(this).attr('data-column'));
 	// Toggle the visibility
@@ -362,24 +409,24 @@ $(document).on('click', '.delete-image-ckfinder', function(e) {
 	}
 	var that = $(this),
 	input = $(that.parents('.wrap-ckfinder-multiple').find('input'));
-	
+
 	deleteItemGallery(that, input);
 
 	that.parent().remove();
 });
 
 function deleteItemGallery(that, input) {
-	var url = that.data('url'), 
-		url_file = input.val().replace(url, ''); 
-        
+	var url = that.data('url'),
+		url_file = input.val().replace(url, '');
+
 	if(url_file.indexOf(',,') !== -1) {
-		url_file = url_file.replace(',,', ',');	
+		url_file = url_file.replace(',,', ',');
 	}
 	if(url_file.indexOf(',') == 0) {
-		url_file = url_file.slice(1);	
+		url_file = url_file.slice(1);
 	}
 	if(url_file.lastIndexOf(',') == url_file.length - 1) {
-		url_file = url_file.slice(0, -1);	
+		url_file = url_file.slice(0, -1);
 	}
 	input.val(url_file);
 
