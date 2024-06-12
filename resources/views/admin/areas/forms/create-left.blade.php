@@ -18,7 +18,6 @@
                     <x-input type="hidden" name="lng" />
                 </div>
             </div>
-
         </div>
     </div>
 </div>
