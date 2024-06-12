@@ -7,11 +7,6 @@ return [
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
-        'position' => [
-            'title' => 'position',
-            'orderable' => false,
-            'addClass' => 'align-middle'
-        ],
         'created_at' => [
             'title' => 'createdAt',
             'orderable' => false,
