@@ -50,29 +50,31 @@ abstract class BaseDataTable extends DataTable
      * @var array
      */
     protected $parameters;
-    
+
 	/** My Custom **/
 	protected $customRawColumns = [];
 	protected $nameTable = 'tableID';
 	protected $customEditColumns = [];
     protected $customAddColumns = [];
+    protected $customFilterColumns = [];
 	/** My Custom **/
-	
-	
+
+
     public function __construct(){
-        
+
         $this->setView();
-        
+
         $this->setCustomColumns();
-        
+
         $this->setParameters();
-		
+
         /** My Custom **/
 		$this->setCustomRawColumns();
 		$this->setCustomEditColumns();
 		$this->setCustomAddColumns();
+        $this->setCustomFilterColumns();
 		/** My Custom **/
-		
+
     }
 
     public function getParameters(){
@@ -134,9 +136,9 @@ abstract class BaseDataTable extends DataTable
         }
     }
     abstract protected function setCustomColumns();
-	
+
 	/** My Custom **/
-	
+
 	/**
      * Build DataTable class.
      *
@@ -151,7 +153,7 @@ abstract class BaseDataTable extends DataTable
 		$this->customRawColumns();
         return $this->instanceDataTable;
     }
-	
+
 	/**
      * Optional method if you want to use html builder.
      *
@@ -171,8 +173,8 @@ abstract class BaseDataTable extends DataTable
 
         return $this->instanceHtml;
     }
-		
-		
+
+
 	protected function htmlParameters(){
 
         $this->parameters['buttons'] = $this->actions;
@@ -186,14 +188,14 @@ abstract class BaseDataTable extends DataTable
 
         $this->instanceHtml = $this->instanceHtml
         ->parameters($this->parameters);
-    }	
-	
+    }
+
 	protected function filename(): string
     {
         return $this->nameTable.'_' . date('YmdHis');
     }
 
-	
+
 	protected function customEditColumns(){
         foreach($this->customEditColumns as $key => $value){
             $this->instanceDataTable = $this->instanceDataTable->editColumn($key, $value);
@@ -205,11 +207,11 @@ abstract class BaseDataTable extends DataTable
             $this->instanceDataTable = $this->instanceDataTable->addColumn($key, $value);
         }
     }
-	
+
 	protected function customRawColumns(){
         $this->instanceDataTable = $this->instanceDataTable->rawColumns($this->customRawColumns);
-    }	
-	
+    }
+
 	protected function setCustomRawColumns(){
         $this->customRawColumns = [];
     }
@@ -220,6 +222,10 @@ abstract class BaseDataTable extends DataTable
 
     protected function setCustomAddColumns(){
         $this->customAddColumns = [];
+    }
+
+    protected function setCustomFilterColumns(){
+        $this->customFilterColumns = [];
     }
 	/** My Custom **/
 }

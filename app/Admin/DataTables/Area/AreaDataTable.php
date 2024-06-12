@@ -71,17 +71,13 @@ class AreaDataTable extends BaseDataTable
     {
         $this->customRawColumns = ['action', 'name'];
     }
-//    public function setCustomFilterColumns(): void
-//    {
-//        $this->customFilterColumns = [
-//            'driver_id' => function ($query, $keyword) {
-//                $query->whereHas('driver.user', function ($subQuery) use ($keyword) {
-//                    $subQuery->where('fullname', 'like', '%' . $keyword . '%');
-//                });
-//            },
-//
-//        ];
-//    }
+    public function setCustomFilterColumns(): void
+    {
+        $this->customFilterColumns = [
+
+
+        ];
+    }
 
 
 }
