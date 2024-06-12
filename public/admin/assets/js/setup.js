@@ -81,6 +81,9 @@ function searchColumsDataTable(datatable, column_search = [], column_date = [], 
             });
     });
 }
+function addWrapTableScroll(idTable){
+    $(idTable).wrap('<div class="wrap-table-scroll"></div>');
+}
 function addSelect2(elm = '.select2-bs5'){
     if($(elm).length){
         $(elm).select2({
@@ -91,6 +94,24 @@ function addSelect2(elm = '.select2-bs5'){
         });
     }
 }
+function select2LoadDataMany(target = '.select2-bs5-ajax-many'){
+    var elm = $(target);
+    if(elm.length > 0){
+        elm.each(function () {
+            select2LoadData('', this);
+        });
+    }
+}
+$(document).on('change', 'input.toggle-vis', function (e) {
+    e.preventDefault();
+
+    // Get the column API object
+    var column = columns.column($(this).attr('data-column'));
+    // Toggle the visibility
+    column.visible(!column.visible());
+    addSelect2();
+    select2LoadDataMany();
+});
 function select2LoadData(url, target = '.select2-bs5-ajax'){
     $(target).select2({
         placeholder: 'Vui lòng chọn',

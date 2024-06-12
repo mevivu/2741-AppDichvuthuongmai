@@ -5,6 +5,7 @@ namespace App\Admin\DataTables\Area;
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Area\AreaRepositoryInterface;
 use App\Admin\Traits\GetConfig;
+use App\Enums\Area\AreaStatus;
 
 
 class AreaDataTable extends BaseDataTable
@@ -15,49 +16,59 @@ class AreaDataTable extends BaseDataTable
     protected $nameTable = 'areaTable';
 
 
-    protected array $actions = ['reset', 'reload'];
-
     public function __construct(
         AreaRepositoryInterface $repository
-    ){
+    )
+    {
+        $this->repository = $repository;
+
         parent::__construct();
 
-        $this->repository = $repository;
     }
 
-    public function getView(): array
+    public function setView(): void
     {
-        return [
-
+        $this->view = [
+            'action' => 'admin.areas.datatable.action',
             'name' => 'admin.areas.datatable.name',
-            'action' => 'admin.areas.datatable.name',
+            'status' => 'admin.areas.datatable.status',
         ];
     }
 
+    public function setColumnSearch(): void
+    {
+
+        $this->columnAllSearch = [0, 1, 2];
+
+        $this->columnSearchDate = [1];
+
+        $this->columnSearchSelect = [
+            [
+                'column' => 2,
+                'data' => AreaStatus::asSelectArray()
+            ],
+
+        ];
+    }
 
     public function query()
     {
-        return $this->repository->getAll();
+        return $this->repository->getQueryBuilderOrderBy('position', 'asc');
     }
-
-
-
 
     protected function setCustomColumns(): void
     {
-        $this->customColumns = $this->traitGetConfigDatatableColumns('area');
+        $this->customColumns = config('datatables_columns.area', []);
     }
-
-
 
     protected function setCustomEditColumns(): void
     {
         $this->customEditColumns = [
             'name' => $this->view['name'],
             'created_at' => '{{ format_date($created_at) }}',
+            'status' => $this->view['status'],
         ];
     }
-
 
     protected function setCustomAddColumns(): void
     {
@@ -66,18 +77,16 @@ class AreaDataTable extends BaseDataTable
         ];
     }
 
-
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['action', 'name'];
+        $this->customRawColumns = ['name', 'action', 'status'];
     }
+
     public function setCustomFilterColumns(): void
     {
         $this->customFilterColumns = [
 
-
         ];
     }
-
 
 }
