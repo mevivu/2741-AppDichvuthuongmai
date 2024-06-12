@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\Admin\AdminRoles;
 use App\Enums\Order\OrderStatus;
 use App\Enums\PostCategory\PostCategoryStatus;
 use App\Enums\Post\PostStatus;
@@ -24,7 +23,8 @@ return [
         UserVip::Diamond => 'Kim cương',
     ],
     UserRoles::class => [
-        UserRoles::Member => 'Thành viên',
+        UserRoles::Customer->value => 'Khách hàng',
+        UserRoles::Driver->value => 'Tài xế',
     ],
     ProductType::class => [
         ProductType::Simple => 'Sản phẩm đơn giản',

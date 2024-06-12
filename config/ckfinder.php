@@ -29,8 +29,8 @@ $config['authentication'] = '\App\Admin\Http\Middleware\CustomCKFinderAuth';
 /*============================ License Key ============================================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_licenseKey
 
-$config['licenseName'] = 'server43.mevivu.com';
-$config['licenseKey']  = '8JJJ3GGXYBMSWZBUU4D9DHM6JQNFP';
+$config['licenseName'] = 'http://localhost:8080/2741-AppDichvuthuongmai';
+$config['licenseKey']  = 'P232YJGF8LSVQ9P3RB4D6D3BFDBCX';
 
 /*============================ CKFinder Internal Directory ============================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_privateDir
