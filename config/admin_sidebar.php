@@ -178,6 +178,29 @@ return [
         ]
     ],
     [
+        'title' => 'Tài Xế',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-user"></i>',
+        'roles' => [],
+        'permissions' => ['createUser','viewUser','updateUser','deleteUser'],
+        'sub' => [
+            [
+                'title' => 'Thêm Tài Xế',
+                'routeName' => 'admin.driver.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createUser'],
+            ],
+            [
+                'title' => 'DS Tài Xế',
+                'routeName' => 'admin.driver.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewUser'],
+            ]
+        ]
+    ],
+    [
         'title' => 'Sliders',
         'routeName' => null,
         'icon' => '<i class="ti ti-slideshow"></i>',

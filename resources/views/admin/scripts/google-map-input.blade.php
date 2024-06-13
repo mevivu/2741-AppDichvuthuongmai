@@ -3,8 +3,8 @@
         var map;
         var marker;
         var autocomplete;
-        var ipAddress = 'input[name=shipping_address]';
-        var ipAddressDetail = 'input[name=shipping_address_detail]';
+        var ipAddress = 'input[name=address]';
+        var ipAddressDetail = 'input[name=address_detail]';
         var ipLat = "input[name=lat]";
         var ipLng = "input[name=lng]";
         var address;

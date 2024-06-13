@@ -46,8 +46,35 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 //            Route::delete('/delete/{id}', 'delete')->name('delete');
         });
 
+    //driver
+    Route::controller(App\Admin\Http\Controllers\Driver\DriverController::class)
+        ->prefix('/driver')
+        ->as('driver.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createUser', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+            Route::group(['middleware' => ['permission:viewUser', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
 
-	//***** -- Module -- ******* //
+            Route::group(['middleware' => ['permission:updateUser', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteDriver', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+
+
+        });
+
+
+
+
+    //***** -- Module -- ******* //
     Route::prefix('/module')->as('module.')->group(function(){
         Route::controller(App\Admin\Http\Controllers\Module\ModuleController::class)->group(function(){
             Route::get('/them', 'create')->name('create');

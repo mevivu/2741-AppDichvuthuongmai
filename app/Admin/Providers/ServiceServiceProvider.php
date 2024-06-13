@@ -22,7 +22,7 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Admin\Services\Post\PostServiceInterface' => 'App\Admin\Services\Post\PostService',
         'App\Admin\Services\PostCategory\PostCategoryServiceInterface' => 'App\Admin\Services\PostCategory\PostCategoryService',
         'App\Admin\Services\Area\AreaServiceInterface' => 'App\Admin\Services\Area\AreaService',
-
+        'App\Admin\Services\Driver\DriverServiceInterface' => 'App\Admin\Services\Driver\DriverService',
     ];
     /**
      * Register services.

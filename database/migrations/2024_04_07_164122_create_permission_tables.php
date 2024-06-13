@@ -398,6 +398,7 @@ return new class extends Migration {
         ]);
 
 
+
         DB::table('permissions')->insert([
             'id' => 18,
             'title' => 'Xem Thành viên',
@@ -653,6 +654,7 @@ return new class extends Migration {
             'updated_at' => DB::raw('NOW()')
         ]);
 
+
         DB::table('permissions')->insert([
             'id' => 43,
             'title' => 'Thêm Slider Item',
@@ -730,6 +732,10 @@ return new class extends Migration {
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()')
         ]);
+
+
+
+
 
         DB::table('role_has_permissions')->insert([
             'permission_id' => 47,

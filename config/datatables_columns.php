@@ -504,4 +504,50 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
+    'driver' => [
+        'fullname' => [
+            'title' => 'fullname',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'id_card' => [
+            'title' => 'id_card',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'bank_name' => [
+            'title' => 'bank_name',
+            'addClass' => 'align-middle',
+            'orderable' => false,
+        ],
+        'roles' => [
+            'title' => 'role',
+            'orderable' => false,
+            'visible' => false
+        ],
+        'order_accepted' => [
+            'title' => 'status',
+            'orderable' => false,
+        ],
+        'auto_accept' => [
+            'title' => 'receive_the_trip',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
 ];
