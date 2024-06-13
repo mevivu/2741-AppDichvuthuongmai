@@ -27,6 +27,47 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
+    'notifications' => [
+        // 'checkbox' => [
+        //     'title' => 'checkbox',
+        //     'orderable' => false,
+        //     'exportable' => false,
+        //     'printable' => false,
+        //     'addClass' => 'text-center',
+        // ],
+        'title' => [
+            'title' => 'Tiêu đề',
+            'orderable' => false,
+        ],
+        'user_id' => [
+            'title' => 'Người nhận',
+            'orderable' => false,
+        ],
+        'message' => [
+            'title' => 'Nội dung',
+            'orderable' => false,
+        ],
+        'status' => [
+            'title' => 'status',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+        ],
+
+        'created_at' => [
+            'title' => 'Ngày thông báo',
+            'orderable' => false,
+            // 'visible' => false,
+            'addClass' => 'align-middle',
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle',
+        ],
+
+    ],
 	'module' => [
 		'id' => [
             'title' => 'ID',

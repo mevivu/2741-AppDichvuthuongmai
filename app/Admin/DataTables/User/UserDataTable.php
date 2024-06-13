@@ -151,5 +151,10 @@ class UserDataTable extends BaseDataTable
 
         $this->instanceHtml = $this->instanceHtml
             ->parameters($this->parameters);
+
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
     }
+
 }
