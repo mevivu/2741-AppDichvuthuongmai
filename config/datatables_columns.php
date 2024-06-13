@@ -247,6 +247,107 @@ return [
             'addClass' => 'text-center'
         ],
     ],
+    'store' => [
+        'priority' => [
+            'title' => 'priority',
+            'orderable' => true
+        ],
+        'store_name' => [
+            'title' => 'storeName',
+            'orderable' => false
+        ],
+        'category' => [
+            'title' => 'category2',
+            'orderable' => false
+        ],
+        'area' => [
+            'title' => 'area',
+            'orderable' => false
+        ],
+        'open_hours_1' => [
+            'title' => 'operatingTime',
+            'orderable' => false,
+            'visible' => false
+        ],
+        'status' => [
+            'title' => 'status',
+            'orderable' => false
+        ],
+        'address_detail' => [
+            'title' => 'address',
+            'orderable' => false
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'visible' => false
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center'
+        ],
+
+    ],
+    'store_category' => [
+        'name' => [
+            'title' => 'name',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'status' => [
+            'title' => 'status',
+            'orderable' => false,
+            'width' => '150px',
+            'addClass' => 'align-middle'
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
+    'store_product' => [
+        'name' => [
+            'title' => 'name',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'view-topping' => [
+            'title' => 'Topping',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'view-discount' => [
+            'title' => 'Discount',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+
+    ],
     'category' => [
         'name' => [
             'title' => 'Tên danh mục',

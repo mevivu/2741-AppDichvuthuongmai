@@ -9,6 +9,7 @@ use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Admin\Services\Store\StoreServiceInterface;
 use App\Admin\DataTables\Store\StoreDataTable;
 use App\Enums\Store\StoreStatus;
+use App\Models\StoreCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 class StoreController extends Controller
@@ -55,9 +56,13 @@ class StoreController extends Controller
 
     public function create()
     {
+        $store_categories = StoreCategory::all();
         return view($this->view['create'], [
             'status' => StoreStatus::asSelectArray(),
-            'breadcrums' => $this->crums->add(__('store'), route($this->route['index']))->add(__('add'))
+            'breadcrums' => $this->crums->add(__('store'), route($this->route['index']))->add(__('add')),
+            'store_categories' => $store_categories,
+
+
         ]);
     }
 

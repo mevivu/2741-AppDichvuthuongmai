@@ -4,32 +4,36 @@ namespace App\Admin\Services\Store;
 
 use App\Admin\Services\Store\StoreServiceInterface;
 use  App\Admin\Repositories\Store\StoreRepositoryInterface;
+use App\Admin\Traits\Setup;
 use Illuminate\Http\Request;
 
 class StoreService implements StoreServiceInterface
 {
+    use Setup;
     /**
      * Current Object instance
      *
      * @var array
      */
     protected $data;
-    
+
     protected $repository;
 
     public function __construct(StoreRepositoryInterface $repository){
         $this->repository = $repository;
     }
-    
+
     public function store(Request $request){
 
+
         $this->data = $request->validated();
-        
+        $this->data['code'] = $this->CreateCodeStore();
+
         return $this->repository->create($this->data);
     }
 
     public function update(Request $request){
-        
+
         $this->data = $request->validated();
 
         if(isset($this->data['password']) && $this->data['password']){
