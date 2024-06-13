@@ -51,15 +51,15 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
         ->prefix('/drivers')
         ->as('driver.')
         ->group(function () {
-            Route::group(['middleware' => ['permission:createUser', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:createDriver', 'auth:admin']], function () {
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
             });
-            Route::group(['middleware' => ['permission:viewUser', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:viewDriver', 'auth:admin']], function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/sua/{id}', 'edit')->name('edit');
             });
-          Route::group(['middleware' => ['permission:updateUser', 'auth:admin']], function () {
+          Route::group(['middleware' => ['permission:updateDriver', 'auth:admin']], function () {
                 Route::put('/sua', 'update')->name('update');
             });
 
@@ -105,27 +105,27 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
     });
 
 
-            
+
     Route::prefix('/stores')->as('store.')->group(function () {
 
         // Store routes with middleware
         Route::controller(App\Admin\Http\Controllers\Store\StoreController::class)->group(function () {
 
-            Route::group(['middleware' => ['permission:createUser', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:createStore', 'auth:admin']], function () {
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
             });
 
-            Route::group(['middleware' => ['permission:viewUser', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:viewStore', 'auth:admin']], function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/sua/{id}', 'edit')->name('edit');
             });
 
-            Route::group(['middleware' => ['permission:updateUser', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:updateStore', 'auth:admin']], function () {
                 Route::put('/sua', 'update')->name('update');
             });
 
-            Route::group(['middleware' => ['permission:deleteUser', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:deleteStore', 'auth:admin']], function () {
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
         });
@@ -134,21 +134,21 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
         Route::prefix('/categories')->as('category.')->group(function () {
             Route::controller(App\Admin\Http\Controllers\Store\Category\StoreCategoryController::class)->group(function () {
 
-                Route::group(['middleware' => ['permission:createUser', 'auth:admin']], function () {
+                Route::group(['middleware' => ['permission:createStoreCategory', 'auth:admin']], function () {
                     Route::get('/them', 'create')->name('create');
                     Route::post('/them', 'store')->name('store');
                 });
 
-                Route::group(['middleware' => ['permission:viewUser', 'auth:admin']], function () {
+                Route::group(['middleware' => ['permission:viewStoreCategory', 'auth:admin']], function () {
                     Route::get('/', 'index')->name('index');
                     Route::get('/sua/{id}', 'edit')->name('edit');
                 });
 
-                Route::group(['middleware' => ['permission:updateUser', 'auth:admin']], function () {
+                Route::group(['middleware' => ['permission:updateStoreCategory', 'auth:admin']], function () {
                     Route::put('/sua', 'update')->name('update');
                 });
 
-                Route::group(['middleware' => ['permission:deleteUser', 'auth:admin']], function () {
+                Route::group(['middleware' => ['permission:deleteStoreCategory', 'auth:admin']], function () {
                     Route::delete('/xoa/{id}', 'delete')->name('delete');
                 });
 
