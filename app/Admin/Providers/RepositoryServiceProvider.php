@@ -29,7 +29,7 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Admin\Repositories\Driver\DriverRepositoryInterface' => 'App\Admin\Repositories\Driver\DriverRepository',
         'App\Admin\Repositories\StoreCategory\StoreCategoryRepositoryInterface' => 'App\Admin\Repositories\StoreCategory\StoreCategoryRepository',
         'App\Admin\Repositories\Store\StoreRepositoryInterface' => 'App\Admin\Repositories\Store\StoreRepository',
-
+        'App\Admin\Repositories\Notification\NotificationRepositoryInterface' => 'App\Admin\Repositories\Notification\NotificationRepository',
 
 
     ];

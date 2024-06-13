@@ -59,8 +59,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
                 Route::get('/', 'index')->name('index');
                 Route::get('/sua/{id}', 'edit')->name('edit');
             });
-
-            Route::group(['middleware' => ['permission:updateUser', 'auth:admin']], function () {
+          Route::group(['middleware' => ['permission:updateUser', 'auth:admin']], function () {
                 Route::put('/sua', 'update')->name('update');
             });
 
@@ -70,6 +69,43 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 
 
         });
+    //Notification
+    Route::controller(App\Admin\Http\Controllers\Notification\NotificationController::class)
+        ->prefix('/notifications')
+        ->as('notification.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createNotification', 'auth:admin']], function () {
+                Route::get('/add', 'create')->name('create');
+                Route::post('/add', 'store')->name('store');
+
+            });
+            Route::group(['middleware' => ['permission:viewNotification', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+            });
+
+            Route::group(['middleware' => ['permission:updateNotification', 'auth:admin']], function () {
+                Route::put('/edit', 'update')->name('update');
+
+            });
+
+            Route::group(['middleware' => ['permission:deleteNotification', 'auth:admin']], function () {
+                Route::delete('/delete/{id}', 'delete')->name('delete');
+
+            });
+
+        });
+
+    //Select Search
+    Route::prefix('/search')->as('search.')->group(function () {
+        Route::prefix('/select')->as('select.')->group(function () {
+            Route::get('/user', [App\Admin\Http\Controllers\User\UserSearchSelectController::class, 'selectSearch'])->name('user');
+
+        });
+    });
+
+
+            
     Route::prefix('/stores')->as('store.')->group(function () {
 
         // Store routes with middleware

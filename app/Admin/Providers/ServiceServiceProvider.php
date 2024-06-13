@@ -25,6 +25,8 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Admin\Services\Driver\DriverServiceInterface' => 'App\Admin\Services\Driver\DriverService',
         'App\Admin\Services\Store\Category\StoreCategoryServiceInterface' => 'App\Admin\Services\Store\Category\StoreCategoryService',
         'App\Admin\Services\Store\StoreServiceInterface' => 'App\Admin\Services\Store\StoreService',
+        'App\Admin\Services\Notification\NotificationServiceInterface' => 'App\Admin\Services\Notification\NotificationService',
+
     ];
     /**
      * Register services.

@@ -33,6 +33,29 @@ return [
         ]
     ],
     [
+        'title' => 'notification',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-article"></i>',
+        'roles' => [],
+        'permissions' => ['createNotification','viewNotification','updateNotification','deleteNotification'],
+        'sub' => [
+            [
+                'title' => 'Thêm thông báo',
+                'routeName' => 'admin.notification.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createNotification'],
+            ],
+            [
+                'title' => 'DS thông báo',
+                'routeName' => 'admin.notification.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewNotification'],
+            ]
+        ]
+    ],
+    [
         'title' => 'Bài viết',
         'routeName' => null,
         'icon' => '<i class="ti ti-article"></i>',
