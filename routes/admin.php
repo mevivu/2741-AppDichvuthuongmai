@@ -48,7 +48,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 
     //driver
     Route::controller(App\Admin\Http\Controllers\Driver\DriverController::class)
-        ->prefix('/driver')
+        ->prefix('/drivers')
         ->as('driver.')
         ->group(function () {
             Route::group(['middleware' => ['permission:createUser', 'auth:admin']], function () {

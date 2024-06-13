@@ -23,7 +23,6 @@ class DriverController extends Controller
         DriverServiceInterface    $service,
         AreaRepositoryInterface $areaRepository,
         DriverService        $userDriverService,
-
     )
     {
 
