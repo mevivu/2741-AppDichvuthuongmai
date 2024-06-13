@@ -46,8 +46,121 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 //            Route::delete('/delete/{id}', 'delete')->name('delete');
         });
 
+    //driver
+    Route::controller(App\Admin\Http\Controllers\Driver\DriverController::class)
+        ->prefix('/drivers')
+        ->as('driver.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createDriver', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+            Route::group(['middleware' => ['permission:viewDriver', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
+          Route::group(['middleware' => ['permission:updateDriver', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+            });
 
-	//***** -- Module -- ******* //
+            Route::group(['middleware' => ['permission:deleteDriver', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+
+
+        });
+    //Notification
+    Route::controller(App\Admin\Http\Controllers\Notification\NotificationController::class)
+        ->prefix('/notifications')
+        ->as('notification.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createNotification', 'auth:admin']], function () {
+                Route::get('/add', 'create')->name('create');
+                Route::post('/add', 'store')->name('store');
+
+            });
+            Route::group(['middleware' => ['permission:viewNotification', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+            });
+
+            Route::group(['middleware' => ['permission:updateNotification', 'auth:admin']], function () {
+                Route::put('/edit', 'update')->name('update');
+
+            });
+
+            Route::group(['middleware' => ['permission:deleteNotification', 'auth:admin']], function () {
+                Route::delete('/delete/{id}', 'delete')->name('delete');
+
+            });
+
+        });
+
+    //Select Search
+    Route::prefix('/search')->as('search.')->group(function () {
+        Route::prefix('/select')->as('select.')->group(function () {
+            Route::get('/user', [App\Admin\Http\Controllers\User\UserSearchSelectController::class, 'selectSearch'])->name('user');
+
+        });
+    });
+
+
+
+    Route::prefix('/stores')->as('store.')->group(function () {
+
+        // Store routes with middleware
+        Route::controller(App\Admin\Http\Controllers\Store\StoreController::class)->group(function () {
+
+            Route::group(['middleware' => ['permission:createStore', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+
+            Route::group(['middleware' => ['permission:viewStore', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
+
+            Route::group(['middleware' => ['permission:updateStore', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteStore', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+        });
+
+        // Category routes with middleware
+        Route::prefix('/categories')->as('category.')->group(function () {
+            Route::controller(App\Admin\Http\Controllers\Store\Category\StoreCategoryController::class)->group(function () {
+
+                Route::group(['middleware' => ['permission:createStoreCategory', 'auth:admin']], function () {
+                    Route::get('/them', 'create')->name('create');
+                    Route::post('/them', 'store')->name('store');
+                });
+
+                Route::group(['middleware' => ['permission:viewStoreCategory', 'auth:admin']], function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('/sua/{id}', 'edit')->name('edit');
+                });
+
+                Route::group(['middleware' => ['permission:updateStoreCategory', 'auth:admin']], function () {
+                    Route::put('/sua', 'update')->name('update');
+                });
+
+                Route::group(['middleware' => ['permission:deleteStoreCategory', 'auth:admin']], function () {
+                    Route::delete('/xoa/{id}', 'delete')->name('delete');
+                });
+
+            });
+        });
+
+    });
+
+
+
+
+    //***** -- Module -- ******* //
     Route::prefix('/module')->as('module.')->group(function(){
         Route::controller(App\Admin\Http\Controllers\Module\ModuleController::class)->group(function(){
             Route::get('/them', 'create')->name('create');
@@ -400,6 +513,11 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
     Route::prefix('/search')->as('search.')->group(function(){
         Route::prefix('/select')->as('select.')->group(function(){
             Route::get('/user', [App\Admin\Http\Controllers\User\UserSearchSelectController::class, 'selectSearch'])->name('user');
+            Route::get('/store-categories', [App\Admin\Http\Controllers\Store\Category\StoreCategorySearchSelectController::class, 'selectSearch'])->name('store_category');
+            Route::get('/store', [\App\Admin\Http\Controllers\Store\StoreSearchSelectController::class, 'selectSearch'])->name('store');
+            Route::get('/area', [App\Admin\Http\Controllers\Area\AreaSearchSelectController::class, 'selectSearch'])->name('area');
+
+
         });
         Route::get('/render-product-and-variation', [App\Admin\Http\Controllers\Product\ProductController::class, 'searchRenderProductAndVariation'])->name('render_product_and_variation');
     });

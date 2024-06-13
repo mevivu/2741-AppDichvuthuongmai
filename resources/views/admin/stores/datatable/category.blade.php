@@ -1,0 +1,1 @@
+<x-link :href="route('admin.store.category.edit', $category_id)" :title="$category['name']"/>

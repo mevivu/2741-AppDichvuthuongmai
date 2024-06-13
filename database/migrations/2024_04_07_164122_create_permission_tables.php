@@ -231,6 +231,58 @@ return new class extends Migration {
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()')
         ]);
+        DB::table('modules')->insert([
+            'id' => 13,
+            'name' => 'Quản lý danh mục cửa hàng',
+            'description' => '<p>Quản lý danh mục cửa hàng</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('modules')->insert([
+            'id' => 14,
+            'name' => 'Quản lý cửa hàng',
+            'description' => '<p>Quản lý cửa hàng</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('modules')->insert([
+            'id' => 15,
+            'name' => 'Quản lý thông báo',
+            'description' => '<p>Quản lý thông báo</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('modules')->insert([
+            'id' => 16,
+            'name' => 'Quản lý tài xế',
+            'description' => '<p>Quản lý tài xế</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        // Module store
+        DB::table('modules')->insert([
+            'id' => 17,
+            'name' => 'Quản lý cửa hàng',
+            'description' => '<p>Quản lý cửa hàng</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        // Module Category
+        DB::table('modules')->insert([
+            'id' => 18,
+            'name' => 'Quản lý danh mục',
+            'description' => '<p>Quản lý danh mục</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
 
 
         // permissions
@@ -396,6 +448,7 @@ return new class extends Migration {
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()')
         ]);
+
 
 
         DB::table('permissions')->insert([
@@ -653,6 +706,7 @@ return new class extends Migration {
             'updated_at' => DB::raw('NOW()')
         ]);
 
+
         DB::table('permissions')->insert([
             'id' => 43,
             'title' => 'Thêm Slider Item',
@@ -748,6 +802,232 @@ return new class extends Migration {
             'role_id' => 1
         ]);
         /** End Area */
+
+        /** start Store Category */
+        DB::table('permissions')->insert([
+            'id' => 51,
+            'title' => 'Thêm danh mục cửa hàng',
+            'name' => 'createStoreCategory',
+            'guard_name' => 'admin',
+            'module_id' => 13,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 52,
+            'title' => 'Sửa danh mục cửa hàng',
+            'name' => 'editStoreCategory',
+            'guard_name' => 'admin',
+            'module_id' => 13,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 53,
+            'title' => 'Xoá danh mục cửa hàng',
+            'name' => 'deleteStoreCategory',
+            'guard_name' => 'admin',
+            'module_id' => 13,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 54,
+            'title' => 'Xem danh mục cửa hàng',
+            'name' => 'viewStoreCategory',
+            'guard_name' => 'admin',
+            'module_id' => 13,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 51,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 52,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 53,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 54,
+            'role_id' => 1
+        ]);
+        /** End Store Category */
+
+        /** start Notification */
+        DB::table('permissions')->insert([
+            'id' => 59,
+            'title' => 'Thêm thông báo',
+            'name' => 'createNotification',
+            'guard_name' => 'admin',
+            'module_id' => 15,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 60,
+            'title' => 'Sửa thông báo',
+            'name' => 'editNotification',
+            'guard_name' => 'admin',
+            'module_id' => 15,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 61,
+            'title' => 'Xoá thông báo',
+            'name' => 'deleteNotification',
+            'guard_name' => 'admin',
+            'module_id' => 15,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 62,
+            'title' => 'Xem thông báo',
+            'name' => 'viewNotification',
+            'guard_name' => 'admin',
+            'module_id' => 15,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 59,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 60,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 61,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 62,
+            'role_id' => 1
+        ]);
+        /** End Notification */
+
+        /** start Permission Driver */
+        DB::table('permissions')->insert([
+            'id' => 63,
+            'title' => 'Thêm tài xế',
+            'name' => 'createDriver',
+            'guard_name' => 'admin',
+            'module_id' => 16,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 64,
+            'title' => 'Sửa tài xế',
+            'name' => 'editDriver',
+            'guard_name' => 'admin',
+            'module_id' => 16,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 65,
+            'title' => 'Xoá tài xế',
+            'name' => 'deleteDriver',
+            'guard_name' => 'admin',
+            'module_id' => 16,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 66,
+            'title' => 'Xem tài xế',
+            'name' => 'viewDriver',
+            'guard_name' => 'admin',
+            'module_id' => 16,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 63,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 64,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 65,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 66,
+            'role_id' => 1
+        ]);
+        /** End Permission Driver */
+
+
+        /** start Permission Store */
+        DB::table('permissions')->insert([
+            'id' => 67,
+            'title' => 'Thêm cửa hàng',
+            'name' => 'createStore',
+            'guard_name' => 'admin',
+            'module_id' => 17,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 68,
+            'title' => 'Sửa cửa hàng',
+            'name' => 'editStore',
+            'guard_name' => 'admin',
+            'module_id' => 17,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 69,
+            'title' => 'Xoá cửa hàng',
+            'name' => 'deleteStore',
+            'guard_name' => 'admin',
+            'module_id' => 17,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 70,
+            'title' => 'Xem cửa hàng',
+            'name' => 'viewStore',
+            'guard_name' => 'admin',
+            'module_id' => 17,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 67,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 68,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 69,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 70,
+            'role_id' => 1
+        ]);
+        /** End Permission Store */
+
 
         //seeding model_has_roles
         DB::table('model_has_roles')->insert([

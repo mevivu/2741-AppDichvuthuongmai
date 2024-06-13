@@ -27,6 +27,47 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
+    'notifications' => [
+        // 'checkbox' => [
+        //     'title' => 'checkbox',
+        //     'orderable' => false,
+        //     'exportable' => false,
+        //     'printable' => false,
+        //     'addClass' => 'text-center',
+        // ],
+        'title' => [
+            'title' => 'Tiêu đề',
+            'orderable' => false,
+        ],
+        'user_id' => [
+            'title' => 'Người nhận',
+            'orderable' => false,
+        ],
+        'message' => [
+            'title' => 'Nội dung',
+            'orderable' => false,
+        ],
+        'status' => [
+            'title' => 'status',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+        ],
+
+        'created_at' => [
+            'title' => 'Ngày thông báo',
+            'orderable' => false,
+            // 'visible' => false,
+            'addClass' => 'align-middle',
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle',
+        ],
+
+    ],
 	'module' => [
 		'id' => [
             'title' => 'ID',
@@ -205,6 +246,107 @@ return [
             'printable' => false,
             'addClass' => 'text-center'
         ],
+    ],
+    'store' => [
+        'priority' => [
+            'title' => 'priority',
+            'orderable' => true
+        ],
+        'store_name' => [
+            'title' => 'storeName',
+            'orderable' => false
+        ],
+        'category' => [
+            'title' => 'category2',
+            'orderable' => false
+        ],
+        'area' => [
+            'title' => 'area',
+            'orderable' => false
+        ],
+        'open_hours_1' => [
+            'title' => 'operatingTime',
+            'orderable' => false,
+            'visible' => false
+        ],
+        'status' => [
+            'title' => 'status',
+            'orderable' => false
+        ],
+        'address_detail' => [
+            'title' => 'address',
+            'orderable' => false
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'visible' => false
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center'
+        ],
+
+    ],
+    'store_category' => [
+        'name' => [
+            'title' => 'name',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'status' => [
+            'title' => 'status',
+            'orderable' => false,
+            'width' => '150px',
+            'addClass' => 'align-middle'
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
+    'store_product' => [
+        'name' => [
+            'title' => 'name',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'view-topping' => [
+            'title' => 'Topping',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'view-discount' => [
+            'title' => 'Discount',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+
     ],
     'category' => [
         'name' => [
@@ -498,6 +640,52 @@ return [
         ],
         'action' => [
             'title' => 'Thao tác',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
+    'driver' => [
+        'fullname' => [
+            'title' => 'fullname',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'id_card' => [
+            'title' => 'id_card',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'bank_name' => [
+            'title' => 'bank_name',
+            'addClass' => 'align-middle',
+            'orderable' => false,
+        ],
+        'roles' => [
+            'title' => 'role',
+            'orderable' => false,
+            'visible' => false
+        ],
+        'order_accepted' => [
+            'title' => 'status',
+            'orderable' => false,
+        ],
+        'auto_accept' => [
+            'title' => 'receive_the_trip',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+
+        'action' => [
+            'title' => 'action',
             'orderable' => false,
             'exportable' => false,
             'printable' => false,

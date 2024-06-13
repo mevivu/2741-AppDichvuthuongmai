@@ -50,7 +50,7 @@ class PostCategoryDataTable extends BaseDataTable
         $this->rawColumnsNew();
         return $this->instanceDataTable;
     }
-    
+
     /**
      * Get query source of dataTable.
      *
@@ -97,7 +97,7 @@ class PostCategoryDataTable extends BaseDataTable
         return 'post_category_' . date('YmdHis');
     }
 
-    
+
     protected function editColumnName(){
         $this->instanceDataTable = $this->instanceDataTable->editColumn('name', $this->view['editlink']);
     }
@@ -128,5 +128,10 @@ class PostCategoryDataTable extends BaseDataTable
 
         $this->instanceHtml = $this->instanceHtml
         ->parameters($this->parameters);
+    }
+
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
     }
 }

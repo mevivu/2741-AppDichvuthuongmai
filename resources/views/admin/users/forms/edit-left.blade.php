@@ -2,6 +2,7 @@
     <div class="card">
         <div class="card-header justify-content-center">
             <h2 class="mb-0">{{ __('Thông tin Thành viên') }}</h2>
+
         </div>
         <div class="row card-body">
             <!-- Fullname -->
@@ -29,8 +30,18 @@
             <!-- address -->
             <div class="col-md-6 col-sm-12">
                 <div class="mb-3">
-                    <label class="control-label">{{ __('Địa chỉ') }}:</label>
-                    <x-input name="address" :value="$user->address" :placeholder="__('Địa chỉ')" />
+                    <x-input-pick-address :label="trans('address')" name="address" :value="$user->address"
+                                          :placeholder="trans('address')" :required="true" />
+                    <x-input type="hidden" name="lat" :value="$user->lat" />
+                    <x-input type="hidden" name="lng" :value="$user->lng" />
+                </div>
+            </div>
+            <!-- birthday -->
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('birthday'):</label>
+                    <x-input type="date" name="birthday" :value="format_date($user->birthday, 'Y-m-d')"
+                             :required="true"/>
                 </div>
             </div>
             <!-- new password -->
@@ -44,7 +55,7 @@
             <div class="col-md-6 col-sm-12">
                 <div class="mb-3">
                     <label class="control-label">{{ __('Xác nhận mật khẩu') }}:</label>
-                    <x-input-password name="password_confirmation" 
+                    <x-input-password name="password_confirmation"
                         data-parsley-equalto="input[name='password']"
                         data-parsley-equalto-message="{{ __('Mật khẩu không khớp.') }}" />
                 </div>

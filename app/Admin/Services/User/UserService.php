@@ -17,33 +17,48 @@ class UserService implements UserServiceInterface
      * @var array
      */
     protected $data;
-    
+
     protected $repository;
 
     public function __construct(UserRepositoryInterface $repository){
         $this->repository = $repository;
     }
-    
+
     public function store(Request $request){
 
         $this->data = $request->validated();
         $this->data['username'] = $this->data['phone'];
         $this->data['code'] = $this->createCodeUser();
-        $this->data['avatar'] = config('custom.images.avatar');
-        $this->data['roles'] = UserRoles::Member();
+        $this->data['avatar'] = $request->avatar;
+        $this->data['roles'] = UserRoles::Customer;
         $this->data['password'] = bcrypt($this->data['password']);
+        $this->data['longitude'] = $request['lng'];
+        $this->data['latitude'] = $request['lat'];
+
+        if ($request->has('birthday')) {
+            $this->data['birthday'] = $request->birthday;
+        }
+
+
 
         return $this->repository->create($this->data);
     }
 
     public function update(Request $request){
-        
-        $this->data = $request->validated();
 
+        $this->data = $request->validated();
+        $this->data['longitude'] = $request['lng'];
+        $this->data['latitude'] = $request['lat'];
+        if ($request->has('avatar')) {
+            $this->data['avatar'] = $request->avatar;
+        }
         if(isset($this->data['password']) && $this->data['password']){
             $this->data['password'] = bcrypt($this->data['password']);
         }else{
             unset($this->data['password']);
+        }
+        if ($request->has('birthday')) {
+            $this->data['birthday'] = $request->birthday;
         }
 
         return $this->repository->update($this->data['id'], $this->data);

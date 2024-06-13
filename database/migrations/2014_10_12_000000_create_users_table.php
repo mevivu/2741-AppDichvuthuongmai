@@ -25,6 +25,8 @@ return new class extends Migration
             $table->char('phone', 20)->unique();
             $table->text('address')->nullable();
             $table->text('avatar')->nullable();
+            $table->date('birthday');
+            $table->string('device_token')->nullable();
             $table->tinyInteger('gender');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('token_get_password')->nullable();
