@@ -17,9 +17,9 @@ class UserRequest extends BaseRequest
     {
         return [
             // 'username' => [
-            //     'required', 
+            //     'required',
             //     'string', 'min:6', 'max:50',
-            //     'unique:App\Models\User,username', 
+            //     'unique:App\Models\User,username',
             //     'regex:/^[A-Za-z0-9_-]+$/',
             //     function ($attribute, $value, $fail) {
             //         if (in_array(strtolower($value), ['admin', 'user', 'password'])) {
@@ -33,7 +33,11 @@ class UserRequest extends BaseRequest
             'address' => ['nullable'],
             'gender' => ['required', new EnumValue(UserGender::class, false)],
             'password' => ['required', 'string', 'confirmed'],
-            'vip' => ['required', new EnumValue(UserVip::class, false)]
+            'vip' => ['required', new EnumValue(UserVip::class, false)],
+            'latitude' => ['nullable'],
+            'longitude' => ['nullable'],
+            'avatar' =>['nullable']
+
         ];
     }
 
@@ -42,9 +46,9 @@ class UserRequest extends BaseRequest
         return [
             'id' => ['required', 'exists:App\Models\User,id'],
             // 'username' => [
-            //     'required', 
+            //     'required',
             //     'string', 'min:6', 'max:50',
-            //     'unique:App\Models\User,username,'.$this->id, 
+            //     'unique:App\Models\User,username,'.$this->id,
             //     'regex:/^[A-Za-z0-9_-]+$/',
             //     function ($attribute, $value, $fail) {
             //         if (in_array(strtolower($value), ['admin', 'user', 'password'])) {
@@ -58,7 +62,10 @@ class UserRequest extends BaseRequest
             'address' => ['nullable'],
             'gender' => ['required', new EnumValue(UserGender::class, false)],
             'password' => ['nullable', 'string', 'confirmed'],
-            'vip' => ['required', new EnumValue(UserVip::class, false)]
+            'vip' => ['required', new EnumValue(UserVip::class, false)],
+            'latitude' => ['nullable'],
+            'longitude' => ['nullable'],
+            'avatar' => ['nullable'],
         ];
     }
 }

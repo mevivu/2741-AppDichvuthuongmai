@@ -79,6 +79,54 @@ return [
         ]
     ],
     [
+        'title' => 'Cửa hàng',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-article"></i>',
+        'roles' => [],
+        'permissions' => ['createUser','viewUser','updateUser','deleteUser'],
+        'sub' => [
+            [
+                'title' => 'Thêm Cửa hàng',
+                'routeName' => 'admin.store.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createUser'],
+            ],
+
+            [
+                'title' => 'DS Cửa hàng',
+                'routeName' => 'admin.store.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewUser'],
+            ]
+        ]
+    ],
+    [
+        'title' => 'Chuyên mục cửa hàng',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-article"></i>',
+        'roles' => [],
+        'permissions' => ['createUser','viewUser','updateUser','deleteUser'],
+        'sub' => [
+            [
+                'title' => 'Thêm Chuyên mục',
+                'routeName' => 'admin.store.category.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createUser'],
+            ],
+
+            [
+                'title' => 'DS Danh mục',
+                'routeName' => 'admin.store.category.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewUser'],
+            ]
+        ]
+    ],
+    [
         'title' => 'Chuyên mục',
         'routeName' => null,
         'icon' => '<i class="ti ti-category-2"></i>',
@@ -198,6 +246,29 @@ return [
                 'roles' => [],
 				'permissions' => ['viewUser'],
             ],
+        ]
+    ],
+    [
+        'title' => 'Tài Xế',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-user"></i>',
+        'roles' => [],
+        'permissions' => ['createUser','viewUser','updateUser','deleteUser'],
+        'sub' => [
+            [
+                'title' => 'Thêm Tài Xế',
+                'routeName' => 'admin.driver.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createUser'],
+            ],
+            [
+                'title' => 'DS Tài Xế',
+                'routeName' => 'admin.driver.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewUser'],
+            ]
         ]
     ],
     [

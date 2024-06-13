@@ -1,0 +1,129 @@
+<?php
+
+namespace App\Admin\Services\Driver;
+
+use App\Admin\Repositories\Order\OrderRepositoryInterface;
+use App\Admin\Repositories\User\UserRepositoryInterface;
+use App\Admin\Repositories\Driver\DriverRepository;
+use App\Admin\Services\Driver\DriverServiceInterface;
+use App\Admin\Traits\Setup;
+use App\Enums\Driver\AutoAccept;
+use App\Enums\User\UserRoles;
+use App\Enums\User\UserVip;
+use App\Events\DriverCreated;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class DriverService implements DriverServiceInterface
+{
+    use Setup;
+    /**
+     * Current Object instance
+     *
+     * @var array
+     */
+    protected $data;
+
+    protected $repository;
+    protected $orderRepository;
+    protected $rateRepository;
+
+    protected UserRepositoryInterface $userRepository;
+
+
+
+    public function __construct(DriverRepository                $repository,
+                                OrderRepositoryInterface       $orderRepository,
+                                UserRepositoryInterface        $userRepository)
+    {
+        $this->repository = $repository;
+        $this->orderRepository = $orderRepository;
+        $this->userRepository = $userRepository;
+
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $data = $request->validated();
+
+            //User Create
+            $dataUser = $data['user_info'];
+            $dataUser['code'] = $this->createCodeUser();
+            $dataUser['address'] = $data['user_address'];
+            $dataUser['latitude'] = $data['user_lat'];
+            $dataUser['longitude'] = $data['user_lng'];
+            $dataUser['username'] = $dataUser['phone'];
+            $dataUser['roles'] = UserRoles::Driver;
+            $dataUser['vip'] = UserVip::Default;
+            if ($request->hasFile('user_info.feature_image')) {
+                $data['user_info']['avatar'] = $request->file('user_info.feature_image')->store('avatars', 'public');
+            }
+            $user = $this->userRepository->create($dataUser);
+            $userId = $user->id;
+            $data['user_id'] = $userId;
+
+            $this->userRepository->updateAttribute($userId, 'roles', UserRoles::Driver->value);
+            if (!isset($data['auto_accept'])) {
+                $data['auto_accept'] = AutoAccept::Off;
+            }
+
+            $data['current_lat'] = $data['lat'];
+            $data['current_lng'] = $data['lng'];
+            $data['current_address'] = $data['address'];
+
+            $driver_info = $this->repository->create($data);
+            DB::commit();
+            return $driver_info;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+
+        }
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $data = $request->validated();
+            $dataUser = $data['user_info'];
+            $dataUser['address'] = $data['user_address'];
+            $dataUser['latitude'] = $data['user_lat'];
+            $dataUser['longitude'] = $data['user_lng'];
+            if ($request->hasFile('user_info.feature_image')) {
+                $data['user_info']['avatar'] = $request->file('user_info.feature_image')->store('avatars', 'public');
+            }
+
+            if (isset($dataUser['password']) && $dataUser['password']) {
+                $dataUser['password'] = bcrypt($dataUser['password']);
+            } else {
+                unset($dataUser['password']);
+            }
+            $this->userRepository->update($dataUser['id'], $dataUser);
+
+            if (!array_key_exists('auto_accept', $data)) {
+                $data['auto_accept'] = AutoAccept::Off->value;
+            }
+            $data['current_lat'] = $data['lat'];
+            $data['current_lng'] = $data['lng'];
+            $data['current_address'] = $data['address'];
+
+            $driver_info = $this->repository->update($data['id'], $data);
+            DB::commit();
+
+            return $driver_info;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+        }
+    }
+
+    public function delete($id, $userId)
+    {
+        $this->userRepository->updateAttribute($userId, 'roles', UserRoles::Customer->value);
+        return $this->repository->delete($id);
+    }
+
+
+}

@@ -29,8 +29,18 @@
             <!-- address -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
-                    <label class="control-label">{{ __('Địa chỉ') }}:</label>
-                    <x-input name="address" :value="old('address')" :placeholder="__('Địa chỉ')" />
+                    <x-input-pick-address :label="trans('address')" name="address"
+                                          :placeholder="trans('pickAddress')"
+                                          :required="true" />
+                    <x-input  hidden name="lat" />
+                    <x-input  hidden name="lng" />
+                </div>
+            </div>
+            <!-- birthday -->
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('birthday'):</label>
+                    <x-input type="date" name="birthday" :required="true" />
                 </div>
             </div>
             <!-- new password -->
@@ -61,6 +71,7 @@
                     </x-select>
                 </div>
             </div>
+
             <!-- vip -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
