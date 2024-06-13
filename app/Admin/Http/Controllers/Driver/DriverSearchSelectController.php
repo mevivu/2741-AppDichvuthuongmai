@@ -3,20 +3,20 @@
 namespace App\Admin\Http\Controllers\Driver;
 
 use App\Admin\Http\Controllers\BaseSearchSelectController;
-use App\Admin\Http\Resources\UserDriver\UserDriverSearchSelectResource;
-use App\Admin\Repositories\UserDriver\UserDriverRepositoryInterface;
+use App\Admin\Http\Resources\Driver\DriverSearchSelectResource;
+use App\Admin\Repositories\Driver\DriverRepositoryInterface;
 
 class DriverSearchSelectController extends BaseSearchSelectController
 {
     public function __construct(
-        UserDriverRepositoryInterface $repository
+        DriverRepositoryInterface $repository
     ){
         $this->repository = $repository;
     }
 
     protected function selectResponse(){
         $this->instance = [
-            'results' => UserDriverSearchSelectResource::collection($this->instance)
+            'results' => DriverSearchSelectResource::collection($this->instance)
         ];
     }
 }
