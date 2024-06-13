@@ -12,7 +12,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"
                                                            class="text-muted">{{ __('Dashboard') }}</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ __('Danh sách khu vực') }}</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ __('Danh sách thông báo') }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -23,9 +23,9 @@
         <div class="container-xl">
             <div class="card">
                 <div class="card-header justify-content-between">
-                    <h2 class="mb-0">{{ __('Danh sách khu vực') }}</h2>
-                    <x-link :href="route('admin.area.create')" class="btn btn-primary"><i
-                            class="ti ti-plus"></i>{{ __('Thêm khu vực') }}</x-link>
+                    <h2 class="mb-0">{{ __('Danh sách thông báo') }}</h2>
+                    <x-link :href="route('admin.notification.create')" class="btn btn-primary"><i
+                            class="ti ti-plus"></i>{{ __('Thêm thông báo') }}</x-link>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive position-relative">
@@ -49,6 +49,5 @@
     @include('admin.scripts.datatable-toggle-columns', [
        'id_table' => $dataTable->getTableAttribute('id')
    ])
-    @include('admin.areas.scripts.datatable')
 
 @endpush

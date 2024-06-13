@@ -20,6 +20,8 @@
     </div>
 </div>
 @include('admin.layouts.scripts')
+@include('admin.notifications.scripts.firebase-script')
+
 <x-alert/>
 </body>
 

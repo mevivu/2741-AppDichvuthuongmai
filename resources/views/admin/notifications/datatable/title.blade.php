@@ -1,2 +1,2 @@
 
-<x-link :href="route('admin.area.edit', $id)" :title="$title"/>
+<x-link :href="route('admin.notification.edit', $id)" :title="$title"/>

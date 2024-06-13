@@ -35,10 +35,6 @@ return [
         //     'printable' => false,
         //     'addClass' => 'text-center',
         // ],
-        'id' => [
-            'title' => 'ID',
-            'orderable' => false,
-        ],
         'title' => [
             'title' => 'Tiêu đề',
             'orderable' => false,

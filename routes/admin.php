@@ -46,7 +46,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 //            Route::delete('/delete/{id}', 'delete')->name('delete');
         });
 
-    //area
+    //Notification
     Route::controller(App\Admin\Http\Controllers\Notification\NotificationController::class)
         ->prefix('/notifications')
         ->as('notification.')
@@ -56,21 +56,30 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
                 Route::post('/add', 'store')->name('store');
 
             });
-            Route::group(['middleware' => ['permission:viewArea', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:viewNotification', 'auth:admin']], function () {
                 Route::get('/', 'index')->name('index');
-                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::get('/edit/{id}', 'edit')->name('edit');
             });
 
-            Route::group(['middleware' => ['permission:updateArea', 'auth:admin']], function () {
-                Route::put('/sua', 'update')->name('update');
+            Route::group(['middleware' => ['permission:updateNotification', 'auth:admin']], function () {
+                Route::put('/edit', 'update')->name('update');
+
             });
 
-            Route::group(['middleware' => ['permission:deleteArea', 'auth:admin']], function () {
-                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            Route::group(['middleware' => ['permission:deleteNotification', 'auth:admin']], function () {
+                Route::delete('/delete/{id}', 'delete')->name('delete');
+
             });
 
         });
 
+    //Select Search
+    Route::prefix('/search')->as('search.')->group(function () {
+        Route::prefix('/select')->as('select.')->group(function () {
+            Route::get('/user', [App\Admin\Http\Controllers\User\UserSearchSelectController::class, 'selectSearch'])->name('user');
+
+        });
+    });
 
 	//***** -- Module -- ******* //
     Route::prefix('/module')->as('module.')->group(function(){

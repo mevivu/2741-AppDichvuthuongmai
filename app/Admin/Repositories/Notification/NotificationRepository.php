@@ -30,8 +30,7 @@ class NotificationRepository extends EloquentRepository implements NotificationR
             ->where('admin_id', $adminId)
             ->where('status', NotificationStatus::NOT_READ)
             ->orderBy('created_at', 'desc')
-            ->take($limit)
-            ->get();
+            ->take($limit);
     }
 
 }
