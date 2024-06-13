@@ -46,6 +46,31 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 //            Route::delete('/delete/{id}', 'delete')->name('delete');
         });
 
+    //area
+    Route::controller(App\Admin\Http\Controllers\Notification\NotificationController::class)
+        ->prefix('/notifications')
+        ->as('notification.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createNotification', 'auth:admin']], function () {
+                Route::get('/add', 'create')->name('create');
+                Route::post('/add', 'store')->name('store');
+
+            });
+            Route::group(['middleware' => ['permission:viewArea', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
+
+            Route::group(['middleware' => ['permission:updateArea', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteArea', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+
+        });
+
 
 	//***** -- Module -- ******* //
     Route::prefix('/module')->as('module.')->group(function(){
