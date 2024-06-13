@@ -13,6 +13,12 @@ return [
             'addClass' => 'align-middle',
             'visible' => true
         ],
+        'status' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
         'action' => [
             'title' => 'action',
             'orderable' => false,
