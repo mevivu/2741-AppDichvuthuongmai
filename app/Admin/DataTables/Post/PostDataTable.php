@@ -56,7 +56,7 @@ class PostDataTable extends BaseDataTable
         $this->rawColumnsNew();
         return $this->instanceDataTable;
     }
-    
+
     /**
      * Get query source of dataTable.
      *
@@ -122,7 +122,7 @@ class PostDataTable extends BaseDataTable
     protected function editColumnIsFeatured(){
         $this->instanceDataTable = $this->instanceDataTable->editColumn('is_featured', $this->view['is_featured']);
     }
-    
+
     protected function editColumnCreatedAt(){
         $this->instanceDataTable = $this->instanceDataTable->editColumn('created_at', '{{ date("d-m-Y", strtotime($created_at)) }}');
     }
@@ -145,5 +145,10 @@ class PostDataTable extends BaseDataTable
 
         $this->instanceHtml = $this->instanceHtml
         ->parameters($this->parameters);
+    }
+
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
     }
 }
