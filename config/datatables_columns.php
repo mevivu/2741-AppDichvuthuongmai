@@ -203,16 +203,7 @@ return [
         ],
     ],
     'user' => [
-        'DT_RowIndex' => [
-            'title' => 'STT',
-            'width' => '20px',
-            'orderable' => false
-        ],
-        'username' => [
-            'title' => 'Tên đăng nhập',
-            'orderable' => false,
-            'visible' => false
-        ],
+
         'fullname' => [
             'title' => 'Họ tên',
             'orderable' => false
@@ -230,10 +221,7 @@ return [
             'orderable' => false,
             'visible' => false
         ],
-        'vip' => [
-            'title' => 'Vip',
-            'orderable' => false,
-        ],
+
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,

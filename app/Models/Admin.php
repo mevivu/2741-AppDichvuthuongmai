@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Enums\Admin\AdminRoles;
 use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
@@ -36,8 +36,8 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
         'gender' => 'integer',
     ];
-	
-	public function roles()
+
+	public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'model_has_roles',  'model_id', 'role_id');
     }
@@ -45,9 +45,9 @@ class Admin extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
     }*/
-	
-	public function checkPermissions($permissionsArr)
-    {	
+
+	public function checkPermissions($permissionsArr): bool
+    {
 		foreach($permissionsArr as $permission) {
 			if($this->can($permission)){
 				return true;
@@ -55,5 +55,5 @@ class Admin extends Authenticatable
 		}
         return false;
     }
-	
+
 }

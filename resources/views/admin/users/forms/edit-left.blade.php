@@ -72,16 +72,22 @@
                     </x-select>
                 </div>
             </div>
-            <!-- vip -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Vip') }}:</label>
-                    <x-select name="vip" :required="true">
-                        <x-select-option value="" :title="__('Chọn Vip')" />
-                        @foreach ($vip as $key => $value)
-                            <x-select-option :option="$user->vip->value" :value="$key" :title="__($value)" />
-                        @endforeach
-                    </x-select>
+            <!-- permissions -->
+            <div class="row card-body">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="control-label">{{ __('Vai trò') }}:</label><br />
+                        <div class="row">
+                            @foreach($roles as $role)
+                                <div class="col-4">
+                                    <input type="checkbox" name="roles[]" value="{{ $role->name }}"
+                                        {{ $user->roles->contains($role->id) ? 'checked' : '' }}>
+                                    {{ $role->title }}<br>
+                                </div>
+                            @endforeach
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

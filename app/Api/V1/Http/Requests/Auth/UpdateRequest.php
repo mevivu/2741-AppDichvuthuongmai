@@ -3,7 +3,7 @@
 namespace App\Api\V1\Http\Requests\Auth;
 
 use App\Api\V1\Http\Requests\BaseRequest;
-use App\Enums\User\UserGender;
+use App\Enums\User\Gender;
 use BenSampo\Enum\Rules\EnumValue;
 
 class UpdateRequest extends BaseRequest
@@ -18,7 +18,7 @@ class UpdateRequest extends BaseRequest
         return [
             'fullname' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:App\Models\User,email,'.$this->user()->id],
-            'gender' => ['required', new EnumValue(UserGender::class, false)],
+            'gender' => ['required', new EnumValue(Gender::class, false)],
             'address' => ['nullable'],
         ];
     }

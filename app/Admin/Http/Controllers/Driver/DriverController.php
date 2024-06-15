@@ -10,7 +10,7 @@ use App\Admin\Repositories\Driver\DriverRepositoryInterface;
 use App\Admin\Services\Driver\DriverService;
 use App\Admin\Services\Driver\DriverServiceInterface;
 use App\Enums\Driver\DriverStatus;
-use App\Enums\User\UserGender;
+use App\Enums\User\Gender;
 use App\Enums\User\UserRoles;
 
 class DriverController extends Controller
@@ -69,7 +69,7 @@ class DriverController extends Controller
         $areas = $this->areaRepository->getAll();
 
         return view($this->view['create'], [
-            'gender' => UserGender::asSelectArray(),
+            'gender' => Gender::asSelectArray(),
             'roles' => UserRoles::asSelectArray(),
             'areas' => $areas,
             'order_accepted' =>DriverStatus::asSelectArray(),
@@ -103,7 +103,7 @@ class DriverController extends Controller
         return view(
             $this->view['edit'],
             [
-                'gender' => UserGender::asSelectArray(),
+                'gender' => Gender::asSelectArray(),
                 'roles' => UserRoles::asSelectArray(),
                 'order_accepted' =>DriverStatus::asSelectArray(),
                 'areas' => $areas,

@@ -56,7 +56,7 @@ class DriverService implements DriverServiceInterface
             $dataUser['longitude'] = $data['user_lng'];
             $dataUser['username'] = $dataUser['phone'];
             $dataUser['roles'] = UserRoles::Driver;
-            $dataUser['vip'] = UserVip::Default;
+
             if ($request->hasFile('user_info.feature_image')) {
                 $data['user_info']['avatar'] = $request->file('user_info.feature_image')->store('avatars', 'public');
             }

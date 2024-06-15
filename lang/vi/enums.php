@@ -9,13 +9,13 @@ use App\Enums\Module\ModuleStatus;
 use App\Enums\Product\{ProductType, ProductVariationAction};
 use App\Enums\Setting\SettingGroup;
 use App\Enums\Slider\SliderStatus;
-use App\Enums\User\{UserGender, UserVip, UserRoles};
+use App\Enums\User\{Gender, UserVip, UserRoles};
 
 return [
-    UserGender::class => [
-        UserGender::Male => 'Nam',
-        UserGender::Female => 'Nữ',
-        UserGender::Other => 'Khác',
+    Gender::class => [
+        Gender::Male->value => 'Nam',
+        Gender::Female->value => 'Nữ',
+        Gender::Other->value => 'Khác',
     ],
     UserVip::class => [
         UserVip::Default => 'Mặc định',

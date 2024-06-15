@@ -85,4 +85,6 @@ interface EloquentRepositoryInterface
     public function authorize($action);
 
     public function getInstance();
+
+    public function syncModelRoles($modelId, array $roles);
 }

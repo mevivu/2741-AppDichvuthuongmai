@@ -3,8 +3,8 @@
 namespace App\Admin\Http\Requests\User;
 
 use App\Admin\Http\Requests\BaseRequest;
-use BenSampo\Enum\Rules\EnumValue;
-use App\Enums\User\{UserVip, UserGender};
+use App\Enums\User\Gender;
+use Illuminate\Validation\Rules\Enum;
 
 class UserRequest extends BaseRequest
 {
@@ -13,56 +13,35 @@ class UserRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodPost()
+    protected function methodPost(): array
     {
         return [
-            // 'username' => [
-            //     'required',
-            //     'string', 'min:6', 'max:50',
-            //     'unique:App\Models\User,username',
-            //     'regex:/^[A-Za-z0-9_-]+$/',
-            //     function ($attribute, $value, $fail) {
-            //         if (in_array(strtolower($value), ['admin', 'user', 'password'])) {
-            //             $fail('The '.$attribute.' cannot be a common keyword.');
-            //         }
-            //     },
-            // ],
+
             'fullname' => ['required', 'string'],
-            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:App\Models\User,phone'],
+            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/',
+                'unique:App\Models\User,phone'],
             'email' => ['required', 'email', 'unique:App\Models\User,email'],
             'address' => ['nullable'],
-            'gender' => ['required', new EnumValue(UserGender::class, false)],
+            'gender' => ['required', new Enum(Gender::class)],
             'password' => ['required', 'string', 'confirmed'],
-            'vip' => ['required', new EnumValue(UserVip::class, false)],
             'latitude' => ['nullable'],
             'longitude' => ['nullable'],
-            'avatar' =>['nullable']
+            'avatar' => ['nullable']
 
         ];
     }
 
-    protected function methodPut()
+    protected function methodPut(): array
     {
         return [
             'id' => ['required', 'exists:App\Models\User,id'],
-            // 'username' => [
-            //     'required',
-            //     'string', 'min:6', 'max:50',
-            //     'unique:App\Models\User,username,'.$this->id,
-            //     'regex:/^[A-Za-z0-9_-]+$/',
-            //     function ($attribute, $value, $fail) {
-            //         if (in_array(strtolower($value), ['admin', 'user', 'password'])) {
-            //             $fail('The '.$attribute.' cannot be a common keyword.');
-            //         }
-            //     },
-            // ],
             'fullname' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:App\Models\User,email,'.$this->id],
-            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:App\Models\User,phone,'.$this->id],
+            'email' => ['required', 'email', 'unique:App\Models\User,email,' . $this->id],
+            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/',
+                'unique:App\Models\User,phone,' . $this->id],
             'address' => ['nullable'],
-            'gender' => ['required', new EnumValue(UserGender::class, false)],
+            'gender' => ['required', new Enum(Gender::class)],
             'password' => ['nullable', 'string', 'confirmed'],
-            'vip' => ['required', new EnumValue(UserVip::class, false)],
             'latitude' => ['nullable'],
             'longitude' => ['nullable'],
             'avatar' => ['nullable'],

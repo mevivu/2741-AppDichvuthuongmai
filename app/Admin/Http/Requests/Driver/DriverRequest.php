@@ -6,7 +6,6 @@ use App\Admin\Http\Requests\BaseRequest;
 use App\Enums\Driver\AutoAccept;
 use App\Enums\Driver\DriverStatus;
 use Illuminate\Validation\Rules\Enum;
-use Illuminate\Validation\Rule;
 
 
 class DriverRequest extends BaseRequest
@@ -38,6 +37,8 @@ class DriverRequest extends BaseRequest
             'driver_license_back' => ['required'],
             'user_info' => ['nullable', 'array'],
             'user_info.*' => ['nullable'],
+            'user_info.phone' => ['required', 'string', 'unique:users,phone'],
+            'user_info.email' => ['required', 'string', 'email', 'unique:users,email'],
             'user_lat' => 'nullable',
             'user_lng' => 'nullable',
             'user_address' => 'nullable',
@@ -69,6 +70,8 @@ class DriverRequest extends BaseRequest
             'driver_license_back' => ['required'],
             'user_info' => ['nullable', 'array'],
             'user_info.*' => ['nullable'],
+            'user_info.phone' => ['required', 'string', 'unique:users,phone'],
+            'user_info.email' => ['required', 'string', 'email', 'unique:users,email'],
             'user_lat' => 'nullable',
             'user_lng' => 'nullable',
             'user_address' => 'nullable',
@@ -78,6 +81,8 @@ class DriverRequest extends BaseRequest
     {
         return [
             'user_id.unique' => __('This user has already registered as a driver.'),
+            'user_info.phone.unique' => __('exist_phone'),
+            'user_info.email.unique' => __('exist_email')
         ];
     }
 }

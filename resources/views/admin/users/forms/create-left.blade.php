@@ -72,16 +72,19 @@
                 </div>
             </div>
 
-            <!-- vip -->
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Vip') }}:</label>
-                    <x-select name="vip" :required="true">
-                        <x-select-option value="" :title="__('Chọn Vip')" />
-                        @foreach ($vip as $key => $value)
-                            <x-select-option :value="$key" :title="__($value)" />
-                        @endforeach
-                    </x-select>
+            <!-- Role -->
+            <div class="row card-body">
+                <div class="col-md-12 col-sm-12">
+                    <div class="mb-3">
+                        <label class="control-label">{{ __('Vai trò') }}:</label>
+                        <div class="row">
+                            @foreach($roles as $role)
+                                <div class="col-4">
+                                    <input name="roles[]" value="{{ $role->name }}" type="checkbox" /> {{ $role->title }}
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
