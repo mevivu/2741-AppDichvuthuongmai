@@ -134,6 +134,20 @@ return new class extends Migration {
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()')
         ]);
+        DB::table('roles')->insert([
+            'title' => 'Khách hàng',
+            'name' => 'customer',
+            'guard_name' => 'admin',
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('roles')->insert([
+            'title' => 'Tài xế',
+            'name' => 'driver',
+            'guard_name' => 'admin',
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
         //modules
         DB::table('modules')->insert([
             'id' => 1,

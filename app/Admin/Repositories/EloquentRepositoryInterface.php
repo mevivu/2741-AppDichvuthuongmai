@@ -2,6 +2,8 @@
 
 namespace App\Admin\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
+
 interface EloquentRepositoryInterface
 {
     /**
@@ -87,4 +89,6 @@ interface EloquentRepositoryInterface
     public function getInstance();
 
     public function syncModelRoles($modelId, array $roles);
+
+    public function assignRoles(Model $model, array $rolesNames): bool;
 }

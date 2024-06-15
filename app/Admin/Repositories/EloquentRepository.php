@@ -3,6 +3,7 @@
 namespace App\Admin\Repositories;
 
 use App\Admin\Repositories\EloquentRepositoryInterface;
+use App\Models\Role;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -235,6 +236,25 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
 
         $model->syncRoles($roles);
         return 1;
+    }
+
+    public function assignRoles(Model $model, array $rolesNames): bool
+    {
+        try {
+            $model->roles()->detach();
+
+            foreach ($rolesNames as $roleName) {
+                $role = Role::where('name', $roleName)->first();
+                if ($role) {
+                    $model->roles()->attach($role->id, ['model_type' => get_class($model)]);
+                }
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            report($e);
+            return false;
+        }
     }
 
 

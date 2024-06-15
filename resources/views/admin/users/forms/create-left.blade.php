@@ -26,16 +26,6 @@
                     <x-input-phone name="phone" :value="old('phone')" :required="true" />
                 </div>
             </div>
-            <!-- address -->
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <x-input-pick-address :label="trans('address')" name="address"
-                                          :placeholder="trans('pickAddress')"
-                                          :required="true" />
-                    <x-input  hidden name="lat" />
-                    <x-input  hidden name="lng" />
-                </div>
-            </div>
             <!-- birthday -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
@@ -64,29 +54,24 @@
                 <div class="mb-3">
                     <label class="control-label">{{ __('Giới tính') }}:</label>
                     <x-select name="gender" :required="true">
-                        <x-select-option value="" :title="__('Chọn Giới tính')" />
                         @foreach ($gender as $key => $value)
                             <x-select-option :value="$key" :title="__($value)" />
                         @endforeach
                     </x-select>
                 </div>
             </div>
-
-            <!-- Role -->
-            <div class="row card-body">
-                <div class="col-md-12 col-sm-12">
-                    <div class="mb-3">
-                        <label class="control-label">{{ __('Vai trò') }}:</label>
-                        <div class="row">
-                            @foreach($roles as $role)
-                                <div class="col-4">
-                                    <input name="roles[]" value="{{ $role->name }}" type="checkbox" /> {{ $role->title }}
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+            <!-- address -->
+            <div class="col-md-12 col-12">
+                <div class="mb-3">
+                    <x-input-pick-address :label="trans('address')" name="address"
+                                          :placeholder="trans('pickAddress')"
+                                          :required="true" />
+                    <x-input  hidden name="lat" />
+                    <x-input  hidden name="lng" />
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>

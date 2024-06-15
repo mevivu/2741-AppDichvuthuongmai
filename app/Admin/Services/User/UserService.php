@@ -5,6 +5,7 @@ namespace App\Admin\Services\User;
 use App\Admin\Services\User\UserServiceInterface;
 use  App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Models\Role;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
@@ -44,19 +45,11 @@ class UserService implements UserServiceInterface
             }
 
             $user = $this->repository->create($this->data);
-            $roles = $request->roles;
-            if (!is_array($roles)) {
-                $roles = explode(',', $roles);
-            }
-            if(!empty($roles)){
-                foreach ($roles as $role) {
-                    $user->roles()->attach(Role::where('name', $role)->first()->id, ['model_type' => get_class($user)]);
-                }
-            }
+            $roles = ['customer'];
+            $this->repository->assignRoles($user, $roles);
             return $user;
         } catch (Exception $e) {
-            throw  $e;
-
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 

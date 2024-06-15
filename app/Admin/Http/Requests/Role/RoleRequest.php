@@ -13,21 +13,21 @@ class RoleRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodPost()
+    protected function methodPost(): array
     {
         return [
             'title' => ['required', 'string'],
-            'name' => ['required', 'string'],
+//            'name' => ['required', 'string'],
             'guard_name' => ['required', 'string'],
         ];
     }
 
-    protected function methodPut()
+    protected function methodPut(): array
     {
         return [
             'id' => ['required', 'exists:App\Models\Role,id'],
             'title' => ['required', 'string'],
-            'name' => ['required', 'string'],
+//            'name' => ['required', 'string'],
 			'guard_name' => ['required', 'string'],
         ];
     }

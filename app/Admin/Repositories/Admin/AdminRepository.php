@@ -5,7 +5,6 @@ use App\Admin\Repositories\EloquentRepository;
 use App\Admin\Repositories\Admin\AdminRepositoryInterface;
 use App\Admin\Traits\BaseAuthCMS;
 use App\Models\Admin;
-use App\Models\Role;
 
 class AdminRepository extends EloquentRepository implements AdminRepositoryInterface
 {

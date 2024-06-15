@@ -27,15 +27,6 @@
                     <x-input-phone name="phone" :value="$user->phone" :required="true" />
                 </div>
             </div>
-            <!-- address -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <x-input-pick-address :label="trans('address')" name="address" :value="$user->address"
-                                          :placeholder="trans('address')" :required="true" />
-                    <x-input type="hidden" name="lat" :value="$user->lat" />
-                    <x-input type="hidden" name="lng" :value="$user->lng" />
-                </div>
-            </div>
             <!-- birthday -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
@@ -44,6 +35,7 @@
                              :required="true"/>
                 </div>
             </div>
+
             <!-- new password -->
             <div class="col-md-6 col-sm-12">
                 <div class="mb-3">
@@ -56,8 +48,8 @@
                 <div class="mb-3">
                     <label class="control-label">{{ __('Xác nhận mật khẩu') }}:</label>
                     <x-input-password name="password_confirmation"
-                        data-parsley-equalto="input[name='password']"
-                        data-parsley-equalto-message="{{ __('Mật khẩu không khớp.') }}" />
+                                      data-parsley-equalto="input[name='password']"
+                                      data-parsley-equalto-message="{{ __('Mật khẩu không khớp.') }}" />
                 </div>
             </div>
             <!-- gender -->
@@ -72,24 +64,16 @@
                     </x-select>
                 </div>
             </div>
-            <!-- permissions -->
-            <div class="row card-body">
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label class="control-label">{{ __('Vai trò') }}:</label><br />
-                        <div class="row">
-                            @foreach($roles as $role)
-                                <div class="col-4">
-                                    <input type="checkbox" name="roles[]" value="{{ $role->name }}"
-                                        {{ $user->roles->contains($role->id) ? 'checked' : '' }}>
-                                    {{ $role->title }}<br>
-                                </div>
-                            @endforeach
-                        </div>
-
-                    </div>
+            <!-- address -->
+            <div class="col-md-12 col-sm-12">
+                <div class="mb-3">
+                    <x-input-pick-address :label="trans('address')" name="address" :value="$user->address"
+                                          :placeholder="trans('address')" :required="true" />
+                    <x-input type="hidden" name="lat" :value="$user->lat" />
+                    <x-input type="hidden" name="lng" :value="$user->lng" />
                 </div>
             </div>
+
         </div>
     </div>
 </div>
