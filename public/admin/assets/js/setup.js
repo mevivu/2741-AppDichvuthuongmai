@@ -84,6 +84,28 @@ function searchColumsDataTable(datatable, column_search = [], column_date = [], 
 function addWrapTableScroll(idTable){
     $(idTable).wrap('<div class="wrap-table-scroll"></div>');
 }
+
+function createSelect2ColumnDatatable(input, data){
+    input.setAttribute('class', 'form-select select2-bs5');
+    input.setAttribute('multiple', 'true');
+
+    if(typeof data === 'object'){
+        Object.keys(data).map((index) => {
+            var option = document.createElement("OPTION");
+            $.each(data[index], function(key, value) {
+                option.value = key;
+                option.text = value;
+            });
+            input.append(option);
+        });
+    }else{
+        data.forEach(function(value, index) {
+            var option = document.createElement("OPTION");
+            option.value = option.text = value;
+            input.append(option);
+        });
+    }
+}
 function addSelect2(elm = '.select2-bs5'){
     if($(elm).length){
         $(elm).select2({
@@ -161,27 +183,6 @@ function generateSelectOptions(selectElement, optionsArray) {
 
 function moveSearchColumnsDatatable(idTable){
     $(idTable + ' thead').append($(idTable + ' tfoot tr'));
-}
-function createSelect2ColumnCategory(input, data){
-    input.setAttribute('class', 'form-select select2-bs5');
-    input.setAttribute('multiple', 'true');
-
-    if(typeof data === 'object'){
-        Object.keys(data).map((index) => {
-            var option = document.createElement("OPTION");
-            $.each(data[index], function(key, value) {
-                option.value = key;
-                option.text = value;
-            });
-            input.append(option);
-        });
-    }else{
-        data.forEach(function(value, index) {
-            var option = document.createElement("OPTION");
-            option.value = option.text = value;
-            input.append(option);
-        });
-    }
 }
 function createSelectColumnUniqueDatatableAll(input, data){
     var optionAll = document.createElement("OPTION");

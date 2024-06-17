@@ -78,7 +78,11 @@ class DriverRequest extends BaseRequest
             'driver_license_back' => ['required'],
             'user_info' => ['nullable', 'array'],
             'user_info.*' => ['nullable'],
-            'user_info.phone' => ['required', 'string', 'unique:users,phone'],
+            'user_info.phone' => [
+                'required',
+                'string',
+                Rule::unique('users', 'phone')->ignore($user_id, 'id'),
+            ],
             'user_info.email' => [
                 'required',
                 'email',

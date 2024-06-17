@@ -2,11 +2,11 @@
 
 namespace App\Admin\Http\Controllers\Area;
 
+use App\Admin\DataTables\Area\AreaDataTable;
 use App\Admin\Http\Controllers\Controller;
 use App\Admin\Http\Requests\Area\AreaRequest;
 use App\Admin\Repositories\Area\AreaRepositoryInterface;
 use App\Admin\Services\Area\AreaServiceInterface;
-use App\Admin\DataTables\Area\AreaDataTable;
 use App\Enums\Area\AreaStatus;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;

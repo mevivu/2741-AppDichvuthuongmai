@@ -11,9 +11,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Driver  extends Authenticatable
+class Driver extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
     protected $table = 'drivers';
     protected $fillable = [
         'user_id',
@@ -45,7 +46,9 @@ class Driver  extends Authenticatable
     {
         return $this->belongsTo(User::class);
     }
-    public function scopeDriver($query){
+
+    public function scopeDriver($query)
+    {
         return $query->whereHas('user', function ($query) {
             $query->where('roles', UserRoles::Driver);
         });
