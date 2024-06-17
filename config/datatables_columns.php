@@ -168,11 +168,7 @@ return [
         ],
     ],
     'admin' => [
-        'DT_RowIndex' => [
-            'title' => 'STT',
-            'width' => '20px',
-            'orderable' => false
-        ],
+
         'fullname' => [
             'title' => 'Họ tên',
             'orderable' => false
