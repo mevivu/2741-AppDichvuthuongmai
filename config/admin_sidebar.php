@@ -253,21 +253,21 @@ return [
         'routeName' => null,
         'icon' => '<i class="ti ti-user"></i>',
         'roles' => [],
-        'permissions' => ['createUser','viewUser','updateUser','deleteUser'],
+        'permissions' => ['createDriver','viewDriver','updateDriver','deleteDriver'],
         'sub' => [
             [
                 'title' => 'Thêm Tài Xế',
                 'routeName' => 'admin.driver.create',
                 'icon' => '<i class="ti ti-plus"></i>',
                 'roles' => [],
-                'permissions' => ['createUser'],
+                'permissions' => ['createDriver'],
             ],
             [
                 'title' => 'DS Tài Xế',
                 'routeName' => 'admin.driver.index',
                 'icon' => '<i class="ti ti-list"></i>',
                 'roles' => [],
-                'permissions' => ['viewUser'],
+                'permissions' => ['viewDriver'],
             ]
         ]
     ],

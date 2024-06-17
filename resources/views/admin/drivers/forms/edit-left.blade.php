@@ -1,18 +1,12 @@
 <div class="col-12 col-md-9">
     <div class="card">
-        <div class="card-header fw-bold d-flex align-items-center">
-            <span>@lang('user_information')</span>
-            <x-link :href="route('admin.user.edit',$driver->user_id)" style="margin-left: 12px" class="">
-                <span class="ms-1">Chỉnh sửa </span>
-            </x-link>
-        </div>
         <div class="row card-body">
 
             <!-- Fullname -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('fullname'):</label>
-                    <x-input disabled name="user_info[fullname]" :value="$driver->user->fullname" :required="true"
+                    <x-input  name="user_info[fullname]" :value="$driver->user->fullname" :required="true"
                              placeholder="{{ __('Họ và tên') }}"/>
                 </div>
             </div>
@@ -20,21 +14,21 @@
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('email'):</label>
-                    <x-input-email disabled name="user_info[email]" :value="$driver->user->email" :required="true"/>
+                    <x-input-email  name="user_info[email]" :value="$driver->user->email" :required="true"/>
                 </div>
             </div>
             <!-- phone -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('phone'):</label>
-                    <x-input-phone disabled name="user_info[phone]" :value="$driver->user->phone" :required="true"/>
+                    <x-input-phone  name="user_info[phone]" :value="$driver->user->phone" :required="true"/>
                 </div>
             </div>
             <!-- gender -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('gender'):</label>
-                    <x-select disabled name="user_info[gender]" :required="true">
+                    <x-select  name="user_info[gender]" :required="true">
                         @foreach ($gender as $key => $value)
                             <x-select-option :option="$driver->user->gender->value" :value="$key" :title="__($value)"/>
                         @endforeach
@@ -47,7 +41,7 @@
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('birthday'):</label>
-                    <x-input disabled type="date" name="user_info[birthday]" :value="format_date($driver->user->birthday, 'Y-m-d')"
+                    <x-input  type="date" name="user_info[birthday]" :value="format_date($driver->user->birthday, 'Y-m-d')"
                              :required="true"/>
                 </div>
             </div>
@@ -55,7 +49,7 @@
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('area'):</label>
-                    <x-select disabled name="user_info[area_id]" :required="true">
+                    <x-select  name="user_info[area_id]" :required="true">
                         @foreach ($areas as $area)
                             <x-select-option :value="$area->id" :title="$area->name"
                                              :selected="$area->id == $driver->user->area_id"/>
@@ -67,7 +61,7 @@
             <!-- address -->
             <div class="col-12">
                 <div class="mb-3">
-                    <x-input-pick-address-user :label="trans('address')" disabled name="user_address" :value="$driver->user->address"
+                    <x-input-pick-address-user :label="trans('address')"  name="user_address" :value="$driver->user->address"
                                                :placeholder="trans('pickAddress')" :required="true"/>
                     <x-input  type ="hidden" name="user_lat" :value="$driver->user->latitude"/>
                     <x-input  type ="hidden" name="user_lng" :value="$driver->user->longitude"/>
@@ -131,11 +125,14 @@
                              :placeholder="__('bank_account_number')"/>
                 </div>
             </div>
-            <!-- address -->
+            <!-- current address -->
             <div class="col-12">
                 <div class="mb-3">
-                    <x-input-pick-address :label="trans('pickup_address')" name="address" :value="$driver->current_address"
-                                          :placeholder="trans('pickup_address')" :required="true" />
+                    <x-input-pick-address :label="trans('pickup_address')"
+                                          name="address"
+                                          :value="$driver->current_address"
+                                          :placeholder="trans('pickup_address')"
+                                          :required="true" />
                     <x-input type ="hidden" name="lat" :value="$driver->current_lat" />
                     <x-input type ="hidden" name="lng" :value="$driver->current_lng" />
                 </div>

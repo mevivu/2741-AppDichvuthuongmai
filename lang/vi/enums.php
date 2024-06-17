@@ -2,7 +2,12 @@
 
 use App\Enums\Area\AreaStatus;
 use App\Enums\DefaultStatus;
+use App\Enums\Driver\AutoAccept;
+use App\Enums\Driver\DriverAssignmentType;
+use App\Enums\Driver\DriverStatus;
+use App\Enums\Driver\DriverTransactionStatus;
 use App\Enums\Order\OrderStatus;
+use App\Enums\Payment\PaymentMethod;
 use App\Enums\PostCategory\PostCategoryStatus;
 use App\Enums\Post\PostStatus;
 use App\Enums\Module\ModuleStatus;
@@ -16,6 +21,30 @@ return [
         Gender::Male->value => 'Nam',
         Gender::Female->value => 'Nữ',
         Gender::Other->value => 'Khác',
+    ],
+    AutoAccept::class => [
+        AutoAccept::Auto->value => 'Tự động nhận chuyến',
+        AutoAccept::Off->value => 'Tắt tự động nhận chuyến',
+        AutoAccept::Locked->value => 'Khoá tự động nhận chuyến',
+    ],
+    DriverTransactionStatus::class => [
+        DriverTransactionStatus::Pending->value => 'Chưa chuyển khoản',
+        DriverTransactionStatus::Success->value => 'Đã chuyển',
+//        DriverTransactionStatus::Late->value => 'Chuyển muộn',
+    ],
+    PaymentMethod::class => [
+        PaymentMethod::Online->value => 'Online',
+        PaymentMethod::Direct->value => 'Trực tiếp',
+    ],
+    DriverStatus::class => [
+        DriverStatus::NotReceived->value => 'Đang chờ đơn',
+        DriverStatus::Received->value => 'Đã nhận đơn',
+        DriverStatus::InTransit->value => 'Đang chuyển đơn',
+        DriverStatus::PendingConfirmation->value => 'Đang chờ xác nhận đơn',
+    ],
+    DriverAssignmentType::class => [
+        DriverAssignmentType::Auto->value => 'Tự động',
+        DriverAssignmentType::Manual->value => 'Thủ công',
     ],
     UserVip::class => [
         UserVip::Default => 'Mặc định',

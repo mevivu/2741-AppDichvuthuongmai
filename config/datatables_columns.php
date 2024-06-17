@@ -646,11 +646,11 @@ return [
             'addClass' => 'align-middle',
             'orderable' => false,
         ],
-        'roles' => [
-            'title' => 'role',
-            'orderable' => false,
-            'visible' => false
-        ],
+//        'roles' => [
+//            'title' => 'role',
+//            'orderable' => false,
+//            'visible' => false
+//        ],
         'order_accepted' => [
             'title' => 'status',
             'orderable' => false,

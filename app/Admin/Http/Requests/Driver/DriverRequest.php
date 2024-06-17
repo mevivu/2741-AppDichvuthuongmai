@@ -5,7 +5,9 @@ namespace App\Admin\Http\Requests\Driver;
 use App\Admin\Http\Requests\BaseRequest;
 use App\Enums\Driver\AutoAccept;
 use App\Enums\Driver\DriverStatus;
+use App\Models\Driver;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rule;
 
 
 class DriverRequest extends BaseRequest
@@ -45,12 +47,18 @@ class DriverRequest extends BaseRequest
 
         ];
     }
+    public function driver()
+    {
+        return Driver::find($this->id);
+    }
 
     protected function methodPut(): array
     {
+        $driver = $this->driver();
+        $user_id = $driver ? $driver->user_id : null;
         return [
             'id' => ['required', 'exists:App\Models\Driver,id'],
-            'id_card' => ['required', 'string', 'unique:drivers,id_card,' . $this->id],
+            'id_card' => 'required|string|max:50|unique:drivers,id_card,' . $this->id . ',id',
             'license_plate' => ['nullable', 'string', 'max:20'],
             'vehicle_company' => ['nullable', 'string', 'max:255'],
             'bank_name' => ['nullable', 'string', 'max:255'],
@@ -71,12 +79,17 @@ class DriverRequest extends BaseRequest
             'user_info' => ['nullable', 'array'],
             'user_info.*' => ['nullable'],
             'user_info.phone' => ['required', 'string', 'unique:users,phone'],
-            'user_info.email' => ['required', 'string', 'email', 'unique:users,email'],
+            'user_info.email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($user_id, 'id')
+            ],
             'user_lat' => 'nullable',
             'user_lng' => 'nullable',
             'user_address' => 'nullable',
         ];
     }
+
     public function messages(): array
     {
         return [

@@ -774,7 +774,7 @@ return new class extends Migration {
         DB::table('permissions')->insert([
             'id' => 48,
             'title' => 'Sửa khu vực ',
-            'name' => 'editArea',
+            'name' => 'updateArea',
             'guard_name' => 'admin',
             'module_id' => 12,
             'created_at' => DB::raw('NOW()'),
@@ -830,7 +830,7 @@ return new class extends Migration {
         DB::table('permissions')->insert([
             'id' => 52,
             'title' => 'Sửa danh mục cửa hàng',
-            'name' => 'editStoreCategory',
+            'name' => 'updateStoreCategory',
             'guard_name' => 'admin',
             'module_id' => 13,
             'created_at' => DB::raw('NOW()'),
@@ -886,7 +886,7 @@ return new class extends Migration {
         DB::table('permissions')->insert([
             'id' => 60,
             'title' => 'Sửa thông báo',
-            'name' => 'editNotification',
+            'name' => 'updateNotification',
             'guard_name' => 'admin',
             'module_id' => 15,
             'created_at' => DB::raw('NOW()'),
@@ -942,7 +942,7 @@ return new class extends Migration {
         DB::table('permissions')->insert([
             'id' => 64,
             'title' => 'Sửa tài xế',
-            'name' => 'editDriver',
+            'name' => 'updateDriver',
             'guard_name' => 'admin',
             'module_id' => 16,
             'created_at' => DB::raw('NOW()'),
@@ -999,7 +999,7 @@ return new class extends Migration {
         DB::table('permissions')->insert([
             'id' => 68,
             'title' => 'Sửa cửa hàng',
-            'name' => 'editStore',
+            'name' => 'updateStore',
             'guard_name' => 'admin',
             'module_id' => 17,
             'created_at' => DB::raw('NOW()'),

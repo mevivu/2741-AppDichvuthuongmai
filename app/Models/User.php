@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Enums\User\{Gender, UserRoles, UserVip};
+use App\Enums\User\{Gender, UserVip};
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable implements JWTSubject
@@ -27,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'username',
         'code',
+        'slug',
         'fullname',
         'email',
         'phone',
