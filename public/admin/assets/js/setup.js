@@ -107,6 +107,7 @@ $(document).on('change', 'input.toggle-vis', function (e) {
 
     // Get the column API object
     var column = columns.column($(this).attr('data-column'));
+    // console.log(column)
     // Toggle the visibility
     column.visible(!column.visible());
     addSelect2();
@@ -360,16 +361,7 @@ $(document).on('click', '.add-image-ckfinder', function(e){
     selectImageCKFinder($(this).data('preview'), $(this).data('input'), $(this).data('type'));
 });
 
-//envent toggle columns datatables
-$(document).on('change', 'input.toggle-vis', function (e) {
-	e.preventDefault();
 
-	// Get the column API object
-	var column = columns.column($(this).attr('data-column'));
-	// Toggle the visibility
-	column.visible(!column.visible());
-	addSelect2();
-});
 
 //thông báo lỗi khi chưa chọn bản ghi để xử lý
 $(document).on('submit', '#formMultiple', function(e) {

@@ -26,16 +26,6 @@
                     <x-input-phone name="phone" :value="old('phone')" :required="true" />
                 </div>
             </div>
-            <!-- address -->
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <x-input-pick-address :label="trans('address')" name="address"
-                                          :placeholder="trans('pickAddress')"
-                                          :required="true" />
-                    <x-input  hidden name="lat" />
-                    <x-input  hidden name="lng" />
-                </div>
-            </div>
             <!-- birthday -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
@@ -64,26 +54,24 @@
                 <div class="mb-3">
                     <label class="control-label">{{ __('Giới tính') }}:</label>
                     <x-select name="gender" :required="true">
-                        <x-select-option value="" :title="__('Chọn Giới tính')" />
                         @foreach ($gender as $key => $value)
                             <x-select-option :value="$key" :title="__($value)" />
                         @endforeach
                     </x-select>
                 </div>
             </div>
-
-            <!-- vip -->
-            <div class="col-md-6 col-12">
+            <!-- address -->
+            <div class="col-md-12 col-12">
                 <div class="mb-3">
-                    <label class="control-label">{{ __('Vip') }}:</label>
-                    <x-select name="vip" :required="true">
-                        <x-select-option value="" :title="__('Chọn Vip')" />
-                        @foreach ($vip as $key => $value)
-                            <x-select-option :value="$key" :title="__($value)" />
-                        @endforeach
-                    </x-select>
+                    <x-input-pick-address :label="trans('address')" name="address"
+                                          :placeholder="trans('pickAddress')"
+                                          :required="true" />
+                    <x-input  hidden name="lat" />
+                    <x-input  hidden name="lng" />
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>

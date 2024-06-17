@@ -181,5 +181,7 @@
     "vehicle_registration_front": "Giấy đăng ký xe mặt trước",
     "vehicle_registration_back": "Giấy đăng ký xe mặt sau",
     "driver_license_front": "GPLX mặt trước",
-    "driver_license_back": "GPLX mặt sau"
+    "driver_license_back": "GPLX mặt sau",
+    "exist_phone": "Số điện thoại đã được đăng ký",
+    "exist_email": "Email đã được đăng ký"
 }

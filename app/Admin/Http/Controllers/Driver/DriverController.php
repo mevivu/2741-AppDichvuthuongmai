@@ -10,8 +10,12 @@ use App\Admin\Repositories\Driver\DriverRepositoryInterface;
 use App\Admin\Services\Driver\DriverService;
 use App\Admin\Services\Driver\DriverServiceInterface;
 use App\Enums\Driver\DriverStatus;
-use App\Enums\User\UserGender;
+use App\Enums\User\Gender;
 use App\Enums\User\UserRoles;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class DriverController extends Controller
 {
@@ -60,24 +64,24 @@ class DriverController extends Controller
     {
 
         return $dataTable->render($this->view['index'], [
-            'breadcrums' => $this->crums->add(__('driver'))
+            'breadcrumbs' => $this->crums->add(__('driver'))
         ]);
     }
 
-    public function create()
+    public function create(): Factory|View|Application
     {
         $areas = $this->areaRepository->getAll();
 
         return view($this->view['create'], [
-            'gender' => UserGender::asSelectArray(),
+            'gender' => Gender::asSelectArray(),
             'roles' => UserRoles::asSelectArray(),
             'areas' => $areas,
             'order_accepted' =>DriverStatus::asSelectArray(),
-            'breadcrums' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('add'))
+            'breadcrumbs' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('add'))
         ]);
     }
 
-    public function store(DriverRequest $request)
+    public function store(DriverRequest $request): RedirectResponse
     {
         $response = $this->service->store($request);
 
@@ -87,14 +91,11 @@ class DriverController extends Controller
                 : to_route($this->route['index'])->with('success', __('notifySuccess'));
         }
 
-
-
         return back()->with('error', __('notifyFail'))->withInput();
-
 
     }
 
-    public function edit($id)
+    public function edit($id): Factory|View|Application
     {
         $driver = $this->repository->findOrFail($id);
         $areas = $this ->areaRepository->getAll();
@@ -103,19 +104,18 @@ class DriverController extends Controller
         return view(
             $this->view['edit'],
             [
-                'gender' => UserGender::asSelectArray(),
-                'roles' => UserRoles::asSelectArray(),
+                'gender' => Gender::asSelectArray(),
                 'order_accepted' =>DriverStatus::asSelectArray(),
                 'areas' => $areas,
                 'driver' => $driver,
-                'breadcrums' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('edit')),
+                'breadcrumbs' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('edit')),
 
 
             ],
         );
     }
 
-    public function update(DriverRequest $request)
+    public function update(DriverRequest $request): RedirectResponse
     {
 
         $response = $this->service->update($request);
@@ -129,7 +129,7 @@ class DriverController extends Controller
         return back()->with('error', __('notifyFail'));
     }
 
-    public function delete($id)
+    public function delete($id): RedirectResponse
     {
         $driver = $this->repository->findOrFail($id);
         $this->service->delete($id, $driver->user->id);

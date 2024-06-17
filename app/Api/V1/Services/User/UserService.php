@@ -6,7 +6,7 @@ use App\Api\V1\Services\User\UserServiceInterface;
 use  App\Api\V1\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
-use App\Enums\User\UserGender;
+use App\Enums\User\Gender;
 use App\Enums\User\UserRoles;
 use App\Enums\User\UserVip;
 
@@ -19,13 +19,13 @@ class UserService implements UserServiceInterface
      * @var array
      */
     protected $data;
-    
+
     protected $repository;
 
     public function __construct(UserRepositoryInterface $repository){
         $this->repository = $repository;
     }
-    
+
     public function store(Request $request){
 
         $this->data = $request->validated();
@@ -33,13 +33,13 @@ class UserService implements UserServiceInterface
         $this->data['code'] = $this->createCodeUser();
         $this->data['roles'] = UserRoles::Member();
         $this->data['vip'] = UserVip::Default();
-        $this->data['gender'] = UserGender::Male();
+        $this->data['gender'] = Gender::Male();
         $this->data['password'] = bcrypt($this->data['password']);
         return $this->repository->create($this->data);
     }
 
     public function update(Request $request){
-        
+
         $this->data = $request->validated();
 
         if(isset($this->data['password']) && $this->data['password']){

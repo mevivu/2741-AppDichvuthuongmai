@@ -48,33 +48,25 @@ class DriverService implements DriverServiceInterface
             DB::beginTransaction();
             $data = $request->validated();
 
-            //User Create
             $dataUser = $data['user_info'];
-            $dataUser['code'] = $this->createCodeUser();
             $dataUser['address'] = $data['user_address'];
             $dataUser['latitude'] = $data['user_lat'];
             $dataUser['longitude'] = $data['user_lng'];
+            $dataUser['code'] = uniqid_real();
             $dataUser['username'] = $dataUser['phone'];
-            $dataUser['roles'] = UserRoles::Driver;
-            $dataUser['vip'] = UserVip::Default;
-            if ($request->hasFile('user_info.feature_image')) {
-                $data['user_info']['avatar'] = $request->file('user_info.feature_image')->store('avatars', 'public');
-            }
+
             $user = $this->userRepository->create($dataUser);
             $userId = $user->id;
-            $data['user_id'] = $userId;
-
-            $this->userRepository->updateAttribute($userId, 'roles', UserRoles::Driver->value);
             if (!isset($data['auto_accept'])) {
                 $data['auto_accept'] = AutoAccept::Off;
             }
-
             $data['current_lat'] = $data['lat'];
             $data['current_lng'] = $data['lng'];
             $data['current_address'] = $data['address'];
-
+            $data['user_id'] = $userId;
             $driver_info = $this->repository->create($data);
             DB::commit();
+
             return $driver_info;
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -92,9 +84,6 @@ class DriverService implements DriverServiceInterface
             $dataUser['address'] = $data['user_address'];
             $dataUser['latitude'] = $data['user_lat'];
             $dataUser['longitude'] = $data['user_lng'];
-            if ($request->hasFile('user_info.feature_image')) {
-                $data['user_info']['avatar'] = $request->file('user_info.feature_image')->store('avatars', 'public');
-            }
 
             if (isset($dataUser['password']) && $dataUser['password']) {
                 $dataUser['password'] = bcrypt($dataUser['password']);
@@ -116,6 +105,7 @@ class DriverService implements DriverServiceInterface
             return $driver_info;
         } catch (\Throwable $e) {
             DB::rollBack();
+            throw $e;
         }
     }
 
