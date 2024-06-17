@@ -41,8 +41,8 @@
         $(document).on('click', '#openModalPickAddressUser', function (e) {
             ipAddress = $(this).data('input');
             ipAddressDetail = $(this).data('address-detail');
-            ipLat = $(this).data('lat');
-            ipLng = $(this).data('lng');
+            ipLat = $(this).data('user_lat');
+            ipLng = $(this).data('user_lng');
             $("#pickAddressUserDetail").val($(ipAddressDetail).val());
             addressDetail = $(ipAddressDetail).val();
         });
