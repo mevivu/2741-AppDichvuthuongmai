@@ -6,7 +6,7 @@ use App\Admin\Http\Controllers\Controller;
 use App\Admin\Http\Requests\Area\AreaRequest;
 use App\Admin\Repositories\Area\AreaRepositoryInterface;
 use App\Admin\Services\Area\AreaServiceInterface;
-use App\Admin\DataTables\Area\AreaDataTable;
+use App\Admin\DataTables\Area\ProductDataTable;
 use App\Enums\Area\AreaStatus;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -48,7 +48,7 @@ class AreaController extends Controller
             'delete' => 'admin.area.delete'
         ];
     }
-    public function index(AreaDataTable $dataTable){
+    public function index(ProductDataTable $dataTable){
 
         return $dataTable->render($this->view['index'], [
             'breadcrumbs' => $this->crums->add(__('area'))

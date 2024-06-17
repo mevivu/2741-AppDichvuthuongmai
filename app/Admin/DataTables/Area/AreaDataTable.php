@@ -4,14 +4,12 @@ namespace App\Admin\DataTables\Area;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Area\AreaRepositoryInterface;
-use App\Admin\Traits\GetConfig;
 use App\Enums\Area\AreaStatus;
 
 
 class AreaDataTable extends BaseDataTable
 {
 
-    use GetConfig;
 
     protected $nameTable = 'areaTable';
 
