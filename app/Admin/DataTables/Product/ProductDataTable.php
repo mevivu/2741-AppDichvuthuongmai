@@ -50,7 +50,7 @@ class ProductDataTable extends BaseDataTable
         $this->instanceDataTable = datatables()->eloquent($query)->addIndexColumn();
         $this->filterColumnCreatedAt();
         $this->filterColumnCategories();
-        $this->editColumnAvatar();
+//        $this->editColumnAvatar();
         $this->editColumnName();
         $this->editColumnInStock();
         $this->editColumnIsUserDiscount();

@@ -33,8 +33,6 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('active')->default(true);
             $table->tinyInteger('status')->default(1);
-            $table->tinyInteger('roles');
-            $table->tinyInteger('vip');
             $table->integer('notification_preference')->default(AutoNotification::Auto->value);
             $table->double('latitude', 10, 6)->nullable();
             $table->double('longitude', 10, 6)->nullable();

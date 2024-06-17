@@ -6,13 +6,12 @@ use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Driver\DriverRepositoryInterface;
 use App\Enums\Driver\AutoAccept;
 use App\Enums\Driver\DriverStatus;
-use App\Enums\User\UserRoles;
 use Illuminate\Database\Eloquent\Builder;
 
 class DriverDataTable extends BaseDataTable
 {
 
-    protected $nameTable = 'userDriverInfoTable';
+    protected $nameTable = 'DriverTable';
 
     public function __construct(
         DriverRepositoryInterface $repository
@@ -23,7 +22,7 @@ class DriverDataTable extends BaseDataTable
         parent::__construct();
     }
 
-    public function setView()
+    public function setView(): void
     {
         $this->view = [
             'action' => 'admin.drivers.datatable.action',
@@ -62,11 +61,7 @@ class DriverDataTable extends BaseDataTable
      */
     public function query(): Builder
     {
-        $query = $this->repository->getQueryBuilderOrderBy();
-
-        return $query->whereHas('user', function ($query) {
-            $query->where('roles', UserRoles::Driver);
-        });
+        return $this->repository->getQueryBuilderOrderBy();
     }
 
 
@@ -82,11 +77,6 @@ class DriverDataTable extends BaseDataTable
                 return view($this->view['fullname'], [
                     'id' => $driver->id,
                     'fullname' => $driver->user->fullname,
-                ])->render();
-            },
-            'roles' => function ($driver) {
-                return view($this->view['role'], [
-                    'role' => $driver->user->roles->value,
                 ])->render();
             },
 
@@ -113,7 +103,7 @@ class DriverDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['fullname', 'action', 'roles','order_accepted','auto_accept'];
+        $this->customRawColumns = ['fullname', 'action','order_accepted','auto_accept'];
     }
 
     public function setCustomFilterColumns(): void
@@ -124,11 +114,7 @@ class DriverDataTable extends BaseDataTable
                     $subQuery->where('fullname', 'like', '%' . $keyword . '%');
                 });
             },
-            'roles' => function ($query, $keyword) {
-                $query->whereHas('user', function ($subQuery) use ($keyword) {
-                    $subQuery->where('roles', 'like', '%' . $keyword . '%');
-                });
-            },
+
 
         ];
     }

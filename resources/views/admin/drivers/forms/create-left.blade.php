@@ -4,13 +4,7 @@
             Thông tin cá nhân
         </div>
         <div class="row card-body">
-            <!-- username -->
-            {{--            <div class="col-md-6 col-12">--}}
-            {{--                <div class="mb-3">--}}
-            {{--                    <label class="control-label">@lang('username'):</label>--}}
-            {{--                    <x-input name="username" :value="old('username')" :required="true" :placeholder="__('username')" />--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
+
             <!-- Fullname -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
@@ -79,16 +73,7 @@
                     </x-select>
                 </div>
             </div>
-            <!-- address -->
-{{--            <div class="col-md-12 col-12">--}}
-{{--                <div class="mb-3">--}}
-{{--                    <label class="control-label">@lang('pickDestinationAddress'):</label>--}}
-{{--                    <x-input readonly id="destination_address" type="text"--}}
-{{--                             name="destination_address"--}}
-{{--                             :value="old('destination_address')"--}}
-{{--                             :required="true"/>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+
 
             <!-- address -->
             <div class="col-12">

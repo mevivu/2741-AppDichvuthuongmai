@@ -51,7 +51,7 @@ class AreaController extends Controller
     public function index(AreaDataTable $dataTable){
 
         return $dataTable->render($this->view['index'], [
-            'breadcrums' => $this->crums->add(__('area'))
+            'breadcrumbs' => $this->crums->add(__('area'))
         ]);
     }
 

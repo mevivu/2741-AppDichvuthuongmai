@@ -6,7 +6,7 @@ use App\Api\V1\Services\Auth\AuthServiceInterface;
 use  App\Api\V1\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
-use App\Enums\User\UserGender;
+use App\Enums\User\Gender;
 use App\Enums\User\UserRoles;
 use App\Enums\User\UserVip;
 use Illuminate\Support\Facades\URL;
@@ -36,7 +36,7 @@ class AuthService implements AuthServiceInterface
         $data['code'] = $this->createCodeUser();
         $data['roles'] = UserRoles::Member();
         $data['vip'] = UserVip::Default();
-        $data['gender'] = UserGender::Male();
+        $data['gender'] = Gender::Male();
         $data['password'] = bcrypt($data['password']);
         return $this->repository->create($data);
     }

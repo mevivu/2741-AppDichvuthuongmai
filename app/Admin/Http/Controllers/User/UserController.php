@@ -7,24 +7,31 @@ use App\Admin\Http\Requests\User\UserRequest;
 use App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Admin\Services\User\UserServiceInterface;
 use App\Admin\DataTables\User\UserDataTable;
-use App\Enums\User\{UserVip, UserGender};
+use Exception;
+use App\Enums\User\{Gender, UserVip};
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
     public function __construct(
-        UserRepositoryInterface $repository, 
-        UserServiceInterface $service
-    ){
+        UserRepositoryInterface $repository,
+        UserServiceInterface    $service
+    )
+    {
 
         parent::__construct();
 
         $this->repository = $repository;
-        
+
         $this->service = $service;
-        
+
     }
 
-    public function getView(){
+    public function getView(): array
+    {
         return [
             'index' => 'admin.users.index',
             'create' => 'admin.users.create',
@@ -32,7 +39,8 @@ class UserController extends Controller
         ];
     }
 
-    public function getRoute(){
+    public function getRoute(): array
+    {
         return [
             'index' => 'admin.user.index',
             'create' => 'admin.user.create',
@@ -40,21 +48,26 @@ class UserController extends Controller
             'delete' => 'admin.user.delete'
         ];
     }
-    public function index(UserDataTable $dataTable){
+
+    public function index(UserDataTable $dataTable)
+    {
         return $dataTable->render($this->view['index'], [
-            'vip' => UserVip::asSelectArray(),
-            'gender' => UserGender::asSelectArray()
+            'gender' => Gender::asSelectArray()
         ]);
     }
 
-    public function create(){
+    public function create(): Factory|View|Application
+    {
+        $roles = $this->repository->getAllRolesByGuardName('web');
+
         return view($this->view['create'], [
-            'vip' => UserVip::asSelectArray(),
-            'gender' => UserGender::asSelectArray()
+            'gender' => Gender::asSelectArray(),
+            'roles' => $roles,
         ]);
     }
 
-    public function store(UserRequest $request){
+    public function store(UserRequest $request): RedirectResponse
+    {
 
         $instance = $this->service->store($request);
 
@@ -62,21 +75,28 @@ class UserController extends Controller
 
     }
 
-    public function edit($id){
-        
+    /**
+     * @throws Exception
+     */
+    public function edit($id): Factory|View|Application
+    {
+
         $instance = $this->repository->findOrFail($id);
+        $roles = $this->repository->getAllRolesByGuardName('web');
+
         return view(
-            $this->view['edit'], 
+            $this->view['edit'],
             [
-                'user' => $instance, 
-                'vip' => UserVip::asSelectArray(),
-                'gender' => UserGender::asSelectArray()
-            ], 
+                'user' => $instance,
+                'gender' => Gender::asSelectArray(),
+                'roles' => $roles,
+            ],
         );
 
     }
 
-    public function update(UserRequest $request){
+    public function update(UserRequest $request): RedirectResponse
+    {
 
         $this->service->update($request);
 
@@ -84,11 +104,12 @@ class UserController extends Controller
 
     }
 
-    public function delete($id){
+    public function delete($id): RedirectResponse
+    {
 
         $this->service->delete($id);
-        
+
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
-        
+
     }
 }

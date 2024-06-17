@@ -26,30 +26,7 @@
             </x-select>
         </div>
     </div>
-    <div class="mb-3 card">
-        <div class="card-header">
-            @lang('role')
-        </div>
-        <div class="card-body p-2">
-            <x-select name="user_info[roles]" :required="true">
-                @foreach ($roles as $key => $value)
-                    <x-select-option :option="$driver->user->roles->value" :value="$key" :title="__($value)"/>
-                @endforeach
-            </x-select>
-        </div>
-    </div>
-{{--    <div class="card mb-3">--}}
-{{--        <div class="card-header">--}}
-{{--            @lang('customer')--}}
-{{--        </div>--}}
-{{--        <div class="card-body p-2 wrap-select2 d-flex flex-column-reverse">--}}
-{{--            <x-select name="user_id" class="select2-bs5-ajax-many" :data-url="route('admin.search.select.user')"--}}
-{{--                      :required="true">--}}
-{{--                <x-select-option :option="$driver->user_id" :value="$driver->user_id"--}}
-{{--                                 :title="$driver->user->fullname . ' - ' . $driver->user->phone"/>--}}
-{{--            </x-select>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+
     <div class="card mb-3">
         <div class="card-header">
             @lang('avatar')

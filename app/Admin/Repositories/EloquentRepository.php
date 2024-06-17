@@ -3,6 +3,8 @@
 namespace App\Admin\Repositories;
 
 use App\Admin\Repositories\EloquentRepositoryInterface;
+use App\Models\Role;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -49,6 +51,7 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
             $this->getModel()
         );
     }
+
     /**
      * Get All
      * @return \Illuminate\Database\Eloquent\Collection|static[]
@@ -58,25 +61,28 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
 
         return $this->model->get();
     }
+
     /**
      * Find a single record
      *
      * @param int $id
      * @param array $relations
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
-    public function findOrFail($id){
+    public function findOrFail($id)
+    {
         $this->instance = $this->model->findOrFail($id);
         return $this->instance;
     }
+
     /**
      * Find a single record
      *
      * @param int $id
      * @param array $relations
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function find($id)
     {
@@ -84,6 +90,7 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
 
         return $this->instance;
     }
+
     /**
      * Create
      * @param array $data
@@ -93,6 +100,7 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
     {
         return $this->model->create($data);
     }
+
     /**
      * Update
      * @param $id
@@ -110,6 +118,7 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
 
         return false;
     }
+
     /**
      * Delete
      *
@@ -135,6 +144,7 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
 
         return $this->instance->get();
     }
+
     /**
      * get query
      * @return Builder
@@ -190,11 +200,13 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
         $model->$attribute = $value;
         $model->save();
     }
-    public function authorize($action = 'view', $guard = 'web'){
-        if(!$this->instance || auth()->guard($guard)->user()->can($action, $this->instance)){
+
+    public function authorize($action = 'view', $guard = 'web')
+    {
+        if (!$this->instance || auth()->guard($guard)->user()->can($action, $this->instance)) {
             return true;
         }
-        if(request()->routeIs('api.*')){
+        if (request()->routeIs('api.*')) {
             throw new HttpResponseException(
                 response()->json([
                     'status' => 401,
@@ -205,9 +217,46 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
         throw new HttpException(401, 'UNAUTHORIZED');
     }
 
-    public function getInstance(){
+    public function getInstance()
+    {
         return $this->instance;
     }
+
+
+    /**
+     * @throws Exception
+     */
+    public function syncModelRoles($modelId, $roles = []): int
+    {
+        $model = $this->find($modelId);
+
+        if (!is_array($roles)) {
+            $roles = [];
+        }
+
+        $model->syncRoles($roles);
+        return 1;
+    }
+
+    public function assignRoles(Model $model, array $rolesNames): bool
+    {
+        try {
+            $model->roles()->detach();
+
+            foreach ($rolesNames as $roleName) {
+                $role = Role::where('name', $roleName)->first();
+                if ($role) {
+                    $model->roles()->attach($role->id, ['model_type' => get_class($model)]);
+                }
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            report($e);
+            return false;
+        }
+    }
+
 
 
 }
