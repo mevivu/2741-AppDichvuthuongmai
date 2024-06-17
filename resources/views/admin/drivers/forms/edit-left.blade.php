@@ -63,8 +63,8 @@
                 <div class="mb-3">
                     <x-input-pick-address-user :label="trans('address')"  name="user_address" :value="$driver->user->address"
                                                :placeholder="trans('pickAddress')" :required="true"/>
-                    <x-input  type ="hidden" name="user_lat" :value="$driver->user->latitude"/>
-                    <x-input  type ="hidden" name="user_lng" :value="$driver->user->longitude"/>
+                    <input  type ="hidden" name="user_lat" value="{{$driver->user->latitude}}"/>
+                    <input  type ="hidden" name="user_lng" value="{{$driver->user->longitude}}"/>
                 </div>
             </div>
 
@@ -133,8 +133,8 @@
                                           :value="$driver->current_address"
                                           :placeholder="trans('pickup_address')"
                                           :required="true" />
-                    <x-input type ="hidden" name="lat" :value="$driver->current_lat" />
-                    <x-input type ="hidden" name="lng" :value="$driver->current_lng" />
+                    <input type="hidden" name="lat" value="{{ $driver->current_lat }}" />
+                    <input type ="hidden" name="lng" value="{{$driver->current_lng}}" />
                 </div>
             </div>
         </div>

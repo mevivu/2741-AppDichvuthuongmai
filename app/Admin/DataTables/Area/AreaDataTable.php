@@ -80,11 +80,6 @@ class AreaDataTable extends BaseDataTable
         $this->customRawColumns = ['name', 'action', 'status'];
     }
 
-    public function setCustomFilterColumns(): void
-    {
-        $this->customFilterColumns = [
 
-        ];
-    }
 
 }

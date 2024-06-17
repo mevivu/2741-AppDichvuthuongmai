@@ -4,134 +4,85 @@ namespace App\Admin\DataTables\PostCategory;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\PostCategory\PostCategoryRepositoryInterface;
-use App\Admin\Traits\GetConfig;
+use App\Enums\DefaultStatus;
+use App\Models\PostCategory;
+
 
 class PostCategoryDataTable extends BaseDataTable
 {
 
-    use GetConfig;
-    /**
-     * Available button actions. When calling an action, the value will be used
-     * as the function name (so it should be available)
-     * If you want to add or disable an action, overload and modify this property.
-     *
-     * @var array
-     */
-    // protected array $actions = ['pageLength', 'excel', 'reset', 'reload'];
-    protected array $actions = ['reset', 'reload'];
+
+    protected $nameTable = 'postCategoryTable';
+
 
     public function __construct(
         PostCategoryRepositoryInterface $repository
-    ){
+    )
+    {
+        $this->repository = $repository;
+
         parent::__construct();
 
-        $this->repository = $repository;
     }
 
-    public function getView(){
-        return [
-            'action' => 'admin.posts_categories.datatable.action',
-            'editlink' => 'admin.posts_categories.datatable.editlink',
+    public function setView(): void
+    {
+        $this->view = [
+            'action' => 'admin.areas.datatable.action',
+            'name' => 'admin.areas.datatable.name',
+            'status' => 'admin.areas.datatable.status',
         ];
     }
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
-     */
-    public function dataTable($query)
+
+    public function setColumnSearch(): void
     {
-        $this->instanceDataTable = datatables()->collection($query);
-        $this->editColumnName();
-        $this->editColumnStatus();
-        $this->editColumnCreatedAt();
-        $this->addColumnAction();
-        $this->rawColumnsNew();
-        return $this->instanceDataTable;
+
+        $this->columnAllSearch = [0, 1, 2];
+
+        $this->columnSearchDate = [2];
+
+        $this->columnSearchSelect = [
+
+            [
+                'column' => 1,
+                'data' => DefaultStatus::asSelectArray()
+            ],
+        ];
     }
 
-    /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\PostCategory $model
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
     public function query()
     {
-        $query = $this->repository->getFlatTree();
-        return $query;
+        $ids = $this->repository->getFlatTree()->pluck('id');
+        return PostCategory::whereIn('id', $ids);
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
+    protected function setCustomColumns(): void
     {
-        $this->instanceHtml = $this->builder()
-        ->setTableId('postCategoryTable')
-        ->columns($this->getColumns())
-        ->minifiedAjax()
-        ->dom('Bfrtip')
-        ->orderBy(0)
-        ->selectStyleSingle();
-
-        $this->htmlParameters();
-
-        return $this->instanceHtml;
+        $this->customColumns = config('datatables_columns.post_category', []);
     }
 
-    /**
-     * Get columns.
-     *
-     * @return array
-     */
-    protected function setCustomColumns(){
-        $this->customColumns = $this->traitGetConfigDatatableColumns('post_category');
-    }
-
-    protected function filename(): string
+    protected function setCustomEditColumns(): void
     {
-        return 'post_category_' . date('YmdHis');
+        $this->customEditColumns = [
+            'name' => $this->view['name'],
+            'created_at' => '{{ format_date($created_at) }}',
+            'status' => $this->view['status'],
+        ];
     }
 
 
-    protected function editColumnName(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('name', $this->view['editlink']);
-    }
-    protected function editColumnStatus(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('status', function($admin){
-            return $admin->status->description;
-        });
-    }
-    protected function editColumnCreatedAt(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('created_at', '{{ date("d-m-Y", strtotime($created_at)) }}');
-    }
-    protected function addColumnAction(){
-        $this->instanceDataTable = $this->instanceDataTable->addColumn('action', $this->view['action']);
-    }
-    protected function rawColumnsNew(){
-        $this->instanceDataTable = $this->instanceDataTable->rawColumns(['name', 'action']);
-    }
-    protected function htmlParameters(){
-
-        $this->parameters['buttons'] = $this->actions;
-
-        $this->parameters['initComplete'] = "function () {
-
-            moveSearchColumnsDatatable('#postCategoryTable');
-
-            searchColumsDataTable(this);
-        }";
-
-        $this->instanceHtml = $this->instanceHtml
-        ->parameters($this->parameters);
-    }
-
-    protected function setColumnSearch()
+    protected function setCustomAddColumns(): void
     {
-        // TODO: Implement setColumnSearch() method.
+        $this->customAddColumns = [
+            'action' => $this->view['action'],
+        ];
     }
+
+    protected function setCustomRawColumns(): void
+    {
+        $this->customRawColumns = ['name', 'action', 'status'];
+    }
+
+
+
 }

@@ -9,12 +9,16 @@ use App\Admin\Repositories\PostCategory\PostCategoryRepositoryInterface;
 use App\Admin\Services\Post\PostServiceInterface;
 use App\Admin\DataTables\Post\PostDataTable;
 use App\Enums\Post\PostStatus;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
 {
     protected $repositoryPostCategory;
     public function __construct(
-        PostRepositoryInterface $repository, 
+        PostRepositoryInterface $repository,
         PostCategoryRepositoryInterface $repositoryPostCategory,
         PostServiceInterface $service
     ){
@@ -23,12 +27,13 @@ class PostController extends Controller
 
         $this->repository = $repository;
         $this->repositoryPostCategory = $repositoryPostCategory;
-        
+
         $this->service = $service;
-        
+
     }
 
-    public function getView(){
+    public function getView(): array
+    {
         return [
             'index' => 'admin.posts.index',
             'create' => 'admin.posts.create',
@@ -36,7 +41,8 @@ class PostController extends Controller
         ];
     }
 
-    public function getRoute(){
+    public function getRoute(): array
+    {
         return [
             'index' => 'admin.post.index',
             'create' => 'admin.post.create',
@@ -54,7 +60,8 @@ class PostController extends Controller
         ]);
     }
 
-    public function create(){
+    public function create(): Factory|View|Application
+    {
         $categories = $this->repositoryPostCategory->getFlatTree();
         return view($this->view['create'], [
             'categories' => $categories,
@@ -62,30 +69,39 @@ class PostController extends Controller
         ]);
     }
 
-    public function store(PostRequest $request){
+    public function store(PostRequest $request): RedirectResponse
+    {
 
-        $instance = $this->service->store($request);
+        $response = $this->service->store($request);
 
-        return to_route($this->route['edit'], $instance->id);
+        if($response){
+            return $request->input('submitter') == 'save'
+                ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
+                : to_route($this->route['index'])->with('success', __('notifySuccess'));
+        }
+
+        return back()->with('error', __('notifyFail'))->withInput();
 
     }
 
-    public function edit($id){
+    public function edit($id): Factory|View|Application
+    {
         $categories = $this->repositoryPostCategory->getFlatTree();
-        
+
         $post = $this->repository->findOrFailWithRelations($id);
         return view(
-            $this->view['edit'], 
+            $this->view['edit'],
             [
                 'categories' => $categories,
-                'post' => $post, 
+                'post' => $post,
                 'status' => PostStatus::asSelectArray()
-            ], 
+            ],
         );
 
     }
 
-    public function update(PostRequest $request){
+    public function update(PostRequest $request): RedirectResponse
+    {
 
         $respone = $this->service->update($request);
         if($respone){
@@ -94,12 +110,13 @@ class PostController extends Controller
         return back()->with('error', __('notifyFail'));
     }
 
-    public function delete($id){
+    public function delete($id): RedirectResponse
+    {
 
         $this->service->delete($id);
-        
+
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
-        
+
     }
-	
+
 }
