@@ -29,8 +29,8 @@
 @endpush
 @push('custom-js')
     @include('admin.layouts.modal.modal-pick-address')
-    @include('admin.scripts.google-map-input')
     @include('admin.scripts.google-map-user-input')
+    @include('admin.scripts.google-map-input')
     @include('admin.layouts.modal.modal-user-address')
 
 
