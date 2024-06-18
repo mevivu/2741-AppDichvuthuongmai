@@ -65,9 +65,9 @@ class DriverRequest extends BaseRequest
             'bank_account_name' => ['nullable', 'string', 'max:255'],
             'bank_account_number' => ['nullable', 'string', 'max:50'],
             'feature_image' => ['nullable'],
-            'address' => ['required'],
-            'lat' => ['required'],
-            'lng' => ['required'],
+            'end_address' => ['required'],
+            'end_lat' => ['required'],
+            'end_lng' => ['required'],
             'auto_accept' => ['nullable ', new Enum(AutoAccept::class)],
             'order_accepted' => ['required ', new Enum(DriverStatus::class)],
             'id_card_front' => ['required'],
@@ -88,9 +88,9 @@ class DriverRequest extends BaseRequest
                 'email',
                 Rule::unique('users', 'email')->ignore($user_id, 'id')
             ],
-            'user_lat' => 'nullable',
-            'user_lng' => 'nullable',
-            'user_address' => 'nullable',
+            'lat' => 'nullable',
+            'lng' => 'nullable',
+            'address' => 'nullable',
         ];
     }
 

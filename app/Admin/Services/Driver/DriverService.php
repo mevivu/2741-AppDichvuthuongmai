@@ -81,9 +81,9 @@ class DriverService implements DriverServiceInterface
             DB::beginTransaction();
             $data = $request->validated();
             $dataUser = $data['user_info'];
-            $dataUser['address'] = $data['user_address'];
-            $dataUser['latitude'] = $data['user_lat'];
-            $dataUser['longitude'] = $data['user_lng'];
+            $dataUser['address'] = $data['address'];
+            $dataUser['latitude'] = $data['lat'];
+            $dataUser['longitude'] = $data['lng'];
 
             if (isset($dataUser['password']) && $dataUser['password']) {
                 $dataUser['password'] = bcrypt($dataUser['password']);
@@ -95,9 +95,9 @@ class DriverService implements DriverServiceInterface
             if (!array_key_exists('auto_accept', $data)) {
                 $data['auto_accept'] = AutoAccept::Off->value;
             }
-            $data['current_lat'] = $data['lat'];
-            $data['current_lng'] = $data['lng'];
-            $data['current_address'] = $data['address'];
+            $data['current_lat'] = $data['end_lat'];
+            $data['current_lng'] = $data['end_lng'];
+            $data['current_address'] = $data['end_address'];
 
             $driver_info = $this->repository->update($data['id'], $data);
             DB::commit();

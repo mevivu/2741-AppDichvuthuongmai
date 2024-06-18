@@ -23,6 +23,10 @@
         if (typeof initMap === 'function') {
             initMap();
         }
+        if (typeof initEndMap === 'function') {
+            initEndMap();
+        }
+
         // if (typeof initDestinationMap === 'function') {
         //     initDestinationMap();
         // }
