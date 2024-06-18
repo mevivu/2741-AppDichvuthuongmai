@@ -102,6 +102,30 @@ return [
         ]
     ],
     [
+        'title' => 'Topping',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-brand-producthunt"></i>',
+        'roles' => [],
+        'permissions' => ['all', 'createTopping', 'viewTopping', 'updateTopping', 'deleteTopping'],
+        'sub' => [
+            [
+                'title' => 'Thêm topping',
+                'routeName' => 'admin.topping.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createTopping'],
+            ],
+            [
+                'title' => 'DS Topping',
+                'routeName' => 'admin.topping.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewTopping'],
+            ],
+
+        ]
+    ],
+    [
         'title' => 'Cửa hàng',
         'routeName' => null,
         'icon' => '<i class="ti ti-article"></i>',
@@ -268,6 +292,29 @@ return [
                 'icon' => '<i class="ti ti-list"></i>',
                 'roles' => [],
 				'permissions' => ['viewUser'],
+            ],
+        ]
+    ],
+    [
+        'title' => 'Phương tiện',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-car"></i>',
+        'roles' => [],
+        'permissions' => ['all', 'viewVehicle', 'updateVehicle', 'createVehicle', 'deleteVehicle'],
+        'sub' => [
+            [
+                'title' => 'add',
+                'routeName' => 'admin.vehicle.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['all', 'createVehicle'],
+            ],
+            [
+                'title' => 'DS phương tiện',
+                'routeName' => 'admin.vehicle.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['all', 'viewVehicle'],
             ],
         ]
     ],

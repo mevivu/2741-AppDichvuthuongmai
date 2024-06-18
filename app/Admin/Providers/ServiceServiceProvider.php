@@ -27,6 +27,8 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Admin\Services\Store\StoreServiceInterface' => 'App\Admin\Services\Store\StoreService',
         'App\Admin\Services\Notification\NotificationServiceInterface' => 'App\Admin\Services\Notification\NotificationService',
         'App\Admin\Services\DiscountCode\DiscountCodeServiceInterface' => 'App\Admin\Services\DiscountCode\DiscountCodeService',
+        'App\Admin\Services\Topping\ToppingServiceInterface' => 'App\Admin\Services\Topping\ToppingService',
+        'App\Admin\Services\Vehicle\VehicleServiceInterface' => 'App\Admin\Services\Vehicle\VehicleService',
 
     ];
     /**

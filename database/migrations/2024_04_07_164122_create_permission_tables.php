@@ -307,7 +307,25 @@ return new class extends Migration {
             'updated_at' => DB::raw('NOW()')
         ]);
 
+        // Module Topping
+        DB::table('modules')->insert([
+            'id' => 20,
+            'name' => 'Quản lý topping',
+            'description' => '<p>Quản lý topping</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
 
+        // Module Vehicle
+        DB::table('modules')->insert([
+            'id' => 21,
+            'name' => 'Quản lý phương tiện',
+            'description' => '<p>Quản lý phương tiện</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
 
         // permissions
         DB::table('permissions')->insert([
@@ -1164,6 +1182,120 @@ return new class extends Migration {
         ]);
 
         /** End Permission DiscountCode */
+
+        /** start Permission Topping */
+        DB::table('permissions')->insert([
+            'id' => 79,
+            'title' => 'Thêm topping',
+            'name' => 'createTopping',
+            'guard_name' => 'admin',
+            'module_id' => 20,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 80,
+            'title' => 'Sửa topping',
+            'name' => 'updateTopping',
+            'guard_name' => 'admin',
+            'module_id' => 20,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 81,
+            'title' => 'Xoá topping',
+            'name' => 'deleteTopping',
+            'guard_name' => 'admin',
+            'module_id' => 20,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 82,
+            'title' => 'Xem topping',
+            'name' => 'viewTopping',
+            'guard_name' => 'admin',
+            'module_id' => 20,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 79,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 80,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 81,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 82,
+            'role_id' => 1
+        ]);
+
+        /** End Permission Topping */
+
+        /** start Permission Vehicle */
+        DB::table('permissions')->insert([
+            'id' => 83,
+            'title' => 'Thêm phương tiện',
+            'name' => 'createVehicle',
+            'guard_name' => 'admin',
+            'module_id' => 21,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 84,
+            'title' => 'Sửa phương tiện',
+            'name' => 'updateVehicle',
+            'guard_name' => 'admin',
+            'module_id' => 21,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 85,
+            'title' => 'Xoá phương tiện',
+            'name' => 'deleteVehicle',
+            'guard_name' => 'admin',
+            'module_id' => 21,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 86,
+            'title' => 'Xem phương tiện',
+            'name' => 'viewVehicle',
+            'guard_name' => 'admin',
+            'module_id' => 21,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 83,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 84,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 85,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 86,
+            'role_id' => 1
+        ]);
+
+        /** End Permission Vehicle */
 
 
         //seeding model_has_roles
