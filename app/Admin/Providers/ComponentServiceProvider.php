@@ -42,6 +42,7 @@ class ComponentServiceProvider extends ServiceProvider
         Blade::component('input-file-ckfinder', \App\Admin\View\Components\Input\InputFileCkfinder::class);
         Blade::component('input-pick-address', \App\Admin\View\Components\Input\InputPickAddress::class);
         Blade::component('input-pick-address-user', \App\Admin\View\Components\Input\InputPickAddressUser::class);
+        Blade::component('input-pick-end-address', \App\Admin\View\Components\Input\InputPickEndAddress::class);
 
 
 
