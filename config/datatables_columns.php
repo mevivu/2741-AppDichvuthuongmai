@@ -68,6 +68,57 @@ return [
         ],
 
     ],
+    'discount_code' => [
+        'DT_RowIndex' => [
+            'title' => 'STT',
+            'width' => '20px',
+            'orderable' => false
+        ],
+        'name' => [
+            'title' => 'Tên mã',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'discount' => [
+            'title' => 'Giảm giá',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'apply_date' => [
+            'title' => 'Ngày áp dụng',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'expiration_date' => [
+            'title' => 'Ngày hết hạn',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'status' => [
+            'title' => 'Trạng thái',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'apply_qty' => [
+            'title' => 'Số lượng áp dụng',
+            'orderable' => false,
+            'visible' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'maximum_qty' => [
+            'title' => 'Số lượng tối đa',
+            'orderable' => false,
+            'visible' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'action' => [
+            'title' => 'Thao tác',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
 	'module' => [
 		'id' => [
             'title' => 'ID',
