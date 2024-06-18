@@ -26,8 +26,11 @@
         <div class="container-xl">
             <div class="card">
                 <div class="card-header justify-content-between">
-                    <h2 class="mb-0">{{ __('list') }}</h2>
-                    {{-- <x-link :href="route('admin.product.create')" class="btn btn-primary"><i class="ti ti-plus"></i>{{ __('Thêm đơn hàng') }}</x-link> --}}
+                    <h2 class="mb-0">@lang('list')</h2>
+                    <x-link :href="route('admin.category.create')" class="btn btn-primary">
+                        <i class="ti ti-plus"></i>
+                        <span class="ms-1">@lang('add')</span>
+                    </x-link>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive position-relative">
@@ -49,6 +52,9 @@
 
     {{ $dataTable->scripts() }}
 
-    @include('admin.stores.categories.scripts.datatable')
+    @include('admin.scripts.datatable-toggle-columns', [
+        'id_table' => $dataTable->getTableAttribute('id')
+    ])
 
 @endpush
+
