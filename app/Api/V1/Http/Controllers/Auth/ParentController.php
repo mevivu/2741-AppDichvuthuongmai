@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
- * @group Người dùng
+ * @group Phụ huynh
  */
 class ParentController extends Controller
 {
