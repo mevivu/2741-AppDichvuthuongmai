@@ -30,6 +30,7 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Admin\Repositories\StoreCategory\StoreCategoryRepositoryInterface' => 'App\Admin\Repositories\StoreCategory\StoreCategoryRepository',
         'App\Admin\Repositories\Store\StoreRepositoryInterface' => 'App\Admin\Repositories\Store\StoreRepository',
         'App\Admin\Repositories\Notification\NotificationRepositoryInterface' => 'App\Admin\Repositories\Notification\NotificationRepository',
+        'App\Admin\Repositories\DiscountCode\DiscountCodeRepositoryInterface' => 'App\Admin\Repositories\DiscountCode\DiscountCodeRepository',
 
 
     ];

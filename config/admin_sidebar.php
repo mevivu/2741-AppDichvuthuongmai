@@ -79,6 +79,29 @@ return [
         ]
     ],
     [
+        'title' => 'Mã giảm giá',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-ticket"></i>',
+        'roles' => [],
+        'permissions' => ['all', 'createDiscountCode', 'viewDiscountCode', 'updateDiscountCode', 'deleteDiscountCode'],
+        'sub' => [
+            [
+                'title' => 'Thêm mã giảm giá',
+                'routeName' => 'admin.discount.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['all', 'createDiscountCode'],
+            ],
+            [
+                'title' => 'DS mã giảm giá',
+                'routeName' => 'admin.discount.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['all', 'viewDiscountCode'],
+            ],
+        ]
+    ],
+    [
         'title' => 'Cửa hàng',
         'routeName' => null,
         'icon' => '<i class="ti ti-article"></i>',

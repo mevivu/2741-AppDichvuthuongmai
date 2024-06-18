@@ -297,6 +297,16 @@ return new class extends Migration {
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()')
         ]);
+        // Module Discount Code
+        DB::table('modules')->insert([
+            'id' => 19,
+            'name' => 'Quản lý mã giảm giá',
+            'description' => '<p>Quản lý mã giảm giá</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
 
 
         // permissions
@@ -1023,7 +1033,6 @@ return new class extends Migration {
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()')
         ]);
-
         DB::table('role_has_permissions')->insert([
             'permission_id' => 67,
             'role_id' => 1
@@ -1040,7 +1049,121 @@ return new class extends Migration {
             'permission_id' => 70,
             'role_id' => 1
         ]);
-        /** End Permission Store */
+        // end Permission Store
+
+        /** start Permission Category */
+        DB::table('permissions')->insert([
+            'id' => 71,
+            'title' => 'Thêm danh mục',
+            'name' => 'createCategory',
+            'guard_name' => 'admin',
+            'module_id' => 18,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 72,
+            'title' => 'Sửa danh mục',
+            'name' => 'updateCategory',
+            'guard_name' => 'admin',
+            'module_id' => 18,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 73,
+            'title' => 'Xoá danh mục',
+            'name' => 'deleteCategory',
+            'guard_name' => 'admin',
+            'module_id' => 18,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 74,
+            'title' => 'Xem danh mục',
+            'name' => 'viewCategory',
+            'guard_name' => 'admin',
+            'module_id' => 18,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 71,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 72,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 73,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 74,
+            'role_id' => 1
+        ]);
+
+        // end Permission Category
+
+        /** start Permission Discount Code */
+        DB::table('permissions')->insert([
+            'id' => 75,
+            'title' => 'Thêm mã giảm giá',
+            'name' => 'createDiscountCode',
+            'guard_name' => 'admin',
+            'module_id' => 19,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 76,
+            'title' => 'Sửa mã giảm giá',
+            'name' => 'updateDiscountCode',
+            'guard_name' => 'admin',
+            'module_id' => 19,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 77,
+            'title' => 'Xoá mã giảm giá',
+            'name' => 'deleteDiscountCode',
+            'guard_name' => 'admin',
+            'module_id' => 19,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 78,
+            'title' => 'Xem mã giảm giá',
+            'name' => 'viewDiscountCode',
+            'guard_name' => 'admin',
+            'module_id' => 19,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 75,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 76,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 77,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 78,
+            'role_id' => 1
+        ]);
+
+        /** End Permission DiscountCode */
 
 
         //seeding model_has_roles

@@ -100,6 +100,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
     Route::prefix('/search')->as('search.')->group(function () {
         Route::prefix('/select')->as('select.')->group(function () {
             Route::get('/user', [App\Admin\Http\Controllers\User\UserSearchSelectController::class, 'selectSearch'])->name('user');
+            Route::get('/product', [App\Admin\Http\Controllers\Product\ProductSearchSelectController::class, 'selectSearch'])->name('product');
 
         });
     });
@@ -157,6 +158,31 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 
     });
 
+    //Discount
+    Route::controller(App\Admin\Http\Controllers\DiscountCode\DiscountCodeController::class)
+        ->prefix('/discounts')
+        ->as('discount.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createDiscountCode', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+            Route::group(['middleware' => ['permission:viewDiscountCode', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
+
+            Route::group(['middleware' => ['permission:updateDiscountCode', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+
+            });
+
+            Route::group(['middleware' => ['permission:deleteDiscountCode', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+
+            });
+
+        });
 
 
 
