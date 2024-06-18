@@ -45,6 +45,7 @@
             ipLngUser = $(this).data('lng');
             $("#pickAddressUserDetail").val($(ipAddressDetailUser).val());
             addressDetailUser = $(ipAddressDetail).val();
+
         });
 
         $(document).on('change', '#pickAddressUserDetail', function (e) {
