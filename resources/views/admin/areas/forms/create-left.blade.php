@@ -13,7 +13,10 @@
 
             <div class="col-12">
                 <div class="mb-3">
-                    <x-input-pick-address :label="trans('address')" name="address" :placeholder="trans('pickAddress')" :required="true" />
+                    <x-input-pick-address :label="trans('address')"
+                                          name="address"
+                                          :placeholder="trans('pickAddress')"
+                                          :required="true" />
                     <x-input type="hidden" name="lat" />
                     <x-input type="hidden" name="lng" />
                 </div>

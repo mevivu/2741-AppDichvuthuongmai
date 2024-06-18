@@ -34,9 +34,6 @@ class AuthService implements AuthServiceInterface
         $data = $request->validated();
         $data['username'] = $data['phone'];
         $data['code'] = $this->createCodeUser();
-        $data['roles'] = UserRoles::Member();
-        $data['vip'] = UserVip::Default();
-        $data['gender'] = Gender::Male();
         $data['password'] = bcrypt($data['password']);
         return $this->repository->create($data);
     }

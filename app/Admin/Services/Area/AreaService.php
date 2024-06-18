@@ -32,7 +32,7 @@ class AreaService implements AreaServiceInterface
             $data['boundaries'] = json_encode($bounds);
         }
 
-//        return $this->repository->create($data);
+        return $this->repository->create($data);
     }
 
     /**
