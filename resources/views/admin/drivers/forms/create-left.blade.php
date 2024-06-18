@@ -78,12 +78,12 @@
             <!-- address -->
             <div class="col-12">
                 <div class="mb-3">
-                    <x-input-pick-address-user :label="trans('pickup_address')"
-                                          name="user_address"
+                    <x-input-pick-address :label="trans('pickup_address')"
+                                          name="address"
                                           :placeholder="trans('pickup_address')"
                                           :required="true" />
-                    <x-input type="hidden" name="user_lat" />
-                    <x-input type="hidden" name="user_lng" />
+                    <x-input type="hidden" name="lat" />
+                    <x-input type="hidden" name="lng" />
                 </div>
             </div>
         </div>
@@ -144,12 +144,12 @@
             <!-- address -->
             <div class="col-12">
                 <div class="mb-3">
-                    <x-input-pick-address :label="trans('pickup_address')"
-                                          name="address"
+                    <x-input-pick-end-address :label="trans('pickup_address')"
+                                          name="end_address"
                                           :placeholder="trans('pickup_address')"
                                           :required="true" />
-                    <x-input type="hidden" name="lat" />
-                    <x-input type="hidden" name="lng" />
+                    <x-input type="hidden" name="end_lat" />
+                    <x-input type="hidden" name="end_lng" />
                 </div>
             </div>
             {{-- id_card_front --}}
