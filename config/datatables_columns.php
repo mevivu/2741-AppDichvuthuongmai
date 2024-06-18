@@ -119,6 +119,94 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
+    'topping' => [
+        'name' => [
+            'title' => 'Tên',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'price' => [
+            'price' => 'Giá',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'status' => [
+            'title' => 'Trạng thái',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'avatar' => [
+            'title' => 'Ảnh',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => false
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
+    'vehicle' => [
+        'id' => [
+            'title' => 'Mã phương tiện',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'user' => [
+            'title' => 'Chủ xe',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'name' => [
+            'title' => 'Tên xe',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'brand' => [
+            'title' => 'Hãng',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'color' => [
+            'title' => 'Màu phương tiện',
+            'orderable' => false,
+            'visible' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'type' => [
+            'title' => 'Loại xe',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'license_plate' => [
+            'title' => 'biển số xe',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'created_at' => [
+            'title' => 'Ngày đặt',
+            'orderable' => false,
+            'visible' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'action' => [
+            'title' => 'Thao tác',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
 	'module' => [
 		'id' => [
             'title' => 'ID',

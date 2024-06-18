@@ -184,7 +184,57 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 
         });
 
+    //Topping
+    Route::controller(App\Admin\Http\Controllers\Topping\ToppingController::class)
+        ->prefix('/toppings')
+        ->as('topping.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createDiscountCode', 'auth:admin']], function () {
+                Route::get('/add', 'create')->name('create');
+                Route::post('/add', 'store')->name('store');
 
+            });
+            Route::group(['middleware' => ['permission:viewDiscountCode', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+
+            });
+
+            Route::group(['middleware' => ['permission:updateDiscountCode', 'auth:admin']], function () {
+                Route::put('/edit', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteDiscountCode', 'auth:admin']], function () {
+                Route::delete('/delete/{id}', 'delete')->name('delete');
+            });
+
+        });
+
+    //Vehicle
+    Route::controller(App\Admin\Http\Controllers\Vehicle\VehicleController::class)
+        ->prefix('/vehicles')
+        ->as('vehicle.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createDiscountCode', 'auth:admin']], function () {
+                Route::get('/add', 'create')->name('create');
+                Route::post('/add', 'store')->name('store');
+
+            });
+            Route::group(['middleware' => ['permission:viewDiscountCode', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+
+            });
+
+            Route::group(['middleware' => ['permission:updateDiscountCode', 'auth:admin']], function () {
+                Route::put('/edit', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteDiscountCode', 'auth:admin']], function () {
+                Route::delete('/delete/{id}', 'delete')->name('delete');
+            });
+
+        });
 
     //***** -- Module -- ******* //
     Route::prefix('/module')->as('module.')->group(function(){
