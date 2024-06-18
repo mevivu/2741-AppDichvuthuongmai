@@ -54,8 +54,10 @@ class DriverService implements DriverServiceInterface
             $dataUser['longitude'] = $data['lng'];
             $dataUser['code'] = uniqid_real();
             $dataUser['username'] = $dataUser['phone'];
-
             $user = $this->userRepository->create($dataUser);
+            // roles
+            $roles = ['driver'];
+            $this->repository->assignRoles($user, $roles);
             $userId = $user->id;
             if (!isset($data['auto_accept'])) {
                 $data['auto_accept'] = AutoAccept::Off;
