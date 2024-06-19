@@ -50,17 +50,6 @@ class VehicleDataTable extends BaseDataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function dataTable($query)
-    {
-        $this->instanceDataTable = datatables()->eloquent($query)->addIndexColumn();
-        $this->addColumnAction();
-        $this->editColumnId();
-        $this->editColumnType();
-        $this->editColumnLicensePlate();
-        $this->editColumnUser();
-        $this->rawColumnsNew();
-        return $this->instanceDataTable;
-    }
     /**
      * Get query source of dataTable.
      *
@@ -79,9 +68,9 @@ class VehicleDataTable extends BaseDataTable
      * @return array
      * Hàm kết nối tới datatable_columns Config
      */
-    protected function setCustomColumns()
+    protected function setCustomColumns(): void
     {
-        $this->customColumns = $this->traitGetConfigDatatableColumns('vehicle');
+        $this->customColumns = config('datatables_columns.vehicle', []);
     }
 
     protected function setCustomAddColumns()
@@ -94,67 +83,15 @@ class VehicleDataTable extends BaseDataTable
     {
         $this->customEditColumns = [
             'type' => $this->view['type'],
+            'id' => $this->view['editlink'],
+            'user' => $this->view['user'],
+            'desc' => $this->view['desc'],
         ];
     }
-    protected function addColumnAction()
+
+    protected function setCustomRawColumns()
     {
-        $this->instanceDataTable = $this->instanceDataTable->addColumn('action', $this->view['action']);
-    }
-
-    protected function editColumnId()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('id', $this->view['editlink']);
-    }
-
-    protected function editColumnUser()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('user', $this->view['user']);
-    }
-
-    protected function editColumnType()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('type', $this->view['type']);
-    }
-
-    protected function editColumnLicensePlate()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('license_plate', $this->view['desc']);
-    }
-
-    protected function rawColumnsNew()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->rawColumns(['id', 'user', 'type', 'action', 'license_plate']);
-    }
-
-    public function html()
-    {
-        $this->instanceHtml = $this->builder()
-            ->setTableId('vehicleTable')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(0)
-            ->selectStyleSingle();
-
-        $this->htmlParameters();
-
-        return $this->instanceHtml;
-    }
-
-    protected function htmlParameters()
-    {
-
-        $this->parameters['buttons'] = $this->actions;
-
-        $this->parameters['initComplete'] = "function () {
-
-            moveSearchColumnsDatatable('#vehicleTable');
-
-            searchColumsDataTable(this);
-        }";
-
-        $this->instanceHtml = $this->instanceHtml
-            ->parameters($this->parameters);
+        $this->customRawColumns = ['id', 'user', 'type', 'action', 'desc'];
     }
 
     protected function setColumnSearch()
