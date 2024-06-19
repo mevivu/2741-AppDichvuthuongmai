@@ -28,30 +28,14 @@ class SliderItemDataTable extends BaseDataTable
         $this->repository = $repository;
     }
 
-    public function getView(){
-        return [
+    public function setView(){
+        $this->view = [
             'action' => 'admin.sliders.items.datatable.action',
             'editlink' => 'admin.sliders.items.datatable.editlink',
             'image' => 'admin.sliders.items.datatable.image',
         ];
     }
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
-     */
-    public function dataTable($query)
-    {
-        $this->instanceDataTable = datatables()->eloquent($query);
-        $this->editColumnTitle();
-        $this->editColumnImage();
-        $this->editColumnCreatedAt();
-        $this->addColumnAction();
-        $this->rawColumnsNew();
-        return $this->instanceDataTable;
-    }
-    
+
     /**
      * Get query source of dataTable.
      *
@@ -68,19 +52,21 @@ class SliderItemDataTable extends BaseDataTable
      *
      * @return \Yajra\DataTables\Html\Builder
      */
-    public function html()
+
+    protected function setCustomEditColumns(): void
     {
-        $this->instanceHtml = $this->builder()
-        ->setTableId('sliderItemTable')
-        ->columns($this->getColumns())
-        ->minifiedAjax()
-        ->dom('Bfrtip')
-        ->orderBy(0)
-        ->selectStyleSingle();
+        $this->customEditColumns = [
+            'title' => $this->view['editlink'],
+            'created_at' => '{{ format_date($created_at) }}',
+            'image' => $this->view['image'],
+        ];
+    }
 
-        $this->htmlParameters();
-
-        return $this->instanceHtml;
+    protected function setCustomAddColumns(): void
+    {
+        $this->customAddColumns = [
+            'action' => $this->view['action'],
+        ];
     }
 
     /**
@@ -97,33 +83,16 @@ class SliderItemDataTable extends BaseDataTable
         return 'sliderItem_' . date('YmdHis');
     }
 
-    protected function editColumnTitle(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('title', $this->view['editlink']);
-    }
-    protected function editColumnImage(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('image', $this->view['image']);
-    }
     protected function editColumnCreatedAt(){
         $this->instanceDataTable = $this->instanceDataTable->editColumn('created_at', '{{ date("d-m-Y", strtotime($created_at)) }}');
     }
-    protected function addColumnAction(){
-        $this->instanceDataTable = $this->instanceDataTable->addColumn('action', $this->view['action']);
+    protected function setCustomRawColumns(){
+        $this->customRawColumns = ['title', 'image', 'action'];
     }
-    protected function rawColumnsNew(){
-        $this->instanceDataTable = $this->instanceDataTable->rawColumns(['title', 'image', 'action']);
-    }
-    protected function htmlParameters(){
 
-        $this->parameters['buttons'] = $this->actions;
 
-        $this->parameters['initComplete'] = "function () {
-
-            moveSearchColumnsDatatable('#sliderItemTable');
-
-            searchColumsDataTable(this);
-        }";
-
-        $this->instanceHtml = $this->instanceHtml
-        ->parameters($this->parameters);
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
     }
 }
