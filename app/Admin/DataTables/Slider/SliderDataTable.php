@@ -28,32 +28,15 @@ class SliderDataTable extends BaseDataTable
         $this->repository = $repository;
     }
 
-    public function getView(){
-        return [
+    public function setView(){
+        $this->view = [
             'action' => 'admin.sliders.datatable.action',
             'editlink' => 'admin.sliders.datatable.editlink',
             'status' => 'admin.sliders.datatable.status',
             'items' => 'admin.sliders.datatable.items',
         ];
     }
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
-     */
-    public function dataTable($query)
-    {
-        $this->instanceDataTable = datatables()->eloquent($query);
-        $this->editColumnName();
-        $this->editColumnStatus();
-        $this->editColumnItems();
-        $this->editColumnCreatedAt();
-        $this->addColumnAction();
-        $this->rawColumnsNew();
-        return $this->instanceDataTable;
-    }
-    
+
     /**
      * Get query source of dataTable.
      *
@@ -66,32 +49,30 @@ class SliderDataTable extends BaseDataTable
     }
 
     /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
-    {
-        $this->instanceHtml = $this->builder()
-        ->setTableId('sliderTable')
-        ->columns($this->getColumns())
-        ->minifiedAjax()
-        ->dom('Bfrtip')
-        ->orderBy(0)
-        ->selectStyleSingle();
-
-        $this->htmlParameters();
-
-        return $this->instanceHtml;
-    }
-
-    /**
      * Get columns.
      *
      * @return array
      */
-    protected function setCustomColumns(){
-        $this->customColumns = $this->traitGetConfigDatatableColumns('slider');
+    protected function setCustomColumns(): void
+    {
+        $this->customColumns = config('datatables_columns.slider', []);
+    }
+
+    protected function setCustomEditColumns()
+    {
+        $this->customEditColumns = [
+            'item' => $this->view['items'],
+            'status' => $this->view['status'],
+            'name' => $this->view['editlink'],
+            'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
+        ];
+    }
+
+    protected function setCustomAddColumns()
+    {
+        $this->customAddColumns = [
+            'action' => $this->view['action'],
+        ];
     }
 
     protected function filename(): string
@@ -99,36 +80,15 @@ class SliderDataTable extends BaseDataTable
         return 'slider_' . date('YmdHis');
     }
 
-    protected function editColumnName(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('name', $this->view['editlink']);
-    }
-    protected function editColumnStatus(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('status', $this->view['status']);
-    }
-    protected function editColumnItems(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('items', $this->view['items']);
-    }
-    protected function editColumnCreatedAt(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('created_at', '{{ date("d-m-Y", strtotime($created_at)) }}');
-    }
     protected function addColumnAction(){
         $this->instanceDataTable = $this->instanceDataTable->addColumn('action', $this->view['action']);
     }
-    protected function rawColumnsNew(){
-        $this->instanceDataTable = $this->instanceDataTable->rawColumns(['name', 'status', 'items', 'action']);
+    protected function setCustomRawColumns(){
+        $this->customRawColumns = ['name', 'status', 'items', 'action'];
     }
-    protected function htmlParameters(){
 
-        $this->parameters['buttons'] = $this->actions;
-
-        $this->parameters['initComplete'] = "function () {
-
-            moveSearchColumnsDatatable('#sliderTable');
-
-            searchColumsDataTable(this);
-        }";
-
-        $this->instanceHtml = $this->instanceHtml
-        ->parameters($this->parameters);
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
     }
 }
