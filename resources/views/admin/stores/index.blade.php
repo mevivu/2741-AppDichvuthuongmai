@@ -27,7 +27,10 @@
 @endsection
 
 @push('libs-js')
+<script src="{{ asset('/public/libs/select2/dist/js/select2.min.js') }}"></script>
+
 <!-- button in datatable -->
+
 <script src="{{ asset('/public/vendor/datatables/buttons.server-side.js') }}"></script>
 @endpush
 

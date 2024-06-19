@@ -28,33 +28,26 @@ class OrderDataTable extends BaseDataTable
         $this->repository = $repository;
     }
 
-    public function getView(){
-        return [
+    public function setView(){
+        $this->view = [
             'action' => 'admin.orders.datatable.action',
             'editlink' => 'admin.orders.datatable.editlink',
             'status' => 'admin.orders.datatable.status',
             'user' => 'admin.orders.datatable.user',
         ];
     }
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
-     */
-    public function dataTable($query)
+
+    protected function setCustomEditColumns()
     {
-        $this->instanceDataTable = datatables()->eloquent($query);
-        $this->editColumnId();
-        $this->editColumnTotal();
-        $this->editColumnStatus();
-        $this->editColumnUser();
-        $this->editColumnCreatedAt();
-        $this->addColumnAction();
-        $this->rawColumnsNew();
-        return $this->instanceDataTable;
+        $this->customEditColumns = [
+            'id' => $this->view['editlink'],
+            'status' => $this->view['status'],
+            'total' => '{{ format_price($total) }}',
+            'user' => $this->view['user'],
+            'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
+        ];
     }
-    
+
     /**
      * Get query source of dataTable.
      *
@@ -71,68 +64,34 @@ class OrderDataTable extends BaseDataTable
      *
      * @return \Yajra\DataTables\Html\Builder
      */
-    public function html()
-    {
-        $this->instanceHtml = $this->builder()
-        ->setTableId('orderTable')
-        ->columns($this->getColumns())
-        ->minifiedAjax()
-        ->dom('Bfrtip')
-        ->orderBy(0)
-        ->selectStyleSingle();
-
-        $this->htmlParameters();
-
-        return $this->instanceHtml;
-    }
 
     /**
      * Get columns.
      *
      * @return array
      */
-    protected function setCustomColumns(){
-        $this->customColumns = $this->traitGetConfigDatatableColumns('order');
+    protected function setCustomColumns(): void
+    {
+        $this->customColumns = config('datatables_columns.order', []);
+    }
+    protected function setCustomAddColumns()
+    {
+        $this->customAddColumns = [
+            'action' => $this->view['action'],
+        ];
     }
 
     protected function filename(): string
     {
         return 'order_' . date('YmdHis');
     }
+    protected function setCustomRawColumns(){
+        $this->customRawColumns = ['id', 'status', 'user', 'action'];
+    }
 
-    protected function editColumnId(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('id', $this->view['editlink']);
-    }
-    protected function editColumnStatus(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('status', $this->view['status']);
-    }
-    protected function editColumnTotal(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('total', '{{ format_price($total) }}');
-    }
-    protected function editColumnUser(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('user', $this->view['user']);
-    }
-    protected function editColumnCreatedAt(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('created_at', '{{ date("d-m-Y", strtotime($created_at)) }}');
-    }
-    protected function addColumnAction(){
-        $this->instanceDataTable = $this->instanceDataTable->addColumn('action', $this->view['action']);
-    }
-    protected function rawColumnsNew(){
-        $this->instanceDataTable = $this->instanceDataTable->rawColumns(['id', 'status', 'user', 'action']);
-    }
-    protected function htmlParameters(){
 
-        $this->parameters['buttons'] = $this->actions;
-
-        $this->parameters['initComplete'] = "function () {
-
-            moveSearchColumnsDatatable('#orderTable');
-
-            searchColumsDataTable(this);
-        }";
-
-        $this->instanceHtml = $this->instanceHtml
-        ->parameters($this->parameters);
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
     }
 }
