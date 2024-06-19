@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
- * @group Người dùng
+ * @group Phụ huynh
  */
-class AuthController extends Controller
+class ParentController extends Controller
 {
     private static string $GUARD_API = 'api';
     private $login;
@@ -37,42 +37,30 @@ class AuthController extends Controller
 
     }
 
-    protected function respondWithToken($token, $refreshToken): JsonResponse
-    {
-        $ttl = config('jwt.ttl');
-        return response()->json([
-            'access_token' => $token,
-            'refresh_token' => $refreshToken,
-            'expires_in' => $ttl * 60
-        ]);
-    }
-
-
-    private function createRefreshToken($user)
-    {
-        $data = [
-            'user_id' => $user->id,
-            'random' => rand() . time(),
-            'is_refresh_token' => true,
-            'exp' => time() + config('jwt.refresh_ttl'),
-        ];
-        return JWTAuth::getJWTProvider()->encode($data);
-    }
 
     /**
-     * Create refresh_token.
+     * Đăng nhập
+     *
+     * @bodyParam phone string required
+     * Tên tài khoản là số điện thoại. Example: 0999999999
+     *
+     * @bodyParam password string required
+     * Mật khẩu của bạn. Example: 123456
+     *
+     * @response {
+     *      "refresh_token": "1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K"
+     *      "access_token": "1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K",
+     *      "expires_in": 5184000
+     * }
+     * @response 401 {
+     *      "status": 401,
+     *      "message": "Tài khoản hoặc mật khẩu không đúng."
+     * }
+     *
+     * @param LoginRequest $request
+     *
+     * @return JsonResponse
      */
-    private function createRefreshTokenById($user)
-    {
-        $data = [
-            'user_id' => $user->id,
-            'random' => rand() . time(),
-            'exp' => time() + config('jwt.refresh_ttl')
-        ];
-        return JWTAuth::getJWTProvider()->encode($data);
-    }
-
-
     public function login(LoginRequest $request): JsonResponse
     {
         $this->login = $request->validated();
@@ -92,7 +80,28 @@ class AuthController extends Controller
 
 
     /**
-     * Get the authenticated User.
+     * Lấy thông tin người dùng đã xác thực.
+     *
+     * API này trả về thông tin chi tiết của người dùng đã xác thực hiện tại
+     * @authenticated
+     *
+     * Các trạng thái (status) của đơn hàng bao gồm:
+     * - 1: Hoạt động
+     * - 2: Chờ xác nhận
+     * - 3: Khoá
+     *
+     * @response 200 {
+     *      "status": 200,
+     *      "message": "Lấy thông tin người dùng thành công.",
+     *      "data": {
+     *          "id": 1,
+     *          "name": "Nguyen Van A",
+     *          "email": "example@example.com",
+     *          "phone": "0123456789",
+     *          "created_at": "2021-01-01T00:00:00Z",
+     *          "updated_at": "2021-12-01T00:00:00Z"
+     *      }
+     * }
      *
      * @return JsonResponse
      */
@@ -154,6 +163,41 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => 'Invalid token.', 'error' => $e->getMessage()], 401);
         }
+    }
+
+    protected function respondWithToken($token, $refreshToken): JsonResponse
+    {
+        $ttl = config('jwt.ttl');
+        return response()->json([
+            'access_token' => $token,
+            'refresh_token' => $refreshToken,
+            'expires_in' => $ttl * 60
+        ]);
+    }
+
+
+    private function createRefreshToken($user)
+    {
+        $data = [
+            'user_id' => $user->id,
+            'random' => rand() . time(),
+            'is_refresh_token' => true,
+            'exp' => time() + config('jwt.refresh_ttl'),
+        ];
+        return JWTAuth::getJWTProvider()->encode($data);
+    }
+
+    /**
+     * Create refresh_token.
+     */
+    private function createRefreshTokenById($user)
+    {
+        $data = [
+            'user_id' => $user->id,
+            'random' => rand() . time(),
+            'exp' => time() + config('jwt.refresh_ttl')
+        ];
+        return JWTAuth::getJWTProvider()->encode($data);
     }
 
 

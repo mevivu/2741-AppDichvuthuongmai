@@ -1,6 +1,6 @@
 <?php
 
-use App\Api\V1\Http\Controllers\Auth\AuthController;
+use App\Api\V1\Http\Controllers\Auth\ParentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+//auth
+Route::prefix('auth')->controller(ParentController::class)
+    ->group(function () {
+        Route::get('/', 'show')->name('show');
+        Route::post('/login', 'login')->name('login');
+        Route::post('/register', 'register')->name('register');
+        Route::post('/logout', 'logout')->name('logout');
+        Route::post('/refresh', 'refresh')->name('refresh');
+    });
+
 
 //post category
 Route::controller(App\Api\V1\Http\Controllers\PostCategory\PostCategoryController::class)
@@ -129,15 +140,6 @@ Route::controller(App\Api\V1\Http\Controllers\Slider\SliderController::class)
         Route::get('/show/{key}', 'show')->name('show');
     });
 
-//auth
-Route::prefix('auth')->controller(AuthController::class)
-    ->group(function () {
-        Route::get('/', 'show')->name('show');
-        Route::post('/login', 'login')->name('login');
-        Route::post('/register', 'register')->name('register');
-        Route::post('/logout', 'logout')->name('logout');
-        Route::post('/refresh', 'refresh')->name('refresh');
-    });
 
 
 Route::controller(App\Api\V1\Http\Controllers\Auth\ResetPasswordController::class)
