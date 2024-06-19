@@ -43,26 +43,6 @@ class DiscountCodeDataTable extends BaseDataTable
     }
 
     /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
-     */
-    public function dataTable($query)
-    {
-        $this->instanceDataTable = datatables()->eloquent($query)->addIndexColumn();
-        $this->editColumnDateApply();
-        $this->filterColumnDateApply();
-        $this->editColumnExpirationDate();
-        $this->filterColumnExpirationDatey();
-        $this->addColumnAction();
-        $this->editColumnName();
-        $this->editColumnDiscount();
-        $this->editColumnStatus();
-        $this->rawColumnsNew();
-        return $this->instanceDataTable;
-    }
-    /**
      * Get query source of dataTable.
      *
      * @param \App\Models\User $model
@@ -80,15 +60,20 @@ class DiscountCodeDataTable extends BaseDataTable
      * @return array
      * Hàm kết nối tới datatable_columns Config
      */
-    protected function setCustomColumns()
+
+    protected function setCustomColumns(): void
     {
-        $this->customColumns = $this->traitGetConfigDatatableColumns('discount_code');
+        $this->customColumns = config('datatables_columns.discount_code', []);
     }
 
     protected function setCustomEditColumns()
     {
         $this->customEditColumns = [
             'status' => $this->view['status'],
+            'apply_date' => '{{ date("d-m-Y", strtotime($apply_date)) }}',
+            'expiration_date' => '{{ date("d-m-Y", strtotime($expiration_date)) }}',
+            'name' => $this->view['editlink'],
+            'discount' => '{{ format_price($discount) }}',
         ];
     }
     protected function setCustomAddColumns()
@@ -98,87 +83,11 @@ class DiscountCodeDataTable extends BaseDataTable
         ];
     }
 
-    protected function editColumnDateApply()
+    protected function setCustomRawColumns()
     {
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('apply_date', '{{ date("d-m-Y", strtotime($apply_date)) }}');
+        $this->customRawColumns = ['name', 'action', 'status', 'apply_date', 'expiration_date', 'discount'];
     }
 
-    protected function filterColumnDateApply()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->filterColumn('apply_date', function ($query, $keyword) {
-
-            $query->whereDate('apply_date', date('Y-m-d', strtotime($keyword)));
-        });
-    }
-
-    protected function editColumnExpirationDate()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('expiration_date', '{{ date("d-m-Y", strtotime($expiration_date)) }}');
-    }
-
-    protected function filterColumnExpirationDatey()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->filterColumn('expiration_date', function ($query, $keyword) {
-
-            $query->whereDate('expiration_date', date('Y-m-d', strtotime($keyword)));
-        });
-    }
-
-    protected function addColumnAction()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->addColumn('action', $this->view['action']);
-    }
-
-    protected function editColumnName()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('name', $this->view['editlink']);
-    }
-
-    protected function editColumnDiscount()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('discount', '{{ format_price($discount) }}');
-    }
-
-    protected function editColumnStatus()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('status', $this->view['status']);
-    }
-
-    protected function rawColumnsNew()
-    {
-        $this->instanceDataTable = $this->instanceDataTable->rawColumns(['name', 'action', 'status']);
-    }
-
-    public function html()
-    {
-        $this->instanceHtml = $this->builder()
-            ->setTableId('discountCodeTable')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(0)
-            ->selectStyleSingle();
-
-        $this->htmlParameters();
-
-        return $this->instanceHtml;
-    }
-
-    protected function htmlParameters()
-    {
-
-        $this->parameters['buttons'] = $this->actions;
-
-        $this->parameters['initComplete'] = "function () {
-
-            moveSearchColumnsDatatable('#discountCodeTable');
-
-            searchColumsDataTable(this);
-        }";
-
-        $this->instanceHtml = $this->instanceHtml
-            ->parameters($this->parameters);
-    }
 
     protected function setColumnSearch()
     {
