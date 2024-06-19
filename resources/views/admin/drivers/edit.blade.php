@@ -6,7 +6,7 @@
 @section('content')
     <div class="page-body">
         <div class="container-xl">
-            <x-form :action="route('admin.driver.update')" type="put" :validate="true">
+            <x-form :action="route('admin.driver.update')" type="put" :validate="true" enctype="multipart/form-data">
                 <x-input type="hidden" name="id" :value="$driver->id"/>
                 <x-input type="hidden" name="user_info[id]" :value="$driver->user->id"/>
                 <div class="row justify-content-center">
