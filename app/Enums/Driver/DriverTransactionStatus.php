@@ -15,11 +15,14 @@ enum DriverTransactionStatus: int
     // Đã chuyển khoản hệ thống
     case Success = 2;
 
+    case Late =3;
+
     public function badge(): string
     {
         return match ($this) {
             self::Success => 'bg-green',
             self::Pending => 'bg-yellow',
+            self::Late => 'bg-red',
 
         };
     }

@@ -3,13 +3,13 @@
 namespace App\Admin\Services\Driver;
 
 use App\Admin\Repositories\Order\OrderRepositoryInterface;
+use App\Admin\Repositories\Rate\RateRepositoryInterface;
 use App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Admin\Repositories\Driver\DriverRepository;
 use App\Admin\Services\Driver\DriverServiceInterface;
 use App\Admin\Traits\Setup;
 use App\Enums\Driver\AutoAccept;
 use App\Enums\User\UserRoles;
-use App\Enums\User\UserVip;
 use App\Events\DriverCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,11 +34,15 @@ class DriverService implements DriverServiceInterface
 
     public function __construct(DriverRepository                $repository,
                                 OrderRepositoryInterface       $orderRepository,
+                                RateRepositoryInterface        $rateRepository,
+
                                 UserRepositoryInterface        $userRepository)
     {
         $this->repository = $repository;
         $this->orderRepository = $orderRepository;
         $this->userRepository = $userRepository;
+        $this->rateRepository = $rateRepository;
+
 
     }
 
@@ -115,6 +119,42 @@ class DriverService implements DriverServiceInterface
     {
         $this->userRepository->updateAttribute($userId, 'roles', UserRoles::Customer->value);
         return $this->repository->delete($id);
+    }
+
+    public function getRateConfirm($driver_id)
+    {
+        $total = $this->orderRepository->getByQueryBuilder([
+            'driver_id' => $driver_id
+        ])->get();
+        $total_accept = $this->rateRepository->findBy([
+            'driver_id' => $driver_id
+        ])->order_acceptance_rate ?? 0;
+
+        return $total_accept == 0 ? 0 : $total_accept / count($total) * 100;
+    }
+
+    public function getRateComplete($driver_id)
+    {
+        $total = $this->orderRepository->getByQueryBuilder([
+            'driver_id' => $driver_id
+        ])->get();
+        $total_complete = $this->rateRepository->findBy([
+            'driver_id' => $driver_id
+        ])->order_completion_rate ?? 0;
+
+        return $total_complete == 0 ? 0 : $total_complete / count($total) * 100;
+    }
+
+    public function getRateCancle($driver_id)
+    {
+        $total = $this->orderRepository->getByQueryBuilder([
+            'driver_id' => $driver_id
+        ])->get();
+        $total_cancle = $this->rateRepository->findBy([
+            'driver_id' => $driver_id
+        ])->order_cancellation_rate ?? 0;
+
+        return $total_cancle == 0 ? 0 : $total_cancle / count($total) * 100;
     }
 
 

@@ -1,222 +1,332 @@
 <?php
 
 namespace App\Admin\Services\Order;
-use App\Admin\Services\Order\OrderServiceInterface;
-use App\Admin\Repositories\Order\{OrderRepositoryInterface, OrderDetailRepositoryInterface};
+
+use App\Admin\Repositories\Admin\AdminRepositoryInterface;
+use App\Admin\Repositories\Area\AreaRepositoryInterface;
+use App\Admin\Repositories\Notification\NotificationRepositoryInterface;
+use App\Admin\Repositories\Order\OrderRepositoryInterface;
+use App\Admin\Repositories\Setting\SettingRepositoryInterface;
+use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Admin\Repositories\User\UserRepositoryInterface;
+use App\Admin\Repositories\Driver\DriverRepositoryInterface;
+use App\Admin\Repositories\Order\OrderItemRepositoryInterface;
+use App\Admin\Repositories\Product\ProductRepositoryInterface;
+use App\Enums\Driver\AutoAccept;
+use App\Enums\Driver\DriverAssignmentType;
+use App\Enums\Driver\DriverStatus;
+use App\Enums\Driver\DriverTransactionStatus;
+use App\Enums\Order\OrderStatus;
+use App\Traits\CalculationsTrait;
+use App\Traits\HandlesNotifications;
+use App\Traits\NotifiesViaFirebase;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Admin\Repositories\Product\{ProductRepositoryInterface, ProductVariationRepositoryInterface};
-use App\Enums\Product\ProductType;
-use App\Enums\Order\{OrderStatus, PaymentMethod};
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderService implements OrderServiceInterface
 {
-    protected $data;
-    protected $subTotal;
-    protected $orderDetails;
-    protected $repository;
-    protected $repositoryOrderDetail;
-    protected $repositoryUser;
-    protected $repositoryProduct;
-    protected $repositoryProductVariation;
+    use NotifiesViaFirebase, HandlesNotifications, CalculationsTrait;
 
-    public function __construct(
-        OrderRepositoryInterface $repository,
-        OrderDetailRepositoryInterface $repositoryOrderDetail,
-        UserRepositoryInterface $repositoryUser,
-        ProductRepositoryInterface $repositoryProduct,
-        ProductVariationRepositoryInterface $repositoryProductVariation
-    )
+    /**
+     * Current Object instance
+     *
+     * @var array
+     */
+    protected $data;
+
+    protected $repository;
+
+    protected StoreRepositoryInterface $storeRepository;
+
+    protected DriverRepositoryInterface $userDriverRepository;
+    protected ProductRepositoryInterface $productRepository;
+
+    protected OrderItemRepositoryInterface $orderItemRepository;
+    private NotificationRepositoryInterface $notificationRepository;
+    private UserRepositoryInterface $userRepository;
+    private AdminRepositoryInterface $adminRepository;
+    private SettingRepositoryInterface $settingRepository;
+    private AreaRepositoryInterface $areaRepository;
+
+
+    public function __construct(OrderRepositoryInterface        $repository,
+                                DriverRepositoryInterface   $userDriverRepository,
+                                StoreRepositoryInterface        $storeRepository,
+                                OrderItemRepositoryInterface    $orderItemRepository,
+                                NotificationRepositoryInterface $notificationRepository,
+                                UserRepositoryInterface         $userRepository,
+                                AdminRepositoryInterface        $adminRepository,
+                                SettingRepositoryInterface      $settingRepository,
+                                AreaRepositoryInterface         $areaRepository,
+                                ProductRepositoryInterface      $productRepository)
     {
         $this->repository = $repository;
-        $this->repositoryOrderDetail = $repositoryOrderDetail;
-        $this->repositoryUser = $repositoryUser;
-        $this->repositoryProduct = $repositoryProduct;
-        $this->repositoryProductVariation = $repositoryProductVariation;
+        $this->storeRepository = $storeRepository;
+        $this->userDriverRepository = $userDriverRepository;
+        $this->orderItemRepository = $orderItemRepository;
+        $this->productRepository = $productRepository;
+        $this->notificationRepository = $notificationRepository;
+        $this->userRepository = $userRepository;
+        $this->adminRepository = $adminRepository;
+        $this->settingRepository = $settingRepository;
+        $this->areaRepository = $areaRepository;
+
+
     }
 
-    public function store(Request $request){
+
+    /**
+     * @throws Exception
+     */
+    public function getInformationOrder(Request $request): JsonResponse
+    {
+        $data = $request->validated();
+        $systemCommissionRate = $this->settingRepository
+            ->getBy(['setting_key' => 'system_commission_rate']);
+        $lat = $data['coordinates']['lat'] ?? null;
+        $lng = $data['coordinates']['lng'] ?? null;
+        // Lấy khu vực trong toạ độ giao hàng
+        $area = $this->getArea($lat, $lng);
+        $pricePerKm = $area->shipping_fee;
+
+
+        $distanceKm = (float)str_replace(',',
+            '.', str_replace(' km', '', $data['distance']));
+        $price = $data['sub_total'];
+
+        $shippingPrice = $distanceKm * $pricePerKm;
+
+        $totalPrice = $price + $shippingPrice;
+        // Hoa hồng hệ thống
+        $systemRevenue = $totalPrice * $systemCommissionRate[0]->plain_value;
+
+        return response()->json([
+            'sub_total' => $price,
+            'distance' => $data['distance'],
+            'transport_fee' => $shippingPrice,
+            'totalPrice' => $totalPrice,
+            'systemRevenue' => $systemRevenue,
+
+        ]);
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    public function store(Request $request)
+    {
+        $data = $request->validated();
+        $uniqueCode = uniqid_real();
+        $data['code'] = $uniqueCode;
+        $data['shipping_address'] = $data['pickup_address'];
+
+        // Auto-assign
+            if (isset($data['driver_assignment']) && $data['driver_assignment'] == DriverAssignmentType::Auto->value) {
+                $store = $this->storeRepository->findOrFail($data['store_id']);
+
+            // tài xế chưa nhận đơn và tài xế bật chế độ tự nhận đơn
+            $drivers = $this->userDriverRepository->getBy([
+                'auto_accept' => AutoAccept::Auto,
+                'order_accepted' => DriverStatus::NotReceived
+            ]);
+
+//            $closestDriver = $this->findClosestDriver($store->lat, $store->lng, $drivers);
+
+//            if ($closestDriver) {
+//                $data['driver_id'] = $closestDriver->id;
+//            }
+        }
+
+        return $this->repository->create($data);
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    public function update(Request $request): object|bool
+    {
+        $data = $request->validated();
+        $data['lat'] = $data['coordinates']['lat'];
+        $data['lng'] = $data['coordinates']['lng'];
+        unset($data['coordinates']);
+        $oder = $this->repository->findOrFail($data['id']);
+        if (isset($data['driver_id'])) {
+            $this->notifyDriver($data['driver_id'], $oder);
+            $data['status'] = OrderStatus::PendingDriverConfirmation;
+        }
+
+        return $this->repository->update($data['id'], $data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function updateStore(Request $request): object
+    {
+
         $this->data = $request->validated();
-        $this->data['order']['discount'] = 0;
-        $this->data['order']['payment_code'] = uniqid_real(6);
-        $this->data['order']['payment_method'] = PaymentMethod::BankTransfer;
-        $this->data['order']['status'] = OrderStatus::Processing;
-        // dd($this->data, array_unique($this->data['order_detail']['product_id']));
-        DB::beginTransaction();
-        try {
-            if(!$this->makeNewDataOrderDetail()){
-                return false;
-            }
-            $this->data['order']['sub_total'] = $this->data['order']['total'] = $this->subTotal;
-            $order = $this->repository->create($this->data['order']);
-            $this->storeOrderDetail($order->id, $this->orderDetails);
-            DB::commit();
-            return $order;
-        } catch (\Throwable $th) {
-            // throw $th;
-            DB::rollBack();
-            return false;
-        }
-    }
-    private function makeNewDataOrderDetail(){
-        $products = $this->repositoryProduct->getByIdsAndOrderByIds(
-            array_unique($this->data['order_detail']['product_id'])
-        );
-        if($products->count() == 0){
-            return false;
-        }
-        $this->dataOrderDetail($products);
-        return true;
-    }
-    private function dataOrderDetail($products){
-        $discount = 1 - $this->repositoryUser->findOrFail($this->data['order']['user_id'])->getDiscountProduct() / 100;
-        foreach($this->data['order_detail']['product_id'] as $key => $value){
-            $product = $products->firstWhere('id', $value);
-            $detail = [
-                'product' => $product
-            ];
-            if($product->isSimple()){
-                $unitPrice = $product->promotion_price ?: $product->price;
-            }else{
-                $product = $product->load(['productVariation' => function($query) use($key){
-                    $query->with('attributeVariations')->where('id', $this->data['order_detail']['product_variation_id'][$key]);
-                }]);
-                $unitPrice = $product->productVariation->promotion_price ?: $product->productVariation->price;
-                $detail['productVariation'] = $product->productVariation;
-                unset($product->productVariation);
-            }
-            $unitPrice = $product->is_user_discount ? $unitPrice * $discount : $unitPrice;
-            $this->orderDetails[] = [
-                'product_id' => $product->id,
-                'unit_price' => $unitPrice,
-                'product_variation_id' => $this->data['order_detail']['product_variation_id'][$key] ?: null,
-                'qty' => $this->data['order_detail']['product_qty'][$key],
-                'detail' => $detail
-            ];
-            $this->subTotal += $unitPrice * $this->data['order_detail']['product_qty'][$key];
-        }
+        return $this->repository->update($request['id'], $this->data);
     }
 
-    protected function storeOrderDetail($orderId, $data){
-        foreach($data as $item){
-            $item['order_id'] = $orderId;
-            $this->repositoryOrderDetail->create($item);
-        }
-    }
-
-    public function update(Request $request){
-        $this->data = $request->validated();
-        
-        DB::beginTransaction();
-        try {
-            $dataOrderDetail = $this->updateOrCreateDataOrderDetail();
-            if(!empty($dataOrderDetail)){
-                $this->data['order_detail'] = $dataOrderDetail;
-                $this->makeNewDataOrderDetail();
-                $this->storeOrderDetail($this->data['order']['id'], $this->orderDetails);
-            }
-            $this->data['order']['sub_total'] = $this->data['order']['total'] = $this->subTotal;
-            $order = $this->repository->update($this->data['order']['id'], $this->data['order']);
-            DB::commit();
-            return $order;
-        } catch (\Throwable $th) {
-            throw $th;
-            DB::rollBack();
-            return false;
-        }
-    }
-
-    private function updateOrCreateDataOrderDetail(){
-        $data = [];
-        foreach($this->data['order_detail']['id'] as $key => $value){
-            if($value == 0){
-                $data['product_id'][] = $this->data['order_detail']['product_id'][$key];
-                $data['product_variation_id'][] = $this->data['order_detail']['product_variation_id'][$key];
-                $data['product_qty'][] = $this->data['order_detail']['product_qty'][$key];
-            }else{
-                $orderDetail = $this->repositoryOrderDetail->update($value, [
-                    'qty' => $this->data['order_detail']['product_qty'][$key]]
-                );
-                $this->subTotal += $orderDetail->unit_price * $orderDetail->qty;
-            }
-        }
-        return $data;
-    }
-
-    public function delete($id){
+    /**
+     * @throws Exception
+     */
+    public function delete($id): object|bool
+    {
         return $this->repository->delete($id);
     }
 
-    public function addProduct(Request $request){
-        $data = $request->validated();
-        $product = $this->repositoryProduct->findOrFail($data['product_id']);
-        $discount = 1 - $this->repositoryUser->findOrFail($data['user_id'])->getDiscountProduct() / 100;
-        if($product->type == ProductType::Variable()){
-            $product = $product->load(['productVariation' => function($query) use ($data){
-                $query->where('id', $data['product_variation_id'] ?? 0)->with('attributeVariations');
-            }]);
-            if(!$product->productVariation){
-                return false;
-            }
-            if($product->is_user_discount){
-                $product->productVariation->price = $product->productVariation->price * $discount;
-                $product->productVariation->promotion_price = $product->productVariation->promotion_price * $discount ?: $product->productVariation->promotion_price;
-            }
-        }else{
-            if($product->is_user_discount){
-                $product->price = $product->price * $discount;
-                $product->promotion_price = $product->promotion_price * $discount ?: $product->promotion_price;
-            }
-        }
+    /**
+     * @throws Exception
+     */
+    public function updateOrder($id): object
+    {
+        DB::beginTransaction();
 
-        return $product;
-    }
-    
-    public function calculateTotal(Request $request){
-        $data = $request->validated('order_detail');
-        $total = 0; $productSimple = []; $productVariation = [];
-        foreach($data['product_id'] as $key => $value){
-            if($data['product_variation_id'][$key] == 0){
-                $productSimple[] = [
-                    'id' => $value,
-                    'qty' => $data['product_qty'][$key]
-                ];
-            }else{
-                $productVariation[] = [
-                    'id' => $data['product_variation_id'][$key],
-                    'qty' => $data['product_qty'][$key]
-                ];
+        try {
+            $order = $this->repository->findOrFail($id);
+            $data = [
+                'id' => $id,
+                'status' => OrderStatus::PendingDriverConfirmation
+            ];
+
+            $result = $this->orderItemRepository->getitem($id);
+            $this->productRepository->updateQty($result);
+
+            $driverId = $order->driver_id;
+            // In case there is a driver
+            if (!$driverId) {
+                $store = $this->storeRepository->findOrFail($order->store_id);
+                $driverId = $this->assignDriver($store, $order);
+                if ($driverId) {
+                    $data['driver_id'] = $driverId;
+                } else {
+                    $this->sendNotificationsToAdmins(config('notifications.driver_unavailable.title'),
+                        config('notifications.driver_unavailable.message'));
+                    $admins = $this->adminRepository->getAll();
+                    foreach ($admins as $admin) {
+                        $this->createNotification($admin, $order, 'admin_id', 'driver_unavailable');
+                    }
+                    $data['status'] = OrderStatus::DriverUnavailable;
+
+                }
+            } else {
+                $this->notifyDriver($driverId, $order);
             }
+
+            $this->repository->update($data['id'], $data);
+            DB::commit();
+            return $this->repository->find($id);
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error("Failed to update the order {$id}. Error: " . $e->getMessage());
+            throw new Exception("Failed to update the order: " . $e->getMessage());
         }
-        $discount = 1 - $this->repositoryUser->findOrFail($request->input('order.user_id'))->getDiscountProduct() / 100;
-        if(!empty($productSimple)){
-            $total += $this->totalPrice(
-                $this->repositoryProduct->getByIdsAndOrderByIds(array_column($productSimple, 'id')),
-                array_column($productSimple, 'qty'),
-                $discount
+    }
+
+
+    protected function assignDriver($store, $order)
+    {
+        $customerId = $order->user_id;
+        //The driver turned on the automatic trip recognition mode and the status was not received
+        $drivers = $this->userDriverRepository->getBy([
+            'auto_accept' => AutoAccept::Auto,
+            'order_accepted' => DriverStatus::NotReceived,
+            ['user_id', '!=', $customerId],
+            ['current_lat', '!=', null],
+            ['current_lng', '!=', null],
+            ['current_address', '!=', null]
+        ]);
+        $closestDriver = find_closest_driver($store->lat, $store->lng, $drivers);
+
+        if ($closestDriver) {
+            $this->userDriverRepository->updateAttribute($closestDriver->id, 'order_accepted', DriverStatus::PendingConfirmation);
+            $this->sendFirebaseNotification(
+                [$closestDriver->user->device_token],
+                null,
+                config('notifications.new_order.title'),
+                config('notifications.new_order.message')
             );
+            $this->createNotification($closestDriver, $order, 'driver_id', 'new_order');
+            return $closestDriver->id;
         }
-        if(!empty($productVariation)){
-            $total += $this->totalPrice(
-                $this->repositoryProductVariation->getByIdsAndOrderByIdsWithRelations(array_column($productVariation, 'id')),
-                array_column($productVariation, 'qty'),
-                $discount
+        return null;
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function notifyDriver($driverId, $order): void
+    {
+        $driver = $this->userDriverRepository->findOrFail($driverId);
+        if ($driver && $driver->user && $driver->user->device_token) {
+            $this->sendFirebaseNotification(
+                [$driver->user->device_token],
+                null,
+                config('notifications.new_order.title'),
+                config('notifications.new_order.message')
             );
+            $this->createNotification($driver, $order, 'driver_id', 'new_order');
         }
-        return $total;
     }
 
-    public function totalPrice($collect, $qty, $discount){
-        $total = 0;
-        $total += $collect->mapWithKeys(function($item, $key) use ($qty, $discount) {
-            $price = ($item->promotion_price ?: $item->price) * $qty[$key];
 
-            if($item->is_user_discount || optional($item->product)->is_user_discount){
-                $price = ($item->promotion_price ?? $item->price) * $qty[$key] * $discount;
+    /**
+     * @throws Exception
+     */
+    public function updateOrderRefuse($id): object
+    {
+        DB::beginTransaction();
+
+        try {
+            $order = $this->repository->findOrFail($id);
+            $data = ['id' => $id, 'status' => OrderStatus::Cancelled];
+            $this->repository->update($data['id'], $data);
+            $customer = $this->userRepository->findOrFail($order->customer_id);
+            $customerDeviceToken = $customer->device_token;
+            if ($customer) {
+                $this->sendFirebaseNotification(
+                    [$customerDeviceToken],
+                    null,
+                    config('notifications.order_cancelled.title'),
+                    config('notifications.order_cancelled.message')
+                );
             }
-            return [$item->id => $price];
-        })->sum();
-        return $total;
+            $this->createNotification($customer, $order, 'user_id', 'order_cancelled');
+
+            DB::commit();
+            return $this->repository->find($id);
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error("Failed to update and notify order refusal {$id}. Error: " . $e->getMessage());
+            throw new Exception("Failed to update and notify order refusal: " . $e->getMessage());
+        }
     }
+
+    public function getLateOrders(int $minutes): Collection
+    {
+        $timeAgo = Carbon::now()->subMinutes($minutes);
+
+        return DB::table('orders as o')
+            ->leftJoin('driver_transactions as t', function ($join) use ($minutes) {
+                $join->on('o.id', '=', 't.order_id')
+                    ->where('t.created_at', '>', DB::raw('o.completed_at'))
+                    ->where('t.created_at', '<=', DB::raw('DATE_ADD(o.completed_at, INTERVAL ' . $minutes . ' MINUTE)'))
+                    ->where('t.status', '=', DriverTransactionStatus::Pending);
+            })
+            ->where('o.status', OrderStatus::Completed)
+            ->where('o.completed_at', '<=', $timeAgo)
+            ->groupBy('o.id', 'o.completed_at', 'o.driver_id')
+            ->havingRaw('COUNT(t.id) = 0')
+            ->select('o.id', 'o.completed_at', 'o.driver_id')
+            ->get();
+    }
+
 }

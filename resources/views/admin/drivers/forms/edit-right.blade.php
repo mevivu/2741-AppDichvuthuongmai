@@ -35,6 +35,7 @@
             <x-input-image-ckfinder name="user_info[feature_image]" :value="$driver->user->avatar" showImage="featureImage"/>
         </div>
     </div>
+
     <div class="card mb-3">
         <div class="card-header">
             @lang('autoAccept')
@@ -47,5 +48,15 @@
                             :checked="$driver->auto_accept === \App\Enums\Driver\AutoAccept::Auto"/>
 
         </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            @lang('balance_system')
+        </div>
+        <div class="card-body p-2">
+
+            <x-input-price id="total_balance" name="total_balance" :value="$totalBalance" disabled/>
+        </div>
+
     </div>
 </div>

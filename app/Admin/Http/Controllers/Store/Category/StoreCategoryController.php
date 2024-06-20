@@ -8,8 +8,8 @@ use App\Admin\Repositories\StoreCategory\StoreCategoryRepositoryInterface;
 use App\Admin\Services\Store\Category\StoreCategoryServiceInterface;
 use App\Admin\DataTables\Store\Category\StoreCategoryDataTable;
 use App\Enums\DefaultStatus;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
 class StoreCategoryController extends Controller
 {
     public function __construct(
@@ -56,6 +56,7 @@ class StoreCategoryController extends Controller
     public function create()
     {
 
+
         $categories = $this->repository->getFlatTree();
 
         return view($this->view['create'], [
@@ -65,10 +66,13 @@ class StoreCategoryController extends Controller
         ]);
     }
 
+
     public function store(StoreCategoryRequest $request)
     {
+        DB::enableQueryLog();
 
         $response = $this->service->store($request);
+
 
         if ($response) {
             return $request->input('submitter') == 'save'

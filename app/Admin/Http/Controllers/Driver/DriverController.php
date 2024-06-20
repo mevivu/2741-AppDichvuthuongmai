@@ -12,6 +12,7 @@ use App\Admin\Services\Driver\DriverServiceInterface;
 use App\Enums\Driver\DriverStatus;
 use App\Enums\User\Gender;
 use App\Enums\User\UserRoles;
+use App\Traits\CalculationsTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -19,6 +20,7 @@ use Illuminate\Http\RedirectResponse;
 
 class DriverController extends Controller
 {
+    use CalculationsTrait;
 
     protected  AreaRepositoryInterface $areaRepository;
     protected DriverService $userDriverService;
@@ -99,7 +101,12 @@ class DriverController extends Controller
     {
         $driver = $this->repository->findOrFail($id);
         $areas = $this ->areaRepository->getAll();
-
+        $rates = [
+            'confirm' => round($this->userDriverService->getRateConfirm($id), 2),
+            'complete' => round($this->userDriverService->getRateComplete($id), 2),
+            'cancle' => round($this->userDriverService->getRateCancle($id), 2),
+        ];
+        $totalBalance = $this->balanceTotal($id);
 
         return view(
             $this->view['edit'],
@@ -108,7 +115,9 @@ class DriverController extends Controller
                 'order_accepted' =>DriverStatus::asSelectArray(),
                 'areas' => $areas,
                 'driver' => $driver,
+                'rates' => $rates,
                 'breadcrumbs' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('edit')),
+                'totalBalance' => $totalBalance,
 
 
             ],

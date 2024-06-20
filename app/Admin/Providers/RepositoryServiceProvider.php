@@ -33,6 +33,13 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Admin\Repositories\DiscountCode\DiscountCodeRepositoryInterface' => 'App\Admin\Repositories\DiscountCode\DiscountCodeRepository',
         'App\Admin\Repositories\Topping\ToppingRepositoryInterface' => 'App\Admin\Repositories\Topping\ToppingRepository',
         'App\Admin\Repositories\Vehicle\VehicleRepositoryInterface' => 'App\Admin\Repositories\Vehicle\VehicleRepository',
+        'App\Admin\Repositories\Rate\RateRepositoryInterface'=>'App\Admin\Repositories\Rate\RateRepository',
+        'App\Admin\Repositories\OrderItemTopping\OrderItemToppingRepositoryInterface' => 'App\Admin\Repositories\OrderItemTopping\OrderItemToppingRepository',
+        'App\Admin\Repositories\OrderItem\OrderItemRepositoryInterface' => 'App\Admin\Repositories\OrderItem\OrderItemRepository',
+        'App\Admin\Repositories\Order\OrderItemRepositoryInterface'=>'App\Admin\Repositories\Order\OrderItemRepository',
+        'App\Admin\Repositories\DriverTransaction\TransactionRepositoryInterface'=>'App\Admin\Repositories\DriverTransaction\TransactionRepository',
+
+
 
 
     ];

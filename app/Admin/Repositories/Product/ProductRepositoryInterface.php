@@ -14,7 +14,7 @@ interface ProductRepositoryInterface extends EloquentRepositoryInterface
     public function deleteProductAttributes(Product $product);
 
     public function deleteProductVariations(Product $product);
-
+    public function updateQty($orders);
     public function loadRelations(Product $product, array $relations = []);
 
     public function attachCategories(Product $product, array $categoriesId);

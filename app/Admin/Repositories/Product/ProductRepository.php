@@ -22,6 +22,16 @@ class ProductRepository extends EloquentRepository implements ProductRepositoryI
 
         return $this->instance;
     }
+    public function updateQty($orders){
+
+        foreach($orders as $item){
+            $product = $this->model->where('id',$item->product_id)->get();
+            foreach($product as $data){
+                $data->qty = $data->qty - $item->qty;
+                $data->save();
+            }
+        }
+    }
 
     public function getAllByColumns(array $data){
         $this->getQueryBuilder();

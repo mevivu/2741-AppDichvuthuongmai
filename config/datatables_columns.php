@@ -156,6 +156,57 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
+    'transaction' => [
+        'id' => [
+            'title' => 'STT',
+            'orderable' => false
+        ],
+        'order_id' => [
+            'title' => 'Mã đơn hàng',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'driver_id' => [
+            'title' => 'driver',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'status' => [
+            'title' => 'status',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
+    'income' => [
+        'id' => [
+            'title' => 'STT',
+            'orderable' => false
+        ],
+        'amount' => [
+            'title' => 'income',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+    ],
     'vehicle' => [
         'id' => [
             'title' => 'Mã phương tiện',
@@ -599,39 +650,99 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
-    'order' => [
-        'id' => [
-            'title' => 'Mã đơn hàng',
-            'orderable' => false,
-        ],
-        'user' => [
-            'title' => 'Thành viên',
+    'income-by-driver' => [
+        'code' => [
+            'title' => 'orderCode',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
-        'payment_code' => [
-            'title' => 'Mã thanh toán',
+        'transport_fee' => [
+            'title' => 'transport_fee',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
-        'status' => [
-            'title' => 'Trạng thái',
-            'orderable' => false,
-            'addClass' => 'align-middle'
-        ],
-        'total' => [
-            'title' => 'Tổng tiền',
-            'orderable' => false,
-            'addClass' => 'align-middle'
-        ],
+
         'created_at' => [
-            'title' => 'Ngày đặt',
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+
+        'income' => [
+            'title' => 'total_income',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
+    'order' => [
+        'code' => [
+            'title' => 'orderCode',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'customer_id' => [
+            'title' => 'customer',
+            'addClass' => 'align-middle',
+            'orderable' => false,
+            'visible' => false
+
+        ],
+        'driver_id' => [
+            'title' => 'driver',
             'orderable' => false,
             'visible' => false,
             'addClass' => 'align-middle'
         ],
+        'store_id' => [
+            'title' => 'store',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+        ],
+        'payment_method' => [
+            'title' => 'payment',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => false
+        ],
+        'shipping_method' => [
+            'title' => 'shipping',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => false
+        ],
+        'status' => [
+            'title' => 'status',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'shipping_address' => [
+            'title' => 'shipping_address',
+            'orderable' => false,
+            'visible' => false
+        ],
+
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'transport_fee' => [
+            'title' => 'transport_fee',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'total' => [
+            'title' => 'total',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+
         'action' => [
-            'title' => 'Thao tác',
+            'title' => 'action',
             'orderable' => false,
             'exportable' => false,
             'printable' => false,

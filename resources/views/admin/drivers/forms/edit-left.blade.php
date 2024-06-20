@@ -70,12 +70,32 @@
                 </div>
             </div>
 
-        </div>
 
-    </div>
     <div class="card mt-3">
         <div class="card-header fw-bold h3">
             @lang('driver_register_information')
+        </div>
+        <div class="row card-body">
+            <div class="col-md-4 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('Tỉ lệ nhận đơn'):</label>
+                    <x-input name="order_acceptance_rate" :value="$rates['confirm']" readonly />
+                </div>
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('Tỉ lệ hoàn thành đơn'):</label>
+                    <x-input name="order_completion_rate" :value="$rates['complete']" readonly />
+                </div>
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('Tỉ lệ hủy đơn'):</label>
+                    <x-input name="order_cancellation_rate" :value="$rates['cancle']" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
         </div>
         <div class="row card-body">
             {{-- id_card input --}}

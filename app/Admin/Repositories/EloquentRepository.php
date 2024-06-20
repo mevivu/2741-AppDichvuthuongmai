@@ -62,6 +62,7 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
         return $this->model->get();
     }
 
+
     /**
      * Find a single record
      *

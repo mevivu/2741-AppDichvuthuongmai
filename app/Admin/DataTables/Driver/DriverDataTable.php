@@ -37,18 +37,18 @@ class DriverDataTable extends BaseDataTable
     public function setColumnSearch(): void
     {
 
-        $this->columnAllSearch = [0, 1, 2, 4, 5,6];
+        $this->columnAllSearch = [0, 1, 2, 3, 4, 5];
 
-        $this->columnSearchDate = [6];
+        $this->columnSearchDate = [5];
 
         $this->columnSearchSelect = [
 
             [
-                'column' => 4,
+                'column' => 3,
                 'data' => DriverStatus::asSelectArray()
             ],
             [
-                'column' => 5,
+                'column' => 4,
                 'data' => AutoAccept::asSelectArray()
             ],
         ];

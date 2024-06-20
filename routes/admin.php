@@ -96,6 +96,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 
         });
 
+
     //Select Search
     Route::prefix('/search')->as('search.')->group(function () {
         Route::prefix('/select')->as('select.')->group(function () {
@@ -382,13 +383,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
         });
     });
 
-    //Order detail
-    Route::controller(App\Admin\Http\Controllers\Order\OrderDetailController::class)
-    ->prefix('order-detail')
-    ->as('order_detail.')
-    ->group(function(){
-        Route::delete('/delete/{id?}', 'delete')->name('delete');
-    });
+
 
     //Order
     Route::prefix('/orders')->as('order.')->group(function(){
@@ -592,6 +587,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
             Route::get('/store-categories', [App\Admin\Http\Controllers\Store\Category\StoreCategorySearchSelectController::class, 'selectSearch'])->name('store_category');
             Route::get('/store', [\App\Admin\Http\Controllers\Store\StoreSearchSelectController::class, 'selectSearch'])->name('store');
             Route::get('/area', [App\Admin\Http\Controllers\Area\AreaSearchSelectController::class, 'selectSearch'])->name('area');
+            Route::get('/driver', [App\Admin\Http\Controllers\Driver\DriverSearchSelectController::class, 'selectSearch'])->name('driver');
 
 
         });

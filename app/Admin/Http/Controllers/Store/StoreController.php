@@ -9,6 +9,7 @@ use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Admin\Services\Store\StoreServiceInterface;
 use App\Admin\DataTables\Store\StoreDataTable;
 use App\Enums\Store\StoreStatus;
+use App\Models\Store;
 use App\Models\StoreCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

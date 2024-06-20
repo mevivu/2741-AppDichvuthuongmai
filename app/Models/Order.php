@@ -2,45 +2,85 @@
 
 namespace App\Models;
 
-use App\Enums\Order\{OrderStatus, PaymentMethod};
+use App\Enums\Order\OrderStatus;
+use App\Enums\Payment\PaymentMethod;
+use App\Enums\Shipping\ShippingMethod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
 
 class Order extends Model
 {
-    use HasFactory;
-    
+    use  HasApiTokens, HasFactory, Notifiable;
+
     protected $table = 'orders';
 
-    protected $guarded = [];
-
-    protected $casts = [
-        'status' => OrderStatus::class,
-        'payment_method' => PaymentMethod::class
+    protected $fillable = [
+        'code',
+        'customer_id',
+        'driver_id',
+        'store_id',
+        'pickup_address',
+        'lat',
+        'lng',
+        'destination_address',
+        'destination_lat',
+        'destination_lng',
+        'shipping_address',
+        'shipping_method',
+        'payment_method',
+        'sub_total',
+        'transport_fee',
+        'total',
+        'system_revenue',
+        'status',
+        'note',
+        'points_used',
+        'discount_amount'
     ];
 
-    public function orderDetail(){
-        return $this->hasOne(OrderDetail::class, 'order_id');
+    protected $hidden = [];
+
+    protected $casts = [
+        'shipping_method' =>  ShippingMethod::class,
+        'payment_method' => PaymentMethod::class,
+        'status' => OrderStatus::class,
+        'sub_total' => 'double',
+        'transport_fee' => 'double',
+        'total' => 'double',
+        'system_revenue' =>'double'
+    ];
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'customer_id');
     }
 
-    public function orderDetails(){
-        return $this->hasMany(OrderDetail::class, 'order_id')->orderBy('id', 'desc');
+    public function driver():BelongsTo
+    {
+        return $this->belongsTo(Driver::class, 'driver_id');
     }
 
-    public function user(){
-        return $this->belongsTo(User::class, 'user_id');
+    public function store():BelongsTo
+    {
+        return $this->belongsTo(Store::class, 'store_id');
     }
-    
-    public function checkEarningPoint(){
-        return DB::table('order_earning_point')
-        ->where('order_id', $this->id)
-        ->where('user_id', $this->user_id)
-        ->first();
+    public function driverTransactions(): HasMany
+    {
+        return $this->hasMany(DriverTransaction::class, 'order_id');
     }
 
-    public function scopeCurrentAuth($query){
-        return $query->where('user_id', auth()->user()->id);
+    public function items(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function discountApplications(): HasMany
+    {
+        return $this->hasMany(DiscountApplication::class, 'order_id');
     }
 
 }

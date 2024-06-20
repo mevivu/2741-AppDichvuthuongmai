@@ -83,10 +83,18 @@ return [
         ProductVariationAction::AddFromAllVariations => 'Tạo biến thể từ tất cả thuộc tính'
     ],
     OrderStatus::class => [
-        OrderStatus::Processing => 'Đang xử lý',
-        OrderStatus::Processed => 'Đã xử lý',
-        OrderStatus::Completed => 'Đã hoàn thành',
-        OrderStatus::Cancelled => 'Đã hủy'
+        OrderStatus::PendingStoreConfirmation->value => 'Chờ cửa hàng xác nhận',
+        OrderStatus::PendingDriverConfirmation->value => 'Chờ tài xế xác nhận',
+        OrderStatus::Confirmed->value => ' Đã xác nhận',
+        OrderStatus::InTransit->value => 'Đang di chuyển',
+        OrderStatus::ArrivedAtStore->value => 'Đã đến cửa hàng',
+        OrderStatus::MovingToDestination->value => 'Đang di chuyển đến điểm đến',
+        OrderStatus::Completed->value => 'Hoàn thành',
+        OrderStatus::Cancelled->value => 'Hủy bỏ',
+        OrderStatus::Failed->value => 'Không thành công',
+        OrderStatus::DriverUnavailable->value => 'Không tìm thấy tài xế',
+        OrderStatus::CustomerCancelled->value => 'Khách hàng huỷ đơn',
+
     ],
     SliderStatus::class => [
         SliderStatus::Active => 'Hoạt động',

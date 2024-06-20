@@ -16,7 +16,7 @@ class StoreSearchSelectResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'text' => $this->username
+            'text' => $this->store_name
         ];
     }
 }

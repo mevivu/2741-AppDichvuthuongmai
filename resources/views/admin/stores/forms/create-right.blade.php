@@ -18,12 +18,13 @@
         </div>
         <div class="card-body p-2 wrap-select2">
             <x-select name="category_id"
-                      class="select2-bs5-ajax"
-                      :data-url="route('admin.search.select.store_category')"
                       :required="true">
-
+                @foreach($store_categories as $store_category)
+                    <option value="{{ $store_category->id }}">{{ $store_category->name }}</option>
+                @endforeach
             </x-select>
         </div>
+
     </div>
     <div class="card mb-3">
         <div class="card-header">

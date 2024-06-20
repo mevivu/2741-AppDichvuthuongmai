@@ -29,6 +29,12 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Admin\Services\DiscountCode\DiscountCodeServiceInterface' => 'App\Admin\Services\DiscountCode\DiscountCodeService',
         'App\Admin\Services\Topping\ToppingServiceInterface' => 'App\Admin\Services\Topping\ToppingService',
         'App\Admin\Services\Vehicle\VehicleServiceInterface' => 'App\Admin\Services\Vehicle\VehicleService',
+        'App\Admin\Services\Rate\RateServiceInterface' => 'App\Admin\Services\Rate\RateService',
+        'App\Admin\Services\OrderItem\OrderItemServiceInterface' => 'App\Admin\Services\OrderItemTopping\OrderItemToppingService',
+        'App\Admin\Services\OrderItemTopping\OrderItemToppingServiceInterface' => 'App\Admin\Services\OrderItem\OrderItemService',
+        'App\Admin\Services\DriverTransaction\TransactionServiceInterface' => 'App\Admin\Services\DriverTransaction\TransactionService',
+
+
 
     ];
     /**

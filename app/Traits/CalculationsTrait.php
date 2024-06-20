@@ -3,7 +3,9 @@
 namespace App\Traits;
 
 use App\Admin\Repositories\Area\AreaRepositoryInterface;
+use App\Admin\Repositories\DriverTransaction\TransactionRepositoryInterface;
 use App\Enums\Area\AreaStatus;
+use App\Enums\Driver\DriverTransactionStatus;
 use App\Models\Area;
 use Exception;
 
@@ -50,6 +52,23 @@ trait CalculationsTrait
         }
 
         return null;
+    }
+    public function balanceTotal($driverId): float|int
+    {
+        $transactionRepository = app(TransactionRepositoryInterface::class);
+        $transactions = $transactionRepository->getBy(
+            [
+                'driver_id' => $driverId,
+                'status' => DriverTransactionStatus::Pending
+            ]
+        );
+        $totalBalance = 0;
+        foreach ($transactions as $transaction) {
+            if ($transaction->order) {
+                $totalBalance += $transaction->order->system_revenue;
+            }
+        }
+        return $totalBalance;
     }
 
 }
