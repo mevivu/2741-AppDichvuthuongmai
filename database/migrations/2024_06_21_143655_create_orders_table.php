@@ -34,6 +34,9 @@ return new class extends Migration {
             $table->text('shipping_address')->nullable();
             $table->tinyInteger('order_type')->default(OrderType::Booking->value);
             $table->double('total');
+            $table->unsignedInteger('passenger_count')->default(1);
+            $table->unsignedInteger('luggage_count')->default(1);
+            $table->dateTime('departure_time')->nullable();
             $table->tinyInteger('status')->default(OrderStatus::Pending->value);
             $table->text('note')->nullable();
             $table->timestamps();

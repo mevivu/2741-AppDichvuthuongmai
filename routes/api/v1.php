@@ -1,6 +1,7 @@
 <?php
 
 use App\Api\V1\Http\Controllers\Auth\StoreController;
+use App\Api\V1\Http\Controllers\Order\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,14 @@ Route::prefix('auth')->controller(StoreController::class)
         Route::post('/send-otp', 'sendOTP')->name('sendOTP');
 
     });
+
+
+//order
+Route::prefix('orders')->controller(OrderController::class)
+    ->group(function () {
+        Route::post('/book-car', 'createBookOrder')->name('createBookOrder');
+    });
+
 
 
 //post category
@@ -55,19 +64,10 @@ Route::controller(App\Api\V1\Http\Controllers\Review\ReviewController::class)
         Route::post('/store', 'store')->name('store')->middleware('auth:sanctum');
     });
 
+
 Route::middleware('auth:sanctum')->group(function () {
 
-    //order
-    Route::controller(App\Api\V1\Http\Controllers\Order\OrderController::class)
-        ->prefix('/orders')
-        ->as('order.')
-        ->group(function () {
-//            Route::get('/', 'index')->name('index');
-            Route::post('/book-car', 'createBookOrder')->name('createBookOrder');
-//            Route::put('/cancel', 'cancel')->name('cancel');
-//            Route::get('/show/{id}', 'show')->name('show');
-//            Route::delete('/delete/{id}', 'delete')->name('delete');
-        });
+
     //shopping cart
     Route::controller(App\Api\V1\Http\Controllers\ShoppingCart\ShoppingCartController::class)
         ->prefix('/shopping-cart')

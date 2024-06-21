@@ -34,14 +34,18 @@ class Order extends Model
         'order_type',
         'total',
         'status',
-        'note'
+        'note',
+        'passenger_count', // Số lượng hành khách
+        'luggage_count', // Số lượng hành lý
+        'departure_time' //Giờ khởi hành
     ];
 
     protected $casts = [
         'status' => OrderStatus::class,
         'payment_method' => PaymentMethod::class,
-        'order_type' =>OrderType::class,
-        'total' => 'double'
+        'order_type' => OrderType::class,
+        'total' => 'double',
+        'departure_time' => 'datetime',
     ];
 
 
@@ -64,8 +68,6 @@ class Order extends Model
     {
         return $this->belongsTo(Store::class, 'store_id');
     }
-
-
 
 
 }

@@ -30,8 +30,6 @@ class BookOrderRequest extends BaseRequest
             'payment_method' => ['required',new Enum(PaymentMethod::class)],
             'total' => ['required','numeric'],
             'distance' => ['nullable'],
-            'total_time' => ['required','numeric'],
-            'driver_id' => ['required','exists:drivers,id'],
         ];
     }
 
