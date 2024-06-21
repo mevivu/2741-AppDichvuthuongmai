@@ -13,7 +13,6 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Enums\User\{Gender};
-use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -70,12 +69,6 @@ class User extends Authenticatable implements JWTSubject
 
     ];
 
-    public function sumEarningPoint()
-    {
-        return DB::table('order_earning_point')
-            ->where('user_id', $this->id)
-            ->sum('point');
-    }
 
     public function roles(): BelongsToMany
     {

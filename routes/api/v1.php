@@ -59,14 +59,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //order
     Route::controller(App\Api\V1\Http\Controllers\Order\OrderController::class)
-        ->prefix('/order')
+        ->prefix('/orders')
         ->as('order.')
         ->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::post('/store', 'store')->name('store');
-            Route::put('/cancel', 'cancel')->name('cancel');
-            Route::get('/show/{id}', 'show')->name('show');
-            Route::delete('/delete/{id}', 'delete')->name('delete');
+//            Route::get('/', 'index')->name('index');
+            Route::post('/book-car', 'createBookOrder')->name('createBookOrder');
+//            Route::put('/cancel', 'cancel')->name('cancel');
+//            Route::get('/show/{id}', 'show')->name('show');
+//            Route::delete('/delete/{id}', 'delete')->name('delete');
         });
     //shopping cart
     Route::controller(App\Api\V1\Http\Controllers\ShoppingCart\ShoppingCartController::class)
