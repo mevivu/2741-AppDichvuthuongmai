@@ -12,6 +12,7 @@ use App\Enums\Payment\PaymentMethod;
 use App\Enums\PostCategory\PostCategoryStatus;
 use App\Enums\Post\PostStatus;
 use App\Enums\Module\ModuleStatus;
+use App\Enums\Vehicle\VehicleType;
 use App\Enums\Product\{ProductType, ProductVariationAction};
 use App\Enums\Setting\SettingGroup;
 use App\Enums\Slider\SliderStatus;
@@ -30,6 +31,13 @@ return [
         Gender::Male->value => 'Nam',
         Gender::Female->value => 'Nữ',
         Gender::Other->value => 'Khác',
+    ],
+    VehicleType::class => [
+        VehicleType::Unclassified => 'Chưa được phân loại',
+        VehicleType::Motorcycle => ' Xe gắn máy',
+        VehicleType::Car => 'Ô tô',
+        VehicleType::Truck => 'Xe tải',
+        VehicleType::RefrigeratedRuck => 'Xe tải đông lạnh',
     ],
     AutoAccept::class => [
         AutoAccept::Auto->value => 'Tự động nhận chuyến',
@@ -83,10 +91,14 @@ return [
         ProductVariationAction::AddFromAllVariations => 'Tạo biến thể từ tất cả thuộc tính'
     ],
     OrderStatus::class => [
-        OrderStatus::Processing => 'Đang xử lý',
-        OrderStatus::Processed => 'Đã xử lý',
-        OrderStatus::Completed => 'Đã hoàn thành',
-        OrderStatus::Cancelled => 'Đã hủy'
+        OrderStatus::Pending->value => 'Chờ xác nhận',
+        OrderStatus::Confirmed->value => ' Đã xác nhận',
+        OrderStatus::InTransit->value => 'Đang di chuyển',
+        OrderStatus::ArrivedAtStore->value => 'Đã đến cửa hàng',
+        OrderStatus::MovingToDestination->value => 'Đang di chuyển đến điểm đến',
+        OrderStatus::Completed->value => 'Hoàn thành',
+        OrderStatus::Cancelled->value => 'Hủy bỏ',
+        OrderStatus::Failed->value => 'Không thành công',
     ],
     SliderStatus::class => [
         SliderStatus::Active => 'Hoạt động',
@@ -105,7 +117,7 @@ return [
         PostStatus::Published => 'Đã xuất bản',
         PostStatus::Draft => 'Bản nháp'
     ],
-	ModuleStatus::class => [
+    ModuleStatus::class => [
         ModuleStatus::ChuaXong => 'Chưa xong',
         ModuleStatus::DaXong => 'Đã xong',
         ModuleStatus::DaDuyet => 'Đã duyệt'

@@ -2,11 +2,9 @@
 
 namespace App\Api\V1\Services\Order;
 
-use App\Api\V1\Services\Order\OrderServiceInterface;
 use App\Api\V1\Repositories\Order\{OrderRepositoryInterface, OrderDetailRepositoryInterface};
 use App\Api\V1\Repositories\ShoppingCart\ShoppingCartRepositoryInterface;
 use App\Enums\Order\{OrderStatus, PaymentMethod};
-use App\Enums\Product\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Api\V1\Support\AuthSupport;
@@ -20,7 +18,7 @@ class OrderService implements OrderServiceInterface
      * @var array
      */
     protected $data;
-    
+
     protected $repository;
     protected $repositoryOrderDetail;
     protected $repositoryShoppingCart;
@@ -36,13 +34,21 @@ class OrderService implements OrderServiceInterface
         $this->repositoryOrderDetail = $repositoryOrderDetail;
         $this->repositoryShoppingCart = $repositoryShoppingCart;
     }
-    
+
+
+    public function createBookOrder(Request $request): object
+    {
+       $data = $request->validated();
+       $result = $this->repository->create($data);
+       return $result;
+    }
+
     public function store(Request $request){
         $this->data = $request->validated();
         $this->data['user_id'] = auth()->user()->id;
         $this->data['discount'] = 0;
         $this->data['payment_method'] = PaymentMethod::BankTransfer;
-        $this->data['status'] = OrderStatus::Processing;
+        $this->data['status'] = OrderStatus::Pending;
         DB::beginTransaction();
         try {
             $makeData = $this->getDataFromShoppingCart();
@@ -68,7 +74,7 @@ class OrderService implements OrderServiceInterface
     }
 
     public function update(Request $request){
-        
+
         $this->data = $request->validated();
 
 
@@ -120,4 +126,6 @@ class OrderService implements OrderServiceInterface
         });
         return true;
     }
+
+
 }

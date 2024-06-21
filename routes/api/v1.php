@@ -1,6 +1,6 @@
 <?php
 
-use App\Api\V1\Http\Controllers\Auth\ParentController;
+use App\Api\V1\Http\Controllers\Auth\StoreController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,13 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 //auth
-Route::prefix('auth')->controller(ParentController::class)
+Route::prefix('auth')->controller(StoreController::class)
     ->group(function () {
         Route::get('/', 'show')->name('show');
         Route::post('/login', 'login')->name('login');
         Route::post('/register', 'register')->name('register');
         Route::post('/logout', 'logout')->name('logout');
         Route::post('/refresh', 'refresh')->name('refresh');
+        Route::post('/send-otp', 'sendOTP')->name('sendOTP');
+
     });
 
 

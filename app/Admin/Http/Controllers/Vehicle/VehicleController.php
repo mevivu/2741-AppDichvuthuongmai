@@ -8,12 +8,17 @@ use App\Admin\DataTables\Vehicle\VehicleDataTable;
 use App\Admin\Repositories\Vehicle\VehicleRepositoryInterface;
 use App\Admin\Services\Vehicle\VehicleServiceInterface;
 use App\Enums\Vehicle\VehicleType;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class VehicleController extends BaseController
 {
 
-    protected $repository;
-    protected $service;
+    protected VehicleRepositoryInterface $repository;
+    protected VehicleServiceInterface $service;
 
     public function __construct(
         VehicleRepositoryInterface $repository,
@@ -27,7 +32,7 @@ class VehicleController extends BaseController
         $this->service = $service;
     }
 
-    public function getView()
+    public function getView(): array
     {
         return [
             'index' => 'admin.vehicle.index',
@@ -36,7 +41,7 @@ class VehicleController extends BaseController
         ];
     }
 
-    public function getRoute()
+    public function getRoute(): array
     {
         return [
             'index' => 'admin.vehicle.index',
@@ -56,19 +61,22 @@ class VehicleController extends BaseController
         );
     }
 
-    public function create()
+    public function create(): Factory|View|Application
     {
-        return view($this->view['create'], ['type' => VehicleType::asSelectArray(),]);
+        return view($this->view['create'], ['type' => VehicleType::asSelectArray()]);
     }
 
-    public function store(VehicleRequest $request)
+    public function store(VehicleRequest $request): RedirectResponse
     {
         $vehicle = $this->service->store($request);
 
         return to_route($this->route['edit'], $vehicle->id)->with('success', __('notifySuccess'));
     }
 
-    public function edit($id)
+    /**
+     * @throws Exception
+     */
+    public function edit($id): Factory|View|Application
     {
         $vehicle = $this->repository->findOrFail($id);
         return view(
@@ -80,14 +88,14 @@ class VehicleController extends BaseController
         );
     }
 
-    public function update(VehicleRequest $request)
+    public function update(VehicleRequest $request): RedirectResponse
     {
         $this->service->update($request);
 
         return back()->with('success', __('notifySuccess'));
     }
 
-    public function delete($id)
+    public function delete($id): RedirectResponse
     {
         $this->service->delete($id);
 

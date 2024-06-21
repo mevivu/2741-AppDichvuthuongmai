@@ -6,28 +6,31 @@ use App\Admin\Http\Controllers\Controller;
 use App\Api\V1\Http\Resources\Auth\AuthResource;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use App\Api\V1\Http\Requests\Auth\{LoginRequest, RefreshTokenRequest, RegisterRequest};
+use App\Api\V1\Http\Requests\Auth\{LoginRequest, OTPRequest, RefreshTokenRequest, RegisterRequest};
 use App\Api\V1\Repositories\User\UserRepositoryInterface;
 use App\Api\V1\Services\Auth\AuthServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
- * @group Phụ huynh
+ * @group Cửa hàng tạp hoá
  */
-class ParentController extends Controller
+class StoreController extends Controller
 {
     private static string $GUARD_API = 'api';
     private $login;
 
+    protected $auth;
+
+
     public function __construct(
         UserRepositoryInterface $repository,
-        AuthServiceInterface    $service
+        AuthServiceInterface    $service,
     )
     {
         $this->repository = $repository;
         $this->service = $service;
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','sendOTP']]);
     }
 
     protected function resolve(): bool
@@ -199,8 +202,6 @@ class ParentController extends Controller
         ];
         return JWTAuth::getJWTProvider()->encode($data);
     }
-
-
 
 
 }

@@ -3,11 +3,14 @@
 namespace App\Api\V1\Http\Controllers\Order;
 
 use App\Admin\Http\Controllers\Controller;
+use App\Api\V1\Http\Requests\Order\BookOrderRequest;
 use App\Api\V1\Services\Order\OrderServiceInterface;
 use App\Api\V1\Repositories\Order\OrderRepositoryInterface;
 use App\Api\V1\Http\Requests\Order\OrderRequest;
 use App\Api\V1\Http\Resources\Order\AllOrderResource;
 use App\Api\V1\Http\Resources\Order\ShowOrderResource;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @group Đơn hàng
@@ -24,6 +27,12 @@ class OrderController extends Controller
         $this->repository = $repository;
         $this->service = $service;
     }
+
+    public function createBookOrder(BookOrderRequest $request){
+        $response = $this->service->createBookOrder($request);
+
+    }
+
     /**
      * Danh sách đơn hàng
      *
@@ -31,13 +40,13 @@ class OrderController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @queryParam status integer
      * trạng thái đơn hàng: 1: đang xử lý; 2: đã xử lý; 3: đã hoàn thành; 4: đã hủy. Example: 1
-     * 
-     * 
+     *
+     *
      * @authenticated
-     * 
+     *
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -68,9 +77,9 @@ class OrderController extends Controller
      *      ]
      * }
      *
-     * @param  \Illuminate\Http\Request  $request
-     * 
-     * @return \Illuminate\Http\Response
+     * @param OrderRequest $request
+     *
+     * @return JsonResponse
      */
     public function index(OrderRequest $request){
         $filter = $request->validated();
@@ -90,13 +99,13 @@ class OrderController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @pathParam id integer required
      * id của đơn hàng. Example: 1
-     * 
-     * 
+     *
+     *
      * @authenticated
-     * 
+     *
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -136,11 +145,12 @@ class OrderController extends Controller
      *      }
      * }
      *
-     * @param  \Illuminate\Http\Request  $request
-     * 
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     *
+     * @return JsonResponse
      */
-    public function show($id){
+    public function show($id): JsonResponse
+    {
         $order = $this->repository->findOrFailWithRelations($id);
         $order = new ShowOrderResource($order);
         return response()->json([
@@ -157,27 +167,27 @@ class OrderController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @bodyParam customer_fullname string required
      * Họ và tên khách hàng. Example: Nguyen Van A
-     * 
+     *
      * @bodyParam customer_phone phone required
      * Số điện thoại. Example: 0999999999
-     * 
+     *
      * @bodyParam customer_email email required
      * Email của khách hàng. Example: example@gmail.com
-     * 
+     *
      * @bodyParam shipping_address string required
      * Địa chỉ giao hàng. Example: 998 Quang trung, GV
-     * 
+     *
      * @bodyParam payment_code string required
      * Mã thanh toán của KH. Example: 12BCB
-     * 
+     *
      * @bodyParam note string
      * Ghi chú KH. Example: Giao trước t7
-     * 
+     *
      * @authenticated
-     * 
+     *
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -186,9 +196,9 @@ class OrderController extends Controller
      *       }
      * }
      *
-     * @param  \Illuminate\Http\Request  $request
-     * 
-     * @return \Illuminate\Http\Response
+     * @param OrderRequest $request
+     *
+     * @return JsonResponse
      */
     public function store(OrderRequest $request){
         $response = $this->service->store($request);
@@ -214,21 +224,21 @@ class OrderController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @bodyParam id integer required
      * id đơn hàng. Example: 1
-     * 
-     * 
+     *
+     *
      * @authenticated
-     * 
+     *
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công."
      * }
      *
-     * @param  \Illuminate\Http\Request  $request
-     * 
-     * @return \Illuminate\Http\Response
+     * @param OrderRequest $request
+     *
+     * @return JsonResponse
      */
     public function cancel(OrderRequest $request){
         $response = $this->service->cancel($request);
