@@ -7,6 +7,7 @@ use App\Admin\Http\Controllers\Controller;
 use App\Admin\Http\Requests\Discount\DiscountRequest;
 use App\Admin\Repositories\Discount\DiscountRepositoryInterface;
 use App\Admin\Services\Discount\DiscountServiceInterface;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -79,23 +80,24 @@ class DiscountController extends Controller
         return back()->with('error', __('notifyFail'))->withInput();
     }
 
+    /**
+     * @throws Exception
+     */
     public function edit($id): Factory|View|Application
     {
-        $page = $this->repositoryDiscount->findOrFail($id);
-        $users = $this->repositoryUSP->getUsers($id);
-        $stores = $this->repositoryUSP->getStores($id);
+        $discount = $this->repository->findOrFail($id);
+
         return view(
             $this->view['edit'],
             [
-                'users' => $users,
-                'stores' => $stores,
-                'page' => $page,
-                'breadcrums' => $this->crums->add(__('Trang chủ'), route($this->route['index']))->add(__('edit'))
+                'discount' => $discount,
+                'breadcrumbs' => $this->crums->add(__('Trang chủ'),
+                    route($this->route['index']))->add(__('edit'))
             ],
         );
     }
 
-    public function update(DiscountRequests $request): RedirectResponse
+    public function update(DiscountRequest $request): RedirectResponse
     {
         $response = $this->service->update($request);
 

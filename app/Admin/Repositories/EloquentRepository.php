@@ -258,5 +258,32 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
     }
 
 
+    /**
+     * Attach related models to a specified model instance using a relation.
+     *
+     * @param int $id
+     * @param array $ids Array of IDs to attach via the relation.
+     * @param string $relation The relationship method name on the model.
+     * @throws Exception
+     */
+    public function attachRelations(int $id, array $ids, string $relation): void
+    {
+        $model = $this->find($id);
+
+        if (!$model) {
+            throw new Exception("Model with ID $id not found.");
+        }
+
+        if (!method_exists($model, $relation)) {
+            throw new Exception("Relation $relation does not exist on the model.");
+        }
+
+        if (!empty($ids)) {
+            foreach ($ids as $id) {
+                $model->$relation()->attach($id);
+            }
+        }
+    }
+
 
 }

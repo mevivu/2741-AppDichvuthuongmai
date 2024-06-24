@@ -23,10 +23,14 @@ class DiscountRequest extends BaseRequest
             'min_order_amount' => 'nullable|numeric',
             'type' => 'required|integer',
             'discount_value' => 'required|numeric',
-            'store_id' => 'nullable',
-            'product_id' => 'nullable',
-            'user_id' => 'nullable',
-            'driver_id' => 'nullable'
+            'store_ids' => 'nullable|array',
+            'store_ids.*' => 'exists:stores,id',
+            'user_ids' => 'nullable|array',
+            'user_ids.*' => 'exists:users,id',
+            'driver_ids' => 'nullable|array',
+            'driver_ids.*' => 'exists:drivers,id',
+            'product_ids' => 'nullable|array',
+            'product_ids.*' => 'exists:products,id',
         ];
     }
 
@@ -44,9 +48,14 @@ class DiscountRequest extends BaseRequest
             'service_applies' => ['nullable', 'string'],
             'conditions' => ['required', 'string'],
             'status' => ['required', new EnumValue(DiscountStatus::class, false)],
-            'store_id' => 'nullable',
-            'driver_id' => 'nullable',
-            'user_id' => 'nullable',
+            'store_ids' => 'nullable|array',
+            'store_ids.*' => 'exists:stores,id',
+            'user_ids' => 'nullable|array',
+            'user_ids.*' => 'exists:users,id',
+            'driver_ids' => 'nullable|array',
+            'driver_ids.*' => 'exists:drivers,id',
+            'product_ids' => 'nullable|array',
+            'product_ids.*' => 'exists:products,id',
         ];
     }
 }

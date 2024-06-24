@@ -1,4 +1,4 @@
-@extends('stores.layouts.master')
+@extends('admin.layouts.master')
 @push('libs-css')
     <link rel="stylesheet" href="{{ asset('/public/libs/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/public/libs/select2/dist/css/select2-bootstrap-5-theme.min.css') }}">
@@ -6,13 +6,13 @@
 @section('content')
     <div class="page-body">
         <div class="container-xl">
-            <x-form :action="route('store.discount.update')" type="put" :validate="true">
+            <x-form :action="route('admin.discount.update')" type="put" :validate="true">
                 <x-input type="hidden" name="id" :value="$discount->id" />
                 <div class="row justify-content-center">
-                    @include('stores.discounts.forms.edit-left')
-                    @include('stores.discounts.forms.edit-right')
+                    @include('admin.discounts.forms.edit-left')
+                    @include('admin.discounts.forms.edit-right')
                 </div>
-                @include('stores.forms.actions-fixed')
+                @include('admin.forms.actions-fixed')
             </x-form>
         </div>
     </div>
@@ -26,5 +26,5 @@
 @endpush
 
 @push('custom-js')
-
+    @include('admin.discounts.scripts.scripts')
 @endpush
