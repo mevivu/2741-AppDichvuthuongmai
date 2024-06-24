@@ -159,7 +159,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
     });
 
     //Discount
-    Route::controller(App\Admin\Http\Controllers\DiscountCode\DiscountCodeController::class)
+    Route::controller(App\Admin\Http\Controllers\Discount\DiscountController::class)
         ->prefix('/discounts')
         ->as('discount.')
         ->group(function () {

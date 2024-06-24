@@ -44,6 +44,7 @@ class DiscountService implements DiscountServiceInterface
 
     public function store(Request $request)
     {
-        // TODO: Implement store() method.
+        $data = $request->validated();
+        return $this->repository->create($data);
     }
 }

@@ -28,6 +28,19 @@ class Discount extends Model
     {
         return $this->belongsToMany(Product::class, 'discount_applications', 'discount_code_id', 'product_id');
     }
+    public function stores(): BelongsToMany
+    {
+        return $this->belongsToMany(Store::class, 'discount_applications', 'discount_code_id', 'store_id');
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'discount_applications', 'discount_code_id', 'user_id');
+    }
+    public function drivers(): BelongsToMany
+    {
+        return $this->belongsToMany(Driver::class, 'discount_applications', 'discount_code_id', 'driver_id');
+    }
 
     public function discount_applications(): HasMany
     {
