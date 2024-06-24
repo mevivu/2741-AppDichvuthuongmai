@@ -4,11 +4,13 @@ namespace App\Admin\DataTables\User;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\User\UserRepositoryInterface;
+use App\Admin\Traits\Roles;
 use App\Enums\User\Gender;
 use Illuminate\Database\Eloquent\Builder;
 
 class UserDataTable extends BaseDataTable
 {
+    use Roles;
 
     protected $nameTable = 'userTable';
 
@@ -54,7 +56,9 @@ class UserDataTable extends BaseDataTable
      */
     public function query(): Builder
     {
-        return $this->repository->getQueryBuilderOrderBy();
+        return $this->repository->getQueryBuilderOrderBy()->whereHas('roles', function ($query) {
+            $query->where('name', $this->getRoleCustomer());
+        });
     }
 
     protected function setCustomColumns(): void

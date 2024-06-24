@@ -61,7 +61,7 @@ class DriverDataTable extends BaseDataTable
      */
     public function query(): Builder
     {
-        return $this->repository->getQueryBuilderOrderBy();
+        return $this->repository->getQueryBuilderOrderBy()->driver();
     }
 
 

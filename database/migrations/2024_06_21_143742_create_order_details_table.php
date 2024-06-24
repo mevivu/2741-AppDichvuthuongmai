@@ -31,9 +31,9 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
-    {	
-		Schema::table('order_details', function (Blueprint $table) {
+    public function down(): void
+    {
+        Schema::table('order_details', function (Blueprint $table) {
             // Drop foreign key constraint
             $table->dropForeign(['order_id']);
         });

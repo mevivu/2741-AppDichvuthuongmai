@@ -46,18 +46,18 @@
                              :required="true"/>
                 </div>
             </div>
-            <!-- Area -->
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">@lang('area'):</label>
-                    <x-select name="user_info[area_id]" :required="true">
-                        @foreach ($areas as $area)
-                            <x-select-option :value="$area->id" :title="$area->name"
-                                             :selected="$area->id == $driver->user->area_id"/>
-                        @endforeach
-                    </x-select>
-                </div>
-            </div>
+{{--            <!-- Area -->--}}
+{{--            <div class="col-md-6 col-12">--}}
+{{--                <div class="mb-3">--}}
+{{--                    <label class="control-label">@lang('area'):</label>--}}
+{{--                    <x-select name="user_info[area_id]" :required="true">--}}
+{{--                        @foreach ($areas as $area)--}}
+{{--                            <x-select-option :value="$area->id" :title="$area->name"--}}
+{{--                                             :selected="$area->id == $driver->user->area_id"/>--}}
+{{--                        @endforeach--}}
+{{--                    </x-select>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
             <!-- address -->
             <div class="col-12">

@@ -8,7 +8,7 @@ use App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Admin\Services\User\UserServiceInterface;
 use App\Admin\DataTables\User\UserDataTable;
 use Exception;
-use App\Enums\User\{Gender, UserVip};
+use App\Enums\User\{Gender};
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;

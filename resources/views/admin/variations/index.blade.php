@@ -40,13 +40,16 @@
 @endsection
 
 @push('libs-js')
-<!-- button in datatable -->
-<script src="{{ asset('/public/vendor/datatables/buttons.server-side.js') }}"></script>
+    <!-- button in datatable -->
+    <script src="{{ asset('/public/vendor/datatables/buttons.server-side.js') }}"></script>
 @endpush
 
 @push('custom-js')
 
-{{ $dataTable->scripts() }}
+    {{ $dataTable->scripts() }}
 
-@include('admin.variations.scripts.datatable')
+    @include('admin.scripts.datatable-toggle-columns', [
+        'id_table' => $dataTable->getTableAttribute('id')
+    ])
+
 @endpush
