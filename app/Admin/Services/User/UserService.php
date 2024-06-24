@@ -2,18 +2,15 @@
 
 namespace App\Admin\Services\User;
 
-use App\Admin\Services\User\UserServiceInterface;
 use  App\Admin\Repositories\User\UserRepositoryInterface;
-use App\Models\Role;
-use App\Models\User;
+use App\Admin\Traits\Roles;
 use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
-use App\Enums\User\UserRoles;
 
 class UserService implements UserServiceInterface
 {
-    use Setup;
+    use Setup,Roles;
 
     /**
      * Current Object instance
@@ -45,7 +42,7 @@ class UserService implements UserServiceInterface
             }
 
             $user = $this->repository->create($this->data);
-            $roles = ['customer'];
+            $roles = $this->getRoleCustomer();
             $this->repository->assignRoles($user, $roles);
             return $user;
         } catch (Exception $e) {
@@ -72,7 +69,10 @@ class UserService implements UserServiceInterface
         }
         $this->repository->syncUserRoles($this->data['id'], $request->roles);
 
-        return $this->repository->update($this->data['id'], $this->data);
+        $user =  $this->repository->update($this->data['id'], $this->data);
+        $roles = $this->getRoleCustomer();
+        $this->repository->assignRoles($user, $roles);
+        return $user;
 
     }
 

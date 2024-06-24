@@ -609,10 +609,16 @@ return [
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
+        'driver' => [
+            'title' => 'Thành viên',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
         'payment_code' => [
             'title' => 'Mã thanh toán',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'align-middle',
+            'visible' => false,
         ],
         'status' => [
             'title' => 'Trạng thái',

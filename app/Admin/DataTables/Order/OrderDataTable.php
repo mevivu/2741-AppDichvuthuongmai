@@ -4,31 +4,26 @@ namespace App\Admin\DataTables\Order;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Order\OrderRepositoryInterface;
-use App\Admin\Traits\GetConfig;
+use Illuminate\Database\Eloquent\Builder;
 
 class OrderDataTable extends BaseDataTable
 {
 
-    use GetConfig;
-    /**
-     * Available button actions. When calling an action, the value will be used
-     * as the function name (so it should be available)
-     * If you want to add or disable an action, overload and modify this property.
-     *
-     * @var array
-     */
-    // protected array $actions = ['pageLength', 'excel', 'reset', 'reload'];
+    protected $nameTable = 'orderTable';
+
     protected array $actions = ['excel', 'reset', 'reload'];
 
     public function __construct(
         OrderRepositoryInterface $repository
-    ){
+    )
+    {
         parent::__construct();
 
         $this->repository = $repository;
     }
 
-    public function setView(){
+    public function setView(): void
+    {
         $this->view = [
             'action' => 'admin.orders.datatable.action',
             'editlink' => 'admin.orders.datatable.editlink',
@@ -37,26 +32,25 @@ class OrderDataTable extends BaseDataTable
         ];
     }
 
-    protected function setCustomEditColumns()
+    protected function setCustomEditColumns(): void
     {
         $this->customEditColumns = [
             'id' => $this->view['editlink'],
             'status' => $this->view['status'],
             'total' => '{{ format_price($total) }}',
             'user' => $this->view['user'],
-            'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
+            'created_at' => '{{ format_date($created_at) }}',
         ];
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\User $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function query()
+    public function query(): Builder
     {
-        return $this->repository->getQueryBuilderWithRelations();
+        return $this->repository->getByQueryBuilder([], ['user','driver']);
     }
 
     /**
@@ -68,13 +62,14 @@ class OrderDataTable extends BaseDataTable
     /**
      * Get columns.
      *
-     * @return array
+     * @return void
      */
     protected function setCustomColumns(): void
     {
         $this->customColumns = config('datatables_columns.order', []);
     }
-    protected function setCustomAddColumns()
+
+    protected function setCustomAddColumns(): void
     {
         $this->customAddColumns = [
             'action' => $this->view['action'],
@@ -85,7 +80,9 @@ class OrderDataTable extends BaseDataTable
     {
         return 'order_' . date('YmdHis');
     }
-    protected function setCustomRawColumns(){
+
+    protected function setCustomRawColumns(): void
+    {
         $this->customRawColumns = ['id', 'status', 'user', 'action'];
     }
 
