@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Admin\Services\DiscountCode;
+namespace App\Admin\Services\Discount;
+
 use Illuminate\Http\Request;
 
-interface DiscountCodeServiceInterface
+interface DiscountServiceInterface
 {
     /**
      * Tạo mới
      *
-     * @var Illuminate\Http\Request $request
-     *
+     * @param Request $request
      * @return mixed
      */
     public function store(Request $request);
+
     /**
      * Cập nhật
      *
-     * @var Illuminate\Http\Request $request
-     *
+     * @param Request $request
      * @return boolean
      */
     public function update(Request $request);
+
     /**
      * Xóa
      *
@@ -29,5 +30,6 @@ interface DiscountCodeServiceInterface
      * @return boolean
      */
     public function delete($id);
+
 
 }
