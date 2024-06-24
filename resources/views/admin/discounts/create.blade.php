@@ -24,5 +24,6 @@
 @endpush
 
 @push('custom-js')
+    @include('admin.discounts.scripts.scripts')
 
 @endpush

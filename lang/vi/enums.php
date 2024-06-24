@@ -2,7 +2,6 @@
 
 use App\Enums\Area\AreaStatus;
 use App\Enums\DefaultStatus;
-use App\Enums\DiscountCode\DiscountCodeStatus;
 use App\Enums\Driver\AutoAccept;
 use App\Enums\Driver\DriverAssignmentType;
 use App\Enums\Driver\DriverStatus;
@@ -19,14 +18,7 @@ use App\Enums\Slider\SliderStatus;
 use App\Enums\User\{Gender, UserVip, UserRoles};
 
 return [
-    DiscountCodeStatus::class => array(
-        DiscountCodeStatus::Activities => 'Hoạt động',
-        DiscountCodeStatus::NotActivated => 'Chưa kích hoạt',
-        DiscountCodeStatus::Expired => 'Hết hạn',
-        DiscountCodeStatus::Used => 'Đã sử dụng',
-        DiscountCodeStatus::ConditionsNotMet => 'Điều kiện không đạt',
-        DiscountCodeStatus::UsageLimits => 'Giới hạn sử dụng'
-    ),
+
     Gender::class => [
         Gender::Male->value => 'Nam',
         Gender::Female->value => 'Nữ',
