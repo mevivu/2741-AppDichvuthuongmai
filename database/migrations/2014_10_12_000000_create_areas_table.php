@@ -23,8 +23,6 @@ return new class extends Migration
             $table->double('lng');
             $table->double('lat');
             $table->json('boundaries')->nullable();
-            $table->double('shipping_fee');
-
             $table->timestamps();
         });
     }

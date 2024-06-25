@@ -2,12 +2,12 @@
 
 namespace App\Admin\Http\Controllers\AttributeVariation;
 
+use App\Admin\DataTables\AttributeVariation\AttributeVariationDataTable;
 use App\Admin\Http\Controllers\Controller;
 use App\Admin\Http\Requests\AttributeVariation\AttributeVariationRequest;
 use App\Admin\Repositories\AttributeVariation\AttributeVariationRepositoryInterface;
 use App\Admin\Repositories\Attribute\AttributeRepositoryInterface;
 use App\Admin\Services\AttributeVariation\AttributeVariationServiceInterface;
-use App\Admin\DataTables\AttributeVariation\AttributeVariationDataTable;
 use App\Enums\Attribute\AttributeType;
 
 class AttributeVariationController extends Controller
@@ -15,8 +15,8 @@ class AttributeVariationController extends Controller
     protected $repositoryAttribute;
 
     public function __construct(
-        AttributeVariationRepositoryInterface $repository, 
-        AttributeRepositoryInterface $repositoryAttribute, 
+        AttributeVariationRepositoryInterface $repository,
+        AttributeRepositoryInterface $repositoryAttribute,
         AttributeVariationServiceInterface $service
     ){
 
@@ -25,10 +25,11 @@ class AttributeVariationController extends Controller
         $this->repository = $repository;
         $this->repositoryAttribute = $repositoryAttribute;
         $this->service = $service;
-        
+
     }
 
-    public function getView(){
+    public function getView(): array
+    {
         return [
             'index' => 'admin.variations.index',
             'create' => 'admin.variations.create',
@@ -36,7 +37,8 @@ class AttributeVariationController extends Controller
         ];
     }
 
-    public function getRoute(){
+    public function getRoute(): array
+    {
         return [
             'index' => 'admin.attribute.variation.index',
             'create' => 'admin.attribute.variation.create',
@@ -53,7 +55,7 @@ class AttributeVariationController extends Controller
 
     public function create($attribute_id){
         $instance = $this->repositoryAttribute->findOrFail($attribute_id);
-        return view($this->view['create'], 
+        return view($this->view['create'],
             [
                 'attribute' => $instance,
                 'has_meta_value_color' => $instance->type == AttributeType::Color()
@@ -71,7 +73,7 @@ class AttributeVariationController extends Controller
     }
 
     public function edit($id){
-        
+
         $instance = $this->repository->findOrFailWithRelations($id);
         return view(
             $this->view['edit'],
@@ -82,7 +84,7 @@ class AttributeVariationController extends Controller
         );
 
     }
- 
+
     public function update(AttributeVariationRequest $request){
 
         $instance = $this->service->update($request);
@@ -96,8 +98,8 @@ class AttributeVariationController extends Controller
     public function delete($attribute_id, $id){
 
         $this->service->delete($id);
-        
+
         return to_route($this->route['index'], $attribute_id)->with('success', __('notifySuccess'));
-        
+
     }
 }

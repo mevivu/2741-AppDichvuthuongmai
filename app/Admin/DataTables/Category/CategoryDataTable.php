@@ -28,64 +28,39 @@ class CategoryDataTable extends BaseDataTable
         $this->repository = $repository;
     }
 
-    public function getView(){
-        return [
+    public function setView(){
+        $this->view = [
             'action' => 'admin.categories.datatable.action',
             'editlink' => 'admin.categories.datatable.editlink',
             'avatar' => 'admin.categories.datatable.avatar',
             'is_active' => 'admin.categories.datatable.is_active',
         ];
     }
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
-     */
-    public function dataTable($query)
-    {
-        // dd($query);
-        $this->instanceDataTable = datatables()->collection($query);
-        // $this->filterColumnCreatedAt();
-        $this->editColumnName();
-        $this->editColumnCreatedAt();
-        $this->editColumnAvatar();
-        $this->editColumnIsActive();
-        $this->addColumnAction();
-        $this->rawColumnsNew();
-        return $this->instanceDataTable;
-    }
-    
+
+
     /**
      * Get query source of dataTable.
      *
      * @param \App\Models\Category $model
      * @return \Illuminate\Database\Eloquent\Collection
      */
+
     public function query()
     {
-        $query = $this->repository->getFlatTree();
-        $query = $this->filterIsActive($query);
+        $query = $this->repository->getQueryBuilderOrderBy();
+//        $query = $this->filterIsActive($query);
         return $query;
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
+    protected function setCustomEditColumns()
     {
-        $this->instanceHtml = $this->builder()
-        ->setTableId('categoryTable')
-        ->columns($this->getColumns())
-        ->dom('Bfrtip')
-        ->orderBy(0)
-        ->selectStyleSingle();
-
-        $this->htmlParameters();
-
-        return $this->instanceHtml;
+        $this->customEditColumns = [
+            'id' => $this->view['editlink'],
+            'name' => $this->view['editlink'],
+            'avatar' => $this->view['avatar'],
+            'is_active' => $this->view['is_active'],
+            'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
+        ];
     }
 
     /**
@@ -93,8 +68,16 @@ class CategoryDataTable extends BaseDataTable
      *
      * @return array
      */
-    protected function setCustomColumns(){
-        $this->customColumns = $this->traitGetConfigDatatableColumns('category');
+    protected function setCustomColumns(): void
+    {
+        $this->customColumns = config('datatables_columns.category', []);
+    }
+
+    protected function setCustomAddColumns()
+    {
+        $this->customAddColumns = [
+            'action' => $this->view['action'],
+        ];
     }
 
     protected function filename(): string
@@ -109,39 +92,12 @@ class CategoryDataTable extends BaseDataTable
         }
         return $query;
     }
-    protected function editColumnId(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('id', $this->view['editlink']);
+    protected function setCustomRawColumns(){
+        $this->customRawColumns = ['name', 'avatar', 'is_active', 'action'];
     }
-    protected function editColumnName(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('name', $this->view['editlink']);
-    }
-    protected function editColumnAvatar(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('avatar', $this->view['avatar']);
-    }
-    protected function editColumnIsActive(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('is_active', $this->view['is_active']);
-    }
-    protected function editColumnCreatedAt(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('created_at', '{{ date("d-m-Y", strtotime($created_at)) }}');
-    }
-    protected function addColumnAction(){
-        $this->instanceDataTable = $this->instanceDataTable->addColumn('action', $this->view['action']);
-    }
-    protected function rawColumnsNew(){
-        $this->instanceDataTable = $this->instanceDataTable->rawColumns(['name', 'avatar', 'is_active', 'action']);
-    }
-    protected function htmlParameters(){
 
-        $this->parameters['buttons'] = $this->actions;
-
-        $this->parameters['initComplete'] = "function () {
-
-            moveSearchColumnsDatatable('#categoryTable');
-
-            searchColumsDataTable(this);
-        }";
-
-        $this->instanceHtml = $this->instanceHtml
-        ->parameters($this->parameters);
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
     }
 }

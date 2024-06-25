@@ -4,92 +4,81 @@ namespace App\Admin\DataTables\Module;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Module\ModuleRepositoryInterface;
-use App\Admin\Traits\GetConfig;
+use App\Enums\Area\AreaStatus;
+use App\Enums\Module\ModuleStatus;
+
 
 class ModuleDataTable extends BaseDataTable
 {
 
-    use GetConfig;
-	
-	// ID ( Client ) của bảng DataTable
-	protected $nameTable = 'moduleTable';
-	
-    /**
-     * Available button actions. When calling an action, the value will be used
-     * as the function name (so it should be available)
-     * If you want to add or disable an action, overload and modify this property.
-     *
-     * @var array
-     */
-    // protected array $actions = ['pageLength', 'excel', 'reset', 'reload'];
-    protected array $actions = ['reset', 'reload'];
+
+    protected $nameTable = 'moduleTable';
+
 
     public function __construct(
         ModuleRepositoryInterface $repository
-    ){
+    )
+    {
+        $this->repository = $repository;
+
         parent::__construct();
 
-        $this->repository = $repository;
     }
 
-    public function getView(){
-        return [
-			'id' => 'admin.module.datatable.cotid',
-			'name' => 'admin.module.datatable.name',
-			'status' => 'admin.module.datatable.status',
+    public function setView(): void
+    {
+        $this->view = [
             'action' => 'admin.module.datatable.action',
+            'name' => 'admin.module.datatable.name',
+            'status' => 'admin.module.datatable.status',
         ];
     }
-    
-    
-    /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\User $model
-     * @return \Illuminate\Database\Eloquent\Builder
-     * Hàm thực thi gọi lệnh truy xuất từ Database ( Repository )
-     */
+
+    public function setColumnSearch(): void
+    {
+
+        $this->columnAllSearch = [0, 1,2];
+
+        $this->columnSearchSelect = [
+            [
+                'column' => 2,
+                'data' => ModuleStatus::asSelectArray()
+            ],
+
+        ];
+
+    }
+
     public function query()
     {
-        $query = $this->repository->getAll();
-        return $query;
+        return $this->repository->getQueryBuilderOrderBy();
     }
 
-    
-
-    /**
-     * Get columns.
-     *
-     * @return array
-     * Hàm kết nối tới datatable_columns Config
-     */
-    protected function setCustomColumns(){
-        $this->customColumns = $this->traitGetConfigDatatableColumns('module'); // Truyền vào tên bảng trong datatable_columns Config
+    protected function setCustomColumns(): void
+    {
+        $this->customColumns = config('datatables_columns.module', []);
     }
 
-    
-	// Thiết lập Sửa một cột
-	protected function setCustomEditColumns(){
-		// Danh sách các mảng view cột sẽ sửa lại
+    protected function setCustomEditColumns(): void
+    {
         $this->customEditColumns = [
             'name' => $this->view['name'],
             'status' => $this->view['status'],
         ];
     }
-	
-	
-	// Thiết lập Thêm một cột
-    protected function setCustomAddColumns(){
-		// Danh sách các mảng view cột sẽ thêm
+
+    protected function setCustomAddColumns(): void
+    {
         $this->customAddColumns = [
             'action' => $this->view['action'],
         ];
     }
-    
-	
-	// Thiết lập Cột Nguyên Thủy Không Bị Dính HTML
-	// Truyền vào là 1 mảng tên các cột
-	protected function setCustomRawColumns(){
+
+    protected function setCustomRawColumns(): void
+    {
         $this->customRawColumns = ['name', 'action', 'status'];
     }
+
+
+
 }

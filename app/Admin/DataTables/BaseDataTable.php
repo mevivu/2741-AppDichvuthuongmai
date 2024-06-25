@@ -9,6 +9,12 @@ abstract class BaseDataTable extends DataTable
 {
     protected $repository;
     /**
+     * ['pageLength', 'excel', 'reset', 'reload']
+     *
+     * @var array
+     */
+    protected array $actions = ['reset', 'reload'];
+    /**
      * Mảng chứa đường dẫn tới views
      *
      * @var array
@@ -32,73 +38,103 @@ abstract class BaseDataTable extends DataTable
      * @var array
      */
     protected $buildColumns = [];
-    /**
-     * config columns
-     *
-     * @var array
-     */
+
     protected $customColumns = [];
-    /**
-     * remove columns
-     *
-     * @var array
-     */
+
+    protected $customEditColumns = [];
+
+    protected $customAddColumns = [];
+
+    protected $customFilterColumns = [];
+
+    protected $customRawColumns = [];
+
     protected $removeColumns = [];
+
+    protected $columnAllSearch = [];
+
+    protected $columnSearchDate = [];
+
+    protected $columnSearchSelect = [];
+
+    protected $columnSearchSelect2 = [];
+
+    protected $nameTable = 'tableID';
     /**
      * config search columns
      *
      * @var array
      */
     protected $parameters;
-    
-	/** My Custom **/
-	protected $customRawColumns = [];
-	protected $nameTable = 'tableID';
-	protected $customEditColumns = [];
-    protected $customAddColumns = [];
-	/** My Custom **/
-	
-	
+
+
+
     public function __construct(){
-        
+
         $this->setView();
-        
+
         $this->setCustomColumns();
-        
+
+        $this->setCustomEditColumns();
+
+        $this->setCustomAddColumns();
+
+        $this->setCustomFilterColumns();
+
+        $this->setCustomRawColumns();
+
         $this->setParameters();
-		
-        /** My Custom **/
-		$this->setCustomRawColumns();
-		$this->setCustomEditColumns();
-		$this->setCustomAddColumns();
-		/** My Custom **/
-		
+
+        $this->setColumnSearch();
+
+        if(!empty($this->removeColumns)){
+            foreach($this->removeColumns as $value){
+                unset($this->customEditColumns[$value], $this->customAddColumns[$value], $this->customFilterColumns[$value], $this->customRawColumns[$value]);
+            }
+        }
+    }
+
+    abstract protected function setColumnSearch();
+
+    abstract protected function setCustomColumns();
+
+    protected function setCustomEditColumns(){
+        $this->customEditColumns = [];
+    }
+
+    protected function setCustomAddColumns(){
+        $this->customAddColumns = [];
+    }
+
+    protected function setCustomFilterColumns(){
+        $this->customFilterColumns = [];
+    }
+
+    protected function setCustomRawColumns(){
+        $this->customRawColumns = [];
     }
 
     public function getParameters(){
         return $this->parameters ?? [
-            'responsive' => true,
-            'ordering' => false,
+            // 'responsive' => true,
+            // 'ordering' => false,
             'autoWidth' => false,
             // 'searching' => false,
             // 'searchDelay' => 350,
             // 'lengthMenu' => [ [3, 25, 50, -1], [20, 50, 100, "All"] ],
             'language' => [
-                'url' => url('/public/libs/datatables/language.json')
+                'url' => asset('/public/libs/datatables/lang/'.trans()->getLocale().'.json')
             ]
         ];
     }
 
-    public function getView(){
-        return $this->view ?? [];
-    }
 
     public function setParameters(){
         return $this->parameters = $this->getParameters();
     }
 
     public function setView(){
-        $this->view = $this->getView();
+        $this->view = [];
     }
 
     protected function getColumns()
@@ -122,6 +158,29 @@ abstract class BaseDataTable extends DataTable
         return $this->buildColumns;
 
     }
+
+    protected function customEditColumns(){
+        foreach($this->customEditColumns as $key => $value){
+            $this->instanceDataTable = $this->instanceDataTable->editColumn($key, $value);
+        }
+    }
+
+    protected function customAddColumns(){
+        foreach($this->customAddColumns as $key => $value){
+            $this->instanceDataTable = $this->instanceDataTable->addColumn($key, $value);
+        }
+    }
+
+    protected function customFilterColumns(){
+        foreach($this->customFilterColumns as $key => $value){
+            $this->instanceDataTable = $this->instanceDataTable->filterColumn($key, $value);
+        }
+    }
+
+    protected function customRawColumns(){
+        $this->instanceDataTable = $this->instanceDataTable->rawColumns($this->customRawColumns);
+    }
+
     protected function exportVisiableColumns(){
         if ($this->request && in_array($this->request->get('action'), ['excel', 'csv'])) {
             if ($this->request->get('visible_columns')) {
@@ -133,11 +192,12 @@ abstract class BaseDataTable extends DataTable
             }
         }
     }
-    abstract protected function setCustomColumns();
-	
-	/** My Custom **/
-	
-	/**
+
+    protected function startBuilderDataTable($query){
+        $this->instanceDataTable = datatables()->eloquent($query);
+    }
+
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
@@ -145,14 +205,15 @@ abstract class BaseDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $this->instanceDataTable = datatables()->collection($query);
+        $this->startBuilderDataTable($query);
         $this->customEditColumns();
         $this->customAddColumns();
-		$this->customRawColumns();
+        $this->customFilterColumns();
+        $this->customRawColumns();
         return $this->instanceDataTable;
     }
-	
-	/**
+
+    /**
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\DataTables\Html\Builder
@@ -160,66 +221,39 @@ abstract class BaseDataTable extends DataTable
     public function html()
     {
         $this->instanceHtml = $this->builder()
-        ->setTableId($this->nameTable)
-        ->columns($this->getColumns())
-        ->minifiedAjax()
-        ->dom('Bfrtip')
-        ->orderBy(0)
-        ->selectStyleSingle();
+            ->setTableId($this->nameTable)
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(0)
+            ->selectStyleSingle();
 
         $this->htmlParameters();
 
         return $this->instanceHtml;
     }
-		
-		
-	protected function htmlParameters(){
+
+    protected function htmlParameters(){
 
         $this->parameters['buttons'] = $this->actions;
 
         $this->parameters['initComplete'] = "function () {
 
-            moveSearchColumnsDatatable('#".$this->nameTable."');
+            moveSearchColumnsDatatable('#{$this->nameTable}');
 
-            searchColumsDataTable(this);
+            searchColumsDataTable(this, ".json_encode($this->columnAllSearch).", ".json_encode($this->columnSearchDate).", ".json_encode($this->columnSearchSelect).", ".json_encode($this->columnSearchSelect2).");
+
+            addWrapTableScroll('#{$this->nameTable}');
+
+            ".( !empty($this->columnSearchSelect2) ? 'addSelect2(); select2LoadDataMany();' : '' )."
         }";
 
         $this->instanceHtml = $this->instanceHtml
-        ->parameters($this->parameters);
-    }	
-	
-	protected function filename(): string
+            ->parameters($this->parameters);
+    }
+
+    protected function filename(): string
     {
-        return $this->nameTable.'_' . date('YmdHis');
+        return $this->nameTable .'-' . date('YmdHis');
     }
-
-	
-	protected function customEditColumns(){
-        foreach($this->customEditColumns as $key => $value){
-            $this->instanceDataTable = $this->instanceDataTable->editColumn($key, $value);
-        }
-    }
-
-    protected function customAddColumns(){
-        foreach($this->customAddColumns as $key => $value){
-            $this->instanceDataTable = $this->instanceDataTable->addColumn($key, $value);
-        }
-    }
-	
-	protected function customRawColumns(){
-        $this->instanceDataTable = $this->instanceDataTable->rawColumns($this->customRawColumns);
-    }	
-	
-	protected function setCustomRawColumns(){
-        $this->customRawColumns = [];
-    }
-
-	protected function setCustomEditColumns(){
-        $this->customEditColumns = [];
-    }
-
-    protected function setCustomAddColumns(){
-        $this->customAddColumns = [];
-    }
-	/** My Custom **/
 }

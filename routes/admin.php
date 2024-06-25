@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\Http\Controllers\Store\StoreSearchSelectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Admin\Http\Controllers\Home\HomeController::class, 'index']);
@@ -16,8 +17,227 @@ Route::controller(App\Admin\Http\Controllers\Auth\LoginController::class)
 
 Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 
+    //area
+    Route::controller(App\Admin\Http\Controllers\Area\AreaController::class)
+        ->prefix('/areas')
+        ->as('area.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createArea', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+            Route::group(['middleware' => ['permission:viewArea', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
 
-	//***** -- Module -- ******* //
+            Route::group(['middleware' => ['permission:updateArea', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteArea', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+
+//            Route::get('/add', 'create')->name('create');
+//            Route::post('/add', 'store')->name('store');
+//            Route::get('/', 'index')->name('index');
+//            Route::get('/edit/{id}', 'edit')->name('edit');
+//            Route::put('/edit', 'update')->name('update');
+//            Route::delete('/delete/{id}', 'delete')->name('delete');
+        });
+
+    //driver
+    Route::controller(App\Admin\Http\Controllers\Driver\DriverController::class)
+        ->prefix('/drivers')
+        ->as('driver.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createDriver', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+            Route::group(['middleware' => ['permission:viewDriver', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
+          Route::group(['middleware' => ['permission:updateDriver', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteDriver', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+
+
+        });
+    //Notification
+    Route::controller(App\Admin\Http\Controllers\Notification\NotificationController::class)
+        ->prefix('/notifications')
+        ->as('notification.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createNotification', 'auth:admin']], function () {
+                Route::get('/add', 'create')->name('create');
+                Route::post('/add', 'store')->name('store');
+
+            });
+            Route::group(['middleware' => ['permission:viewNotification', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+            });
+
+            Route::group(['middleware' => ['permission:updateNotification', 'auth:admin']], function () {
+                Route::put('/edit', 'update')->name('update');
+
+            });
+
+            Route::group(['middleware' => ['permission:deleteNotification', 'auth:admin']], function () {
+                Route::delete('/delete/{id}', 'delete')->name('delete');
+
+            });
+
+        });
+
+    //Select Search
+    Route::prefix('/search')->as('search.')->group(function () {
+        Route::prefix('/select')->as('select.')->group(function () {
+            Route::get('/user', [App\Admin\Http\Controllers\User\UserSearchSelectController::class, 'selectSearch'])->name('user');
+            Route::get('/product', [App\Admin\Http\Controllers\Product\ProductSearchSelectController::class, 'selectSearch'])->name('product');
+
+        });
+    });
+
+
+
+    Route::prefix('/stores')->as('store.')->group(function () {
+
+        // Store routes with middleware
+        Route::controller(App\Admin\Http\Controllers\Store\StoreController::class)->group(function () {
+
+            Route::group(['middleware' => ['permission:createStore', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+
+            Route::group(['middleware' => ['permission:viewStore', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
+
+            Route::group(['middleware' => ['permission:updateStore', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteStore', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+        });
+
+        // Category routes with middleware
+        Route::prefix('/store-categories')->as('category.')->group(function () {
+            Route::controller(App\Admin\Http\Controllers\Store\Category\StoreCategoryController::class)->group(function () {
+
+                Route::group(['middleware' => ['permission:createStoreCategory', 'auth:admin']], function () {
+                    Route::get('/them', 'create')->name('create');
+                    Route::post('/them', 'store')->name('store');
+                });
+
+                Route::group(['middleware' => ['permission:viewStoreCategory', 'auth:admin']], function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('/sua/{id}', 'edit')->name('edit');
+                });
+
+                Route::group(['middleware' => ['permission:updateStoreCategory', 'auth:admin']], function () {
+                    Route::put('/sua', 'update')->name('update');
+                });
+
+                Route::group(['middleware' => ['permission:deleteStoreCategory', 'auth:admin']], function () {
+                    Route::delete('/xoa/{id}', 'delete')->name('delete');
+                });
+
+            });
+        });
+
+    });
+
+    //Discount
+    Route::controller(App\Admin\Http\Controllers\Discount\DiscountController::class)
+        ->prefix('/discounts')
+        ->as('discount.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createDiscountCode', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+            Route::group(['middleware' => ['permission:viewDiscountCode', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
+
+            Route::group(['middleware' => ['permission:updateDiscountCode', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+
+            });
+
+            Route::group(['middleware' => ['permission:deleteDiscountCode', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+
+            });
+
+        });
+
+    //Topping
+    Route::controller(App\Admin\Http\Controllers\Topping\ToppingController::class)
+        ->prefix('/toppings')
+        ->as('topping.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createDiscountCode', 'auth:admin']], function () {
+                Route::get('/add', 'create')->name('create');
+                Route::post('/add', 'store')->name('store');
+
+            });
+            Route::group(['middleware' => ['permission:viewDiscountCode', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+
+            });
+
+            Route::group(['middleware' => ['permission:updateDiscountCode', 'auth:admin']], function () {
+                Route::put('/edit', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteDiscountCode', 'auth:admin']], function () {
+                Route::delete('/delete/{id}', 'delete')->name('delete');
+            });
+
+        });
+
+    //Vehicle
+    Route::controller(App\Admin\Http\Controllers\Vehicle\VehicleController::class)
+        ->prefix('/vehicles')
+        ->as('vehicle.')
+        ->group(function () {
+            Route::group(['middleware' => ['permission:createDiscountCode', 'auth:admin']], function () {
+                Route::get('/add', 'create')->name('create');
+                Route::post('/add', 'store')->name('store');
+
+            });
+            Route::group(['middleware' => ['permission:viewDiscountCode', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+
+            });
+
+            Route::group(['middleware' => ['permission:updateDiscountCode', 'auth:admin']], function () {
+                Route::put('/edit', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteDiscountCode', 'auth:admin']], function () {
+                Route::delete('/delete/{id}', 'delete')->name('delete');
+            });
+
+        });
+
+    //***** -- Module -- ******* //
     Route::prefix('/module')->as('module.')->group(function(){
         Route::controller(App\Admin\Http\Controllers\Module\ModuleController::class)->group(function(){
             Route::get('/them', 'create')->name('create');
@@ -47,7 +267,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 	//***** -- Role -- ******* //
     Route::prefix('/role')->as('role.')->group(function(){
         Route::controller(App\Admin\Http\Controllers\Role\RoleController::class)->group(function(){
-			
+
             Route::group(['middleware' => ['permission:createRole', 'auth:admin']], function () {
 				 Route::get('/them', 'create')->name('create');
 				 Route::post('/them', 'store')->name('store');
@@ -56,14 +276,14 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-            
+
 			Route::group(['middleware' => ['permission:updateRole', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
 			Route::group(['middleware' => ['permission:deleteRole', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
-			}); 
+			});
         });
     });
 	//***** -- Role -- ******* //
@@ -73,7 +293,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
     //Post
     Route::prefix('/posts')->as('post.')->group(function(){
         Route::controller(App\Admin\Http\Controllers\Post\PostController::class)->group(function(){
-            
+
 			Route::group(['middleware' => ['permission:createPost', 'auth:admin']], function () {
 				 Route::get('/them', 'create')->name('create');
 				 Route::post('/them', 'store')->name('store');
@@ -82,18 +302,18 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-            
+
 			Route::group(['middleware' => ['permission:updatePost', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
 			Route::group(['middleware' => ['permission:deletePost', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
-			}); 
+			});
         });
     });
 
-	
+
 
 
     //Post category
@@ -107,14 +327,14 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-            
+
 			Route::group(['middleware' => ['permission:updatePostCategory', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
 			Route::group(['middleware' => ['permission:deletePostCategory', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
-			}); 
+			});
         });
     });
 
@@ -126,7 +346,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 		Route::group(['middleware' => ['permission:settingGeneral', 'auth:admin']], function () {
 			Route::get('/general', 'general')->name('general');
 		});
-        
+
         Route::get('/user-shopping', 'userShopping')->name('user_shopping');
         Route::put('/update', 'update')->name('update');
     });
@@ -152,14 +372,14 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-            
+
 			Route::group(['middleware' => ['permission:updateSlider', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
 			Route::group(['middleware' => ['permission:deleteSlider', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
-			}); 
+			});
         });
     });
 
@@ -170,7 +390,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
     ->group(function(){
         Route::delete('/delete/{id?}', 'delete')->name('delete');
     });
-    
+
     //Order
     Route::prefix('/orders')->as('order.')->group(function(){
         Route::controller(App\Admin\Http\Controllers\Order\OrderController::class)->group(function(){
@@ -178,21 +398,21 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/them', 'create')->name('create');
 				 Route::post('/them', 'store')->name('store');
 			});
-            
+
 			Route::group(['middleware' => ['permission:viewOrder', 'auth:admin']], function () {
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-			
-			
+
+
             Route::group(['middleware' => ['permission:updateOrder', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
             Route::group(['middleware' => ['permission:deleteOrder', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
 			});
-              
+
             Route::get('/render-info-shipping', 'renderInfoShipping')->name('render_info_shipping');
             Route::get('/add-product', 'addProduct')->name('add_product');
             Route::get('/calculate-total-before-save-order', 'calculateTotalBeforeSaveOrder')->name('calculate_total_before_save_order');
@@ -219,14 +439,14 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-            
+
 			Route::group(['middleware' => ['permission:updateProductAttribute', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
 			Route::group(['middleware' => ['permission:deleteProductAttribute', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
-			}); 
+			});
         });
     });
 
@@ -241,14 +461,14 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-            
+
 			Route::group(['middleware' => ['permission:updateProduct', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
 			Route::group(['middleware' => ['permission:deleteProduct', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
-			}); 
+			});
         });
         Route::controller(App\Admin\Http\Controllers\Product\ProductAttributeController::class)
         ->prefix('/attributes')
@@ -286,11 +506,11 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-            
+
 			Route::group(['middleware' => ['permission:updateProductCategory', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
 			Route::group(['middleware' => ['permission:deleteProductCategory', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
 			});
@@ -308,11 +528,11 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-            
+
 			Route::group(['middleware' => ['permission:updateUser', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
 			Route::group(['middleware' => ['permission:deleteUser', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
 			});
@@ -330,14 +550,14 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
 				 Route::get('/', 'index')->name('index');
 				 Route::get('/sua/{id}', 'edit')->name('edit');
 			});
-            
+
 			Route::group(['middleware' => ['permission:updateAdmin', 'auth:admin']], function () {
 				Route::put('/sua', 'update')->name('update');
 			});
-            
+
 			Route::group(['middleware' => ['permission:deleteAdmin', 'auth:admin']], function () {
 				Route::delete('/xoa/{id}', 'delete')->name('delete');
-			}); 
+			});
         });
         // Route::get('/select-search', [AdminSearchController::class, 'selectSearch'])->name('selectsearch');
     });
@@ -370,6 +590,11 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
     Route::prefix('/search')->as('search.')->group(function(){
         Route::prefix('/select')->as('select.')->group(function(){
             Route::get('/user', [App\Admin\Http\Controllers\User\UserSearchSelectController::class, 'selectSearch'])->name('user');
+            Route::get('/store-categories', [App\Admin\Http\Controllers\Store\Category\StoreCategorySearchSelectController::class, 'selectSearch'])->name('store_category');
+            Route::get('/store', [StoreSearchSelectController::class, 'selectSearch'])->name('store');
+            Route::get('/area', [App\Admin\Http\Controllers\Area\AreaSearchSelectController::class, 'selectSearch'])->name('area');
+
+
         });
         Route::get('/render-product-and-variation', [App\Admin\Http\Controllers\Product\ProductController::class, 'searchRenderProductAndVariation'])->name('render_product_and_variation');
     });

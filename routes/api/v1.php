@@ -1,6 +1,7 @@
 <?php
 
-use App\Api\V1\Http\Controllers\Auth\AuthController;
+use App\Api\V1\Http\Controllers\Auth\StoreController;
+use App\Api\V1\Http\Controllers\Order\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,27 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+//auth
+Route::prefix('auth')->controller(StoreController::class)
+    ->group(function () {
+        Route::get('/', 'show')->name('show');
+        Route::post('/login', 'login')->name('login');
+        Route::post('/register', 'register')->name('register');
+        Route::post('/logout', 'logout')->name('logout');
+        Route::post('/refresh', 'refresh')->name('refresh');
+        Route::post('/send-otp', 'sendOTP')->name('sendOTP');
+
+    });
+
+
+//order
+Route::prefix('orders')->controller(OrderController::class)
+    ->group(function () {
+        Route::post('/book-car', 'createBookOrder')->name('createBookOrder');
+    });
+
+
 
 //post category
 Route::controller(App\Api\V1\Http\Controllers\PostCategory\PostCategoryController::class)
@@ -42,19 +64,10 @@ Route::controller(App\Api\V1\Http\Controllers\Review\ReviewController::class)
         Route::post('/store', 'store')->name('store')->middleware('auth:sanctum');
     });
 
+
 Route::middleware('auth:sanctum')->group(function () {
 
-    //order
-    Route::controller(App\Api\V1\Http\Controllers\Order\OrderController::class)
-        ->prefix('/order')
-        ->as('order.')
-        ->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::post('/store', 'store')->name('store');
-            Route::put('/cancel', 'cancel')->name('cancel');
-            Route::get('/show/{id}', 'show')->name('show');
-            Route::delete('/delete/{id}', 'delete')->name('delete');
-        });
+
     //shopping cart
     Route::controller(App\Api\V1\Http\Controllers\ShoppingCart\ShoppingCartController::class)
         ->prefix('/shopping-cart')
@@ -129,15 +142,6 @@ Route::controller(App\Api\V1\Http\Controllers\Slider\SliderController::class)
         Route::get('/show/{key}', 'show')->name('show');
     });
 
-//auth
-Route::prefix('auth')->controller(AuthController::class)
-    ->group(function () {
-        Route::get('/', 'show')->name('show');
-        Route::post('/login', 'login')->name('login');
-        Route::post('/register', 'register')->name('register');
-        Route::post('/logout', 'logout')->name('logout');
-        Route::post('/refresh', 'refresh')->name('refresh');
-    });
 
 
 Route::controller(App\Api\V1\Http\Controllers\Auth\ResetPasswordController::class)

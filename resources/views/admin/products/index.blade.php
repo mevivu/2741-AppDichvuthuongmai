@@ -1,8 +1,8 @@
 @extends('admin.layouts.master')
 
 @push('libs-css')
-<link rel="stylesheet" href="{{ asset('/public/libs/select2/dist/css/select2.min.css') }}">
-<link rel="stylesheet" href="{{ asset('/public/libs/select2/dist/css/select2-bootstrap-5-theme.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/public/libs/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/public/libs/select2/dist/css/select2-bootstrap-5-theme.min.css') }}">
 @endpush
 @push('custom-css')
     <style>
@@ -26,7 +26,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"
-                                    class="text-muted">{{ __('Dashboard') }}</a></li>
+                                                           class="text-muted">{{ __('Dashboard') }}</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{ __('Danh sách sản phẩm') }}</li>
                         </ol>
                     </nav>
@@ -44,7 +44,7 @@
                 <div class="card-body">
                     <div class="table-responsive position-relative">
                         <x-admin.partials.toggle-column-datatable />
-                        {{$dataTable->table(['class' => 'table table-bordered', 'style' => 'min-width: 900px;'], true)}}
+                        {{$dataTable->table(['class' => 'table table-bordered'], true)}}
                     </div>
                 </div>
             </div>
@@ -53,16 +53,18 @@
 @endsection
 
 @push('libs-js')
-<!-- button in datatable -->
-<script src="{{ asset('/public/libs/select2/dist/js/select2.min.js') }}"></script>
-<script src="{{ asset('/public/libs/select2/dist/js/i18n/vi.js') }}"></script>
-<script src="{{ asset('/public/vendor/datatables/buttons.server-side.js') }}"></script>
+    <!-- button in datatable -->
+    <script src="{{ asset('/public/libs/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('/public/libs/select2/dist/js/i18n/vi.js') }}"></script>
+    <script src="{{ asset('/public/vendor/datatables/buttons.server-side.js') }}"></script>
 @endpush
 
 @push('custom-js')
 
-{{ $dataTable->scripts() }}
+    {{ $dataTable->scripts() }}
 
-@include('admin.products.scripts.datatable')
+    @include('admin.scripts.datatable-toggle-columns', [
+        'id_table' => $dataTable->getTableAttribute('id')
+    ])
 
 @endpush

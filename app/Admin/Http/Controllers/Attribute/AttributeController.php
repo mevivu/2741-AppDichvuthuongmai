@@ -2,17 +2,17 @@
 
 namespace App\Admin\Http\Controllers\Attribute;
 
+use App\Admin\DataTables\Attribute\AttributeDataTable;
 use App\Admin\Http\Controllers\Controller;
 use App\Admin\Http\Requests\Attribute\AttributeRequest;
 use App\Admin\Repositories\Attribute\AttributeRepositoryInterface;
 use App\Admin\Services\Attribute\AttributeServiceInterface;
-use App\Admin\DataTables\Attribute\AttributeDataTable;
 use App\Enums\Attribute\AttributeType;
 
 class AttributeController extends Controller
 {
     public function __construct(
-        AttributeRepositoryInterface $repository, 
+        AttributeRepositoryInterface $repository,
         AttributeServiceInterface $service
     ){
 
@@ -20,12 +20,13 @@ class AttributeController extends Controller
 
         $this->repository = $repository;
 
-        
+
         $this->service = $service;
-        
+
     }
 
-    public function getView(){
+    public function getView(): array
+    {
         return [
             'index' => 'admin.attributes.index',
             'create' => 'admin.attributes.create',
@@ -33,7 +34,8 @@ class AttributeController extends Controller
         ];
     }
 
-    public function getRoute(){
+    public function getRoute(): array
+    {
         return [
             'index' => 'admin.attribute.index',
             'create' => 'admin.attribute.create',
@@ -51,7 +53,7 @@ class AttributeController extends Controller
 
     public function create(){
 
-        return view($this->view['create'], 
+        return view($this->view['create'],
             [
                 'type' => AttributeType::asSelectArray()
             ]
@@ -68,7 +70,7 @@ class AttributeController extends Controller
     }
 
     public function edit($id){
-        
+
         $instance = $this->repository->findOrFail($id);
         return view(
             $this->view['edit'],
@@ -79,7 +81,7 @@ class AttributeController extends Controller
         );
 
     }
- 
+
     public function update(AttributeRequest $request){
 
         $this->service->update($request);
@@ -91,8 +93,8 @@ class AttributeController extends Controller
     public function delete($id){
 
         $this->service->delete($id);
-        
+
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
-        
+
     }
 }
