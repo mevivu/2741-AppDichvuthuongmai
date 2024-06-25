@@ -24,8 +24,8 @@ class UserRequest extends BaseRequest
             'address' => ['nullable'],
             'gender' => ['required', new Enum(Gender::class)],
             'password' => ['required', 'string', 'confirmed'],
-            'latitude' => ['nullable'],
-            'longitude' => ['nullable'],
+            'lng' => ['nullable'],
+            'lat' => ['nullable'],
             'birthday' => ['required', 'date_format:Y-m-d'],
             'avatar' => ['nullable']
 
@@ -44,8 +44,8 @@ class UserRequest extends BaseRequest
             'gender' => ['required', new Enum(Gender::class)],
             'birthday' => ['required', 'date_format:Y-m-d'],
             'password' => ['nullable', 'string', 'confirmed'],
-            'latitude' => ['nullable'],
-            'longitude' => ['nullable'],
+            'lat' => ['nullable'],
+            'lng' => ['nullable'],
             'avatar' => ['nullable'],
         ];
     }

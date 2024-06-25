@@ -32,11 +32,11 @@ Route::prefix('store')->controller(StoreController::class)
 Route::prefix('auth')->controller(UserController::class)
     ->group(function () {
         Route::get('/', 'show')->name('show');
+        Route::post('/', 'update')->name('update');
         Route::post('/login', 'login')->name('login');
         Route::post('/register', 'register')->name('register');
-//        Route::post('/logout', 'logout')->name('logout');
-//        Route::post('/refresh', 'refresh')->name('refresh');
-//        Route::post('/send-otp', 'sendOTP')->name('sendOTP');
+        Route::post('/logout', 'logout')->name('logout');
+        Route::post('/refresh', 'refresh')->name('refresh');
 
     });
 

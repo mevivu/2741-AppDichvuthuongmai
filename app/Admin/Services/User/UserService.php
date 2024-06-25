@@ -36,6 +36,8 @@ class UserService implements UserServiceInterface
             $data['username'] = $data['phone'];
             $data['code'] = $this->createCodeUser();
             $data['password'] = bcrypt($data['password']);
+            $data['longitude'] = $request['lng'];
+            $data['latitude'] = $request['lat'];
 
             $user = $this->repository->create($data);
             $roles = $this->getRoleCustomer();
@@ -54,15 +56,17 @@ class UserService implements UserServiceInterface
 
     public function update(Request $request): object|bool
     {
-        $data = $request->validated();
 
         DB::beginTransaction();
         try {
+            $data = $request->validated();
             if (isset($data['password']) && $data['password']) {
                 $data['password'] = bcrypt($data['password']);
             } else {
                 unset($data['password']);
             }
+            $data['longitude'] = $request['lng'];
+            $data['latitude'] = $request['lat'];
 
             $user = $this->repository->update($data['id'], $data);
             DB::commit();

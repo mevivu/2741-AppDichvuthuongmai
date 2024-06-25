@@ -6,11 +6,14 @@ use App\Admin\Http\Controllers\Controller;
 use App\Api\V1\Http\Requests\Auth\LoginRequest;
 use App\Api\V1\Http\Requests\Auth\RefreshTokenRequest;
 use App\Api\V1\Http\Requests\Auth\RegisterRequest;
+use App\Api\V1\Http\Requests\Auth\UpdateRequest;
 use App\Api\V1\Http\Resources\Auth\AuthResource;
 use App\Api\V1\Services\User\UserServiceInterface;
+use App\Api\V1\Support\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
@@ -18,6 +21,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
  */
 class UserController extends Controller
 {
+    use Response;
+
     private static string $GUARD_API = 'api';
 
     private $login;
@@ -36,6 +41,18 @@ class UserController extends Controller
     {
 
         return Auth::guard(self::$GUARD_API)->attempt($this->login);
+
+    }
+
+    public function update(UpdateRequest $request): JsonResponse
+    {
+        try {
+            $response = $this->service->update($request);
+            return $this->jsonResponseSuccess($response);
+        } catch (Exception $e) {
+            Log::error('Order creation failed: ' . $e->getMessage());
+            return $this->jsonResponseError($e->getMessage(), 500);
+        }
 
     }
 
