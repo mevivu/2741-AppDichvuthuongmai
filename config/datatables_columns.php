@@ -28,13 +28,7 @@ return [
         ],
     ],
     'notifications' => [
-        // 'checkbox' => [
-        //     'title' => 'checkbox',
-        //     'orderable' => false,
-        //     'exportable' => false,
-        //     'printable' => false,
-        //     'addClass' => 'text-center',
-        // ],
+
         'title' => [
             'title' => 'Tiêu đề',
             'orderable' => false,
@@ -625,12 +619,12 @@ return [
             'orderable' => false,
         ],
         'user' => [
-            'title' => 'Thành viên',
+            'title' => 'customer',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
         'driver' => [
-            'title' => 'Thành viên',
+            'title' => 'driver',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],

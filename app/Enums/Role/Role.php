@@ -10,8 +10,13 @@ enum Role: string
     use Enum;
 
     case Customer = "customer";
+
     case Driver = "driver";
     case SupperAdmin = "superAdmin";
+    case Hotel = "hotel";
+
+    case Store = "store";
+    case Restaurant = "restaurant";
 
     public function badge(): string
     {
@@ -19,6 +24,9 @@ enum Role: string
             Role::Customer => 'bg-green-lt',
             Role::Driver => 'bg-red-lt',
             Role::SupperAdmin => 'bg-pink-lt',
+            Role::Hotel => 'bg-blue-lt',
+            Role::Store => 'bg-orange-lt',
+            Role::Restaurant => 'bg-yellow-lt'
         };
     }
 }

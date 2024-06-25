@@ -259,21 +259,21 @@ return [
         ]
     ],
     [
-        'title' => 'Thành viên',
+        'title' => 'customer',
         'routeName' => null,
         'icon' => '<i class="ti ti-users"></i>',
         'roles' => [],
         'permissions' => ['createUser', 'viewUser', 'updateUser', 'deleteUser'],
         'sub' => [
             [
-                'title' => 'Thêm thành viên',
+                'title' => 'add',
                 'routeName' => 'admin.user.create',
                 'icon' => '<i class="ti ti-plus"></i>',
                 'roles' => [],
                 'permissions' => ['createUser'],
             ],
             [
-                'title' => 'DS thành viên',
+                'title' => 'list',
                 'routeName' => 'admin.user.index',
                 'icon' => '<i class="ti ti-list"></i>',
                 'roles' => [],

@@ -24,10 +24,14 @@
                       id="category_id"
                       :data-url="route('admin.search.select.store_category')"
                       :required="true">
-                <x-select-option :option="$store->category_id" :value="$store->category_id"
-                                 :title="$store->category->name"/>
+                @if(isset($store->category))
+                    <x-select-option :option="$store->category_id" :value="$store->category_id" :title="$store->category->name"/>
+                @else
+                    <x-select-option :option="$store->category_id" :value="$store->category_id" :title="'N/A'"/>
+                @endif
             </x-select>
         </div>
+
     </div>
     <div class="card mb-3">
         <div class="card-header">
@@ -36,12 +40,10 @@
         <div class="card-body p-2 wrap-select2">
             <x-select name="area_id"
                       class="select2-bs5-ajax"
-                      :data-url="route('admin.search.select.area')"
                       id="area_id"
+                      :data-url="route('admin.search.select.area')"
                       :required="true">
-                <x-select-option :option="$store->area_id"
-                                 :value="$store->area_id"
-                                 :title="$store->area->name"/>
+                <x-select-option :option="$store->area_id" :value="$store->area_id" :title="$store->area->name ?? 'N/A'"/>
             </x-select>
         </div>
     </div>

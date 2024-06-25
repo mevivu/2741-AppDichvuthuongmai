@@ -20,4 +20,19 @@ trait Roles
     {
         return Role::Driver->value;
     }
+
+    public function getRoleHotel(): string
+    {
+        return Role::Hotel->value;
+    }
+
+    public function getRoleStore(): string
+    {
+        return Role::Store->value;
+    }
+
+    public function getRoleRestaurant(): string
+    {
+        return Role::Restaurant->value;
+    }
 }

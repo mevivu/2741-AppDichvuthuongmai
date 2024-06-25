@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('area_id');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('area_id')->nullable();
             $table->string('code')->unique();
             $table->string('username')->unique();
             $table->string('password');
@@ -44,12 +44,12 @@ return new class extends Migration
 
             $table->foreign('category_id')->references('id')
                 ->on('store_categories')
-                ->onDelete('cascade');
+                ->onDelete('set null');
 
             $table->foreign('area_id')
                 ->references('id')
                 ->on('areas')
-                ->onDelete('cascade');
+                ->onDelete('set null');
 
             $table->rememberToken();
             $table->timestamps();

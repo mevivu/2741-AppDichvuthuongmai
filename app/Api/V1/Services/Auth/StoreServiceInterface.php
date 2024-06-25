@@ -3,7 +3,7 @@
 namespace App\Api\V1\Services\Auth;
 use Illuminate\Http\Request;
 
-interface AuthServiceInterface
+interface StoreServiceInterface
 {
     /**
      * Tạo mới

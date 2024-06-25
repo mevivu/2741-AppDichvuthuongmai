@@ -7,8 +7,9 @@ use App\Enums\Store\StoreStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Store extends Authenticatable
+class Store extends Authenticatable implements JWTSubject
 {
     use HasFactory;
 
@@ -73,5 +74,15 @@ class Store extends Authenticatable
     public function area(): BelongsTo
     {
         return $this->belongsTo(Area::class, 'area_id');
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(): array
+    {
+        return [];
     }
 }

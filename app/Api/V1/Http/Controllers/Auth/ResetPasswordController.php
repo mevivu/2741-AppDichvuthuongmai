@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Api\V1\Mail\Auth\ResetPassword;
 use App\Api\V1\Repositories\User\UserRepositoryInterface;
-use App\Api\V1\Services\Auth\AuthServiceInterface;
+use App\Api\V1\Services\Auth\StoreServiceInterface;
 
 /**
  * @group Người dùng
@@ -20,7 +20,7 @@ class ResetPasswordController extends Controller
     //
     public function __construct(
         UserRepositoryInterface $repository,
-        AuthServiceInterface $service
+        StoreServiceInterface $service
     )
     {
         parent::__construct();
@@ -38,24 +38,24 @@ class ResetPasswordController extends Controller
      *
      * Lấy lại mật khẩu khi người dùng quên mật khẩu.
      *
-     * 
+     *
      * @bodyParam email string required
      * Email Của bạn. Example: example@gmail.com
-     * 
+     *
      * @response {
      *      "status": 200,
      *      "message": "Thực hiện thành công. Vui lòng kiểm tra email của bạn để lấy lại mật khẩu."
      * }
      *
      * @param  App\Api\V1\Http\Requests\Auth\ResetPasswordRequest  $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function checkAndSendMail(ResetPasswordRequest $request){
         $instance = $this->service->updateTokenPassword($request)
         ->generateRouteGetPassword($this->route['edit'])
         ->getInstance();
-        
+
         Mail::to($instance['user'])->send(new ResetPassword($instance['user'], $instance['url']));
 
         return response()->json([

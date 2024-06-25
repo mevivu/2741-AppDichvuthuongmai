@@ -25,13 +25,6 @@ class PermissionSeeder extends Seeder
             'updated_at' => DB::raw('NOW()')
         ]);
         DB::table('roles')->insert([
-            'title' => 'Phụ huynh',
-            'name' => 'parents',
-            'guard_name' => 'web',
-            'created_at' => DB::raw('NOW()'),
-            'updated_at' => DB::raw('NOW()')
-        ]);
-        DB::table('roles')->insert([
             'title' => 'Khách hàng',
             'name' => 'customer',
             'guard_name' => 'web',
@@ -41,6 +34,20 @@ class PermissionSeeder extends Seeder
         DB::table('roles')->insert([
             'title' => 'Tài xế',
             'name' => 'driver',
+            'guard_name' => 'web',
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('roles')->insert([
+            'title' => 'Khách sạn',
+            'name' => 'hotel',
+            'guard_name' => 'web',
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('roles')->insert([
+            'title' => 'Nhà hàng',
+            'name' => 'restaurant',
             'guard_name' => 'web',
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()')
