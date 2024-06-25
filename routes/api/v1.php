@@ -1,6 +1,6 @@
 <?php
 
-use App\Api\V1\Http\Controllers\Auth\StoreController;
+use App\Api\V1\Http\Controllers\Store\StoreController;
 use App\Api\V1\Http\Controllers\Order\OrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //auth
-Route::prefix('auth')->controller(StoreController::class)
+Route::prefix('store')->controller(StoreController::class)
     ->group(function () {
         Route::get('/', 'show')->name('show');
         Route::post('/login', 'login')->name('login');
@@ -144,7 +144,7 @@ Route::controller(App\Api\V1\Http\Controllers\Slider\SliderController::class)
 
 
 
-Route::controller(App\Api\V1\Http\Controllers\Auth\ResetPasswordController::class)
+Route::controller(App\Api\V1\Http\Controllers\Store\ResetPasswordController::class)
     ->prefix('/reset-password')
     ->as('reset_password.')
     ->group(function () {

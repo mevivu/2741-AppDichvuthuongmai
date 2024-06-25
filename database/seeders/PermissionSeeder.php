@@ -52,6 +52,13 @@ class PermissionSeeder extends Seeder
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()')
         ]);
+        DB::table('roles')->insert([
+            'title' => 'Cửa hàng/ Tạp hoá',
+            'name' => 'restaurant',
+            'guard_name' => 'store',
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
         //modules
         DB::table('modules')->insert([
             'id' => 1,

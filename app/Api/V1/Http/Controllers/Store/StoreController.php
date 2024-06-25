@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Api\V1\Http\Controllers\Auth;
+namespace App\Api\V1\Http\Controllers\Store;
 
 use App\Admin\Http\Controllers\Controller;
-use App\Api\V1\Http\Resources\Auth\AuthResource;
+use App\Api\V1\Http\Resources\Store\StoreResource;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use App\Api\V1\Http\Requests\Auth\{LoginRequest, RefreshTokenRequest, RegisterRequest};
-use App\Api\V1\Repositories\User\UserRepositoryInterface;
 use App\Api\V1\Services\Auth\StoreServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -17,7 +16,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
  */
 class StoreController extends Controller
 {
-    private static string $GUARD_API = 'api';
+    private static string $GUARD_API = 'store-api';
     private $login;
 
     protected $auth;
@@ -28,13 +27,13 @@ class StoreController extends Controller
     )
     {
         $this->service = $service;
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'sendOTP']]);
+        $this->middleware('auth:store-api', ['except' => ['login', 'register', 'sendOTP']]);
     }
 
     protected function resolve(): bool
     {
 
-        return Auth::attempt($this->login);
+        return Auth::guard(self::$GUARD_API)->attempt($this->login);
 
     }
 
@@ -67,7 +66,7 @@ class StoreController extends Controller
         $this->login = $request->validated();
 
         if ($this->resolve()) {
-            $user = Auth::user();
+            $user = Auth::guard(self::$GUARD_API)->user();
             $token = JWTAuth::fromUser($user);
             $refreshToken = $this->createRefreshToken($user);
             return $this->respondWithToken($token, $refreshToken);
@@ -81,9 +80,9 @@ class StoreController extends Controller
 
 
     /**
-     * Lấy thông tin người dùng đã xác thực.
+     * Lấy thông tin Cửa hàng tạp hoá
      *
-     * API này trả về thông tin chi tiết của người dùng đã xác thực hiện tại
+     * API này trả về thông tin chi tiết của Cửa hàng tạp hoá đã xác thực hiện tại
      * @authenticated
      *
      * Các trạng thái (status) của đơn hàng bao gồm:
@@ -112,7 +111,7 @@ class StoreController extends Controller
         return response()->json([
             'status' => 200,
             'message' => __('notifySuccess'),
-            'data' => new AuthResource($user)
+            'data' => new StoreResource($user)
         ]);
     }
 

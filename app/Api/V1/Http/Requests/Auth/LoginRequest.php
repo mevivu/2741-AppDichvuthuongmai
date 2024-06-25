@@ -14,7 +14,7 @@ class LoginRequest extends BaseRequest
     protected function methodPost(): array
     {
         return [
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'store_phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'password' => 'required'
         ];
     }

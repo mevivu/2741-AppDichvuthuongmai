@@ -2,17 +2,23 @@
 
 namespace App\Models;
 
+use App\Admin\Support\Eloquent\Sluggable;
 use App\Casts\OpenHour;
 use App\Enums\Store\StoreStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Store extends Authenticatable implements JWTSubject
 {
-    use HasFactory;
+    use HasRoles, HasFactory, HasApiTokens, Sluggable, Notifiable;
 
+    protected $columnSlug = 'store_name';
     /**
      * The attributes that aren't mass assignable.
      *
@@ -74,6 +80,13 @@ class Store extends Authenticatable implements JWTSubject
     public function area(): BelongsTo
     {
         return $this->belongsTo(Area::class, 'area_id');
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id')
+            ->withPivot('model_type')
+            ->wherePivot('model_type', self::class);
     }
 
     public function getJWTIdentifier()

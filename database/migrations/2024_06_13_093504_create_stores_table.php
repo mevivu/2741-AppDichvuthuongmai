@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('area_id')->nullable();
             $table->string('code')->unique();
+            $table->string('slug')->unique();
             $table->string('username')->unique();
             $table->string('password');
             $table->string('store_name');
