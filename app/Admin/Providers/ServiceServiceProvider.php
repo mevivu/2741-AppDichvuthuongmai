@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ServiceServiceProvider extends ServiceProvider
 {
-    protected $services = [
+    protected array $services = [
 		'App\Admin\Services\Module\ModuleServiceInterface' => 'App\Admin\Services\Module\ModuleService',
 		'App\Admin\Services\Permission\PermissionServiceInterface' => 'App\Admin\Services\Permission\PermissionService',
 		'App\Admin\Services\Role\RoleServiceInterface' => 'App\Admin\Services\Role\RoleService',
@@ -26,9 +26,10 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Admin\Services\Store\Category\StoreCategoryServiceInterface' => 'App\Admin\Services\Store\Category\StoreCategoryService',
         'App\Admin\Services\Store\StoreServiceInterface' => 'App\Admin\Services\Store\StoreService',
         'App\Admin\Services\Notification\NotificationServiceInterface' => 'App\Admin\Services\Notification\NotificationService',
-        'App\Admin\Services\DiscountCode\DiscountCodeServiceInterface' => 'App\Admin\Services\DiscountCode\DiscountCodeService',
         'App\Admin\Services\Topping\ToppingServiceInterface' => 'App\Admin\Services\Topping\ToppingService',
         'App\Admin\Services\Vehicle\VehicleServiceInterface' => 'App\Admin\Services\Vehicle\VehicleService',
+        'App\Admin\Services\Discount\DiscountApplicationServiceInterface' => 'App\Admin\Services\Discount\DiscountApplicationService',
+        'App\Admin\Services\Discount\DiscountServiceInterface' => 'App\Admin\Services\Discount\DiscountService',
 
     ];
     /**
@@ -36,7 +37,7 @@ class ServiceServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
         foreach ($this->services as $interface => $implement) {

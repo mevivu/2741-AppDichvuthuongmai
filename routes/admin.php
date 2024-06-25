@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\Http\Controllers\Store\StoreSearchSelectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Admin\Http\Controllers\Home\HomeController::class, 'index']);
@@ -132,7 +133,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
         });
 
         // Category routes with middleware
-        Route::prefix('/categories')->as('category.')->group(function () {
+        Route::prefix('/store-categories')->as('category.')->group(function () {
             Route::controller(App\Admin\Http\Controllers\Store\Category\StoreCategoryController::class)->group(function () {
 
                 Route::group(['middleware' => ['permission:createStoreCategory', 'auth:admin']], function () {
@@ -159,7 +160,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
     });
 
     //Discount
-    Route::controller(App\Admin\Http\Controllers\DiscountCode\DiscountCodeController::class)
+    Route::controller(App\Admin\Http\Controllers\Discount\DiscountController::class)
         ->prefix('/discounts')
         ->as('discount.')
         ->group(function () {
@@ -590,7 +591,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function(){
         Route::prefix('/select')->as('select.')->group(function(){
             Route::get('/user', [App\Admin\Http\Controllers\User\UserSearchSelectController::class, 'selectSearch'])->name('user');
             Route::get('/store-categories', [App\Admin\Http\Controllers\Store\Category\StoreCategorySearchSelectController::class, 'selectSearch'])->name('store_category');
-            Route::get('/store', [\App\Admin\Http\Controllers\Store\StoreSearchSelectController::class, 'selectSearch'])->name('store');
+            Route::get('/store', [StoreSearchSelectController::class, 'selectSearch'])->name('store');
             Route::get('/area', [App\Admin\Http\Controllers\Area\AreaSearchSelectController::class, 'selectSearch'])->name('area');
 
 

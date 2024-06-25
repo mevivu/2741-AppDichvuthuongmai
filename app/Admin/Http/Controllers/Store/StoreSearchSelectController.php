@@ -14,7 +14,8 @@ class StoreSearchSelectController extends BaseSearchSelectController
         $this->repository = $repository;
     }
 
-    protected function selectResponse(){
+    protected function selectResponse(): void
+    {
         $this->instance = [
             'results' => StoreSearchSelectResource::collection($this->instance)
         ];

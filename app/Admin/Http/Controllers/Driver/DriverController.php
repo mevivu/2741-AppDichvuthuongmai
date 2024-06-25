@@ -109,8 +109,6 @@ class DriverController extends Controller
                 'areas' => $areas,
                 'driver' => $driver,
                 'breadcrumbs' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('edit')),
-
-
             ],
         );
     }

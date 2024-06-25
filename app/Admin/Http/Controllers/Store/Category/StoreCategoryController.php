@@ -8,7 +8,6 @@ use App\Admin\Repositories\StoreCategory\StoreCategoryRepositoryInterface;
 use App\Admin\Services\Store\Category\StoreCategoryServiceInterface;
 use App\Admin\DataTables\Store\Category\StoreCategoryDataTable;
 use App\Enums\DefaultStatus;
-use Illuminate\Support\Facades\Log;
 
 class StoreCategoryController extends Controller
 {

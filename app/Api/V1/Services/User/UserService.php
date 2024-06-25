@@ -2,17 +2,20 @@
 
 namespace App\Api\V1\Services\User;
 
-use App\Api\V1\Services\User\UserServiceInterface;
+use App\Admin\Traits\Roles;
 use  App\Api\V1\Repositories\User\UserRepositoryInterface;
+use App\Enums\User\Gender;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
-use App\Enums\User\Gender;
-use App\Enums\User\UserRoles;
-use App\Enums\User\UserVip;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
+
 
 class UserService implements UserServiceInterface
 {
-    use Setup;
+    use Setup, Roles;
+
     /**
      * Current Object instance
      *
@@ -22,29 +25,44 @@ class UserService implements UserServiceInterface
 
     protected $repository;
 
-    public function __construct(UserRepositoryInterface $repository){
+    public function __construct(UserRepositoryInterface $repository)
+    {
         $this->repository = $repository;
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $data = $request->validated();
+            $data['username'] = $data['phone'];
+            $data['password'] = bcrypt($data['password']);
+            $data['code'] = $this->createCodeUser();
+            $data['gender'] = Gender::Female;
 
-        $this->data = $request->validated();
-        $this->data['username'] = $this->data['phone'];
-        $this->data['code'] = $this->createCodeUser();
-        $this->data['roles'] = UserRoles::Member();
-        $this->data['vip'] = UserVip::Default();
-        $this->data['gender'] = Gender::Male();
-        $this->data['password'] = bcrypt($this->data['password']);
-        return $this->repository->create($this->data);
+            $user = $this->repository->create($data);
+            $this->repository->assignRoles($user, [$this->getRoleCustomer()]);
+            DB::commit();
+            return $user;
+        } catch (Throwable $e) {
+            DB::rollback();
+            Log::error('Failed to process Register user', [
+                'error' => $e->getMessage(),
+            ]);
+            throw $e;
+//            return false;
+        }
+
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
 
         $this->data = $request->validated();
 
-        if(isset($this->data['password']) && $this->data['password']){
+        if (isset($this->data['password']) && $this->data['password']) {
             $this->data['password'] = bcrypt($this->data['password']);
-        }else{
+        } else {
             unset($this->data['password']);
         }
 
@@ -52,7 +70,8 @@ class UserService implements UserServiceInterface
 
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         return $this->repository->delete($id);
 
     }

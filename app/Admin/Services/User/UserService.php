@@ -7,10 +7,12 @@ use App\Admin\Traits\Roles;
 use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserService implements UserServiceInterface
 {
-    use Setup,Roles;
+    use Setup, Roles;
 
     /**
      * Current Object instance
@@ -26,57 +28,56 @@ class UserService implements UserServiceInterface
         $this->repository = $repository;
     }
 
-    public function store(Request $request)
+    public function store(Request $request): object|false
     {
+        DB::beginTransaction();
         try {
-            $this->data = $request->validated();
-            $this->data['username'] = $this->data['phone'];
-            $this->data['code'] = $this->createCodeUser();
-            $this->data['avatar'] = $request->avatar;
-            $this->data['password'] = bcrypt($this->data['password']);
-            $this->data['longitude'] = $request['lng'];
-            $this->data['latitude'] = $request['lat'];
+            $data = $request->validated();
+            $data['username'] = $data['phone'];
+            $data['code'] = $this->createCodeUser();
+            $data['password'] = bcrypt($data['password']);
 
-            if ($request->has('birthday')) {
-                $this->data['birthday'] = $request->birthday;
-            }
-
-            $user = $this->repository->create($this->data);
+            $user = $this->repository->create($data);
             $roles = $this->getRoleCustomer();
-            $this->repository->assignRoles($user, $roles);
+            $this->repository->assignRoles($user, [$roles]);
+
+            DB::commit();
             return $user;
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            DB::rollback();
+            Log::error('Failed to process create user', [
+                'error' => $e->getMessage(),
+            ]);
+            return false;
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request): object|bool
     {
+        $data = $request->validated();
 
-        $this->data = $request->validated();
-        $this->data['longitude'] = $request['lng'];
-        $this->data['latitude'] = $request['lat'];
-        if ($request->has('avatar')) {
-            $this->data['avatar'] = $request->avatar;
-        }
-        if (isset($this->data['password']) && $this->data['password']) {
-            $this->data['password'] = bcrypt($this->data['password']);
-        } else {
-            unset($this->data['password']);
-        }
-        if ($request->has('birthday')) {
-            $this->data['birthday'] = $request->birthday;
-        }
-        $this->repository->syncUserRoles($this->data['id'], $request->roles);
+        DB::beginTransaction();
+        try {
+            if (isset($data['password']) && $data['password']) {
+                $data['password'] = bcrypt($data['password']);
+            } else {
+                unset($data['password']);
+            }
 
-        $user =  $this->repository->update($this->data['id'], $this->data);
-        $roles = $this->getRoleCustomer();
-        $this->repository->assignRoles($user, $roles);
-        return $user;
+            $user = $this->repository->update($data['id'], $data);
+            DB::commit();
+            return $user;
 
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('Failed to process update user', [
+                'error' => $e->getMessage(),
+            ]);
+            return false;
+        }
     }
 
-    public function delete($id)
+    public function delete($id): object
     {
         return $this->repository->delete($id);
 

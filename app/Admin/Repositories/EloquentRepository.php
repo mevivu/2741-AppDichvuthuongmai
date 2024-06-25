@@ -258,5 +258,63 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
     }
 
 
+    /**
+     * Attach related models to a specified model instance using a relation.
+     *
+     * @param int $id
+     * @param array $ids Array of IDs to attach via the relation.
+     * @param string $relation The relationship method name on the model.
+     * @throws Exception
+     */
+    public function attachRelations(int $id, array $ids, string $relation): void
+    {
+        $model = $this->find($id);
+
+        if (!$model) {
+            throw new Exception("Model with ID $id not found.");
+        }
+
+        if (!method_exists($model, $relation)) {
+            throw new Exception("Relation $relation does not exist on the model.");
+        }
+
+        if (!empty($ids)) {
+            foreach ($ids as $id) {
+                $model->$relation()->attach($id);
+            }
+        }
+    }
+
+    /**
+     * Synchronizes the relationship ids for a given model.
+     * It compares current relationship ids with new ids, detaches the unwanted ones,
+     * and attaches the new ones that are not currently associated.
+     *
+     * @param Model $model The Eloquent model instance.
+     * @param string $relationship The relationship method name on the model.
+     * @param array $newIds The array of new ids to be synced with the model's relationship.
+     * @param string $idKey The key used to retrieve ids from the relationship.
+     */
+    public function syncRelationshipIds($model, $relationship, array $newIds, $idKey): void
+    {
+        $currentIds = $model->$relationship()->pluck($idKey)->toArray();
+
+        $idsToDetach = array_diff($currentIds, $newIds);
+
+        $idsToAttach = array_diff($newIds, $currentIds);
+
+        if (!empty($idsToDetach)) {
+            $model->$relationship()->detach($idsToDetach);
+        }
+
+        if (!empty($idsToAttach)) {
+            foreach ($idsToAttach as $id) {
+                $model->$relationship()->attach($id);
+            }
+        }
+    }
+
+
+
 
 }

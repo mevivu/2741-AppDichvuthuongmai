@@ -54,6 +54,17 @@ if (!function_exists('format_date')) {
     }
 }
 
+if (!function_exists('format_datetime')) {
+    function format_datetime($datetime, $format = null)
+    {
+        if ($datetime) {
+            $format = $format ?: config('custom.format.datetime');
+            return date($format, strtotime($datetime));
+        }
+        return null;
+    }
+}
+
 if (!function_exists('getBoundsByName')) {
     /**
      * Lấy khung giới hạn cho một địa điểm cụ thể bằng cách sử dụng Google Geocoding API.

@@ -28,13 +28,7 @@ return [
         ],
     ],
     'notifications' => [
-        // 'checkbox' => [
-        //     'title' => 'checkbox',
-        //     'orderable' => false,
-        //     'exportable' => false,
-        //     'printable' => false,
-        //     'addClass' => 'text-center',
-        // ],
+
         'title' => [
             'title' => 'Tiêu đề',
             'orderable' => false,
@@ -68,51 +62,71 @@ return [
         ],
 
     ],
-    'discount_code' => [
-        'DT_RowIndex' => [
-            'title' => 'STT',
-            'width' => '20px',
-            'orderable' => false
-        ],
-        'name' => [
-            'title' => 'Tên mã',
+    'discount' => [
+        'code' => [
+            'title' => 'Mã',
             'orderable' => false,
-            'addClass' => 'text-center align-middle'
+            'addClass' => 'align-middle'
         ],
-        'discount' => [
-            'title' => 'Giảm giá',
+        'stores' => [
+            'title' => 'store',
             'orderable' => false,
-            'addClass' => 'text-center align-middle'
+            'addClass' => 'align-middle'
         ],
-        'apply_date' => [
-            'title' => 'Ngày áp dụng',
+        'products' => [
+            'title' => 'product',
             'orderable' => false,
-            'addClass' => 'text-center align-middle'
-        ],
-        'expiration_date' => [
-            'title' => 'Ngày hết hạn',
-            'orderable' => false,
-            'addClass' => 'text-center align-middle'
-        ],
-        'status' => [
-            'title' => 'Trạng thái',
-            'orderable' => false,
-            'addClass' => 'text-center align-middle'
-        ],
-        'apply_qty' => [
-            'title' => 'Số lượng áp dụng',
-            'orderable' => false,
+            'addClass' => 'align-middle',
             'visible' => false,
-            'addClass' => 'text-center align-middle'
         ],
-        'maximum_qty' => [
-            'title' => 'Số lượng tối đa',
+        'users' => [
+            'title' => 'user',
             'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'drivers' => [
+            'title' => 'driver',
+            'orderable' => false,
+            'addClass' => 'align-middle',
             'visible' => false,
-            'addClass' => 'text-center align-middle'
+        ],
+
+        'date_start' => [
+            'title' => 'Ngày bắt đầu',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'date_end' => [
+            'title' => 'Ngày kết thúc',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'max_usage' => [
+            'title' => 'Số lượng phiếu',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => false
+        ],
+        'min_order_amount' => [
+            'title' => 'Giá trị ĐH',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+        ],
+        'type' => [
+            'title' => 'Loại',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => false
+        ],
+        'discount_value' => [
+            'title' => 'giá trị giảm',
+            'orderable' => false,
+            'addClass' => 'align-middle'
         ],
         'action' => [
-            'title' => 'Thao tác',
+            'title' => 'action',
             'orderable' => false,
             'exportable' => false,
             'printable' => false,
@@ -605,12 +619,12 @@ return [
             'orderable' => false,
         ],
         'user' => [
-            'title' => 'Thành viên',
+            'title' => 'customer',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
         'driver' => [
-            'title' => 'Thành viên',
+            'title' => 'driver',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],

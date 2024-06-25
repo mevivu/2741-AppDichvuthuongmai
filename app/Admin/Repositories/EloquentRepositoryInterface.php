@@ -15,6 +15,7 @@ interface EloquentRepositoryInterface
      * @return mixed
      */
     public function getAll();
+
     /**
      * Find a single record
      *
@@ -24,6 +25,7 @@ interface EloquentRepositoryInterface
      * @throws \Exception
      */
     public function findOrFail($id);
+
     /**
      * Find a single record
      *
@@ -33,6 +35,7 @@ interface EloquentRepositoryInterface
      * @throws \Exception
      */
     public function find($id);
+
     /**
      * Create a new record
      *
@@ -51,6 +54,7 @@ interface EloquentRepositoryInterface
      * @throws \Exception
      */
     public function update($id, array $data);
+
     /**
      * Delete a record
      *
@@ -59,6 +63,7 @@ interface EloquentRepositoryInterface
      * @throws \Exception
      */
     public function delete($id);
+
     /**
      * make query
      *
@@ -91,4 +96,9 @@ interface EloquentRepositoryInterface
     public function syncModelRoles($modelId, array $roles);
 
     public function assignRoles(Model $model, array $rolesNames): bool;
+
+    public function attachRelations(int $id, array $ids, string $relation);
+
+    public function syncRelationshipIds($model, $relationship, array $newIds, $idKey): void;
+
 }
