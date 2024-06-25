@@ -3,8 +3,7 @@
 namespace App\Admin\Http\Requests\Discount;
 
 use App\Admin\Http\Requests\BaseRequest;
-use App\Enums\Discount\DiscountStatus;
-use BenSampo\Enum\Rules\EnumValue;
+
 
 class DiscountRequest extends BaseRequest
 {
@@ -37,17 +36,13 @@ class DiscountRequest extends BaseRequest
     protected function methodPut(): array
     {
         return [
-            'id' => ['required', 'exists:App\Models\DiscountCode,id'],
-            'product_id' => ['required', 'exists:App\Models\Product,id'],
-            'name' => ['required', 'string'],
-            'discount' => ['required', 'numeric'],
-            'apply_qty' => ['required', 'integer', 'min:1'],
-            'maximum_qty' => ['required', 'integer', 'min:1'],
-            'apply_date' => ['required', 'date_format:Y-m-d'],
-            'expiration_date' => ['required', 'date_format:Y-m-d'],
-            'service_applies' => ['nullable', 'string'],
-            'conditions' => ['required', 'string'],
-            'status' => ['required', new EnumValue(DiscountStatus::class, false)],
+            'id' => ['required', 'exists:App\Models\Discount,id'],
+            'date_start' => 'required|date',
+            'date_end' => 'required|date|after_or_equal:date_start',
+            'max_usage' => 'nullable|integer',
+            'min_order_amount' => 'nullable|numeric',
+            'type' => 'required|integer',
+            'discount_value' => 'required|numeric',
             'store_ids' => 'nullable|array',
             'store_ids.*' => 'exists:stores,id',
             'user_ids' => 'nullable|array',

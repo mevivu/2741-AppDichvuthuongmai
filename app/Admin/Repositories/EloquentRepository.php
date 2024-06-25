@@ -285,5 +285,36 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
         }
     }
 
+    /**
+     * Synchronizes the relationship ids for a given model.
+     * It compares current relationship ids with new ids, detaches the unwanted ones,
+     * and attaches the new ones that are not currently associated.
+     *
+     * @param Model $model The Eloquent model instance.
+     * @param string $relationship The relationship method name on the model.
+     * @param array $newIds The array of new ids to be synced with the model's relationship.
+     * @param string $idKey The key used to retrieve ids from the relationship.
+     */
+    public function syncRelationshipIds($model, $relationship, array $newIds, $idKey): void
+    {
+        $currentIds = $model->$relationship()->pluck($idKey)->toArray();
+
+        $idsToDetach = array_diff($currentIds, $newIds);
+
+        $idsToAttach = array_diff($newIds, $currentIds);
+
+        if (!empty($idsToDetach)) {
+            $model->$relationship()->detach($idsToDetach);
+        }
+
+        if (!empty($idsToAttach)) {
+            foreach ($idsToAttach as $id) {
+                $model->$relationship()->attach($id);
+            }
+        }
+    }
+
+
+
 
 }

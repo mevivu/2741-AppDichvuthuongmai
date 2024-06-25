@@ -1,2 +1,2 @@
 
-    <x-link :href="route('store.discount.edit', $id)" :title="$code"/>
+    <x-link :href="route('admin.discount.edit', $id)" :title="$code"/>

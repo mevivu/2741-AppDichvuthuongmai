@@ -21,7 +21,6 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('store_id')->nullable();
             $table->unsignedBigInteger('order_id')->nullable();
-            $table->timestamps();
 
             // Foreign keys
             $table->foreign('discount_code_id')->references('id')->on('discounts')->onDelete('cascade');

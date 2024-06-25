@@ -19,20 +19,38 @@ class DiscountService implements DiscountServiceInterface
      */
     protected array $data;
 
-    protected DiscountApplicationRepositoryInterface $discountApplicationRepository;
     protected DiscountRepositoryInterface $repository;
 
-    public function __construct(DiscountApplicationRepositoryInterface $discountApplicationRepository,
-                                DiscountRepositoryInterface            $repository)
+    public function __construct(
+        DiscountRepositoryInterface $repository)
     {
         $this->repository = $repository;
-        $this->discountApplicationRepository = $discountApplicationRepository;
     }
 
 
-    public function update(Request $request)
+    public function update(Request $request): object|bool
     {
+        DB::beginTransaction();
 
+        try {
+            $data = $request->validated();
+            $discountId = $data['id'];
+
+            $storeIds = $data['store_ids'] ?? [];
+            $userIds = $data['user_ids'] ?? [];
+
+            $discount = $this->repository->update($discountId, $data);
+            $discount->stores()->sync($storeIds);
+            $discount->users()->sync($userIds);
+            DB::commit();
+            return $discount;
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('Discount update failed:', [
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
     }
 
     /**
@@ -68,10 +86,9 @@ class DiscountService implements DiscountServiceInterface
         } catch (Exception $e) {
             DB::rollback();
             Log::error('Failed to create discount:', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'error' => $e->getMessage()
             ]);
-//            return false;
+            return false;
 
 
         }
