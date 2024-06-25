@@ -3,8 +3,7 @@
 namespace App\Api\V1\Http\Requests\Auth;
 
 use App\Api\V1\Http\Requests\BaseRequest;
-use App\Enums\Store\BossType;
-use Illuminate\Validation\Rules\Enum;
+
 
 class RegisterRequest extends BaseRequest
 {
@@ -16,14 +15,11 @@ class RegisterRequest extends BaseRequest
     protected function methodPost(): array
     {
         return [
-            'store_phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:stores,store_phone'],
+            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:users,phone'],
+            'fullname' => ['required', 'string'],
             'password' => ['required', 'string', 'confirmed'],
-            'type' => ['required', new Enum(BossType::class)],
-            'store_name' => ['required', 'string'],
-            'contact_email' => ['required', 'email', 'unique:stores,contact_email'],
-            'lat' => ['required'],
-            'lng' => ['required'],
-            'address' => ['required','string'],
+            'email' => ['required', 'email', 'unique:users,email'],
+
         ];
     }
 }

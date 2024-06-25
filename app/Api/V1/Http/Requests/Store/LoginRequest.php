@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\V1\Http\Requests\Auth;
+namespace App\Api\V1\Http\Requests\Store;
 
 use App\Api\V1\Http\Requests\BaseRequest;
 
@@ -14,7 +14,7 @@ class LoginRequest extends BaseRequest
     protected function methodPost(): array
     {
         return [
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'store_phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'password' => 'required'
         ];
     }

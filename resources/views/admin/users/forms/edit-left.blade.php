@@ -31,8 +31,8 @@
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('birthday'):</label>
-                    <x-input type="date" name="birthday" :value="format_date($user->birthday, 'Y-m-d')"
-                             :required="true"/>
+                    <x-input type="date" name="birthday" :value="isset($user->birthday) ? format_date($user->birthday, 'Y-m-d') : null"
+                             required="true"/>
                 </div>
             </div>
 

@@ -3,10 +3,13 @@
 namespace App\Api\V1\Http\Controllers\Store;
 
 use App\Admin\Http\Controllers\Controller;
+use App\Admin\Repositories\Store\StoreRepositoryInterface;
+use App\Api\V1\Http\Requests\Store\LoginRequest;
+use App\Api\V1\Http\Requests\Store\RegisterRequest;
 use App\Api\V1\Http\Resources\Store\StoreResource;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use App\Api\V1\Http\Requests\Auth\{LoginRequest, RefreshTokenRequest, RegisterRequest};
+use App\Api\V1\Http\Requests\Auth\{RefreshTokenRequest};
 use App\Api\V1\Services\Auth\StoreServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -22,11 +25,14 @@ class StoreController extends Controller
     protected $auth;
 
 
+
     public function __construct(
-        StoreServiceInterface   $service,
+        StoreServiceInterface $service,
+        StoreRepositoryInterface $repository
     )
     {
         $this->service = $service;
+        $this->repository = $repository;
         $this->middleware('auth:store-api', ['except' => ['login', 'register', 'sendOTP']]);
     }
 

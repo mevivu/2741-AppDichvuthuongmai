@@ -67,7 +67,7 @@ class StoreService implements StoreServiceInterface
             Log::error('Failed to process transaction', [
                 'error' => $e->getMessage(),
             ]);
-            throw  $e;
+            return false;
         }
     }
 

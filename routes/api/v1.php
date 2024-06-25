@@ -2,6 +2,7 @@
 
 use App\Api\V1\Http\Controllers\Store\StoreController;
 use App\Api\V1\Http\Controllers\Order\OrderController;
+use App\Api\V1\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//auth
+//store
 Route::prefix('store')->controller(StoreController::class)
     ->group(function () {
         Route::get('/', 'show')->name('show');
@@ -27,13 +28,24 @@ Route::prefix('store')->controller(StoreController::class)
 
     });
 
+//auth
+Route::prefix('auth')->controller(UserController::class)
+    ->group(function () {
+//        Route::get('/', 'show')->name('show');
+//        Route::post('/login', 'login')->name('login');
+        Route::post('/register', 'register')->name('register');
+//        Route::post('/logout', 'logout')->name('logout');
+//        Route::post('/refresh', 'refresh')->name('refresh');
+//        Route::post('/send-otp', 'sendOTP')->name('sendOTP');
+
+    });
+
 
 //order
 Route::prefix('orders')->controller(OrderController::class)
     ->group(function () {
         Route::post('/book-car', 'createBookOrder')->name('createBookOrder');
     });
-
 
 
 //post category
@@ -141,7 +153,6 @@ Route::controller(App\Api\V1\Http\Controllers\Slider\SliderController::class)
     ->group(function () {
         Route::get('/show/{key}', 'show')->name('show');
     });
-
 
 
 Route::controller(App\Api\V1\Http\Controllers\Store\ResetPasswordController::class)
