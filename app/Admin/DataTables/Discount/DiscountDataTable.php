@@ -27,6 +27,8 @@ class DiscountDataTable extends BaseDataTable
             'action' => 'admin.discounts.datatable.action',
             'title' => 'admin.discounts.datatable.title',
             'edit_link' => 'admin.discounts.datatable.edit-link',
+            'stores' => 'admin.discounts.datatable.stores',
+            'users' => 'admin.discounts.datatable.users',
         ];
     }
 
@@ -68,6 +70,18 @@ class DiscountDataTable extends BaseDataTable
             'date_start' => '{{ format_datetime($date_start) }}',
             'min_order_amount' => '{{ format_price($min_order_amount) }}',
             'discount_value' => '{{ format_price($discount_value) }}',
+            'stores' => function ($discount) {
+                $stores = $discount->stores;
+                return view($this->view['stores'], [
+                    'stores' => $stores
+                ])->render();
+            },
+            'users' => function ($discount) {
+                $users = $discount->users;
+                return view($this->view['users'], [
+                    'users' => $users
+                ])->render();
+            }
 
         ];
     }
@@ -81,22 +95,24 @@ class DiscountDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['action', 'code',];
+        $this->customRawColumns = ['action', 'code', 'stores', 'users'];
     }
 
     public function setCustomFilterColumns(): void
     {
         $this->customFilterColumns = [
-            'code' => function ($query, $keyword) {
-                $query->whereHas('discountCode', function ($subQuery) use ($keyword) {
-                    $subQuery->where('code', 'like', '%' . $keyword . '%');
+            'users' => function ($query, $keyword) {
+                $query->whereHas('users', function ($subQuery) use ($keyword) {
+                    $subQuery->where('fullname', 'like', '%' . $keyword . '%');
                 });
             },
-            'type' => function ($query, $keyword) {
-                $query->whereHas('discountCode', function ($subQuery) use ($keyword) {
-                    $subQuery->where('type', 'like', '%' . $keyword . '%');
+            'stores' => function ($query, $keyword) {
+                $query->whereHas('stores', function ($subQuery) use ($keyword) {
+                    $subQuery->where('store_name', 'like', '%' . $keyword . '%');
                 });
             },
+
+
         ];
     }
 }
