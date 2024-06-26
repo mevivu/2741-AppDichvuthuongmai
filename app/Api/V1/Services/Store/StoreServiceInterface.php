@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\V1\Services\Auth;
+namespace App\Api\V1\Services\Store;
 use Illuminate\Http\Request;
 
 interface StoreServiceInterface
@@ -29,8 +29,6 @@ interface StoreServiceInterface
      */
     public function delete($id);
 
-    public function updateTokenPassword(Request $request);
-    public function generateRouteGetPassword($view);
     public function getInstance();
 
 }

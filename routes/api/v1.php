@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\V1\Http\Controllers\Driver\DriverController;
 use App\Api\V1\Http\Controllers\Store\StoreController;
 use App\Api\V1\Http\Controllers\Order\OrderController;
 use App\Api\V1\Http\Controllers\User\UserController;
@@ -30,6 +31,18 @@ Route::prefix('store')->controller(StoreController::class)
 
 //auth
 Route::prefix('auth')->controller(UserController::class)
+    ->group(function () {
+        Route::get('/', 'show')->name('show');
+        Route::post('/', 'update')->name('update');
+        Route::post('/login', 'login')->name('login');
+        Route::post('/register', 'register')->name('register');
+        Route::post('/logout', 'logout')->name('logout');
+        Route::post('/refresh', 'refresh')->name('refresh');
+
+    });
+
+//driver
+Route::prefix('auth')->controller(DriverController::class)
     ->group(function () {
         Route::get('/', 'show')->name('show');
         Route::post('/', 'update')->name('update');
