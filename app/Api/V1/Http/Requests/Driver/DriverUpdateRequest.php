@@ -3,9 +3,11 @@
 namespace App\Api\V1\Http\Requests\Driver;
 
 use App\Api\V1\Http\Requests\BaseRequest;
+use App\Enums\User\Gender;
+use Illuminate\Validation\Rules\Enum;
 
 
-class DriverRequest extends BaseRequest
+class DriverUpdateRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,11 +17,10 @@ class DriverRequest extends BaseRequest
     protected function methodPost(): array
     {
         return [
-            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:users,phone'],
             'fullname' => ['required', 'string'],
-            'password' => ['required', 'string', 'confirmed'],
-            'email' => ['required', 'email', 'unique:users,email'],
+            'email' => ['required', 'email', 'unique:App\Models\User,email,' . $this->user()->id],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'gender' => ['required', new Enum(Gender::class)],
             'id_card' => ['required', 'string'],
             'id_card_front' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'id_card_back' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],

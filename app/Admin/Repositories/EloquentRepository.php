@@ -53,6 +53,19 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Find records by a specific field.
+     *
+     * @param string $field The field to filter by.
+     * @param mixed $value The value to search for.
+     * @param array $relations Optional related models to load.
+     * @return Model|null Returns a collection of found records.
+     */
+    public function findByField(string $field, $value, array $relations = []): ?Model
+    {
+        return $this->model->where($field, $value)->with($relations)->first();
+    }
+
+    /**
      * Get All
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Services\File;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -125,7 +126,7 @@ class FileService
         return $this->instance;
     }
 
-    public function getStatus()
+    public function getStatus(): bool
     {
         return $this->status;
     }
@@ -156,13 +157,36 @@ class FileService
         return $this->instance;
     }
 
-    public function uploadImages(string $folder, array $data, array $imageFields): array
+    /**
+     * Uploads images for the specified fields and deletes old images from related models if applicable.
+     *
+     * @param string $folder The directory where images will be uploaded.
+     * @param array $data The data array containing file information for uploading.
+     * @param array $imageFields The fields within $data that need to be processed for image upload.
+     * @param Model|null $model The model instance that may contain old file paths for deletion.
+     * @param array $relationFields The relationships and their specific fields that need old images deleted.
+     * @return array The updated $data array with new image paths.
+     */
+    public function uploadImages(string $folder, array $data, array $imageFields, Model $model = null, array $relationFields = []): array
     {
         foreach ($imageFields as $field) {
             if (isset($data[$field])) {
-                $data[$field] = $this->uploadAvatar($folder, $data[$field]);
+                $currentPath = $model && isset($model[$field]) ? $model[$field] : null;
+                $data[$field] = $this->uploadAvatar($folder, $data[$field], $currentPath);
             }
         }
+        foreach ($relationFields as $relation => $fields) {
+            if ($model && isset($model->$relation)) {
+                foreach ($fields as $field) {
+                    if (isset($model->$relation->$field)) {
+                        $this->delete($model->$relation->$field);
+                    }
+                }
+            }
+        }
+
         return $data;
     }
+
+
 }

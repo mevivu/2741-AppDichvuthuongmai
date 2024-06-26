@@ -7,18 +7,19 @@ use App\Admin\Traits\Roles;
 use App\Api\V1\Repositories\Driver\DriverRepositoryInterface;
 use App\Api\V1\Repositories\User\UserRepositoryInterface;
 use App\Api\V1\Support\AuthServiceApi;
+use App\Api\V1\Support\UseLog;
+use App\Constants\ImageFields;
 use App\Enums\User\Gender;
 use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Throwable;
 
 
 class DriverService implements DriverServiceInterface
 {
-    use Setup, Roles, AuthServiceApi;
+    use Setup, Roles, AuthServiceApi, UseLog;
 
     /**
      * Current Object instance
@@ -27,7 +28,10 @@ class DriverService implements DriverServiceInterface
      */
     protected array $data;
 
+    private string $folderDriver = "images/drivers";
+
     protected DriverRepositoryInterface $repository;
+
     protected UserRepositoryInterface $userRepository;
 
     protected FileService $fileService;
@@ -41,33 +45,13 @@ class DriverService implements DriverServiceInterface
         $this->fileService = $fileService;
     }
 
-    public static function getImageFields(): array
-    {
-        return [
-            'avatar',
-            'id_card_front',
-            'id_card_back',
-            'license_plate_image',
-            'vehicle_registration_front',
-            'vehicle_registration_back',
-            'driver_license_front',
-            'driver_license_back',
-            'vehicle_front_image',
-            'vehicle_back_image',
-            'vehicle_side_image',
-            'vehicle_interior_image',
-            'insurance_front_image',
-            'insurance_back_image'
-        ];
-    }
-
 
     public function store(Request $request)
     {
         DB::beginTransaction();
         try {
             $data = $request->validated();
-            $data = $this->fileService->uploadImages("images/drivers",$data, $this->getImageFields());
+            $data = $this->fileService->uploadImages($this->folderDriver, $data, ImageFields::getDriverFields());
             $userInfo = [
                 'phone' => $data['phone'],
                 'password' => bcrypt($data['password']),
@@ -80,7 +64,7 @@ class DriverService implements DriverServiceInterface
             ];
             // create user
             $createdUser = $this->userRepository->create($userInfo);
-            $this->repository->assignRoles($createdUser, [$this->getRoleDriver()]);
+            $this->userRepository->assignRoles($createdUser, [$this->getRoleDriver()]);
             $data['user_id'] = $createdUser->id;
             // create driver
             $driver = $this->repository->create($data);
@@ -89,11 +73,8 @@ class DriverService implements DriverServiceInterface
             return $driver;
         } catch (Throwable $e) {
             DB::rollback();
-            Log::error('Failed to process Register user', [
-                'error' => $e->getMessage(),
-            ]);
-            throw $e;
-//            return false;
+            $this->logError('Failed to process register driver', $e);
+            return false;
         }
 
     }
@@ -102,30 +83,26 @@ class DriverService implements DriverServiceInterface
     {
         DB::beginTransaction();
         try {
+
             $data = $request->validated();
+            $driver = $this->getCurrentDriver();
+            $data = $this->fileService->uploadImages($this->folderDriver, $data,
+                ImageFields::getDriverFields(), $driver, ['user' => ['avatar']]);
             $user = $this->getCurrentUser();
-            $avatar = $data['avatar'];
             $userInfo = [
-                'phone' => $data['phone'],
-                'password' => bcrypt($data['password']),
-                'username' => $user['phone'],
                 'email' => $data['email'],
                 'fullname' => $data['fullname'],
-                'code' => $this->createCodeUser(),
-                'gender' => Gender::Female,
-                'avatar' => $this->fileService->uploadAvatar('images', $avatar, $avatar)
+                'gender' => $data['gender'],
+                'avatar' => $data['avatar']
             ];
-            $createdUser = $this->userRepository->create($userInfo);
+            $this->userRepository->update($user->id, $userInfo);
+            $driver = $this->repository->update($driver->id, $data);
 
-
-            $response = $this->repository->update($user->id, $data);
             DB::commit();
-            return $response;
+            return $driver;
         } catch (Exception $e) {
             DB::rollback();
-            Log::error('Failed to process update user', [
-                'error' => $e->getMessage(),
-            ]);
+            $this->logError('Failed to process update driver', $e);
             return false;
         }
     }
