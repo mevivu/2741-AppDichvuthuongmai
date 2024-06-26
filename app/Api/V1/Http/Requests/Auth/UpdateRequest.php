@@ -4,7 +4,7 @@ namespace App\Api\V1\Http\Requests\Auth;
 
 use App\Api\V1\Http\Requests\BaseRequest;
 use App\Enums\User\Gender;
-use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateRequest extends BaseRequest
 {
@@ -13,13 +13,18 @@ class UpdateRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodPut()
+    protected function methodPost(): array
     {
         return [
             'fullname' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:App\Models\User,email,'.$this->user()->id],
-            'gender' => ['required', new EnumValue(Gender::class, false)],
+            'email' => ['required', 'email', 'unique:App\Models\User,email,' . $this->user()->id],
+            'gender' => ['required', new Enum(Gender::class)],
             'address' => ['nullable'],
+            'area_id' => ['nullable', 'exists:areas,id'],
+//            'category_id' => ['nullable', 'exists:store_categories'],
+            'longitude' => ['nullable'],
+            'latitude' => ['nullable'],
+            'avatar' => ['nullable'],
         ];
     }
 }

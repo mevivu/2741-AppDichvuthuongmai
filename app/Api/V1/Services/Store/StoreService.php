@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Api\V1\Services\Auth;
+namespace App\Api\V1\Services\Store;
 
 use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Admin\Traits\Roles;
 use App\Enums\Store\BossType;
+use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\URL;
 use Throwable;
 
 class StoreService implements StoreServiceInterface
@@ -71,7 +71,10 @@ class StoreService implements StoreServiceInterface
         }
     }
 
-    public function update(Request $request)
+    /**
+     * @throws Exception
+     */
+    public function update(Request $request): object|bool
     {
 
         $this->data = $request->validated();
@@ -86,29 +89,10 @@ class StoreService implements StoreServiceInterface
 
     }
 
-    public function delete($id)
+    public function delete($id): object|bool
     {
         return $this->repository->delete($id);
 
-    }
-
-    public function updateTokenPassword(Request $request)
-    {
-        $user = $this->repository->findByKey('email', $request->input('email'));
-        $this->data['token_get_password'] = $this->generateTokenGetPassword();
-        $this->instance['user'] = $this->repository->updateObject($user, $this->data);
-        return $this;
-    }
-
-    public function generateRouteGetPassword($routeName)
-    {
-        $this->instance['url'] = URL::temporarySignedRoute(
-            $routeName, now()->addMinutes(30), [
-                'token' => $this->data['token_get_password'],
-                'code' => $this->instance['user']->code
-            ]
-        );
-        return $this;
     }
 
     public function getInstance()

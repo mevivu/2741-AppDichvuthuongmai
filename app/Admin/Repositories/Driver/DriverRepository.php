@@ -4,7 +4,6 @@ namespace App\Admin\Repositories\Driver;
 use App\Admin\Repositories\EloquentRepository;
 use App\Admin\Repositories\Driver\DriverRepositoryInterface;
 use App\Models\Driver;
-use Carbon\Carbon;
 
 class DriverRepository extends EloquentRepository implements DriverRepositoryInterface
 {
@@ -35,6 +34,7 @@ class DriverRepository extends EloquentRepository implements DriverRepositoryInt
                 ->orWhere('fullname', 'LIKE', "%$key%");
         });
     }
+
 
 
 

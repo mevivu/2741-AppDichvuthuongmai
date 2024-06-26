@@ -6,8 +6,9 @@ use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
-    protected $repositories = [
+    protected array $repositories = [
         'App\Api\V1\Repositories\User\UserRepositoryInterface' => 'App\Api\V1\Repositories\User\UserRepository',
+        'App\Api\V1\Repositories\Driver\DriverRepositoryInterface' => 'App\Api\V1\Repositories\Driver\DriverRepository',
         'App\Api\V1\Repositories\Product\ProductRepositoryInterface' => 'App\Api\V1\Repositories\Product\ProductRepository',
         'App\Api\V1\Repositories\Product\ProductVariationRepositoryInterface' => 'App\Api\V1\Repositories\Product\ProductVariationRepository',
         'App\Api\V1\Repositories\Category\CategoryRepositoryInterface' => 'App\Api\V1\Repositories\Category\CategoryRepository',
@@ -26,7 +27,7 @@ class RepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
         foreach ($this->repositories as $interface => $implement) {

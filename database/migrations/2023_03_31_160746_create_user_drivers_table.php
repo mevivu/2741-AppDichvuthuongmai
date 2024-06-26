@@ -20,16 +20,22 @@ return new class extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('avatar')->nullable();
             $table->char('id_card', 50)->unique();
             $table->string('id_card_front')->nullable();
             $table->string('id_card_back')->nullable();
             $table->char('license_plate')->nullable();
+            $table->string('license_plate_image')->nullable();
             $table->string('vehicle_company')->nullable();
             $table->string('vehicle_registration_front')->nullable();
             $table->string('vehicle_registration_back')->nullable();
             $table->string('driver_license_front')->nullable();
             $table->string('driver_license_back')->nullable();
+            $table->string('vehicle_front_image')->nullable();
+            $table->string('vehicle_back_image')->nullable();
+            $table->string('vehicle_side_image')->nullable();
+            $table->string('vehicle_interior_image')->nullable();
+            $table->string('insurance_front_image')->nullable();
+            $table->string('insurance_back_image')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('bank_account_name')->nullable();
             $table->char('bank_account_number')->nullable();
@@ -40,8 +46,6 @@ return new class extends Migration
             $table->tinyInteger('order_accepted')->default(DriverStatus::NotReceived->value);
             $table->tinyInteger('is_locked')->default(UserStatus::Active);
             $table->tinyInteger('is_on')->default(DriverOnOff::On);
-
-
 
             $table->timestamps();
 
@@ -56,6 +60,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_driver_info');
+        Schema::dropIfExists('drivers');
     }
 };

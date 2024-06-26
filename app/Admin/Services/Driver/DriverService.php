@@ -2,16 +2,16 @@
 
 namespace App\Admin\Services\Driver;
 
+use App\Admin\Repositories\Driver\DriverRepositoryInterface;
 use App\Admin\Repositories\Order\OrderRepositoryInterface;
 use App\Admin\Repositories\User\UserRepositoryInterface;
-use App\Admin\Repositories\Driver\DriverRepository;
-use App\Admin\Services\Driver\DriverServiceInterface;
 use App\Admin\Traits\Roles;
 use App\Admin\Traits\Setup;
 use App\Enums\Driver\AutoAccept;
-use App\Enums\User\UserRoles;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DriverService implements DriverServiceInterface
 {
@@ -24,15 +24,15 @@ class DriverService implements DriverServiceInterface
      */
     protected array $data;
 
-    protected DriverRepository $repository;
+    protected DriverRepositoryInterface $repository;
     protected OrderRepositoryInterface $orderRepository;
 
     protected UserRepositoryInterface $userRepository;
 
 
-    public function __construct(DriverRepository         $repository,
-                                OrderRepositoryInterface $orderRepository,
-                                UserRepositoryInterface  $userRepository)
+    public function __construct(DriverRepositoryInterface $repository,
+                                OrderRepositoryInterface  $orderRepository,
+                                UserRepositoryInterface   $userRepository)
     {
         $this->repository = $repository;
         $this->orderRepository = $orderRepository;
@@ -77,7 +77,7 @@ class DriverService implements DriverServiceInterface
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request): object
     {
         try {
             DB::beginTransaction();
@@ -112,10 +112,28 @@ class DriverService implements DriverServiceInterface
         }
     }
 
-    public function delete($id, $userId)
+    /**
+     * @throws Exception
+     */
+    public function delete($id): object|bool
     {
-        $this->userRepository->updateAttribute($userId, 'roles', UserRoles::Customer->value);
-        return $this->repository->delete($id);
+        DB::beginTransaction();
+        try {
+            $driver = $this->repository->findOrFail($id);
+
+            $userId = $driver->user_id;
+            $this->userRepository->delete($userId);
+//            $imageFields = getImageFields();
+            DB::commit();
+
+            return $this->repository->delete($id);
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('Error deleting driver', [
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
     }
 
 

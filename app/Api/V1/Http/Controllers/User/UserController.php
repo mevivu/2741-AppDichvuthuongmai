@@ -3,27 +3,34 @@
 namespace App\Api\V1\Http\Controllers\User;
 
 use App\Admin\Http\Controllers\Controller;
+use App\Api\V1\Http\Requests\Auth\LoginRequest;
 use App\Api\V1\Http\Requests\Auth\RefreshTokenRequest;
 use App\Api\V1\Http\Requests\Auth\RegisterRequest;
+use App\Api\V1\Http\Requests\Auth\UpdateRequest;
+use App\Api\V1\Http\Resources\Auth\AuthResource;
 use App\Api\V1\Services\User\UserServiceInterface;
+use App\Api\V1\Support\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
  * @group Người dùng
  */
-
 class UserController extends Controller
 {
+    use Response;
+
     private static string $GUARD_API = 'api';
 
     private $login;
 
     protected $auth;
+
     public function __construct(
-        UserServiceInterface   $service,
+        UserServiceInterface $service,
     )
     {
         $this->service = $service;
@@ -37,6 +44,35 @@ class UserController extends Controller
 
     }
 
+    public function update(UpdateRequest $request): JsonResponse
+    {
+        try {
+            $response = $this->service->update($request);
+            return $this->jsonResponseSuccess($response);
+        } catch (Exception $e) {
+            Log::error('Order creation failed: ' . $e->getMessage());
+            return $this->jsonResponseError($e->getMessage(), 500);
+        }
+
+    }
+
+    public function login(LoginRequest $request): JsonResponse
+    {
+        $this->login = $request->validated();
+
+        if ($this->resolve()) {
+            $user = Auth::guard(self::$GUARD_API)->user();
+            $token = JWTAuth::fromUser($user);
+            $refreshToken = $this->createRefreshToken($user);
+            return $this->respondWithToken($token, $refreshToken);
+        }
+
+        return response()->json([
+            'status' => 401,
+            'message' => __('Tài khoản hoặc mật khẩu không đúng.')
+        ], 401);
+    }
+
     public function register(RegisterRequest $request): JsonResponse
     {
         $user = $this->service->store($request);
@@ -47,6 +83,17 @@ class UserController extends Controller
         return $this->respondWithToken($accessToken, $refreshToken);
 
     }
+
+    public function show(): JsonResponse
+    {
+        $user = auth(self::$GUARD_API)->user();
+        return response()->json([
+            'status' => 200,
+            'message' => __('notifySuccess'),
+            'data' => new AuthResource($user)
+        ]);
+    }
+
 
     /**
      * Log the user out (Invalidate the token).

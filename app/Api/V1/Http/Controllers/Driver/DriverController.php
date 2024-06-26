@@ -1,39 +1,40 @@
 <?php
 
-namespace App\Api\V1\Http\Controllers\Store;
+namespace App\Api\V1\Http\Controllers\Driver;
 
 use App\Admin\Http\Controllers\Controller;
-use App\Admin\Repositories\Store\StoreRepositoryInterface;
-use App\Api\V1\Http\Requests\Store\LoginRequest;
-use App\Api\V1\Http\Requests\Store\RegisterRequest;
-use App\Api\V1\Http\Resources\Store\StoreResource;
+use App\Api\V1\Http\Requests\Auth\LoginRequest;
+use App\Api\V1\Http\Requests\Auth\RefreshTokenRequest;
+use App\Api\V1\Http\Requests\Auth\UpdateRequest;
+use App\Api\V1\Http\Requests\Driver\DriverRequest;
+use App\Api\V1\Http\Resources\Auth\AuthResource;
+use App\Api\V1\Services\Driver\DriverServiceInterface;
+use App\Api\V1\Support\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use App\Api\V1\Http\Requests\Auth\{RefreshTokenRequest};
-use App\Api\V1\Services\Store\StoreServiceInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
- * @group Cửa hàng tạp hoá
+ * @group Người dùng
  */
-class StoreController extends Controller
+class DriverController extends Controller
 {
-    private static string $GUARD_API = 'store-api';
+    use Response;
+
+    private static string $GUARD_API = 'api';
+
     private $login;
 
     protected $auth;
 
-
-
     public function __construct(
-        StoreServiceInterface $service,
-        StoreRepositoryInterface $repository
+        DriverServiceInterface $service,
     )
     {
         $this->service = $service;
-        $this->repository = $repository;
-        $this->middleware('auth:store-api', ['except' => ['login', 'register', 'sendOTP']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     protected function resolve(): bool
@@ -43,30 +44,18 @@ class StoreController extends Controller
 
     }
 
+    public function update(UpdateRequest $request): JsonResponse
+    {
+        try {
+            $response = $this->service->update($request);
+            return $this->jsonResponseSuccess($response);
+        } catch (Exception $e) {
+            Log::error('Order creation failed: ' . $e->getMessage());
+            return $this->jsonResponseError($e->getMessage(), 500);
+        }
 
-    /**
-     * Đăng nhập
-     *
-     * @bodyParam phone string required
-     * Tên tài khoản là số điện thoại. Example: 0999999999
-     *
-     * @bodyParam password string required
-     * Mật khẩu của bạn. Example: 123456
-     *
-     * @response {
-     *      "refresh_token": "1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K"
-     *      "access_token": "1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K",
-     *      "expires_in": 5184000
-     * }
-     * @response 401 {
-     *      "status": 401,
-     *      "message": "Tài khoản hoặc mật khẩu không đúng."
-     * }
-     *
-     * @param LoginRequest $request
-     *
-     * @return JsonResponse
-     */
+    }
+
     public function login(LoginRequest $request): JsonResponse
     {
         $this->login = $request->validated();
@@ -84,53 +73,30 @@ class StoreController extends Controller
         ], 401);
     }
 
-
-    /**
-     * Lấy thông tin Cửa hàng tạp hoá
-     *
-     * API này trả về thông tin chi tiết của Cửa hàng tạp hoá đã xác thực hiện tại
-     * @authenticated
-     *
-     * Các trạng thái (status) của đơn hàng bao gồm:
-     * - 1: Hoạt động
-     * - 2: Chờ xác nhận
-     * - 3: Khoá
-     *
-     * @response 200 {
-     *      "status": 200,
-     *      "message": "Lấy thông tin người dùng thành công.",
-     *      "data": {
-     *          "id": 1,
-     *          "name": "Nguyen Van A",
-     *          "email": "example@example.com",
-     *          "phone": "0123456789",
-     *          "created_at": "2021-01-01T00:00:00Z",
-     *          "updated_at": "2021-12-01T00:00:00Z"
-     *      }
-     * }
-     *
-     * @return JsonResponse
-     */
-    public function show(): JsonResponse
+    public function register(DriverRequest $request): JsonResponse
     {
-        $user = auth(self::$GUARD_API)->user();
-        return response()->json([
-            'status' => 200,
-            'message' => __('notifySuccess'),
-            'data' => new StoreResource($user)
-        ]);
-    }
-
-    public function register(RegisterRequest $request): JsonResponse
-    {
-        $user = $this->service->store($request);
-
+        $driver = $this->service->store($request);
+        if (!$driver) {
+            return response()->json(['error' => 'Registration failed'], 422);
+        }
+        $user = $driver->user;
         $accessToken = JWTAuth::fromUser($user);
         $refreshToken = $this->createRefreshTokenById($user);
 
         return $this->respondWithToken($accessToken, $refreshToken);
 
     }
+
+    public function show(): JsonResponse
+    {
+        $user = auth(self::$GUARD_API)->user();
+        return response()->json([
+            'status' => 200,
+            'message' => __('notifySuccess'),
+            'data' => new AuthResource($user)
+        ]);
+    }
+
 
     /**
      * Log the user out (Invalidate the token).
@@ -205,6 +171,4 @@ class StoreController extends Controller
         ];
         return JWTAuth::getJWTProvider()->encode($data);
     }
-
-
 }

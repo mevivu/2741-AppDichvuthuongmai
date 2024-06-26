@@ -9,6 +9,8 @@ trait AuthServiceApi
 {
     private static string $GUARD_API = 'api';
 
+    private static string $GUARD_API_STORE = 'store-api';
+
     /** Api */
 
 
@@ -21,6 +23,15 @@ trait AuthServiceApi
     public function getCurrentUser(): ?Authenticatable
     {
         return auth(self::$GUARD_API)->user();
+    }
+
+    public function getCurrentStoreId()
+    {
+        return auth(self::$GUARD_API_STORE)->user()->id;
+    }
+
+    public function getCurrentStoreUser():?Authenticatable{
+        return auth(self::$GUARD_API_STORE)->user();
     }
 
 

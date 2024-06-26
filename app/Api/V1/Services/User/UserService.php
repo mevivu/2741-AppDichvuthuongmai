@@ -2,9 +2,12 @@
 
 namespace App\Api\V1\Services\User;
 
+use App\Admin\Services\File\FileService;
 use App\Admin\Traits\Roles;
 use  App\Api\V1\Repositories\User\UserRepositoryInterface;
+use App\Api\V1\Support\AuthServiceApi;
 use App\Enums\User\Gender;
+use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +17,7 @@ use Throwable;
 
 class UserService implements UserServiceInterface
 {
-    use Setup, Roles;
+    use Setup, Roles, AuthServiceApi;
 
     /**
      * Current Object instance
@@ -25,9 +28,13 @@ class UserService implements UserServiceInterface
 
     protected $repository;
 
-    public function __construct(UserRepositoryInterface $repository)
+    protected FileService $fileService;
+
+    public function __construct(UserRepositoryInterface $repository,
+                                FileService             $fileService)
     {
         $this->repository = $repository;
+        $this->fileService = $fileService;
     }
 
     public function store(Request $request)
@@ -49,28 +56,38 @@ class UserService implements UserServiceInterface
             Log::error('Failed to process Register user', [
                 'error' => $e->getMessage(),
             ]);
-            throw $e;
-//            return false;
+            return false;
         }
 
     }
 
-    public function update(Request $request)
+    public function update(Request $request): bool|object
     {
-
-        $this->data = $request->validated();
-
-        if (isset($this->data['password']) && $this->data['password']) {
-            $this->data['password'] = bcrypt($this->data['password']);
-        } else {
-            unset($this->data['password']);
+        DB::beginTransaction();
+        try {
+            $data = $request->validated();
+            $user = $this->getCurrentUser();
+            $avatar = $data['avatar'];
+            if ($avatar) {
+                $data['avatar'] = $this->fileService->uploadAvatar('images', $avatar, $user->avatar);
+            }
+            $response = $this->repository->update($user->id, $data);
+            DB::commit();
+            return $response;
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('Failed to process update user', [
+                'error' => $e->getMessage(),
+            ]);
+            return false;
         }
-
-        return $this->repository->update($this->data['id'], $this->data);
-
     }
 
-    public function delete($id)
+
+    /**
+     * @throws Exception
+     */
+    public function delete($id): object|bool
     {
         return $this->repository->delete($id);
 

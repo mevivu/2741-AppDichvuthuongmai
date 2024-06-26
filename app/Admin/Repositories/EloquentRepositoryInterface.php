@@ -95,7 +95,7 @@ interface EloquentRepositoryInterface
 
     public function syncModelRoles($modelId, array $roles);
 
-    public function assignRoles(Model $model, array $rolesNames): bool;
+    public function assignRoles($model, array $rolesNames): bool;
 
     public function attachRelations(int $id, array $ids, string $relation);
 

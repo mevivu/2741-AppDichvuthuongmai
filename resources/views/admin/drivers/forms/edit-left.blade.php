@@ -37,13 +37,13 @@
             </div>
 
 
+
             <!-- birthday -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('birthday'):</label>
-                    <x-input type="date" name="user_info[birthday]"
-                             :value="format_date($driver->user->birthday, 'Y-m-d')"
-                             :required="true"/>
+                    <x-input type="date" name="user_info[birthday]" :value="isset($driver->user->birthday) ? format_date($user->birthday, 'Y-m-d') : null"
+                             required="true"/>
                 </div>
             </div>
 {{--            <!-- Area -->--}}
@@ -224,6 +224,22 @@
                         <x-input-image-ckfinder
                                 name="driver_license_back"
                                 :value="$driver->driver_license_back"
+                            showImage="featureImageDriverLicenseBack"
+                            class="img-fluid"
+                        />
+                    </div>
+                </div>
+            </div>
+            {{-- driver_license_back --}}
+            <div class="col-md-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        @lang('driver_license_back')
+                    </div>
+                    <div class="card-body p-2">
+                        <x-input-image-ckfinder
+                            name="driver_license_back"
+                            :value="$driver->vehicle_front_image"
                             showImage="featureImageDriverLicenseBack"
                             class="img-fluid"
                         />

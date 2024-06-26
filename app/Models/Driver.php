@@ -19,16 +19,38 @@ class Driver extends Authenticatable
     protected $table = 'drivers';
     protected $fillable = [
         'user_id',
-        'avatar',
+        /** CCCD */
         'id_card',
+        /** CCCD mặt trước */
         'id_card_front',
+        /** CCCD mặt sau */
         'id_card_back',
+        /** Biển số xe */
         'license_plate',
+        /** Ảnh Biển số xe */
+        'license_plate_image',
+        /** Nhà sản xuất xe */
         'vehicle_company',
+        /** Giấy đăng ký xe mặt trước */
         'vehicle_registration_front',
+        /** Giấy đăng ký xe mặt sau */
         'vehicle_registration_back',
+        /** Giấy phép lái xe mặt trước */
         'driver_license_front',
+        /** Giấy phép lái xe mặt sau */
         'driver_license_back',
+        /** Ảnh xe phía trước */
+        'vehicle_front_image',
+        /** Ảnh xe phía sau */
+        'vehicle_back_image',
+        /** Ảnh hông xe */
+        'vehicle_side_image',
+        /** Ảnh nội thất xe */
+        'vehicle_interior_image',
+        /** Ảnh mặt trước bảo hiểm xe */
+        'insurance_front_image',
+        /** Ảnh mặt sau bảo hiểm xe */
+        'insurance_back_image',
         'bank_name',
         'bank_account_name',
         'bank_account_number',
