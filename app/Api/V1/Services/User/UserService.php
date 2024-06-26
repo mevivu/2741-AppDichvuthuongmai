@@ -6,27 +6,27 @@ use App\Admin\Services\File\FileService;
 use App\Admin\Traits\Roles;
 use  App\Api\V1\Repositories\User\UserRepositoryInterface;
 use App\Api\V1\Support\AuthServiceApi;
+use App\Api\V1\Support\UseLog;
 use App\Enums\User\Gender;
 use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Throwable;
 
 
 class UserService implements UserServiceInterface
 {
-    use Setup, Roles, AuthServiceApi;
+    use Setup, Roles, AuthServiceApi, UseLog;
 
     /**
      * Current Object instance
      *
      * @var array
      */
-    protected $data;
+    protected array $data;
 
-    protected $repository;
+    protected UserRepositoryInterface $repository;
 
     protected FileService $fileService;
 
@@ -53,9 +53,7 @@ class UserService implements UserServiceInterface
             return $user;
         } catch (Throwable $e) {
             DB::rollback();
-            Log::error('Failed to process Register user', [
-                'error' => $e->getMessage(),
-            ]);
+            $this->logError('Failed to process register user API', $e);
             return false;
         }
 
@@ -76,9 +74,7 @@ class UserService implements UserServiceInterface
             return $response;
         } catch (Exception $e) {
             DB::rollback();
-            Log::error('Failed to process update user', [
-                'error' => $e->getMessage(),
-            ]);
+            $this->logError('Failed to process update user API', $e);
             return false;
         }
     }

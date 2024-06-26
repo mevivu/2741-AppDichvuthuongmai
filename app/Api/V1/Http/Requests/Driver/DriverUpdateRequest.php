@@ -3,6 +3,8 @@
 namespace App\Api\V1\Http\Requests\Driver;
 
 use App\Api\V1\Http\Requests\BaseRequest;
+use App\Enums\User\Gender;
+use Illuminate\Validation\Rules\Enum;
 
 
 class DriverUpdateRequest extends BaseRequest
@@ -18,6 +20,7 @@ class DriverUpdateRequest extends BaseRequest
             'fullname' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:App\Models\User,email,' . $this->user()->id],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'gender' => ['required', new Enum(Gender::class)],
             'id_card' => ['required', 'string'],
             'id_card_front' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'id_card_back' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],

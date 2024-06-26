@@ -4,15 +4,15 @@ namespace App\Admin\Services\User;
 
 use  App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Admin\Traits\Roles;
+use App\Api\V1\Support\UseLog;
 use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class UserService implements UserServiceInterface
 {
-    use Setup, Roles;
+    use Setup, Roles, UseLog;
 
     /**
      * Current Object instance
@@ -47,9 +47,7 @@ class UserService implements UserServiceInterface
             return $user;
         } catch (Exception $e) {
             DB::rollback();
-            Log::error('Failed to process create user', [
-                'error' => $e->getMessage(),
-            ]);
+            $this->logError('Failed to process create user', $e);
             return false;
         }
     }
@@ -74,9 +72,7 @@ class UserService implements UserServiceInterface
 
         } catch (Exception $e) {
             DB::rollback();
-            Log::error('Failed to process update user', [
-                'error' => $e->getMessage(),
-            ]);
+            $this->logError('Failed to process update user', $e);
             return false;
         }
     }

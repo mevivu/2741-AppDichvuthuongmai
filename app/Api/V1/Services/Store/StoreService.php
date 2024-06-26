@@ -4,24 +4,24 @@ namespace App\Api\V1\Services\Store;
 
 use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Admin\Traits\Roles;
+use App\Api\V1\Support\UseLog;
 use App\Enums\Store\BossType;
 use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class StoreService implements StoreServiceInterface
 {
-    use Setup, Roles;
+    use Setup, Roles, UseLog;
 
     /**
      * Current Object instance
      *
      * @var array
      */
-    protected $data;
+    protected array $data;
 
     protected $repository;
 
@@ -64,9 +64,7 @@ class StoreService implements StoreServiceInterface
             return $store;
         } catch (Throwable $e) {
             DB::rollback();
-            Log::error('Failed to process transaction', [
-                'error' => $e->getMessage(),
-            ]);
+            $this->logError('Failed to process create store', $e);
             return false;
         }
     }
