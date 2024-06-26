@@ -5,8 +5,10 @@ namespace App\Admin\Services\Driver;
 use App\Admin\Repositories\Driver\DriverRepositoryInterface;
 use App\Admin\Repositories\Order\OrderRepositoryInterface;
 use App\Admin\Repositories\User\UserRepositoryInterface;
+use App\Admin\Services\File\FileService;
 use App\Admin\Traits\Roles;
 use App\Admin\Traits\Setup;
+use App\Constants\ImageFields;
 use App\Enums\Driver\AutoAccept;
 use Exception;
 use Illuminate\Http\Request;
@@ -25,18 +27,23 @@ class DriverService implements DriverServiceInterface
     protected array $data;
 
     protected DriverRepositoryInterface $repository;
+
     protected OrderRepositoryInterface $orderRepository;
 
     protected UserRepositoryInterface $userRepository;
 
+    protected FileService $fileService;
+
 
     public function __construct(DriverRepositoryInterface $repository,
                                 OrderRepositoryInterface  $orderRepository,
+                                FileService               $fileService,
                                 UserRepositoryInterface   $userRepository)
     {
         $this->repository = $repository;
         $this->orderRepository = $orderRepository;
         $this->userRepository = $userRepository;
+        $this->fileService = $fileService;
 
     }
 
@@ -121,9 +128,16 @@ class DriverService implements DriverServiceInterface
         try {
             $driver = $this->repository->findOrFail($id);
 
-            $userId = $driver->user_id;
-            $this->userRepository->delete($userId);
-//            $imageFields = getImageFields();
+            $user = $driver->user;
+            $this->fileService->delete($user->avatar);
+            $this->userRepository->delete($user->id);
+            $imageFields = ImageFields::getDriverFields();
+            foreach ($imageFields as $field) {
+                $imagePath = $driver->{$field};
+                if ($imagePath) {
+                    $this->fileService->delete($imagePath);
+                }
+            }
             DB::commit();
 
             return $this->repository->delete($id);

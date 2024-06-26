@@ -69,7 +69,7 @@ class UserService implements UserServiceInterface
             $user = $this->getCurrentUser();
             $avatar = $data['avatar'];
             if ($avatar) {
-                $data['avatar'] = $this->fileService->uploadAvatar('images', $avatar, $user->avatar);
+                $data['avatar'] = $this->fileService->uploadAvatar('images/users', $avatar, $user->avatar);
             }
             $response = $this->repository->update($user->id, $data);
             DB::commit();

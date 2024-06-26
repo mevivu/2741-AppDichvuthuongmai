@@ -7,6 +7,7 @@ use App\Admin\Traits\Roles;
 use App\Api\V1\Repositories\Driver\DriverRepositoryInterface;
 use App\Api\V1\Repositories\User\UserRepositoryInterface;
 use App\Api\V1\Support\AuthServiceApi;
+use App\Constants\ImageFields;
 use App\Enums\User\Gender;
 use Exception;
 use Illuminate\Http\Request;
@@ -67,7 +68,7 @@ class DriverService implements DriverServiceInterface
         DB::beginTransaction();
         try {
             $data = $request->validated();
-            $data = $this->fileService->uploadImages("images/drivers",$data, $this->getImageFields());
+            $data = $this->fileService->uploadImages("images/drivers", $data, ImageFields::getDriverFields());
             $userInfo = [
                 'phone' => $data['phone'],
                 'password' => bcrypt($data['password']),
