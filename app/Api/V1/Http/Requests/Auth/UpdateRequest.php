@@ -21,7 +21,7 @@ class UpdateRequest extends BaseRequest
             'gender' => ['required', new Enum(Gender::class)],
             'address' => ['nullable'],
             'area_id' => ['nullable', 'exists:areas,id'],
-            'category_id' => ['nullable', 'exists:store_categories'],
+//            'category_id' => ['nullable', 'exists:store_categories'],
             'longitude' => ['nullable'],
             'latitude' => ['nullable'],
             'avatar' => ['nullable'],

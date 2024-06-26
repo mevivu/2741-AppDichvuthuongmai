@@ -110,24 +110,29 @@ class FileService
         return $this->status;
     }
 
+
     /**
-     * Upload a user's avatar, replacing the old one if it exists.
+     * Upload a new avatar and replace the old one if it exists.
      *
-     * @param UploadedFile $file
-     * @param string|null $currentAvatarPath
-     * @return $this
+     * @param string $folder Folder to store the avatar.
+     * @param UploadedFile $newFile New avatar file.
+     * @param string|null $currentAvatarPath Path to the current avatar to be replaced.
+     * @return string New avatar path.
      */
-    public function uploadAvatar(UploadedFile $file, string $currentAvatarPath = null): static
+    public function uploadAvatar(string $folder, UploadedFile $newFile, ?string $currentAvatarPath = null): string
     {
+        // Set the storage folder
+        $this->setFolder($folder);
+
         // Delete the existing avatar if it exists
-        if (!is_null($currentAvatarPath)) {
+        if ($currentAvatarPath) {
             $this->delete($currentAvatarPath);
         }
 
         // Upload the new file
-        $path = $file->storeAs($this->folder, $file->hashName(), $this->disk);
-        $this->instance = $this->folderPrefix.$path;
+        $path = $newFile->storeAs($this->folder, $newFile->hashName(), $this->disk);
+        $this->instance = $this->folderPrefix . $path;
 
-        return $this;
+        return $this->instance;
     }
 }

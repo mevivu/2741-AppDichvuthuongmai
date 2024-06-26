@@ -238,7 +238,7 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
         return 1;
     }
 
-    public function assignRoles(Model $model, array $rolesNames): bool
+    public function assignRoles($model, array $rolesNames): bool
     {
         try {
             $model->roles()->detach();

@@ -69,9 +69,7 @@ class UserService implements UserServiceInterface
             $user = $this->getCurrentUser();
             $avatar = $data['avatar'];
             if ($avatar) {
-                $data['avatar'] = $this->fileService->setFolder('images/')
-                    ->uploadAvatar($avatar, $user->avatar)
-                    ->getInstance();
+                $data['avatar'] = $this->fileService->uploadAvatar('images', $avatar, $user->avatar);
             }
             $response = $this->repository->update($user->id, $data);
             DB::commit();
@@ -81,10 +79,8 @@ class UserService implements UserServiceInterface
             Log::error('Failed to process update user', [
                 'error' => $e->getMessage(),
             ]);
-            throw  $e;
-
+            return false;
         }
-
     }
 
 
