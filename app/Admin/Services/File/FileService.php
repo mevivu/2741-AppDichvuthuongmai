@@ -2,6 +2,7 @@
 
 namespace App\Admin\Services\File;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -156,13 +157,22 @@ class FileService
         return $this->instance;
     }
 
-    public function uploadImages(string $folder, array $data, array $imageFields): array
+    public function uploadImages(string $folder, array $data, array $imageFields, $model = null, array $relationFields = []): array
     {
         foreach ($imageFields as $field) {
             if (isset($data[$field])) {
-                $data[$field] = $this->uploadAvatar($folder, $data[$field]);
+                $currentPath = $model && isset($model[$field]) ? $model[$field] : null;
+                $data[$field] = $this->uploadAvatar($folder, $data[$field], $currentPath);
             }
         }
+        foreach ($relationFields as $relation) {
+            if ($model && isset($model->$relation) && isset($model->$relation->avatar)) {
+                $this->delete($model->$relation->avatar);
+            }
+        }
+
         return $data;
     }
+
+
 }

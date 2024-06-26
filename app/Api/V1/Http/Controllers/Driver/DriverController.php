@@ -5,10 +5,12 @@ namespace App\Api\V1\Http\Controllers\Driver;
 use App\Admin\Http\Controllers\Controller;
 use App\Api\V1\Http\Requests\Auth\LoginRequest;
 use App\Api\V1\Http\Requests\Auth\RefreshTokenRequest;
-use App\Api\V1\Http\Requests\Auth\UpdateRequest;
 use App\Api\V1\Http\Requests\Driver\DriverRequest;
+use App\Api\V1\Http\Requests\Driver\DriverUpdateRequest;
 use App\Api\V1\Http\Resources\Auth\AuthResource;
+use App\Api\V1\Http\Resources\Driver\DriverResource;
 use App\Api\V1\Services\Driver\DriverServiceInterface;
+use App\Api\V1\Support\AuthServiceApi;
 use App\Api\V1\Support\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +23,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
  */
 class DriverController extends Controller
 {
-    use Response;
+    use Response, AuthServiceApi;
 
     private static string $GUARD_API = 'api';
 
@@ -44,11 +46,11 @@ class DriverController extends Controller
 
     }
 
-    public function update(UpdateRequest $request): JsonResponse
+    public function update(DriverUpdateRequest $request): JsonResponse
     {
         try {
             $response = $this->service->update($request);
-            return $this->jsonResponseSuccess($response);
+            return $this->jsonResponseSuccess(new DriverResource($response));
         } catch (Exception $e) {
             Log::error('Order creation failed: ' . $e->getMessage());
             return $this->jsonResponseError($e->getMessage(), 500);
@@ -87,13 +89,16 @@ class DriverController extends Controller
 
     }
 
+    /**
+     * @throws Exception
+     */
     public function show(): JsonResponse
     {
-        $user = auth(self::$GUARD_API)->user();
+        $driver = $this->getCurrentDriver();
         return response()->json([
             'status' => 200,
             'message' => __('notifySuccess'),
-            'data' => new AuthResource($user)
+            'data' => new AuthResource($driver)
         ]);
     }
 

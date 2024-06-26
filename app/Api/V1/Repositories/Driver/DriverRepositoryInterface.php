@@ -2,7 +2,9 @@
 
 namespace App\Api\V1\Repositories\Driver;
 
-interface DriverRepositoryInterface
+use App\Admin\Repositories\EloquentRepositoryInterface;
+
+interface DriverRepositoryInterface extends EloquentRepositoryInterface
 {
 
     public function create(array $data);

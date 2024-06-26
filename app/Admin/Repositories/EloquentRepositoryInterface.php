@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 interface EloquentRepositoryInterface
 {
+
+    public function findByField(string $field, $value, array $relations = []): ?Model;
     /**
      * Return all records
      *
