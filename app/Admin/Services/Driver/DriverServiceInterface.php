@@ -10,7 +10,7 @@ interface DriverServiceInterface
 
     public function update(Request $request);
 
-    public function delete($id,$userId);
+    public function delete(int $id);
 
 
 }

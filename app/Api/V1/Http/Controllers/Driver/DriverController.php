@@ -8,7 +8,7 @@ use App\Api\V1\Http\Requests\Auth\RefreshTokenRequest;
 use App\Api\V1\Http\Requests\Auth\UpdateRequest;
 use App\Api\V1\Http\Requests\Driver\DriverRequest;
 use App\Api\V1\Http\Resources\Auth\AuthResource;
-use App\Api\V1\Services\User\UserServiceInterface;
+use App\Api\V1\Services\Driver\DriverServiceInterface;
 use App\Api\V1\Support\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -30,7 +30,7 @@ class DriverController extends Controller
     protected $auth;
 
     public function __construct(
-        UserServiceInterface $service,
+        DriverServiceInterface $service,
     )
     {
         $this->service = $service;
@@ -75,8 +75,11 @@ class DriverController extends Controller
 
     public function register(DriverRequest $request): JsonResponse
     {
-        $user = $this->service->store($request);
-
+        $driver = $this->service->store($request);
+        if (!$driver) {
+            return response()->json(['error' => 'Registration failed'], 422);
+        }
+        $user = $driver->user;
         $accessToken = JWTAuth::fromUser($user);
         $refreshToken = $this->createRefreshTokenById($user);
 

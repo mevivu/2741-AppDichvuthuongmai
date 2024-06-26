@@ -20,7 +20,6 @@ return new class extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('avatar')->nullable();
             $table->char('id_card', 50)->unique();
             $table->string('id_card_front')->nullable();
             $table->string('id_card_back')->nullable();
@@ -61,6 +60,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_driver_info');
+        Schema::dropIfExists('drivers');
     }
 };

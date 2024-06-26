@@ -20,13 +20,14 @@ use Illuminate\Http\RedirectResponse;
 class DriverController extends Controller
 {
 
-    protected  AreaRepositoryInterface $areaRepository;
+    protected AreaRepositoryInterface $areaRepository;
     protected DriverService $userDriverService;
+
     public function __construct(
         DriverRepositoryInterface $repository,
         DriverServiceInterface    $service,
-        AreaRepositoryInterface $areaRepository,
-        DriverService        $userDriverService,
+        AreaRepositoryInterface   $areaRepository,
+        DriverService             $userDriverService,
     )
     {
 
@@ -76,7 +77,7 @@ class DriverController extends Controller
             'gender' => Gender::asSelectArray(),
             'roles' => UserRoles::asSelectArray(),
             'areas' => $areas,
-            'order_accepted' =>DriverStatus::asSelectArray(),
+            'order_accepted' => DriverStatus::asSelectArray(),
             'breadcrumbs' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('add'))
         ]);
     }
@@ -98,14 +99,14 @@ class DriverController extends Controller
     public function edit($id): Factory|View|Application
     {
         $driver = $this->repository->findOrFail($id);
-        $areas = $this ->areaRepository->getAll();
+        $areas = $this->areaRepository->getAll();
 
 
         return view(
             $this->view['edit'],
             [
                 'gender' => Gender::asSelectArray(),
-                'order_accepted' =>DriverStatus::asSelectArray(),
+                'order_accepted' => DriverStatus::asSelectArray(),
                 'areas' => $areas,
                 'driver' => $driver,
                 'breadcrumbs' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('edit')),
@@ -129,9 +130,8 @@ class DriverController extends Controller
 
     public function delete($id): RedirectResponse
     {
-        $driver = $this->repository->findOrFail($id);
-        $this->service->delete($id, $driver->user->id);
 
+        $this->service->delete($id);
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
     }
 }

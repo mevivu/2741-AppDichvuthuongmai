@@ -19,7 +19,6 @@ class Driver extends Authenticatable
     protected $table = 'drivers';
     protected $fillable = [
         'user_id',
-        'avatar',
         /** CCCD */
         'id_card',
         /** CCCD mặt trước */

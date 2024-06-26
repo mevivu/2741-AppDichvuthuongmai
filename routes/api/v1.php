@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //store
-Route::prefix('store')->controller(StoreController::class)
+Route::prefix('stores')->controller(StoreController::class)
     ->group(function () {
         Route::get('/', 'show')->name('show');
         Route::post('/login', 'login')->name('login');
@@ -42,7 +42,7 @@ Route::prefix('auth')->controller(UserController::class)
     });
 
 //driver
-Route::prefix('auth')->controller(DriverController::class)
+Route::prefix('drivers')->controller(DriverController::class)
     ->group(function () {
         Route::get('/', 'show')->name('show');
         Route::post('/', 'update')->name('update');

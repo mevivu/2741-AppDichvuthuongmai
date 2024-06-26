@@ -183,5 +183,10 @@
     "driver_license_front": "GPLX mặt trước",
     "driver_license_back": "GPLX mặt sau",
     "exist_phone": "Số điện thoại đã được đăng ký",
-    "exist_email": "Email đã được đăng ký"
+    "exist_email": "Email đã được đăng ký",
+    "vehicle_front_image": "Ảnh xe phía trước",
+    "vehicle_back_image": "Ảnh xe phía sau",
+    "vehicle_side_image": "Ảnh nội thất xe",
+    "insurance_front_image": "Ảnh mặt trước bảo hiểm xe",
+    "insurance_back_image": "Ảnh mặt sau bảo hiểm xe"
 }
