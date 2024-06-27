@@ -23,6 +23,10 @@ return new class extends Migration
             $table->integer('type')->default(VehicleType::Car);
             $table->integer('seat_number')->nullable();
             $table->string('license_plate');
+            $table->double('price', 10, 2)->nullable();
+            $table->text('amenities')->nullable();
+            $table->text('description')->nullable();
+            $table->text('avatar')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

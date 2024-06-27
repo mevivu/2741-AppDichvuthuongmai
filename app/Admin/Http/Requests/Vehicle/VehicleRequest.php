@@ -13,7 +13,7 @@ class VehicleRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodPost()
+    protected function methodPost(): array
     {
         return [
             'user_id' => ['required', 'exists:App\Models\User,id'],
@@ -23,10 +23,14 @@ class VehicleRequest extends BaseRequest
             'seat_number' => ['required','integer'],
             'license_plate' => ['required','string', 'max:250'],
             'type' => ['required', new EnumValue(VehicleType::class, false)],
+            'avatar' =>['required','string'],
+            'description' => ['required', 'string'],
+            'amenities' => ['required','string'],
+            'price' => ['required'],
         ];
     }
 
-    protected function methodPut()
+    protected function methodPut(): array
     {
         return [
             'id' => ['required', 'exists:App\Models\Vehicle,id'],
@@ -37,6 +41,10 @@ class VehicleRequest extends BaseRequest
             'seat_number' => ['required','integer'],
             'license_plate' => ['required','string', 'max:250'],
             'type' => ['required', new EnumValue(VehicleType::class, false)],
+            'avatar' =>['required','string'],
+            'description' => ['required', 'string'],
+            'amenities' => ['required','string'],
+            'price' => ['required'],
         ];
     }
 }
