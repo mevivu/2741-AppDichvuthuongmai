@@ -72,9 +72,7 @@ class DriverService implements DriverServiceInterface
             $data['current_lng'] = $data['end_lng'];
             $data['current_address'] = $data['end_address'];
             $data['user_id'] = $userId;
-            $roles = $this->getRoleDriver();
             $driver = $this->repository->create($data);
-            $this->repository->assignRoles($driver->user, [$roles]);
             DB::commit();
 
             return $driver;

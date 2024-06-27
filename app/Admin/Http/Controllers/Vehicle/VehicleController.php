@@ -7,6 +7,7 @@ use App\Admin\Http\Requests\Vehicle\VehicleRequest;
 use App\Admin\DataTables\Vehicle\VehicleDataTable;
 use App\Admin\Repositories\Vehicle\VehicleRepositoryInterface;
 use App\Admin\Services\Vehicle\VehicleServiceInterface;
+use App\Enums\User\Gender;
 use App\Enums\Vehicle\VehicleType;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -63,7 +64,12 @@ class VehicleController extends BaseController
 
     public function create(): Factory|View|Application
     {
-        return view($this->view['create'], ['type' => VehicleType::asSelectArray()]);
+        return view($this->view['create'],
+            [
+                'type' => VehicleType::asSelectArray(),
+                'gender' => Gender::asSelectArray(),
+            ]
+        );
     }
 
     public function store(VehicleRequest $request): RedirectResponse
@@ -84,6 +90,7 @@ class VehicleController extends BaseController
             [
                 'vehicle' => $vehicle,
                 'type' => VehicleType::asSelectArray(),
+                'gender' => Gender::asSelectArray(),
             ],
         );
     }

@@ -1,1 +1,1 @@
-<x-link :href="route('admin.user.edit', $user_id)" target="_blank" :title="$user['fullname']" />
+<span>{{$vehicle->driver->user->fullname}}</span>

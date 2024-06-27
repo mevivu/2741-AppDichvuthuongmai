@@ -18,6 +18,8 @@ enum Role: string
     case Store = "store";
     case Restaurant = "restaurant";
 
+    case VehicleOwner = "vehicle_owner";
+
     public function badge(): string
     {
         return match ($this) {
@@ -26,7 +28,8 @@ enum Role: string
             Role::SupperAdmin => 'bg-pink-lt',
             Role::Hotel => 'bg-blue-lt',
             Role::Store => 'bg-orange-lt',
-            Role::Restaurant => 'bg-yellow-lt'
+            Role::Restaurant => 'bg-yellow-lt',
+            Role::VehicleOwner => 'bg-yellow-lt'
         };
     }
 }

@@ -1,9 +1,47 @@
 <div class="col-12 col-md-9">
     <div class="card">
         <div class="card-header justify-content-center">
-            <h2 class="mb-0">{{ __('Sửa phương tiện') }}</h2>
+            <h2 class="mb-0">{{ __('Thông tin Chủ xe') }}</h2>
         </div>
         <div class="row card-body">
+            <!-- Fullname -->
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('fullname'):</label>
+                    <x-input name="user_info[fullname]"
+                             :value="$vehicle->driver->user->fullname"
+                             :required="true"
+                             :placeholder="__('fullname')"/>
+                </div>
+            </div>
+            <!-- phone -->
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('phone'):</label>
+                    <x-input-phone name="user_info[phone]"
+                                   :value="$vehicle->driver->user->phone"
+                                   :required="true"/>
+                </div>
+            </div>
+            <!-- gender -->
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('gender'):</label>
+                    <x-select name="user_info[gender]" :required="true">
+                        @foreach ($gender as $key => $value)
+                            <x-select-option :value="$key" :title="__($value)"/>
+                        @endforeach
+                    </x-select>
+                </div>
+            </div>
+            <div class="card-header fw-bold h3">
+                @lang('driver_register_information')
+            </div>
+            @include('admin.vehicle.forms.partials.edit-info-driver')
+
+            <div class="card-header justify-content-center">
+                <h2 class="mb-0">{{ __('Sửa phương tiện') }}</h2>
+            </div>
             <!-- name -->
             <div class="col-md-6 col-sm-12">
                 <div class="mb-3">
@@ -49,39 +87,6 @@
                              :required="true" placeholder="{{ __('Số chổ ngồi') }}"/>
                 </div>
             </div>
-            <!-- license_plate -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Biển số xe') }}:</label>
-                    <x-input name="license_plate" :value="$vehicle->license_plate"
-                             :required="true"
-                             placeholder="{{ __('Biển số xe') }}"/>
-                </div>
-            </div>
-            <!-- price -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('price_rent') }}:</label>
-                    <x-input-price name="price"
-                                   id="price"
-                                   :value="old('price')"
-                                   :required="true"
-                                   :value="$vehicle->price"
-                                   :placeholder="__('price_rent')"/>
-                </div>
-            </div>
-            <!-- user_id (owner) -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Chủ xe') }}:</label>
-                    <x-select class="select2-bs5-ajax" name="user_id" :required="true">
-                        <x-select-option :option="$vehicle->user_id"
-                                         :value="$vehicle->user_id"
-                                         :title="optional($vehicle->user)->fullname"/>
-                    </x-select>
-                </div>
-            </div>
-
             <!-- amenities -->
             <div class="col-12">
                 <div class="mb-3">

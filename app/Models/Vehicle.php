@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Vehicle\VehicleStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\Vehicle\VehicleType;
@@ -12,13 +13,20 @@ class Vehicle extends Model
     use HasFactory;
 
     protected $table = 'vehicles';
-
-    protected $guarded = [];
-
-    protected static function boot()
-    {
-        parent::boot();
-    }
+    protected $fillable = [
+        'driver_id',
+        'name',
+        'brand',
+        'color',
+        'type',
+        'seat_number',
+        'license_plate',
+        'price',
+        'amenities',
+        'description',
+        'avatar',
+        'status'
+    ];
 
     protected $casts = [
         'name' => 'string',
@@ -27,20 +35,13 @@ class Vehicle extends Model
         'seat_number' => 'integer',
         'license_plate' => 'string',
         'type' => VehicleType::class,
+        'status' => VehicleStatus::class
     ];
 
-    public function user(): BelongsTo
+    public function driver(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Driver::class, 'driver_id');
     }
 
-    public function scopeCurrentAuth($query)
-    {
-        return $query->where('user_id', auth()->user()->id);
-    }
 
-    public function getShortDescriptionAttribute()
-    {
-        return substr($this->desc, 0, 100);
-    }
 }

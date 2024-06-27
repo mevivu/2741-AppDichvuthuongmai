@@ -1,9 +1,60 @@
 <div class="col-12 col-md-9">
     <div class="card">
         <div class="card-header justify-content-center">
-            <h2 class="mb-0">{{ __('Thêm phương tiện') }}</h2>
+            <h2 class="mb-0">{{ __('Thông tin Chủ xe') }}</h2>
         </div>
         <div class="row card-body">
+            <!-- Fullname -->
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('fullname'):</label>
+                    <x-input name="user_info[fullname]"
+                             :value="old('user_info[fullname]')"
+                             :required="true"
+                             :placeholder="__('fullname')"/>
+                </div>
+            </div>
+            <!-- phone -->
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('phone'):</label>
+                    <x-input-phone name="user_info[phone]"
+                                   :value="old('user_info[phone]')"
+                                   :required="true"/>
+                </div>
+            </div>
+            <!-- gender -->
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('gender'):</label>
+                    <x-select name="user_info[gender]" :required="true">
+                        @foreach ($gender as $key => $value)
+                            <x-select-option :value="$key" :title="__($value)"/>
+                        @endforeach
+                    </x-select>
+                </div>
+            </div>
+
+
+{{--            <!-- birthday -->--}}
+{{--            <div class="col-md-6 col-12">--}}
+{{--                <div class="mb-3">--}}
+{{--                    <label class="control-label">@lang('birthday'):</label>--}}
+{{--                    <x-input type="date"--}}
+{{--                             name="user_info[birthday]"--}}
+{{--                             :value="old('user_info[birthday]')"--}}
+{{--                             :required="true"/>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+            {{-- Create infor driver--}}
+            <div class="card-header fw-bold h3">
+                @lang('driver_register_information')
+            </div>
+            @include('admin.vehicle.forms.partials.create-info-driver')
+
+            <div class="card-header justify-content-center">
+                <h2 class="mb-0">{{ __('Thêm phương tiện') }}</h2>
+            </div>
             <!-- name -->
             <div class="col-md-6 col-sm-12">
                 <div class="mb-3">
@@ -11,7 +62,7 @@
                     <x-input name="name"
                              :value="old('name')"
                              :required="true"
-                             placeholder="{{ __('Tên phương tiện') }}" />
+                             placeholder="{{ __('Tên phương tiện') }}"/>
                 </div>
             </div>
             <!-- brand -->
@@ -22,7 +73,7 @@
                         <x-input name="brand"
                                  :value="old('brand')"
                                  :required="true"
-                                 placeholder="{{ __('Hãng') }}" />
+                                 placeholder="{{ __('Hãng') }}"/>
                     </div>
                 </div>
             </div>
@@ -32,7 +83,7 @@
                     <label class="control-label">{{__('Màu sắc')}}:</label>
                     <x-input name="color" :value="old('color')"
                              :required="true"
-                             placeholder="{{__('Màu sắc')}}" />
+                             placeholder="{{__('Màu sắc')}}"/>
                 </div>
             </div>
             <!-- type -->
@@ -41,7 +92,7 @@
                     <label class="control-label">{{__('Loại xe')}}:</label>
                     <x-select name="type" :required="true">
                         @foreach ($type as $key => $value)
-                        <x-select-option :value="$key" :title="$value" />
+                            <x-select-option :value="$key" :title="$value"/>
                         @endforeach
                     </x-select>
                 </div>
@@ -53,7 +104,7 @@
                     <x-input type="number" name="seat_number"
                              :value="old('seat_number')"
                              :required="true"
-                             placeholder="{{ __('Số chổ ngồi') }}" />
+                             placeholder="{{ __('Số chổ ngồi') }}"/>
                 </div>
             </div>
             <!-- license_plate -->
@@ -63,7 +114,7 @@
                     <x-input name="license_plate"
                              :required="true"
                              :value="old('license_plate')"
-                             placeholder="{{ __('Biển số xe') }}" />
+                             placeholder="{{ __('Biển số xe') }}"/>
                 </div>
             </div>
             <!-- price -->
@@ -75,16 +126,6 @@
                                    :value="old('price')"
                                    :required="true"
                                    :placeholder="__('price_rent')"/>
-                </div>
-            </div>
-            <!-- user_id (owner) -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Chủ xe') }}:</label>
-                    <x-select class="select2-bs5-ajax"
-                              name="user_id"
-                              :required="true">
-                    </x-select>
                 </div>
             </div>
             <!-- amenities -->

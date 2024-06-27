@@ -5,6 +5,8 @@ namespace App\Admin\DataTables\Vehicle;
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Vehicle\VehicleRepositoryInterface;
 use App\Admin\Traits\GetConfig;
+use Illuminate\Database\Eloquent\Builder;
+use Yajra\DataTables\DataTableAbstract;
 
 
 class VehicleDataTable extends BaseDataTable
@@ -12,28 +14,21 @@ class VehicleDataTable extends BaseDataTable
 
     use GetConfig;
 
-    // ID ( Client ) của bảng DataTable
     protected $nameTable = 'vehicleTable';
 
-    /**
-     * Available button actions. When calling an action, the value will be used
-     * as the function name (so it should be available)
-     * If you want to add or disable an action, overload and modify this property.
-     *
-     * @var array
-     */
-    // protected array $actions = ['pageLength', 'excel', 'reset', 'reload'];
+
     protected array $actions = ['reset', 'reload'];
 
     public function __construct(
         VehicleRepositoryInterface $repository
-    ) {
+    )
+    {
         parent::__construct();
 
         $this->repository = $repository;
     }
 
-    public function setView()
+    public function setView(): void
     {
         $this->view = [
             'type' => 'admin.vehicle.datatable.status',
@@ -48,50 +43,49 @@ class VehicleDataTable extends BaseDataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @return DataTableAbstract
      */
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\User $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      * Hàm thực thi gọi lệnh truy xuất từ Database ( Repository )
      */
-    public function query()
+    public function query(): Builder
     {
-        return $this->repository->getQueryBuilderWithRelations();
+        return $this->repository->getByQueryBuilder([], ['driver']);
     }
 
-    /**
-     * Get columns.
-     *
-     * @return array
-     * Hàm kết nối tới datatable_columns Config
-     */
+
     protected function setCustomColumns(): void
     {
         $this->customColumns = config('datatables_columns.vehicle', []);
     }
 
-    protected function setCustomAddColumns()
+    protected function setCustomAddColumns(): void
     {
         $this->customAddColumns = [
             'action' => $this->view['action'],
         ];
     }
-    protected function setCustomEditColumns()
+
+    protected function setCustomEditColumns(): void
     {
         $this->customEditColumns = [
             'type' => $this->view['type'],
             'id' => $this->view['editlink'],
-            'user' => $this->view['user'],
             'desc' => $this->view['desc'],
+            'driver' => function ($vehicle) {
+                return view($this->view['user'], [
+                    'vehicle' => $vehicle,
+                ])->render();
+            },
         ];
     }
 
-    protected function setCustomRawColumns()
+    protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['id', 'user', 'type', 'action', 'desc'];
+        $this->customRawColumns = ['id', 'driver', 'type', 'action', 'desc'];
     }
 
     protected function setColumnSearch()

@@ -43,5 +43,6 @@
 @push('custom-js')
 
 @include('admin.orders.scripts.scripts')
-
+@include('admin.layouts.modal.modal-pick-address')
+@include('admin.scripts.google-map-input')
 @endpush

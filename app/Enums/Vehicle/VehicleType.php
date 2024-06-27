@@ -2,52 +2,35 @@
 
 namespace App\Enums\Vehicle;
 
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Contracts\LocalizedEnum;
+use App\Supports\Enum;
 
-/**
- * @method static static Published()
- * @method static static Draft()
- */
-final class VehicleType extends Enum implements LocalizedEnum
+enum VehicleType: int
 {
+    use Enum;
 
     // Chưa được phân loại
-    const Unclassified = 1;
+    case Unclassified = 1;
 
     // Xe gắn máy
-    const Motorcycle = 2;
+    case Motorcycle = 2;
 
     // Ô tô
-    const Car = 3;
+    case Car = 3;
 
     // Xe tải
-    const Truck = 4;
+    case Truck = 4;
 
     // Xe tải đông lạnh
-    const RefrigeratedRuck = 5;
+    case RefrigeratedRuck = 5;
 
-    public function colorText(): string
+    public function badge(): string
     {
-        return match($this->value) {
-            VehicleType::Unclassified => 'text-danger',
-            VehicleType::Motorcycle => 'text-success',
-            VehicleType::Car => 'text-primary',
-            VehicleType::Truck => 'text-warning',
-            VehicleType::RefrigeratedRuck => 'text-secondary',
-            default => 'text-dark'
-        };
-    }
-
-    public function colorBg(): string
-    {
-        return match($this->value) {
-            VehicleType::Unclassified => 'bg-danger',
-            VehicleType::Motorcycle => 'bg-success',
-            VehicleType::Car => 'bg-primary',
-            VehicleType::Truck => 'bg-warning',
-            VehicleType::RefrigeratedRuck => 'bg-secondary',
-            default => 'bg-light'
+        return match ($this) {
+            self::Unclassified => 'bg-green-lt',
+            self::Motorcycle => 'bg-orange-lt',
+            self::Car => 'bg-red-lt',
+            self::Truck => 'bg-blue-lt',
+            self::RefrigeratedRuck => 'bg-pink-lt'
         };
     }
 
