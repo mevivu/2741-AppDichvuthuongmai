@@ -12,7 +12,9 @@
             @lang('avatar')
         </div>
         <div class="card-body p-2">
-            <x-input-image-ckfinder name="avatar" showImage="featureImage"/>
+            <x-input-image-ckfinder name="avatar"
+                                    :value="old('avatar')"
+                                    showImage="featureImage"/>
         </div>
     </div>
 </div>

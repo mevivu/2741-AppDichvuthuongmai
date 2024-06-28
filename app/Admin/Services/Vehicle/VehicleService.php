@@ -64,7 +64,8 @@ class VehicleService implements VehicleServiceInterface
         } catch (Exception $e) {
             DB::rollback();
             $this->logError('Failed to process create vehicle', $e);
-            return false;
+            throw $e;
+//            return false;
         }
     }
 

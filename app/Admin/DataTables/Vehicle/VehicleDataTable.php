@@ -88,8 +88,16 @@ class VehicleDataTable extends BaseDataTable
         $this->customRawColumns = ['id', 'driver', 'type', 'action', 'desc'];
     }
 
-    protected function setColumnSearch()
+    protected function setColumnSearch(): void
     {
-        // TODO: Implement setColumnSearch() method.
+        $this->customFilterColumns = [
+            'driver' => function ($query, $keyword) {
+                $query->whereHas('driver.user', function ($subQuery) use ($keyword) {
+                    $subQuery->where('fullname', 'like', '%' . $keyword . '%');
+                });
+            },
+
+
+        ];
     }
 }

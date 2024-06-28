@@ -190,5 +190,7 @@
     "vehicle_side_image": "Ảnh nội thất xe",
     "insurance_front_image": "Ảnh mặt trước bảo hiểm xe",
     "insurance_back_image": "Ảnh mặt sau bảo hiểm xe",
-    "amenities": "Tiện ích"
+    "amenities": "Tiện ích",
+    "name_vehicle": "Tên phương tiện",
+    "brand": "Thương hiệu"
 }
