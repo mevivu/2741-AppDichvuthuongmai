@@ -131,6 +131,7 @@
     "pricePromotion": "Giá tăng",
     "price1": "Giá gốc",
     "price": "Giá bán",
+    "price_rent": "Giá thuê",
     "qty": "Số lượng",
     "listDiscount":"Danh sách mã giảm giá",
     "code":"Mã",
@@ -188,5 +189,8 @@
     "vehicle_back_image": "Ảnh xe phía sau",
     "vehicle_side_image": "Ảnh nội thất xe",
     "insurance_front_image": "Ảnh mặt trước bảo hiểm xe",
-    "insurance_back_image": "Ảnh mặt sau bảo hiểm xe"
+    "insurance_back_image": "Ảnh mặt sau bảo hiểm xe",
+    "amenities": "Tiện ích",
+    "name_vehicle": "Tên phương tiện",
+    "brand": "Thương hiệu"
 }

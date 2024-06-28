@@ -38,5 +38,17 @@ class OrderController extends Controller
         }
     }
 
+//    public function createRentOrder(BookOrderRequest $request): JsonResponse
+//    {
+//        try {
+//            $response = $this->service->createRentOrder($request);
+//            return $this->jsonResponseSuccess($response);
+//        } catch (Exception $e) {
+//            $this->logError('Order creation failed:', $e);
+//            return $this->jsonResponseError('', 500);
+//        }
+//
+//    }
+
 
 }

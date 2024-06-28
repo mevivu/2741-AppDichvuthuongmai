@@ -12,6 +12,7 @@ use App\Admin\Services\Driver\DriverServiceInterface;
 use App\Enums\Driver\DriverStatus;
 use App\Enums\User\Gender;
 use App\Enums\User\UserRoles;
+use App\Enums\Vehicle\VehicleType;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -77,6 +78,7 @@ class DriverController extends Controller
             'gender' => Gender::asSelectArray(),
             'roles' => UserRoles::asSelectArray(),
             'areas' => $areas,
+            'type' => VehicleType::asSelectArray(),
             'order_accepted' => DriverStatus::asSelectArray(),
             'breadcrumbs' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('add'))
         ]);
@@ -107,6 +109,7 @@ class DriverController extends Controller
             [
                 'gender' => Gender::asSelectArray(),
                 'order_accepted' => DriverStatus::asSelectArray(),
+                'type' => VehicleType::asSelectArray(),
                 'areas' => $areas,
                 'driver' => $driver,
                 'breadcrumbs' => $this->crums->add(__('driver'), route($this->route['index']))->add(__('edit')),

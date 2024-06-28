@@ -5,6 +5,7 @@ namespace App\Admin\Services\Driver;
 use App\Admin\Repositories\Driver\DriverRepositoryInterface;
 use App\Admin\Repositories\Order\OrderRepositoryInterface;
 use App\Admin\Repositories\User\UserRepositoryInterface;
+use App\Admin\Repositories\Vehicle\VehicleRepositoryInterface;
 use App\Admin\Services\File\FileService;
 use App\Admin\Traits\Roles;
 use App\Admin\Traits\Setup;
@@ -33,18 +34,22 @@ class DriverService implements DriverServiceInterface
 
     protected UserRepositoryInterface $userRepository;
 
+    protected VehicleRepositoryInterface $vehicleRepository;
+
     protected FileService $fileService;
 
 
     public function __construct(DriverRepositoryInterface $repository,
                                 OrderRepositoryInterface  $orderRepository,
                                 FileService               $fileService,
+                                VehicleRepositoryInterface  $vehicleRepository,
                                 UserRepositoryInterface   $userRepository)
     {
         $this->repository = $repository;
         $this->orderRepository = $orderRepository;
         $this->userRepository = $userRepository;
         $this->fileService = $fileService;
+        $this->vehicleRepository = $vehicleRepository;
 
     }
 
@@ -72,9 +77,9 @@ class DriverService implements DriverServiceInterface
             $data['current_lng'] = $data['end_lng'];
             $data['current_address'] = $data['end_address'];
             $data['user_id'] = $userId;
-            $roles = $this->getRoleDriver();
             $driver = $this->repository->create($data);
-            $this->repository->assignRoles($driver->user, [$roles]);
+            $data['driver_id'] = $driver->id;
+            $this->vehicleRepository->create($data);
             DB::commit();
 
             return $driver;

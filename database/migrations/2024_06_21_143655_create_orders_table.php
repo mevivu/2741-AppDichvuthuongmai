@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->unsignedBigInteger('store_id')->nullable();
+            $table->unsignedBigInteger('vehicle_id')->nullable();
 
             $table->double('start_latitude', 10, 6)->nullable();
             $table->double('start_longitude', 10, 6)->nullable();
@@ -37,14 +38,27 @@ return new class extends Migration {
             $table->unsignedInteger('passenger_count')->default(1);
             $table->unsignedInteger('luggage_count')->default(1);
             $table->dateTime('departure_time')->nullable();
+            $table->dateTime('return_time')->nullable();
             $table->tinyInteger('status')->default(OrderStatus::Pending->value);
             $table->text('note')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('set null');
-            $table->foreign('store_id')->references('id')->on('stores')->onDelete('set null');
-
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->foreign('driver_id')
+                ->references('id')
+                ->on('drivers')
+                ->onDelete('set null');
+            $table->foreign('store_id')
+                ->references('id')
+                ->on('stores')
+                ->onDelete('set null');
+            $table->foreign('vehicle_id')
+                ->references('id')
+                ->on('vehicles')
+                ->onDelete('set null');
 
         });
     }

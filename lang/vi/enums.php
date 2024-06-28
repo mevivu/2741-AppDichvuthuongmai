@@ -25,11 +25,11 @@ return [
         Gender::Other->value => 'Khác',
     ],
     VehicleType::class => [
-        VehicleType::Unclassified => 'Chưa được phân loại',
-        VehicleType::Motorcycle => ' Xe gắn máy',
-        VehicleType::Car => 'Ô tô',
-        VehicleType::Truck => 'Xe tải',
-        VehicleType::RefrigeratedRuck => 'Xe tải đông lạnh',
+        VehicleType::Unclassified->value => 'Chưa được phân loại',
+        VehicleType::Motorcycle->value => ' Xe gắn máy',
+        VehicleType::Car->value => 'Ô tô',
+        VehicleType::Truck->value => 'Xe tải',
+        VehicleType::RefrigeratedRuck->value => 'Xe tải đông lạnh',
     ],
     AutoAccept::class => [
         AutoAccept::Auto->value => 'Tự động nhận chuyến',

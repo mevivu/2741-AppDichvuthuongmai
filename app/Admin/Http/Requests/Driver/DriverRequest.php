@@ -5,6 +5,7 @@ namespace App\Admin\Http\Requests\Driver;
 use App\Admin\Http\Requests\BaseRequest;
 use App\Enums\Driver\AutoAccept;
 use App\Enums\Driver\DriverStatus;
+use App\Enums\Vehicle\VehicleType;
 use App\Models\Driver;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rule;
@@ -33,6 +34,11 @@ class DriverRequest extends BaseRequest
             'auto_accept' => ['nullable ', new Enum(AutoAccept::class)],
             'id_card_front' => ['required'],
             'id_card_back' => ['required'],
+            'name' => ['required', 'string'],
+            'brand' =>['required', 'string'],
+            'color' => ['required', 'string'],
+            'seat_number' => ['required', 'integer'],
+            'type' => ['required', new Enum(VehicleType::class)],
             'vehicle_registration_front' => ['required'],
             'vehicle_registration_back' => ['required'],
             'driver_license_front' => ['required'],
@@ -72,6 +78,11 @@ class DriverRequest extends BaseRequest
             'order_accepted' => ['required ', new Enum(DriverStatus::class)],
             'id_card_front' => ['required'],
             'id_card_back' => ['required'],
+            'name' => ['required', 'string'],
+            'brand' =>['required', 'string'],
+            'color' => ['required', 'string'],
+            'seat_number' => ['required', 'integer'],
+            'type' => ['required', new Enum(VehicleType::class)],
             'vehicle_registration_front' => ['required'],
             'vehicle_registration_back' => ['required'],
             'driver_license_front' => ['required'],

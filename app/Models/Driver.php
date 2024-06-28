@@ -18,6 +18,7 @@ class Driver extends Authenticatable
 
     protected $table = 'drivers';
     protected $fillable = [
+        /**  ID người dùng */
         'user_id',
         /** CCCD */
         'id_card',
@@ -25,40 +26,30 @@ class Driver extends Authenticatable
         'id_card_front',
         /** CCCD mặt sau */
         'id_card_back',
-        /** Biển số xe */
-        'license_plate',
-        /** Ảnh Biển số xe */
-        'license_plate_image',
-        /** Nhà sản xuất xe */
-        'vehicle_company',
-        /** Giấy đăng ký xe mặt trước */
-        'vehicle_registration_front',
-        /** Giấy đăng ký xe mặt sau */
-        'vehicle_registration_back',
         /** Giấy phép lái xe mặt trước */
         'driver_license_front',
         /** Giấy phép lái xe mặt sau */
         'driver_license_back',
-        /** Ảnh xe phía trước */
-        'vehicle_front_image',
-        /** Ảnh xe phía sau */
-        'vehicle_back_image',
-        /** Ảnh hông xe */
-        'vehicle_side_image',
-        /** Ảnh nội thất xe */
-        'vehicle_interior_image',
-        /** Ảnh mặt trước bảo hiểm xe */
-        'insurance_front_image',
-        /** Ảnh mặt sau bảo hiểm xe */
-        'insurance_back_image',
+        /** Tên ngân hàng */
         'bank_name',
+        /** Tên tài khoản ngân hàng */
         'bank_account_name',
+        /** Số tài khoản ngân hàng */
         'bank_account_number',
+        /** Tự động chấp nhận đơn */
         'auto_accept',
+        /** Vĩ độ hiện tại */
         'current_lat',
+        /** Kinh độ hiện tại */
         'current_lng',
+        /** Địa chỉ hiện tại */
         'current_address',
+        /** Tình trạng đơn hàng đã chấp nhận */
         'order_accepted',
+        /** Trạng thái khóa */
+        'is_locked',
+        /** Trạng thái hoạt động */
+        'is_on',
     ];
     protected $casts = [
         'auto_accept' => AutoAccept::class,
@@ -68,6 +59,11 @@ class Driver extends Authenticatable
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function vehicles(): HasMany
+    {
+        return $this->hasMany(Vehicle::class);
     }
 
     public function orders(): HasMany
