@@ -6,7 +6,10 @@ use App\Admin\Http\Controllers\Controller;
 use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Api\V1\Http\Requests\Store\LoginRequest;
 use App\Api\V1\Http\Requests\Store\RegisterRequest;
+use App\Api\V1\Http\Requests\Store\UpdatePasswordRequest;
+use App\Api\V1\Http\Requests\Store\UpdateRequest;
 use App\Api\V1\Http\Resources\Store\StoreResource;
+use Illuminate\Support\Facades\Hash;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use App\Api\V1\Http\Requests\Auth\{RefreshTokenRequest};
@@ -180,7 +183,41 @@ class StoreController extends Controller
             'expires_in' => $ttl * 60
         ]);
     }
+    public function updatePassword(UpdatePasswordRequest $request): JsonResponse
+    {
+        $user = auth(self::$GUARD_API)->user();
 
+        // Verify old password
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json(['message' => 'Current password does not match.'], 400);
+        }
+
+        // Update password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['message' => 'Password updated successfully.']);
+    }
+    public function update(UpdateRequest $request): JsonResponse
+{
+    $store = Auth::guard('store-api')->user();
+    $data = $request->validated();
+
+    // Tạm thời loại bỏ các trường không phải của bảng.
+    unset($data['roles']);
+    unset($data['id']);
+
+    // Update store information
+    $store->fill($data);
+    $store->save();
+
+    // Return updated store data
+    return response()->json([
+        'status' => 200,
+        'message' => __('Update store information successfully.'),
+        'data' => new StoreResource($store),
+    ]);
+}
 
     private function createRefreshToken($user)
     {

@@ -33,6 +33,29 @@ return [
         ]
     ],
     [
+        'title' => 'Thành viên',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-article"></i>',
+        'roles' => [],
+        'permissions' => ['createUser', 'viewUser', 'updateUser', 'deleteUser'],
+        'sub' => [
+            [
+                'title' => 'Thêm thành viên',
+                'routeName' => 'admin.user.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createUser'],
+            ],
+            [
+                'title' => 'DS thành viên',
+                'routeName' => 'admin.user.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewUser'],
+            ]
+        ]
+    ],
+    [
         'title' => 'notification',
         'routeName' => null,
         'icon' => '<i class="ti ti-article"></i>',
