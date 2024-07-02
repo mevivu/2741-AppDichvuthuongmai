@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('stores')->controller(StoreController::class)
     ->group(function () {
         Route::get('/', 'show')->name('show');
-        Route::post('/update', 'update')->name('update');
+        Route::post('/', 'update')->name('update');
         Route::post('/login', 'login')->name('login');
         Route::post('/register', 'register')->name('register');
         Route::post('/logout', 'logout')->name('logout');

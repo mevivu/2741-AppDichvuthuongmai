@@ -16,7 +16,7 @@ use App\Api\V1\Http\Requests\Auth\{RefreshTokenRequest};
 use App\Api\V1\Services\Store\StoreServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
+use Illuminate\Support\Facades\Log;
 /**
  * @group Cửa hàng tạp hoá
  */
@@ -45,7 +45,7 @@ class StoreController extends Controller
         return Auth::guard(self::$GUARD_API)->attempt($this->login);
 
     }
-
+    
 
     /**
      * Đăng nhập
@@ -183,42 +183,33 @@ class StoreController extends Controller
             'expires_in' => $ttl * 60
         ]);
     }
-    public function updatePassword(UpdatePasswordRequest $request): JsonResponse
-    {
-        $user = auth(self::$GUARD_API)->user();
+        public function updatePassword(UpdatePasswordRequest $request): JsonResponse
+        {
+            $user = auth(self::$GUARD_API)->user();
 
-        // Verify old password
-        if (!Hash::check($request->old_password, $user->password)) {
-            return response()->json(['message' => 'Current password does not match.'], 400);
+            // Verify old password
+            if (!Hash::check($request->old_password, $user->password)) {
+                return response()->json(['message' => 'Current password does not match.'], 400);
+            }
+
+            // Update password
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return response()->json(['message' => 'Password updated successfully.']);
         }
+        
 
-        // Update password
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return response()->json(['message' => 'Password updated successfully.']);
+        public function update(UpdateRequest $request): JsonResponse
+    {
+        try {
+            $response = $this->service->update($request);
+            return $this->jsonResponseSuccess($response);
+        } catch (Exception $e) {
+            Log::error('Order creation failed: ' . $e->getMessage());
+            return $this->jsonResponseError($e->getMessage(), 500);
+        }
     }
-    public function update(UpdateRequest $request): JsonResponse
-{
-    $store = Auth::guard('store-api')->user();
-    $data = $request->validated();
-
-    // Tạm thời loại bỏ các trường không phải của bảng.
-    unset($data['roles']);
-    unset($data['id']);
-
-    // Update store information
-    $store->fill($data);
-    $store->save();
-
-    // Return updated store data
-    return response()->json([
-        'status' => 200,
-        'message' => __('Update store information successfully.'),
-        'data' => new StoreResource($store),
-    ]);
-}
-
     private function createRefreshToken($user)
     {
         $data = [
@@ -243,5 +234,19 @@ class StoreController extends Controller
         return JWTAuth::getJWTProvider()->encode($data);
     }
 
-
+    protected function jsonResponseError($message, $code = 500): JsonResponse
+    {
+        return response()->json([
+            'status' => $code,
+            'message' => $message
+        ], $code);
+    }
+    public function jsonResponseSuccess($data, $message = 'Success', $status = 200)
+    {
+        return response()->json([
+            'status' => 'success',
+            'message' => $message,
+            'data' => $data
+        ], $status);
+    }
 }

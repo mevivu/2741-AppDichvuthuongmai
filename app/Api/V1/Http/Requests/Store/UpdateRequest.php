@@ -18,12 +18,14 @@ class UpdateRequest extends BaseRequest
         return [
             'username' => ['required', 'string'],
             'store_name' => 'required|string|max:255',
-            'store_phone' => 'required|string|max:20',
+            // 'store_phone' => 'required|string|max:20',
             'contact_name' => ['required', 'string'],
             'contact_email' => ['required', 'email', 'unique:App\Models\User,email,' . $this->user()->id],
             'contact_phone' => ['required', 'string'],
-            'logo' => ['nullable'],
+            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'address' => ['nullable'],
+            'address_detail' => ['nullable'],
+            'tax_code' => ['nullable'],
             'lng' => ['nullable'],
             'lat' => ['nullable'],
         ];
