@@ -85,6 +85,7 @@ class VehicleRequest extends BaseRequest
             'id_card_back' => ['required'],
             'vehicle_registration_front' => ['required'],
             'vehicle_registration_back' => ['required'],
+
             'driver_license_front' => ['nullable'],
             'driver_license_back' => ['nullable'],
             'user_info' => ['nullable', 'array'],

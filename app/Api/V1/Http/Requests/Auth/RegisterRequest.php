@@ -19,7 +19,6 @@ class RegisterRequest extends BaseRequest
             'fullname' => ['required', 'string'],
             'password' => ['required', 'string', 'confirmed'],
             'email' => ['required', 'email', 'unique:users,email'],
-
         ];
     }
 }

@@ -31,7 +31,7 @@
     <script src="{{ asset('/public/vendor/datatables/buttons.server-side.js') }}"></script>
 @endpush
 
-@push('custom-js')
+@push('custom-js') 
 
     {{ $dataTable->scripts() }}
 
