@@ -182,3 +182,12 @@ Route::fallback(function () {
         'message' => __('Không tìm thấy đường dẫn.')
     ], 404);
 });
+//***** -- Category System -- ******* //
+Route::controller(App\Api\V1\Http\Controllers\CategorySystem\CategorySystemController::class)
+    ->prefix('/category_system')
+    ->as('category_system.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        // Route xuất ra danh sách các Dịch vụ
+    });
+//***** -- Category System -- ******* //

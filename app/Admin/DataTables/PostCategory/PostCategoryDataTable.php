@@ -17,8 +17,7 @@ class PostCategoryDataTable extends BaseDataTable
 
     public function __construct(
         PostCategoryRepositoryInterface $repository
-    )
-    {
+    ) {
         $this->repository = $repository;
 
         parent::__construct();

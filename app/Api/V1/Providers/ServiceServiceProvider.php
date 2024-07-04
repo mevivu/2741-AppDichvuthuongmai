@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 class ServiceServiceProvider extends ServiceProvider
 {
     protected array $services = [
+        'App\Api\V1\Services\CategorySystem\CategorySystemServiceInterface' => 'App\Api\V1\Services\CategorySystem\CategorySystemService',
+
         'App\Api\V1\Services\User\UserServiceInterface' => 'App\Api\V1\Services\User\UserService',
         'App\Api\V1\Services\Auth\StoreServiceInterface' => 'App\Api\V1\Services\Auth\StoreService',
         'App\Api\V1\Services\Driver\DriverServiceInterface' => 'App\Api\V1\Services\Driver\DriverService',

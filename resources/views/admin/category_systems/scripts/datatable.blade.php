@@ -1,6 +1,6 @@
 <script>
     function searchColumsDataTable(datatable) {
-        datatable.api().columns([0]).every(function () {
+        datatable.api().columns([0, 1, 2, 3]).every(function () {
             var column = this;
             var input = document.createElement("input");
 
@@ -15,7 +15,7 @@
     }
     $(document).ready(function () {
         // define columns for the datatables
-        columns = window.LaravelDataTables["postCategoryTable"].columns();
+        columns = window.LaravelDataTables["category_systemTable"].columns();
         toggleColumnsDatatable(columns);
     });
 </script>
