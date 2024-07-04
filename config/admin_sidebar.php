@@ -130,9 +130,15 @@ return [
         'routeName' => null,
         'icon' => '<i class="ti ti-article"></i>',
         'roles' => [],
-        'permissions' => ['createUser', 'viewUser',
-            'updateUser', 'deleteUser', 'viewStoreCategory',
-            'updateStoreCategory', 'createStoreCategory'],
+        'permissions' => [
+            'createUser',
+            'viewUser',
+            'updateUser',
+            'deleteUser',
+            'viewStoreCategory',
+            'updateStoreCategory',
+            'createStoreCategory'
+        ],
         'sub' => [
             [
                 'title' => 'Thêm Cửa hàng',
@@ -472,5 +478,29 @@ return [
         'roles' => [],
         'permissions' => ['mevivuDev'],
         'sub' => []
-    ]
+    ],
+    [
+        'title' => 'Quản lý Dịch Vụ',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-bed"></i>',
+        'roles' => [],
+        'permissions' => ['viewServices', 'createServices', 'updateServices', 'deleteServices'],
+        'sub' => [
+            [
+                'title' => 'Thêm Dịch Vụ',
+                'routeName' => 'admin.category_system.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createServices'],
+            ],
+            [
+                'title' => 'Danh sách Dịch Vụ',
+                'routeName' => 'admin.category_system.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewServices'],
+            ]
+        ]
+    ],
+
 ];

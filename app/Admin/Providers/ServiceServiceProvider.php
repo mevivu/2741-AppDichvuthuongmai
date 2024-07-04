@@ -7,9 +7,10 @@ use Illuminate\Support\ServiceProvider;
 class ServiceServiceProvider extends ServiceProvider
 {
     protected array $services = [
-		'App\Admin\Services\Module\ModuleServiceInterface' => 'App\Admin\Services\Module\ModuleService',
-		'App\Admin\Services\Permission\PermissionServiceInterface' => 'App\Admin\Services\Permission\PermissionService',
-		'App\Admin\Services\Role\RoleServiceInterface' => 'App\Admin\Services\Role\RoleService',
+        'App\Admin\Services\CategorySystem\CategorySystemServiceInterface' => 'App\Admin\Services\CategorySystem\CategorySystemService',
+        'App\Admin\Services\Module\ModuleServiceInterface' => 'App\Admin\Services\Module\ModuleService',
+        'App\Admin\Services\Permission\PermissionServiceInterface' => 'App\Admin\Services\Permission\PermissionService',
+        'App\Admin\Services\Role\RoleServiceInterface' => 'App\Admin\Services\Role\RoleService',
         'App\Admin\Services\Admin\AdminServiceInterface' => 'App\Admin\Services\Admin\AdminService',
         'App\Admin\Services\User\UserServiceInterface' => 'App\Admin\Services\User\UserService',
         'App\Admin\Services\Category\CategoryServiceInterface' => 'App\Admin\Services\Category\CategoryService',

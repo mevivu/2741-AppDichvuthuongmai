@@ -245,6 +245,17 @@ class PermissionSeeder extends Seeder
             'updated_at' => DB::raw('NOW()')
         ]);
 
+        // Module Category_Systems
+        DB::table('modules')->insertGetId([
+            'id' => 22,
+            'name' => 'Quản lý Dịch Vụ',
+            'description' => '<p>Chức năng quản lý Dịch Vụ</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
+
         // permissions
         DB::table('permissions')->insert([
             'id' => 1,
@@ -745,6 +756,7 @@ class PermissionSeeder extends Seeder
             'updated_at' => DB::raw('NOW()')
         ]);
 
+
         DB::table('role_has_permissions')->insert([
             'permission_id' => 47,
             'role_id' => 1
@@ -1216,6 +1228,45 @@ class PermissionSeeder extends Seeder
         /** End Permission Vehicle */
 
 
+        // Start permission categories system
+        DB::table('permissions')->insert([
+            'id' => 87,
+            'title' => 'Xem Dịch Vụ',
+            'name' => 'viewServices',
+            'guard_name' => 'admin',
+            'module_id' => 22,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 88,
+            'title' => 'Thêm Dịch Vụ',
+            'name' => 'createServices',
+            'guard_name' => 'admin',
+            'module_id' => 22,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 89,
+            'title' => 'Sửa Dịch Vụ',
+            'name' => 'updateServices',
+            'guard_name' => 'admin',
+            'module_id' => 22,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 90,
+            'title' => 'Xóa Dịch Vụ',
+            'name' => 'deleteServices',
+            'guard_name' => 'admin',
+            'module_id' => 22,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        // End permission categories system
+
         //seeding model_has_roles
         DB::table('model_has_roles')->insert([
             'role_id' => 1,
@@ -1407,5 +1458,6 @@ class PermissionSeeder extends Seeder
             'permission_id' => 46,
             'role_id' => 1
         ]);
+        // ** Start permision Category System **//
     }
 }
