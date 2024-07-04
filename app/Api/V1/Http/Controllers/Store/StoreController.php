@@ -17,6 +17,7 @@ use App\Api\V1\Services\Store\StoreServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Log;
+
 /**
  * @group Cửa hàng tạp hoá
  */
@@ -28,9 +29,8 @@ class StoreController extends Controller
     protected $auth;
 
 
-
     public function __construct(
-        StoreServiceInterface $service,
+        StoreServiceInterface    $service,
         StoreRepositoryInterface $repository
     )
     {
@@ -45,7 +45,7 @@ class StoreController extends Controller
         return Auth::guard(self::$GUARD_API)->attempt($this->login);
 
     }
-    
+
 
     /**
      * Đăng nhập
@@ -183,24 +183,25 @@ class StoreController extends Controller
             'expires_in' => $ttl * 60
         ]);
     }
-        public function updatePassword(UpdatePasswordRequest $request): JsonResponse
-        {
-            $user = auth(self::$GUARD_API)->user();
 
-            // Verify old password
-            if (!Hash::check($request->old_password, $user->password)) {
-                return response()->json(['message' => 'Current password does not match.'], 400);
-            }
+    public function updatePassword(UpdatePasswordRequest $request): JsonResponse
+    {
+        $user = auth(self::$GUARD_API)->user();
 
-            // Update password
-            $user->password = Hash::make($request->password);
-            $user->save();
-
-            return response()->json(['message' => 'Password updated successfully.']);
+        // Verify old password
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json(['message' => 'Current password does not match.'], 400);
         }
-        
 
-        public function update(UpdateRequest $request): JsonResponse
+        // Update password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['message' => 'Password updated successfully.']);
+    }
+
+
+    public function update(UpdateRequest $request): JsonResponse
     {
         try {
             $response = $this->service->update($request);
@@ -210,6 +211,7 @@ class StoreController extends Controller
             return $this->jsonResponseError($e->getMessage(), 500);
         }
     }
+
     private function createRefreshToken($user)
     {
         $data = [
@@ -241,6 +243,7 @@ class StoreController extends Controller
             'message' => $message
         ], $code);
     }
+
     public function jsonResponseSuccess($data, $message = 'Success', $status = 200)
     {
         return response()->json([
