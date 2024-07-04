@@ -221,20 +221,20 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
-	'module' => [
-		'id' => [
+    'module' => [
+        'id' => [
             'title' => 'ID',
             'orderable' => false,
             'width' => '150px',
             'addClass' => 'align-middle'
         ],
-		'name' => [
+        'name' => [
             'title' => 'Tên Module',
             'orderable' => false,
             'width' => '150px',
             'addClass' => 'align-middle'
         ],
-		'status' => [
+        'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,
             'width' => '150px',
@@ -248,8 +248,8 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
-	'role' => [
-		'id' => [
+    'role' => [
+        'id' => [
             'title' => 'ID',
             'orderable' => false,
             'width' => '150px',
@@ -261,13 +261,13 @@ return [
             'width' => '150px',
             'addClass' => 'align-middle'
         ],
-		'name' => [
+        'name' => [
             'title' => 'Slug ( role_name )',
             'orderable' => false,
             'width' => '150px',
             'addClass' => 'align-middle'
         ],
-		'guard_name' => [
+        'guard_name' => [
             'title' => 'Vai trò của nhóm ( Guard Name )',
             'orderable' => false,
             'width' => '150px',
@@ -281,8 +281,8 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
-	'permission' => [
-		'id' => [
+    'permission' => [
+        'id' => [
             'title' => 'ID',
             'orderable' => false,
             'width' => '150px',
@@ -294,19 +294,19 @@ return [
             'width' => '150px',
             'addClass' => 'align-middle'
         ],
-		'name' => [
+        'name' => [
             'title' => 'Slug ( Permission_name )',
             'orderable' => false,
             'width' => '150px',
             'addClass' => 'align-middle'
         ],
-		'module_id' => [
+        'module_id' => [
             'title' => 'Thuộc Module',
             'orderable' => false,
             'width' => '150px',
             'addClass' => 'align-middle'
         ],
-		'guard_name' => [
+        'guard_name' => [
             'title' => 'Nhóm quyền ( Guard Name )',
             'orderable' => false,
             'width' => '150px',
@@ -334,7 +334,7 @@ return [
             'title' => 'Email',
             'orderable' => false,
         ],
-		'roles' => [
+        'roles' => [
             'title' => 'Vai trò',
             'orderable' => false,
         ],
@@ -805,7 +805,7 @@ return [
             'addClass' => 'align-middle',
             'orderable' => false,
         ],
-//        'roles' => [
+        //        'roles' => [
 //            'title' => 'role',
 //            'orderable' => false,
 //            'visible' => false
@@ -835,4 +835,41 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
+    'category_system' => [
+        'id' => [
+            'title' => 'ID',
+            'orderable' => false,
+            'width' => '150px',
+            'addClass' => 'align-middle'
+        ],
+
+        'name' => [
+            'title' => 'Tên dịch vụ',
+            'orderable' => false,
+            'width' => '150px',
+            'addClass' => 'align-middle'
+        ],
+        'avatar' => [
+            'title' => 'Hình ảnh',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'created_at' => [
+            'title' => 'Ngày tạo',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'width' => '150px',
+            'visible' => true
+        ],
+        'action' => [
+            'title' => 'Thao tác',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'width' => '150px',
+            'addClass' => 'text-center align-middle'
+        ],
+
+    ],
+
 ];
