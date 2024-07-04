@@ -189,6 +189,29 @@ return [
         ]
     ],
     [
+        'title' => 'Dịch Vụ',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-bed"></i>',
+        'roles' => [],
+        'permissions' => ['viewServices', 'createServices', 'updateServices', 'deleteServices'],
+        'sub' => [
+            [
+                'title' => 'Thêm Dịch Vụ',
+                'routeName' => 'admin.category_system.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createServices'],
+            ],
+            [
+                'title' => 'Danh sách Dịch Vụ',
+                'routeName' => 'admin.category_system.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewServices'],
+            ]
+        ]
+    ],
+    [
         'title' => 'Đơn hàng',
         'routeName' => null,
         'icon' => '<i class="ti ti-box"></i>',
@@ -478,29 +501,6 @@ return [
         'roles' => [],
         'permissions' => ['mevivuDev'],
         'sub' => []
-    ],
-    [
-        'title' => 'Quản lý Dịch Vụ',
-        'routeName' => null,
-        'icon' => '<i class="ti ti-bed"></i>',
-        'roles' => [],
-        'permissions' => ['viewServices', 'createServices', 'updateServices', 'deleteServices'],
-        'sub' => [
-            [
-                'title' => 'Thêm Dịch Vụ',
-                'routeName' => 'admin.category_system.create',
-                'icon' => '<i class="ti ti-plus"></i>',
-                'roles' => [],
-                'permissions' => ['createServices'],
-            ],
-            [
-                'title' => 'Danh sách Dịch Vụ',
-                'routeName' => 'admin.category_system.index',
-                'icon' => '<i class="ti ti-list"></i>',
-                'roles' => [],
-                'permissions' => ['viewServices'],
-            ]
-        ]
     ],
 
 ];
