@@ -246,7 +246,7 @@ class PermissionSeeder extends Seeder
         ]);
 
         // Module Category_Systems
-        DB::table('modules')->insertGetId([
+        DB::table('modules')->insert([
             'id' => 22,
             'name' => 'Quản lý Dịch Vụ',
             'description' => '<p>Chức năng quản lý Dịch Vụ</p>',
@@ -1265,6 +1265,22 @@ class PermissionSeeder extends Seeder
             'created_at' => DB::raw('NOW()'),
             'updated_at' => DB::raw('NOW()')
         ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 87,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 88,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 89,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 90,
+            'role_id' => 1
+        ]);
         // End permission categories system
 
         //seeding model_has_roles
@@ -1458,6 +1474,5 @@ class PermissionSeeder extends Seeder
             'permission_id' => 46,
             'role_id' => 1
         ]);
-        // ** Start permision Category System **//
     }
 }
