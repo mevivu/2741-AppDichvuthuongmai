@@ -176,7 +176,7 @@ return [
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
-        'user' => [
+        'driver' => [
             'title' => 'Chủ xe',
             'orderable' => false,
             'addClass' => 'text-center align-middle'

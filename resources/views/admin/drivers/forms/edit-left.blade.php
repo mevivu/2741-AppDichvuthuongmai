@@ -37,34 +37,23 @@
             </div>
 
 
-
             <!-- birthday -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('birthday'):</label>
-                    <x-input type="date" name="user_info[birthday]" :value="isset($driver->user->birthday) ? format_date($user->birthday, 'Y-m-d') : null"
+                    <x-input type="date" name="user_info[birthday]"
+                             :value="isset($driver->user->birthday) ? format_date($driver->user->birthday, 'Y-m-d') : null"
                              required="true"/>
                 </div>
             </div>
-{{--            <!-- Area -->--}}
-{{--            <div class="col-md-6 col-12">--}}
-{{--                <div class="mb-3">--}}
-{{--                    <label class="control-label">@lang('area'):</label>--}}
-{{--                    <x-select name="user_info[area_id]" :required="true">--}}
-{{--                        @foreach ($areas as $area)--}}
-{{--                            <x-select-option :value="$area->id" :title="$area->name"--}}
-{{--                                             :selected="$area->id == $driver->user->area_id"/>--}}
-{{--                        @endforeach--}}
-{{--                    </x-select>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+
 
             <!-- address -->
             <div class="col-12">
                 <div class="mb-3">
                     <x-input-pick-address :label="trans('address')" name="address"
-                                               :value="$driver->user->address"
-                                               :placeholder="trans('pickAddress')" :required="true"/>
+                                          :value="$driver->user->address"
+                                          :placeholder="trans('pickAddress')" :required="true"/>
                     <input type="hidden" name="lat" value="{{$driver->user->latitude}}"/>
                     <input type="hidden" name="lng" value="{{$driver->user->longitude}}"/>
                 </div>
@@ -84,22 +73,6 @@
                     <label class="control-label">@lang('id_card'):</label>
                     <x-input name="id_card" :value="$driver->id_card ?? old('id_card')" :required="true"
                              :placeholder="__('id_card')"/>
-                </div>
-            </div>
-            {{-- license_plate input --}}
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">@lang('license_plate'):</label>
-                    <x-input name="license_plate" :value="$driver->license_plate ?? old('license_plate')"
-                             :placeholder="__('license_plate')"/>
-                </div>
-            </div>
-            {{-- vehicle_company input --}}
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">@lang('vehicle_company'):</label>
-                    <x-input name="vehicle_company" :value="$driver->vehicle_company ?? old('vehicle_company')"
-                             :placeholder="__('vehicle_company')"/>
                 </div>
             </div>
             {{-- bank_name input --}}
@@ -127,6 +100,23 @@
                              :placeholder="__('bank_account_number')"/>
                 </div>
             </div>
+            {{-- license_plate input --}}
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('license_plate'):</label>
+                    <x-input name="license_plate" :value="$driver->license_plate ?? old('license_plate')"
+                             :placeholder="__('license_plate')"/>
+                </div>
+            </div>
+            {{-- vehicle_company input --}}
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('vehicle_company'):</label>
+                    <x-input name="vehicle_company" :value="$driver->vehicle_company ?? old('vehicle_company')"
+                             :placeholder="__('vehicle_company')"/>
+                </div>
+            </div>
+
             <div class="col-12">
                 <div class="mb-3">
                     <x-input-pick-end-address :label="trans('pickup_address')"
@@ -177,9 +167,9 @@
                     </div>
                     <div class="card-body p-2">
                         <x-input-image-ckfinder
-                                name="vehicle_registration_front"
-                                :value="$driver->vehicle_registration_front"
-                                showImage="featureImageVehicleRegistrationFront"
+                            name="vehicle_registration_front"
+                            :value="$driver->vehicle_registration_front"
+                            showImage="featureImageVehicleRegistrationFront"
                         />
                     </div>
                 </div>
@@ -192,9 +182,9 @@
                     </div>
                     <div class="card-body p-2">
                         <x-input-image-ckfinder
-                                name="vehicle_registration_back"
-                                :value="$driver->vehicle_registration_back"
-                                showImage="featureImageVehicleRegistrationBack"
+                            name="vehicle_registration_back"
+                            :value="$driver->vehicle_registration_back"
+                            showImage="featureImageVehicleRegistrationBack"
                         />
                     </div>
                 </div>
@@ -207,9 +197,9 @@
                     </div>
                     <div class="card-body p-2">
                         <x-input-image-ckfinder
-                                name="driver_license_front"
-                                :value="$driver->driver_license_front"
-                                showImage="featureImageDriverLicenseFront"
+                            name="driver_license_front"
+                            :value="$driver->driver_license_front"
+                            showImage="featureImageDriverLicenseFront"
                         />
                     </div>
                 </div>
@@ -222,8 +212,8 @@
                     </div>
                     <div class="card-body p-2">
                         <x-input-image-ckfinder
-                                name="driver_license_back"
-                                :value="$driver->driver_license_back"
+                            name="driver_license_back"
+                            :value="$driver->driver_license_back"
                             showImage="featureImageDriverLicenseBack"
                             class="img-fluid"
                         />

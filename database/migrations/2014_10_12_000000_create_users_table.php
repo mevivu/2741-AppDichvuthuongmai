@@ -18,11 +18,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('area_id')->nullable();
             $table->char('code', 50);
-            $table->char('username', 100)->unique();
+            $table->char('username', 100)->unique()->nullable();
             $table->string('slug')->unique();
             $table->string('fullname');
-            $table->char('email', 100)->unique();
-            $table->char('phone', 20)->unique();
+            $table->char('email', 100)->unique()->nullable();
+            $table->char('phone', 20)->unique()->nullable();
             $table->text('address')->nullable();
             $table->text('avatar')->nullable();
             $table->date('birthday')->nullable();
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->tinyInteger('gender');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('token_get_password')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->boolean('active')->default(true);
             $table->tinyInteger('status')->default(1);
             $table->integer('notification_preference')->default(AutoNotification::Auto->value);

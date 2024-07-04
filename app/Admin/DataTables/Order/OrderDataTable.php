@@ -21,6 +21,10 @@ class OrderDataTable extends BaseDataTable
 
         $this->repository = $repository;
     }
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
+    }
 
     public function setView(): void
     {
@@ -87,8 +91,5 @@ class OrderDataTable extends BaseDataTable
     }
 
 
-    protected function setColumnSearch()
-    {
-        // TODO: Implement setColumnSearch() method.
-    }
+
 }

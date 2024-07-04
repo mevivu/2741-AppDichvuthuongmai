@@ -42,5 +42,8 @@
 @push('custom-js')
 
 @include('admin.vehicle.scripts.scripts')
+@include('admin.layouts.modal.modal-pick-address')
+@include('admin.scripts.google-map-input')
+@include('admin.vehicle.scripts.create-vehicle')
 
 @endpush

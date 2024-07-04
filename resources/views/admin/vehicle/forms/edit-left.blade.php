@@ -1,66 +1,59 @@
 <div class="col-12 col-md-9">
     <div class="card">
         <div class="card-header justify-content-center">
-            <h2 class="mb-0">{{ __('Sửa phương tiện') }}</h2>
+            <h2 class="mb-0">{{ __('Thông tin Chủ xe và Phương tiện') }}</h2>
         </div>
-        <div class="row card-body">
-            <!-- name -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Tên phương tiện') }}:</label>
-                    <x-input name="name" :value="$vehicle->name" :required="true" placeholder="{{ __('Tên phương tiện') }}" />
+        <div class="card-body">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active"
+                            id="driver-info-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#driverInfo"
+                            type="button"
+                            role="tab"
+                            aria-controls="driverInfo"
+                            aria-selected="true">
+                        {{ __('Thông tin Chủ xe') }}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link"
+                            id="vehicle-info-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#vehicleInfo"
+                            type="button" role="tab"
+                            aria-controls="vehicleInfo"
+                            aria-selected="false">
+                        {{ __('Thông tin Phương tiện') }}
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane fade show active"
+                     id="driverInfo"
+                     role="tabpanel"
+                     aria-labelledby="driver-info-tab">
+                    @include('admin.vehicle.forms.partials.edit-info-driver')
                 </div>
-            </div>
-            <!-- brand -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{__('Hãng')}}:</label>
-                    <div class="input-group">
-                        <x-input name="brand" :value="$vehicle->brand" :required="true" placeholder="{{ __('Hãng') }}" />
+                <div class="tab-pane fade"
+                     id="vehicleInfo"
+                     role="tabpanel"
+                     aria-labelledby="vehicle-info-tab">
+                    <div id="vehicleFormsContainer">
+                        @include('admin.vehicle.forms.partials.edit-vehicle')
                     </div>
-                </div>
-            </div>
-            <!-- color -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{__('Màu sắc')}}:</label>
-                    <x-input name="color" :value="$vehicle->color" :required="true" placeholder="{{__('Màu sắc')}}" />
-                </div>
-            </div>
-            <!-- type -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{__('Loại xe')}}:</label>
-                    <x-select name="type" :required="true">
-                        @foreach ($type as $key => $value)
-                        <x-select-option :option="$vehicle->type->value" :value="$key" :title="$value" />
-                        @endforeach
-                    </x-select>
-                </div>
-            </div>
-            <!-- seat_number -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Số chổ ngồi') }}:</label>
-                    <x-input type="number" name="seat_number" :value="$vehicle->seat_number" :required="true" placeholder="{{ __('Số chổ ngồi') }}" />
-                </div>
-            </div>
-            <!-- user_id (owner) -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Chủ xe') }}:</label>
-                    <x-select class="select2-bs5-ajax" name="user_id" :required="true">
-                        <x-select-option :option="$vehicle->user_id" :value="$vehicle->user_id" :title="optional($vehicle->user)->fullname" />
-                    </x-select>
-                </div>
-            </div>
-            <!-- license_plate -->
-            <div class="col-12">
-                <div class="mb-3">
-                    <label class="control-label"><strong>{{ __('Biển số xe') }}:</strong></label>
-                    <textarea name="license_plate" class="ckeditor visually-hidden">{{ $vehicle->license_plate }}</textarea>
+                    <button id="addVehicle"
+                            type="button"
+                            class="btn btn-primary">
+                        {{ __('Thêm phương tiện') }}
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+

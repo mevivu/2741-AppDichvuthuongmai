@@ -23,6 +23,7 @@ class DriverRequest extends BaseRequest
             'id_card' => ['required', 'string'],
             'id_card_front' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'id_card_back' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'name' => ['required', 'string'],
             'license_plate' => ['required', 'string'],
             'license_plate_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'vehicle_company' => ['required', 'string'],

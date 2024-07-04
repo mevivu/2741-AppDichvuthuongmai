@@ -9,22 +9,22 @@
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('fullname'):</label>
-                    <x-input  name="user_info[fullname]" :value="old('user_info[fullname]')" :required="true"
-                             :placeholder="__('fullname')" />
+                    <x-input name="user_info[fullname]" :value="old('user_info[fullname]')" :required="true"
+                             :placeholder="__('fullname')"/>
                 </div>
             </div>
             <!-- email -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('email'):</label>
-                    <x-input-email name="user_info[email]" :value="old('user_info[email]')"  />
+                    <x-input-email name="user_info[email]" :value="old('user_info[email]')"/>
                 </div>
             </div>
             <!-- phone -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('phone'):</label>
-                    <x-input-phone name="user_info[phone]" :value="old('user_info[phone]')" :required="true" />
+                    <x-input-phone name="user_info[phone]" :value="old('user_info[phone]')" :required="true"/>
                 </div>
             </div>
             <!-- gender -->
@@ -33,7 +33,7 @@
                     <label class="control-label">@lang('gender'):</label>
                     <x-select name="user_info[gender]" :required="true">
                         @foreach ($gender as $key => $value)
-                            <x-select-option :value="$key" :title="__($value)" />
+                            <x-select-option :value="$key" :title="__($value)"/>
                         @endforeach
                     </x-select>
                 </div>
@@ -42,7 +42,7 @@
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('password'):</label>
-                    <x-input-password name="user_info[password]" :required="true" />
+                    <x-input-password name="user_info[password]" :required="true"/>
                 </div>
             </div>
             <!-- new password confirmation-->
@@ -51,7 +51,7 @@
                     <label class="control-label">@lang('passwordConfirm'):</label>
                     <x-input-password name="user_info[password_confirmation]" :required="true"
                                       data-parsley-equalto="input[name='user_info[password]']"
-                                      data-parsley-equalto-message="{{ __('passwordMismatch') }}" />
+                                      data-parsley-equalto-message="{{ __('passwordMismatch') }}"/>
                 </div>
             </div>
 
@@ -59,20 +59,10 @@
             <div class="col-md-6 col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('birthday'):</label>
-                    <x-input type="date" name="user_info[birthday]" :value="old('user_info[birthday]')" :required="true" />
+                    <x-input type="date" name="user_info[birthday]" :value="old('user_info[birthday]')"
+                             :required="true"/>
                 </div>
             </div>
-            <!-- Area -->
-{{--            <div class="col-md-6 col-12">--}}
-{{--                <div class="mb-3">--}}
-{{--                    <label class="control-label">@lang('area'):</label>--}}
-{{--                    <x-select name="user_info[area_id]" :value="old('user_info[area_id]')" :required="true">--}}
-{{--                        @foreach ($areas as $area)--}}
-{{--                            <x-select-option :value="$area->id" :title="$area->name" />--}}
-{{--                        @endforeach--}}
-{{--                    </x-select>--}}
-{{--                </div>--}}
-{{--            </div>--}}
 
 
             <!-- address -->
@@ -81,9 +71,9 @@
                     <x-input-pick-address :label="trans('pickup_address')"
                                           name="address"
                                           :placeholder="trans('pickup_address')"
-                                          :required="true" />
-                    <x-input type="hidden" name="lat" />
-                    <x-input type="hidden" name="lng" />
+                                          :required="true"/>
+                    <x-input type="hidden" name="lat"/>
+                    <x-input type="hidden" name="lng"/>
                 </div>
             </div>
         </div>
@@ -99,22 +89,6 @@
                     <label class="control-label">@lang('id_card'):</label>
                     <x-input name="id_card" :value="old('id_card')" :required="true"
                              :placeholder="__('id_card')"/>
-                </div>
-            </div>
-            {{-- license_plate  --}}
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">@lang('license_plate'):</label>
-                    <x-input name="license_plate" :value="old('license_plate')"
-                             :placeholder="__('license_plate')"/>
-                </div>
-            </div>
-            {{-- vehicle_company --}}
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">@lang('vehicle_company'):</label>
-                    <x-input name="vehicle_company" :value="old('vehicle_company')"
-                             :placeholder="__('vehicle_company')"/>
                 </div>
             </div>
             {{-- bank_name --}}
@@ -145,13 +119,70 @@
             <div class="col-12">
                 <div class="mb-3">
                     <x-input-pick-end-address :label="trans('pickup_address')"
-                                          name="end_address"
-                                          :placeholder="trans('pickup_address')"
-                                          :required="true" />
-                    <x-input type="hidden" name="end_lat" />
-                    <x-input type="hidden" name="end_lng" />
+                                              name="end_address"
+                                              :placeholder="trans('pickup_address')"
+                                              :required="true"/>
+                    <x-input type="hidden" name="end_lat"/>
+                    <x-input type="hidden" name="end_lng"/>
                 </div>
             </div>
+            {{-- name vehicle  --}}
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('name_vehicle'):</label>
+                    <x-input name="name"
+                             :required="true"
+                             :value="old('name')"
+                             :placeholder="__('name_vehicle')"/>
+                </div>
+            </div>
+            {{-- license_plate  --}}
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('license_plate'):</label>
+                    <x-input name="license_plate" :value="old('license_plate')"
+                             :placeholder="__('license_plate')"/>
+                </div>
+            </div>
+            {{-- brand --}}
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('brand'):</label>
+                    <x-input name="brand" :value="old('brand')"
+                             :placeholder="__('brand')"/>
+                </div>
+            </div>
+            <!-- color -->
+            <div class="col-md-6 col-sm-12">
+                <div class="mb-3">
+                    <label class="control-label">{{__('Màu sắc')}}:</label>
+                    <x-input name="color" :value="old('color')"
+                             :required="true"
+                             placeholder="{{__('Màu sắc')}}"/>
+                </div>
+            </div>
+            <!-- type -->
+            <div class="col-md-6 col-sm-12">
+                <div class="mb-3">
+                    <label class="control-label">{{__('Loại xe')}}:</label>
+                    <x-select name="type" :required="true">
+                        @foreach ($type as $key => $value)
+                            <x-select-option :value="$key" :title="$value"/>
+                        @endforeach
+                    </x-select>
+                </div>
+            </div>
+            <!-- seat_number -->
+            <div class="col-md-6 col-sm-12">
+                <div class="mb-3">
+                    <label class="control-label">{{ __('Số chổ ngồi') }}:</label>
+                    <x-input type="number" name="seat_number"
+                             :value="old('seat_number')"
+                             :required="true"
+                             placeholder="{{ __('Số chổ ngồi') }}"/>
+                </div>
+            </div>
+
             {{-- id_card_front --}}
             <div class="col-md-6 col-12">
                 <div class="card mb-3">
@@ -159,7 +190,8 @@
                         @lang('id_card_front')
                     </div>
                     <div class="card-body p-2">
-                        <x-input-image-ckfinder name="id_card_front"  :value="old('id_card_front')" showImage="featureImageIdCardFront" />
+                        <x-input-image-ckfinder name="id_card_front" :value="old('id_card_front')"
+                                                showImage="featureImageIdCardFront"/>
                     </div>
                 </div>
             </div>
@@ -170,7 +202,8 @@
                         @lang('id_card_back')
                     </div>
                     <div class="card-body p-2">
-                        <x-input-image-ckfinder name="id_card_back" :value="old('id_card_back')" showImage="featureImageIdCardBack" />
+                        <x-input-image-ckfinder name="id_card_back" :value="old('id_card_back')"
+                                                showImage="featureImageIdCardBack"/>
                     </div>
                 </div>
             </div>
@@ -181,7 +214,9 @@
                         @lang('vehicle_registration_front')
                     </div>
                     <div class="card-body p-2">
-                        <x-input-image-ckfinder name="vehicle_registration_front" :value="old('vehicle_registration_front')" showImage="featureImageVehicleRegistrationFront" />
+                        <x-input-image-ckfinder name="vehicle_registration_front"
+                                                :value="old('vehicle_registration_front')"
+                                                showImage="featureImageVehicleRegistrationFront"/>
                     </div>
                 </div>
             </div>
@@ -192,7 +227,9 @@
                         @lang('vehicle_registration_back')
                     </div>
                     <div class="card-body p-2">
-                        <x-input-image-ckfinder name="vehicle_registration_back" :value="old('vehicle_registration_back')" showImage="featureImageVehicleRegistrationBack" />
+                        <x-input-image-ckfinder name="vehicle_registration_back"
+                                                :value="old('vehicle_registration_back')"
+                                                showImage="featureImageVehicleRegistrationBack"/>
                     </div>
                 </div>
             </div>
@@ -203,7 +240,8 @@
                         @lang('driver_license_front')
                     </div>
                     <div class="card-body p-2">
-                        <x-input-image-ckfinder name="driver_license_front" :value="old('driver_license_front')" showImage="featureImageDriverLicenseFront" />
+                        <x-input-image-ckfinder name="driver_license_front" :value="old('driver_license_front')"
+                                                showImage="featureImageDriverLicenseFront"/>
                     </div>
                 </div>
             </div>
@@ -214,7 +252,8 @@
                         @lang('driver_license_back')
                     </div>
                     <div class="card-body p-2">
-                        <x-input-image-ckfinder name="driver_license_back" :value="old('driver_license_back')" showImage="featureImageDriverLicenseBack" />
+                        <x-input-image-ckfinder name="driver_license_back" :value="old('driver_license_back')"
+                                                showImage="featureImageDriverLicenseBack"/>
                     </div>
                 </div>
             </div>

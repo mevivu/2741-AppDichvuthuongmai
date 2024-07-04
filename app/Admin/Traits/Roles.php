@@ -35,4 +35,9 @@ trait Roles
     {
         return Role::Restaurant->value;
     }
+
+    public function getRoleVehicleOwner(): string
+    {
+        return Role::VehicleOwner->value;
+    }
 }
