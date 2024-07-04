@@ -6,6 +6,9 @@ use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Admin\Traits\Roles;
 use App\Api\V1\Support\UseLog;
 use App\Enums\Store\BossType;
+use App\Admin\Services\File\FileService;
+use App\Api\V1\Support\AuthServiceApi;
+use App\Constants\ImageFields;
 use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
@@ -14,7 +17,7 @@ use Throwable;
 
 class StoreService implements StoreServiceInterface
 {
-    use Setup, Roles, UseLog;
+    use Setup, Roles, UseLog, AuthServiceApi; // Thêm AuthServiceApi trait ở đây
 
     /**
      * Current Object instance
@@ -26,10 +29,12 @@ class StoreService implements StoreServiceInterface
     protected $repository;
 
     protected $instance;
+    protected FileService $fileService;
 
-    public function __construct(StoreRepositoryInterface $repository)
+    public function __construct(StoreRepositoryInterface $repository, FileService $fileService) // Thêm FileService vào constructor
     {
         $this->repository = $repository;
+        $this->fileService = $fileService; // Khởi tạo FileService
     }
 
     public function store(Request $request)
@@ -72,22 +77,42 @@ class StoreService implements StoreServiceInterface
     /**
      * @throws Exception
      */
-    public function update(Request $request): object|bool
+    // public function update(Request $request): object|bool
+    // {
+
+    //     $this->data = $request->validated();
+
+    //     if (isset($this->data['password']) && $this->data['password']) {
+    //         $this->data['password'] = bcrypt($this->data['password']);
+    //     } else {
+    //         unset($this->data['password']);
+    //     }
+
+    //     return $this->repository->update($this->data['id'], $this->data);
+
+    // }
+
+    public function update(Request $request): bool|object
     {
-
-        $this->data = $request->validated();
-
-        if (isset($this->data['password']) && $this->data['password']) {
-            $this->data['password'] = bcrypt($this->data['password']);
-        } else {
-            unset($this->data['password']);
+        DB::beginTransaction();
+        try {
+            $data = $request->validated();
+            $store = $this->getCurrentStoreUser(); // Gọi phương thức từ AuthServiceApi trait
+            $logo = $data['logo'];
+            if ($logo) {
+                $data['logo'] = $this->fileService->uploadAvatar('images/stores', $logo, $store->logo);
+            }
+            $response = $this->repository->update($store->id, $data);
+            DB::commit();
+            return $response;
+        } catch (Exception $e) {
+            DB::rollback();
+            $this->logError('Failed to process update store API', $e);
+            return false;
         }
-
-        return $this->repository->update($this->data['id'], $this->data);
-
     }
 
-    public function delete($id): object|bool
+      public function delete($id): object|bool
     {
         return $this->repository->delete($id);
 

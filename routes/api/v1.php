@@ -21,12 +21,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('stores')->controller(StoreController::class)
     ->group(function () {
         Route::get('/', 'show')->name('show');
+        Route::post('/', 'update')->name('update');
         Route::post('/login', 'login')->name('login');
         Route::post('/register', 'register')->name('register');
         Route::post('/logout', 'logout')->name('logout');
         Route::post('/refresh', 'refresh')->name('refresh');
         Route::post('/send-otp', 'sendOTP')->name('sendOTP');
-
+        Route::put('/update-password', 'updatePassword')->name('updatePassword');
     });
 
 //auth
@@ -38,7 +39,7 @@ Route::prefix('auth')->controller(UserController::class)
         Route::post('/register', 'register')->name('register');
         Route::post('/logout', 'logout')->name('logout');
         Route::post('/refresh', 'refresh')->name('refresh');
-
+        Route::put('/update-password', 'updatePassword')->name('updatePassword');
     });
 
 //driver
@@ -181,3 +182,12 @@ Route::fallback(function () {
         'message' => __('Không tìm thấy đường dẫn.')
     ], 404);
 });
+//***** -- Category System -- ******* //
+Route::controller(App\Api\V1\Http\Controllers\CategorySystem\CategorySystemController::class)
+    ->prefix('/category_system')
+    ->as('category_system.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        // Route xuất ra danh sách các Dịch vụ
+    });
+//***** -- Category System -- ******* //

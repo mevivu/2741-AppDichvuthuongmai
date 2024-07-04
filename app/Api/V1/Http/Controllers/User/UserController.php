@@ -7,12 +7,15 @@ use App\Api\V1\Http\Requests\Auth\LoginRequest;
 use App\Api\V1\Http\Requests\Auth\RefreshTokenRequest;
 use App\Api\V1\Http\Requests\Auth\RegisterRequest;
 use App\Api\V1\Http\Requests\Auth\UpdateRequest;
+use App\Api\V1\Http\Requests\Auth\UpdatePasswordRequest;
 use App\Api\V1\Http\Resources\Auth\AuthResource;
 use App\Api\V1\Services\User\UserServiceInterface;
 use App\Api\V1\Support\Response;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -39,9 +42,7 @@ class UserController extends Controller
 
     protected function resolve(): bool
     {
-
         return Auth::guard(self::$GUARD_API)->attempt($this->login);
-
     }
 
     public function update(UpdateRequest $request): JsonResponse
@@ -53,7 +54,6 @@ class UserController extends Controller
             Log::error('Order creation failed: ' . $e->getMessage());
             return $this->jsonResponseError($e->getMessage(), 500);
         }
-
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -81,7 +81,6 @@ class UserController extends Controller
         $refreshToken = $this->createRefreshTokenById($user);
 
         return $this->respondWithToken($accessToken, $refreshToken);
-
     }
 
     public function show(): JsonResponse
@@ -93,7 +92,6 @@ class UserController extends Controller
             'data' => new AuthResource($user)
         ]);
     }
-
 
     /**
      * Log the user out (Invalidate the token).
@@ -134,6 +132,22 @@ class UserController extends Controller
         }
     }
 
+    public function updatePassword(UpdatePasswordRequest $request): JsonResponse
+    {
+        $user = auth(self::$GUARD_API)->user();
+
+        // Verify old password
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json(['message' => 'Current password does not match.'], 400);
+        }
+
+        // Update password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['message' => 'Password updated successfully.']);
+    }
+
     protected function respondWithToken($token, $refreshToken): JsonResponse
     {
         $ttl = config('jwt.ttl');
@@ -143,7 +157,6 @@ class UserController extends Controller
             'expires_in' => $ttl * 60
         ]);
     }
-
 
     private function createRefreshToken($user)
     {

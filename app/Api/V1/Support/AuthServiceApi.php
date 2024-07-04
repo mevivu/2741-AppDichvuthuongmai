@@ -51,6 +51,6 @@ trait AuthServiceApi
         $driverRepository = app(DriverRepositoryInterface::class);
         return $driverRepository->findByField('user_id', $userId)->id;
     }
-
+   
 
 }

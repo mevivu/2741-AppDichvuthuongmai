@@ -6,13 +6,17 @@ use App\Admin\Http\Controllers\Controller;
 use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Api\V1\Http\Requests\Store\LoginRequest;
 use App\Api\V1\Http\Requests\Store\RegisterRequest;
+use App\Api\V1\Http\Requests\Store\UpdatePasswordRequest;
+use App\Api\V1\Http\Requests\Store\UpdateRequest;
 use App\Api\V1\Http\Resources\Store\StoreResource;
+use Illuminate\Support\Facades\Hash;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use App\Api\V1\Http\Requests\Auth\{RefreshTokenRequest};
 use App\Api\V1\Services\Store\StoreServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @group Cửa hàng tạp hoá
@@ -25,9 +29,8 @@ class StoreController extends Controller
     protected $auth;
 
 
-
     public function __construct(
-        StoreServiceInterface $service,
+        StoreServiceInterface    $service,
         StoreRepositoryInterface $repository
     )
     {
@@ -181,6 +184,33 @@ class StoreController extends Controller
         ]);
     }
 
+    public function updatePassword(UpdatePasswordRequest $request): JsonResponse
+    {
+        $user = auth(self::$GUARD_API)->user();
+
+        // Verify old password
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json(['message' => 'Current password does not match.'], 400);
+        }
+
+        // Update password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['message' => 'Password updated successfully.']);
+    }
+
+
+    public function update(UpdateRequest $request): JsonResponse
+    {
+        try {
+            $response = $this->service->update($request);
+            return $this->jsonResponseSuccess($response);
+        } catch (Exception $e) {
+            Log::error('Order creation failed: ' . $e->getMessage());
+            return $this->jsonResponseError($e->getMessage(), 500);
+        }
+    }
 
     private function createRefreshToken($user)
     {
@@ -206,5 +236,20 @@ class StoreController extends Controller
         return JWTAuth::getJWTProvider()->encode($data);
     }
 
+    protected function jsonResponseError($message, $code = 500): JsonResponse
+    {
+        return response()->json([
+            'status' => $code,
+            'message' => $message
+        ], $code);
+    }
 
+    public function jsonResponseSuccess($data, $message = 'Success', $status = 200)
+    {
+        return response()->json([
+            'status' => 'success',
+            'message' => $message,
+            'data' => $data
+        ], $status);
+    }
 }

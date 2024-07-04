@@ -32,6 +32,29 @@ return [
             ]
         ]
     ],
+    // [
+    //     'title' => 'Thành viên',
+    //     'routeName' => null,
+    //     'icon' => '<i class="ti ti-article"></i>',
+    //     'roles' => [],
+    //     'permissions' => ['createUser', 'viewUser', 'updateUser', 'deleteUser'],
+    //     'sub' => [
+    //         [
+    //             'title' => 'Thêm thành viên',
+    //             'routeName' => 'admin.user.create',
+    //             'icon' => '<i class="ti ti-plus"></i>',
+    //             'roles' => [],
+    //             'permissions' => ['createUser'],
+    //         ],
+    //         [
+    //             'title' => 'DS thành viên',
+    //             'routeName' => 'admin.user.index',
+    //             'icon' => '<i class="ti ti-list"></i>',
+    //             'roles' => [],
+    //             'permissions' => ['viewUser'],
+    //         ]
+    //     ]
+    // ],
     [
         'title' => 'notification',
         'routeName' => null,
@@ -130,9 +153,15 @@ return [
         'routeName' => null,
         'icon' => '<i class="ti ti-article"></i>',
         'roles' => [],
-        'permissions' => ['createUser', 'viewUser',
-            'updateUser', 'deleteUser', 'viewStoreCategory',
-            'updateStoreCategory', 'createStoreCategory'],
+        'permissions' => [
+            'createUser',
+            'viewUser',
+            'updateUser',
+            'deleteUser',
+            'viewStoreCategory',
+            'updateStoreCategory',
+            'createStoreCategory'
+        ],
         'sub' => [
             [
                 'title' => 'Thêm Cửa hàng',
@@ -179,6 +208,29 @@ return [
                 'icon' => '<i class="ti ti-list"></i>',
                 'roles' => [],
                 'permissions' => ['viewPostCategory'],
+            ]
+        ]
+    ],
+    [
+        'title' => 'Dịch Vụ',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-bed"></i>',
+        'roles' => [],
+        'permissions' => ['viewServices', 'createServices', 'updateServices', 'deleteServices'],
+        'sub' => [
+            [
+                'title' => 'Thêm Dịch Vụ',
+                'routeName' => 'admin.category_system.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createServices'],
+            ],
+            [
+                'title' => 'Danh sách Dịch Vụ',
+                'routeName' => 'admin.category_system.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewServices'],
             ]
         ]
     ],
@@ -472,5 +524,6 @@ return [
         'roles' => [],
         'permissions' => ['mevivuDev'],
         'sub' => []
-    ]
+    ],
+
 ];
