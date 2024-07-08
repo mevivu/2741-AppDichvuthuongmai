@@ -27,7 +27,7 @@ Route::prefix('stores')->controller(StoreController::class)
         Route::post('/logout', 'logout')->name('logout');
         Route::post('/refresh', 'refresh')->name('refresh');
         Route::post('/send-otp', 'sendOTP')->name('sendOTP');
-        Route::put('/update-password', 'updatePassword')->name('updatePassword'); // Thêm dòng này
+        Route::put('/update-password', 'updatePassword')->name('updatePassword');
     });
 
 //auth
@@ -39,7 +39,7 @@ Route::prefix('auth')->controller(UserController::class)
         Route::post('/register', 'register')->name('register');
         Route::post('/logout', 'logout')->name('logout');
         Route::post('/refresh', 'refresh')->name('refresh');
-        Route::put('/update-password', 'updatePassword')->name('updatePassword'); // Thêm dòng này
+        Route::put('/update-password', 'updatePassword')->name('updatePassword');
     });
 
 //driver
