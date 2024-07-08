@@ -22,13 +22,14 @@ class PostDataTable extends BaseDataTable
 
     public function __construct(
         PostRepositoryInterface $repository
-    ){
+    ) {
         parent::__construct();
 
         $this->repository = $repository;
     }
 
-    public function getView(){
+    public function getView()
+    {
         $this->view = [
             'action' => 'admin.posts.datatable.action',
             'image' => 'admin.posts.datatable.image',
@@ -67,10 +68,10 @@ class PostDataTable extends BaseDataTable
     protected function setCustomEditColumns()
     {
         $this->customEditColumns = [
-            'image' => $this->view['image'],
-            'status' => $this->view['status'],
-            'title' => $this->view['editlink'],
-            'is_featured' => $this->view['is_featured'],
+            'image' => $this->view['image'] ?? 'admin.posts.datatable.image',
+            'status' => $this->view['status'] ?? 'admin.posts.datatable.status',
+            'title' => $this->view['editlink'] ?? 'admin.posts.datatable.editlink',
+            'is_featured' => $this->view['is_featured'] ?? 'admin.posts.datatable.is-featured',
             'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
         ];
     }
@@ -78,7 +79,7 @@ class PostDataTable extends BaseDataTable
     protected function setCustomAddColumns()
     {
         $this->customAddColumns = [
-            'action' => $this->view['action'],
+            'action' => $this->view['action'] ?? 'admin.posts.datatable.action',
         ];
     }
 
@@ -88,7 +89,8 @@ class PostDataTable extends BaseDataTable
     }
 
 
-    protected function setCustomRawColumns(){
+    protected function setCustomRawColumns()
+    {
         $this->customRawColumns = ['image', 'title', 'status', 'is_featured', 'action'];
     }
 
