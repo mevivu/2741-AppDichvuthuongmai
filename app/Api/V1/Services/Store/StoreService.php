@@ -77,20 +77,7 @@ class StoreService implements StoreServiceInterface
     /**
      * @throws Exception
      */
-    // public function update(Request $request): object|bool
-    // {
-
-    //     $this->data = $request->validated();
-
-    //     if (isset($this->data['password']) && $this->data['password']) {
-    //         $this->data['password'] = bcrypt($this->data['password']);
-    //     } else {
-    //         unset($this->data['password']);
-    //     }
-
-    //     return $this->repository->update($this->data['id'], $this->data);
-
-    // }
+    
 
     public function update(Request $request): bool|object
     {

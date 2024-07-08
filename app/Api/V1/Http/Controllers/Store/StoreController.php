@@ -9,9 +9,10 @@ use App\Api\V1\Http\Requests\Store\RegisterRequest;
 use App\Api\V1\Http\Requests\Store\UpdatePasswordRequest;
 use App\Api\V1\Http\Requests\Store\UpdateRequest;
 use App\Api\V1\Http\Resources\Store\StoreResource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Exception;
-use Illuminate\Http\JsonResponse;
+
 use App\Api\V1\Http\Requests\Auth\{RefreshTokenRequest};
 use App\Api\V1\Services\Store\StoreServiceInterface;
 use Illuminate\Support\Facades\Auth;
