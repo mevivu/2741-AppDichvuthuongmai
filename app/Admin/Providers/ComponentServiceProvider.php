@@ -35,10 +35,17 @@ class ComponentServiceProvider extends ServiceProvider
         Blade::component('input-email', \App\Admin\View\Components\Input\InputEmail::class);
         Blade::component('input-phone', \App\Admin\View\Components\Input\InputPhone::class);
         Blade::component('input-number', \App\Admin\View\Components\Input\InputNumber::class);
+        Blade::component('input-price', \App\Admin\View\Components\Input\InputPrice::class);
         // Blade::component('input-datetime', \App\Admin\View\Components\Input\InputDatetime::class);
         Blade::component('input-gallery-ckfinder', \App\Admin\View\Components\Input\InputGalleryCkfinder::class);
         Blade::component('input-image-ckfinder', \App\Admin\View\Components\Input\InputImageCkfinder::class);
         Blade::component('input-file-ckfinder', \App\Admin\View\Components\Input\InputFileCkfinder::class);
+        Blade::component('input-pick-address', \App\Admin\View\Components\Input\InputPickAddress::class);
+        Blade::component('input-pick-address-user', \App\Admin\View\Components\Input\InputPickAddressUser::class);
+        Blade::component('input-pick-end-address', \App\Admin\View\Components\Input\InputPickEndAddress::class);
+
+
+
         // Blade::component('input-video', \App\Admin\View\Components\Input\InputVideo::class);
         Blade::component('textarea', \App\Admin\View\Components\Input\Textarea::class);
         Blade::component('select', \App\Admin\View\Components\Select\Select::class);

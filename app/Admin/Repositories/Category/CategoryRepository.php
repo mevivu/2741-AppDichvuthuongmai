@@ -10,7 +10,8 @@ class CategoryRepository extends EloquentRepository implements CategoryRepositor
 
     protected $select = [];
 
-    public function getModel(){
+    public function getModel(): string
+    {
         return Category::class;
     }
     public function getFlatTreeNotInNode(array $nodeId){
@@ -28,7 +29,7 @@ class CategoryRepository extends EloquentRepository implements CategoryRepositor
         ->toFlatTree();
         return $this->instance;
     }
-    
+
     public function getQueryBuilderOrderBy($column = 'id', $sort = 'DESC'){
         $this->getQueryBuilder();
         $this->instance = $this->instance->orderBy($column, $sort);

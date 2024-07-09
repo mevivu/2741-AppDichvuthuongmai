@@ -2,6 +2,7 @@
 
 namespace App\Admin\Http\Controllers;
 
+use App\Admin\Support\Breadcrumb\Breadcrumb;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -23,12 +24,15 @@ class BaseController extends Controller
      */
     protected $route;
 
+    protected Breadcrumb $crums;
     public function __construct(){
 
         $this->setView();
 
         $this->setRoute();
-        
+
+        $this->crums = (new Breadcrumb())->add(__('Dashboard'), route('admin.dashboard'));
+
     }
 
     public function getView(){

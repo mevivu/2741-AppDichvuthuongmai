@@ -6,6 +6,10 @@ use App\Admin\Http\Controllers\Controller;
 use App\Api\V1\Repositories\Product\ProductRepositoryInterface;
 use App\Api\V1\Http\Resources\Product\{AllProductResource, ShowProductResource};
 use App\Api\V1\Http\Requests\Product\ProductRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Throwable;
 
 /**
  * @group Sản phẩm
@@ -13,7 +17,7 @@ use App\Api\V1\Http\Requests\Product\ProductRequest;
 
 class ProductController extends Controller
 {
-    
+
     public function __construct(
         ProductRepositoryInterface $repository
     )
@@ -28,10 +32,10 @@ class ProductController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string required
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @queryParam keywords string
      * Từ khóa sản phẩm. Example: ipad
-     * 
+     *
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -48,14 +52,15 @@ class ProductController extends Controller
      *      ]
      * }
      *
-     * @param  \Illuminate\Http\Request  $request
-     * 
-     * @return \Illuminate\Http\Response
+     * @param ProductRequest $request
+     *
+     * @return JsonResponse
      */
-    public function index(ProductRequest $request){
-        
+    public function index(ProductRequest $request): JsonResponse
+    {
+
         $data = $request->validated();
-        
+
         $products = $this->repository->getSearchByKeysWithRelations($data);
 
         $products = new AllProductResource($products);
@@ -66,6 +71,7 @@ class ProductController extends Controller
             'data' => $products
         ]);
     }
+
     /**
      * chi tiết sản phẩm
      *
@@ -73,11 +79,11 @@ class ProductController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string required
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @pathParam id integer required
      * id sản phẩm. Example: 1
-     * 
-     * 
+     *
+     *
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -94,9 +100,8 @@ class ProductController extends Controller
      *      ]
      * }
      *
-     * @param  \Illuminate\Http\Request  $request
-     * 
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return JsonResponse
      */
     public function show($id){
         try{
@@ -107,7 +112,7 @@ class ProductController extends Controller
                 'message' => __('Thực hiện thành công.'),
                 'data' => $product
             ]);
-        }catch (\Throwable $th) {
+        }catch (Throwable $th) {
             return response()->json([
                 'status' => 404,
                 'message' => __('Không tìm thấy sản phẩm')

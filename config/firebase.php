@@ -18,6 +18,8 @@ return [
     'app_id' => env('FIREBASE_APP_ID'),
     'measurement_id' => env('FIREBASE_MEASUREMENT_ID'),
     'vapid_key' => env('VAPID_KEY'),
+    'credentials_file' => env('FIREBASE_CREDENTIALS', base_path('firebase_credentials.json')),
+
 
     /*
      * ------------------------------------------------------------------------

@@ -37,7 +37,7 @@ return [
      */
 
     'middleware' => [
-        'web', 'docsApi'
+        'web'
     ],
 
     /*
@@ -51,7 +51,7 @@ return [
     |
      */
 
-    'logo' => ENV('APP_URL').config('custom.images.logo'),
+    'logo' => ENV('APP_URL') . config('custom.images.logo'),
 
     'color' => '',
 
@@ -68,11 +68,11 @@ return [
     'title' => 'Docs API Reference',
 
     'description' => 'Docs Api secification and documentation.',
-    
+
     'version' => 'v1',
-        
+
     'terms_of_service' => '',
-    
+
     'contact' => [
         // 'name' => 'YOUR_NAME',
         // 'email' => 'YOUR_EMAIL',
@@ -98,9 +98,8 @@ return [
     |
      */
 
-    'output' => '/docs/api/v1',
+    'output' => '/2741-AppDichvuthuongmai/docs/api/v1',
 
-    'hide_download_button' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -128,11 +127,7 @@ return [
         [
             'url' => config('app.url'),
             'description' => 'Documentation generator server.',
-        ],
-        [
-            'url' => 'http://test.example.com',
-            'description' => 'Test server.',
-        ],
+        ]
     ],
 
     /*
@@ -141,7 +136,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This is used to separate groups in sections in the side menu.
-    | Before you use it, make sure you add all tags to a group, since a tag that is not in a group, 
+    | Before you use it, make sure you add all tags to a group, since a tag that is not in a group,
     | will not be displayed at all!
     |
      */
@@ -182,7 +177,7 @@ return [
     | Here you can define the authentication and authorization schemes that your API use.
     | You just need to use the OpenAPI security definitions or simply set as null.
     |
-    | 
+    |
      */
 
     'security' => [
@@ -191,9 +186,10 @@ return [
             'scheme' => 'bearer',
             'bearerFormat' => 'JWT',
         ],
-        'X-TOKEN-ACCESS' => [
-            'type' => 'http',
-            'scheme' => 'string',
+        'XTOKENACCESS' => [
+            'type' => 'apiKey',
+            'name' => 'X-TOKEN-ACCESS',
+            'in' => 'header',
         ]
     ],
 
@@ -330,7 +326,7 @@ return [
                     /*
                      * Disable middlewares for API Call.
                      */
-                    'without_middleware' =>[
+                    'without_middleware' => [
                         // \App\Http\Middleware\Authenticate::class
                     ]
                 ],

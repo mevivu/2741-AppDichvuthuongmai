@@ -12,5 +12,5 @@ return [
         'date' => 'd-m-Y',
         'position_currency' => 'left'
     ],
-    'currency' => '₩'
+    'currency' => '$'
 ];

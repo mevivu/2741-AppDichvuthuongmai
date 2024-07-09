@@ -10,7 +10,8 @@ class OrderRepository extends EloquentRepository implements OrderRepositoryInter
 
     protected $select = [];
 
-    public function getModel(){
+    public function getModel(): string
+    {
         return Order::class;
     }
     public function findOrFailWithRelations($id, array $relations = ['orderDetails', 'user']){

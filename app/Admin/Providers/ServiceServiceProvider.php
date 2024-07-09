@@ -6,10 +6,11 @@ use Illuminate\Support\ServiceProvider;
 
 class ServiceServiceProvider extends ServiceProvider
 {
-    protected $services = [
-		'App\Admin\Services\Module\ModuleServiceInterface' => 'App\Admin\Services\Module\ModuleService',
-		'App\Admin\Services\Permission\PermissionServiceInterface' => 'App\Admin\Services\Permission\PermissionService',
-		'App\Admin\Services\Role\RoleServiceInterface' => 'App\Admin\Services\Role\RoleService',
+    protected array $services = [
+        'App\Admin\Services\CategorySystem\CategorySystemServiceInterface' => 'App\Admin\Services\CategorySystem\CategorySystemService',
+        'App\Admin\Services\Module\ModuleServiceInterface' => 'App\Admin\Services\Module\ModuleService',
+        'App\Admin\Services\Permission\PermissionServiceInterface' => 'App\Admin\Services\Permission\PermissionService',
+        'App\Admin\Services\Role\RoleServiceInterface' => 'App\Admin\Services\Role\RoleService',
         'App\Admin\Services\Admin\AdminServiceInterface' => 'App\Admin\Services\Admin\AdminService',
         'App\Admin\Services\User\UserServiceInterface' => 'App\Admin\Services\User\UserService',
         'App\Admin\Services\Category\CategoryServiceInterface' => 'App\Admin\Services\Category\CategoryService',
@@ -21,13 +22,23 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Admin\Services\Slider\SliderItemServiceInterface' => 'App\Admin\Services\Slider\SliderItemService',
         'App\Admin\Services\Post\PostServiceInterface' => 'App\Admin\Services\Post\PostService',
         'App\Admin\Services\PostCategory\PostCategoryServiceInterface' => 'App\Admin\Services\PostCategory\PostCategoryService',
+        'App\Admin\Services\Area\AreaServiceInterface' => 'App\Admin\Services\Area\AreaService',
+        'App\Admin\Services\Driver\DriverServiceInterface' => 'App\Admin\Services\Driver\DriverService',
+        'App\Admin\Services\Store\Category\StoreCategoryServiceInterface' => 'App\Admin\Services\Store\Category\StoreCategoryService',
+        'App\Admin\Services\Store\StoreServiceInterface' => 'App\Admin\Services\Store\StoreService',
+        'App\Admin\Services\Notification\NotificationServiceInterface' => 'App\Admin\Services\Notification\NotificationService',
+        'App\Admin\Services\Topping\ToppingServiceInterface' => 'App\Admin\Services\Topping\ToppingService',
+        'App\Admin\Services\Vehicle\VehicleServiceInterface' => 'App\Admin\Services\Vehicle\VehicleService',
+        'App\Admin\Services\Discount\DiscountApplicationServiceInterface' => 'App\Admin\Services\Discount\DiscountApplicationService',
+        'App\Admin\Services\Discount\DiscountServiceInterface' => 'App\Admin\Services\Discount\DiscountService',
+
     ];
     /**
      * Register services.
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
         foreach ($this->services as $interface => $implement) {

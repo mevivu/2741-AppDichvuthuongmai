@@ -14,7 +14,8 @@ class UserSearchSelectController extends BaseSearchSelectController
         $this->repository = $repository;
     }
 
-    protected function selectResponse(){
+    protected function selectResponse(): void
+    {
         $this->instance = [
             'results' => UserSearchSelectResource::collection($this->instance)
         ];

@@ -2,21 +2,44 @@
 
 namespace App\Enums\Order;
 
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Contracts\LocalizedEnum;
+use App\Supports\Enum;
 
-/**
- * @method static static Processing()
- * @method static static Processed()
- * @method static static Completed()
- * @method static static Cancelled()
- */
-final class OrderStatus extends Enum implements LocalizedEnum
+enum OrderStatus: int
 {
-    const Processing = 1;
-    const Processed = 2;
-    const Completed = 3;
-    const Cancelled = 4;
-    // const Refunded = 2;
-    // const Failed = 2;
+    use Enum;
+
+    // Chờ xác nhận
+    case Pending = 1;
+    // Đã xác nhận
+    case Confirmed = 2;
+
+    // Đang di chuyển
+    case InTransit = 3;
+
+    // Đã đến cửa hàng
+    case ArrivedAtStore = 4;
+
+    // Đang di chuyển đến điểm đến
+    case MovingToDestination = 5;
+    // Hoàn thành
+    case Completed = 6;
+    // Hủy bỏ
+    case Cancelled = 7;
+
+    // Không thành công
+    case Failed = 8;
+    public function badge(): string
+    {
+        return match($this) {
+            self::Pending => 'bg-yellow-lt',
+            self::Confirmed => 'bg-blue-lt',
+            self::InTransit => 'bg-purple-lt',
+            self::ArrivedAtStore => 'bg-orange-lt',
+            self::MovingToDestination => 'bg-teal-lt',
+            self::Completed => 'bg-green-lt',
+            self::Cancelled => 'bg-red-lt',
+            self::Failed => 'bg-dark-lt',
+        };
+    }
+
 }

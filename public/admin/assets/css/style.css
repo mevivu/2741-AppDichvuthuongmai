@@ -140,3 +140,17 @@ span.select2-selection.select2-selection--single {
     height: 53px;
 }
 
+.drop-toggle-columns::-webkit-scrollbar{
+    width: 0;
+}
+
+.wrap-table-scroll {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+#blockSubmitFixed{
+    transition: all 0.3s ease-in-out;
+}
+
+

@@ -7,9 +7,10 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     protected $repositories = [
-		'App\Admin\Repositories\Module\ModuleRepositoryInterface' => 'App\Admin\Repositories\Module\ModuleRepository',
-		'App\Admin\Repositories\Permission\PermissionRepositoryInterface' => 'App\Admin\Repositories\Permission\PermissionRepository',
-		'App\Admin\Repositories\Role\RoleRepositoryInterface' => 'App\Admin\Repositories\Role\RoleRepository',
+        'App\Admin\Repositories\CategorySystem\CategorySystemRepositoryInterface' => 'App\Admin\Repositories\CategorySystem\CategorySystemRepository',
+        'App\Admin\Repositories\Module\ModuleRepositoryInterface' => 'App\Admin\Repositories\Module\ModuleRepository',
+        'App\Admin\Repositories\Permission\PermissionRepositoryInterface' => 'App\Admin\Repositories\Permission\PermissionRepository',
+        'App\Admin\Repositories\Role\RoleRepositoryInterface' => 'App\Admin\Repositories\Role\RoleRepository',
         'App\Admin\Repositories\Admin\AdminRepositoryInterface' => 'App\Admin\Repositories\Admin\AdminRepository',
         'App\Admin\Repositories\User\UserRepositoryInterface' => 'App\Admin\Repositories\User\UserRepository',
         'App\Admin\Repositories\Category\CategoryRepositoryInterface' => 'App\Admin\Repositories\Category\CategoryRepository',
@@ -25,6 +26,17 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Admin\Repositories\Setting\SettingRepositoryInterface' => 'App\Admin\Repositories\Setting\SettingRepository',
         'App\Admin\Repositories\Post\PostRepositoryInterface' => 'App\Admin\Repositories\Post\PostRepository',
         'App\Admin\Repositories\PostCategory\PostCategoryRepositoryInterface' => 'App\Admin\Repositories\PostCategory\PostCategoryRepository',
+        'App\Admin\Repositories\Area\AreaRepositoryInterface' => 'App\Admin\Repositories\Area\AreaRepository',
+        'App\Admin\Repositories\Driver\DriverRepositoryInterface' => 'App\Admin\Repositories\Driver\DriverRepository',
+        'App\Admin\Repositories\StoreCategory\StoreCategoryRepositoryInterface' => 'App\Admin\Repositories\StoreCategory\StoreCategoryRepository',
+        'App\Admin\Repositories\Store\StoreRepositoryInterface' => 'App\Admin\Repositories\Store\StoreRepository',
+        'App\Admin\Repositories\Notification\NotificationRepositoryInterface' => 'App\Admin\Repositories\Notification\NotificationRepository',
+        'App\Admin\Repositories\Topping\ToppingRepositoryInterface' => 'App\Admin\Repositories\Topping\ToppingRepository',
+        'App\Admin\Repositories\Vehicle\VehicleRepositoryInterface' => 'App\Admin\Repositories\Vehicle\VehicleRepository',
+        'App\Admin\Repositories\Discount\DiscountRepositoryInterface' => 'App\Admin\Repositories\Discount\DiscountRepository',
+        'App\Admin\Repositories\Discount\DiscountApplicationRepositoryInterface' => 'App\Admin\Repositories\Discount\DiscountApplicationRepository',
+
+
 
     ];
     /**

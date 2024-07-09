@@ -22,14 +22,15 @@ class PostDataTable extends BaseDataTable
 
     public function __construct(
         PostRepositoryInterface $repository
-    ){
+    ) {
         parent::__construct();
 
         $this->repository = $repository;
     }
 
-    public function getView(){
-        return [
+    public function getView()
+    {
+        $this->view = [
             'action' => 'admin.posts.datatable.action',
             'image' => 'admin.posts.datatable.image',
             'editlink' => 'admin.posts.datatable.editlink',
@@ -37,26 +38,6 @@ class PostDataTable extends BaseDataTable
             'is_featured' => 'admin.posts.datatable.is-featured',
         ];
     }
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
-     */
-    public function dataTable($query)
-    {
-        $this->instanceDataTable = datatables()->eloquent($query);
-        $this->filterColumnCreatedAt();
-        $this->editColumnImage();
-        $this->editColumnTitle();
-        $this->editColumnStatus();
-        $this->editColumnIsFeatured();
-        $this->editColumnCreatedAt();
-        $this->addColumnAction();
-        $this->rawColumnsNew();
-        return $this->instanceDataTable;
-    }
-    
     /**
      * Get query source of dataTable.
      *
@@ -73,28 +54,33 @@ class PostDataTable extends BaseDataTable
      *
      * @return \Yajra\DataTables\Html\Builder
      */
-    public function html()
-    {
-        $this->instanceHtml = $this->builder()
-        ->setTableId('postTable')
-        ->columns($this->getColumns())
-        ->minifiedAjax()
-        ->dom('Bfrtip')
-        ->orderBy(0)
-        ->selectStyleSingle();
-
-        $this->htmlParameters();
-
-        return $this->instanceHtml;
-    }
 
     /**
      * Get columns.
      *
      * @return array
      */
-    protected function setCustomColumns(){
-        $this->customColumns = $this->traitGetConfigDatatableColumns('post');
+    protected function setCustomColumns(): void
+    {
+        $this->customColumns = config('datatables_columns.post', []);
+    }
+
+    protected function setCustomEditColumns()
+    {
+        $this->customEditColumns = [
+            'image' => $this->view['image'] ?? 'admin.posts.datatable.image',
+            'status' => $this->view['status'] ?? 'admin.posts.datatable.status',
+            'title' => $this->view['editlink'] ?? 'admin.posts.datatable.editlink',
+            'is_featured' => $this->view['is_featured'] ?? 'admin.posts.datatable.is-featured',
+            'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
+        ];
+    }
+
+    protected function setCustomAddColumns()
+    {
+        $this->customAddColumns = [
+            'action' => $this->view['action'] ?? 'admin.posts.datatable.action',
+        ];
     }
 
     protected function filename(): string
@@ -102,48 +88,15 @@ class PostDataTable extends BaseDataTable
         return 'Posts_' . date('YmdHis');
     }
 
-    protected function filterColumnCreatedAt(){
-        $this->instanceDataTable = $this->instanceDataTable->filterColumn('created_at', function($query, $keyword) {
 
-            $query->whereDate('created_at', date('Y-m-d', strtotime($keyword)));
-
-        });
-    }
-    protected function editColumnImage(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('image', $this->view['image']);
-    }
-    protected function editColumnTitle(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('title', $this->view['editlink']);
-    }
-    protected function editColumnStatus(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('status', $this->view['status']);
+    protected function setCustomRawColumns()
+    {
+        $this->customRawColumns = ['image', 'title', 'status', 'is_featured', 'action'];
     }
 
-    protected function editColumnIsFeatured(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('is_featured', $this->view['is_featured']);
-    }
-    
-    protected function editColumnCreatedAt(){
-        $this->instanceDataTable = $this->instanceDataTable->editColumn('created_at', '{{ date("d-m-Y", strtotime($created_at)) }}');
-    }
-    protected function addColumnAction(){
-        $this->instanceDataTable = $this->instanceDataTable->addColumn('action', $this->view['action']);
-    }
-    protected function rawColumnsNew(){
-        $this->instanceDataTable = $this->instanceDataTable->rawColumns(['image', 'title', 'status', 'is_featured', 'action']);
-    }
-    protected function htmlParameters(){
 
-        $this->parameters['buttons'] = $this->actions;
-
-        $this->parameters['initComplete'] = "function () {
-
-            moveSearchColumnsDatatable('#postTable');
-
-            searchColumsDataTable(this);
-        }";
-
-        $this->instanceHtml = $this->instanceHtml
-        ->parameters($this->parameters);
+    protected function setColumnSearch()
+    {
+        // TODO: Implement setColumnSearch() method.
     }
 }

@@ -76,4 +76,21 @@ class ProductRepository extends EloquentRepository implements ProductRepositoryI
         $this->instance = $this->instance->orderBy($column, $sort);
         return $this->instance;
     }
+    public function searchAllLimit($keySearch = '', $meta = [], $select = ['id', 'name', 'price'], $limit = 10){
+        $this->instance = $this->model->select($select);
+        $this->getQueryBuilderFindByKey($keySearch);
+
+        foreach($meta as $key => $value){
+            $this->instance = $this->instance->where($key, $value);
+        }
+
+        return $this->instance->limit($limit)->get();
+    }
+
+    protected function getQueryBuilderFindByKey($key){
+        $this->instance = $this->instance->where(function($query) use ($key){
+            return $query->where('name', 'LIKE', '%'.$key.'%')
+                ->orWhere('price', 'LIKE', '%'.$key.'%');
+        });
+    }
 }

@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
+use App\Admin\Traits\Roles;
 use App\Enums\Driver\AutoAccept;
-use App\Enums\Driver\DriverOnOff;
 use App\Enums\Driver\DriverStatus;
-use App\Enums\User\UserRoles;
-use App\Enums\User\UserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,37 +14,46 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Driver extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Roles;
 
     protected $table = 'drivers';
     protected $fillable = [
+        /**  ID người dùng */
         'user_id',
-        'avatar',
+        /** CCCD */
         'id_card',
+        /** CCCD mặt trước */
         'id_card_front',
+        /** CCCD mặt sau */
         'id_card_back',
-        'license_plate',
-        'vehicle_company',
-        'vehicle_registration_front',
-        'vehicle_registration_back',
+        /** Giấy phép lái xe mặt trước */
         'driver_license_front',
+        /** Giấy phép lái xe mặt sau */
         'driver_license_back',
+        /** Tên ngân hàng */
         'bank_name',
+        /** Tên tài khoản ngân hàng */
         'bank_account_name',
+        /** Số tài khoản ngân hàng */
         'bank_account_number',
+        /** Tự động chấp nhận đơn */
         'auto_accept',
+        /** Vĩ độ hiện tại */
         'current_lat',
+        /** Kinh độ hiện tại */
         'current_lng',
+        /** Địa chỉ hiện tại */
         'current_address',
+        /** Tình trạng đơn hàng đã chấp nhận */
         'order_accepted',
+        /** Trạng thái khóa */
         'is_locked',
-        'is_on'
+        /** Trạng thái hoạt động */
+        'is_on',
     ];
     protected $casts = [
         'auto_accept' => AutoAccept::class,
         'order_accepted' => DriverStatus::class,
-        'is_locked' => UserStatus::class,
-        'is_on' => DriverOnOff::class,
     ];
 
     public function user(): BelongsTo
@@ -55,21 +61,20 @@ class Driver extends Authenticatable
         return $this->belongsTo(User::class);
     }
 
-    public function scopeDriver($query)
+    public function vehicles(): HasMany
     {
-        return $query->whereHas('user', function ($query) {
-            $query->where('roles', UserRoles::Driver);
-        });
+        return $this->hasMany(Vehicle::class);
     }
-
-//    public function rates()
-//    {
-//        return $this->hasMany(Rate::class, 'driver_id', 'id');
-//    }
 
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class, 'driver_id');
     }
 
+    public function scopeDriver($query)
+    {
+        return $query->whereHas('user.roles', function ($query) {
+            $query->where('name', $this->getRoleDriver());
+        });
+    }
 }

@@ -3,9 +3,11 @@
 namespace App\Api\V1\Http\Controllers\Post;
 
 use App\Admin\Http\Controllers\Controller;
+use App\Admin\Repositories\Post\PostRepository;
 use App\Api\V1\Http\Requests\Post\PostRequest;
 use App\Api\V1\Http\Resources\Post\{AllPostResource, ShowPostResource};
 use App\Api\V1\Repositories\Post\PostRepositoryInterface;
+use App\Models\Post;
 
 /**
  * @group Bài viết
@@ -15,8 +17,7 @@ class PostController extends Controller
 {
     public function __construct(
         PostRepositoryInterface $repository
-    )
-    {
+    ) {
         $this->repository = $repository;
     }
     /**
@@ -54,17 +55,19 @@ class PostController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(PostRequest $request){
+    public function index(PostRequest $request)
+    {
         $data = $request->validated();
-        
+
         $posts = $this->repository->paginate(...$data);
         $posts = new AllPostResource($posts);
-
+        // $posts = Post::paginate($data);
         return response()->json([
             'status' => 200,
             'message' => __('Thực hiện thành công.'),
             'data' => $posts
         ]);
+
     }
     /**
      * DS bài viết nổi bật
@@ -101,9 +104,10 @@ class PostController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function featured(PostRequest $request){
+    public function featured(PostRequest $request)
+    {
         $data = $request->validated();
-        
+
         $posts = $this->repository->getFeaturedPaginate(...$data);
         $posts = new AllPostResource($posts);
 
@@ -144,7 +148,8 @@ class PostController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
+    public function show($id)
+    {
         $post = $this->repository->findByPublished($id);
         $post = new ShowPostResource($post);
         return response()->json([
@@ -191,7 +196,8 @@ class PostController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function related($id, PostRequest $request){
+    public function related($id, PostRequest $request)
+    {
 
         $posts = $this->repository->getRelated($id, ...$request->validated());
         $posts = new AllPostResource($posts);

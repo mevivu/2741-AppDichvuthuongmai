@@ -11,6 +11,10 @@ use App\Enums\Product\ProductType;
 use App\Admin\Repositories\Category\CategoryRepositoryInterface;
 use App\Admin\Repositories\Attribute\AttributeRepositoryInterface;
 use App\Admin\Http\Resources\Product\ProductEditResource;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -19,9 +23,9 @@ class ProductController extends Controller
     protected $repositoryAttribute;
 
     public function __construct(
-        ProductRepositoryInterface $repository, 
-        CategoryRepositoryInterface $repositoryCategory, 
-        AttributeRepositoryInterface $repositoryAttribute, 
+        ProductRepositoryInterface $repository,
+        CategoryRepositoryInterface $repositoryCategory,
+        AttributeRepositoryInterface $repositoryAttribute,
         ProductServiceInterface $service
     ){
         parent::__construct();
@@ -31,7 +35,8 @@ class ProductController extends Controller
         $this->service = $service;
     }
 
-    public function getView(){
+    public function getView(): array
+    {
         return [
             'index' => 'admin.products.index',
             'create' => 'admin.products.create',
@@ -40,7 +45,8 @@ class ProductController extends Controller
         ];
     }
 
-    public function getRoute(){
+    public function getRoute(): array
+    {
         return [
             'index' => 'admin.product.index',
             'create' => 'admin.product.create',
@@ -62,10 +68,11 @@ class ProductController extends Controller
         ]);
     }
 
-    public function create(){
+    public function create(): Factory|View|Application
+    {
         $categories = $this->repositoryCategory->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
-        return view($this->view['create'], 
+        return view($this->view['create'],
             [
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
@@ -74,7 +81,8 @@ class ProductController extends Controller
         );
     }
 
-    public function store(ProductRequest $request){
+    public function store(ProductRequest $request): RedirectResponse
+    {
 
         $instance = $this->service->store($request);
         if($instance){
@@ -83,16 +91,17 @@ class ProductController extends Controller
         return back()->with('error', __('notifyFail'))->withInput();
     }
 
-    public function edit($id, Request $request){
-        
+    public function edit($id, Request $request): Factory|View|Application
+    {
+
         $product = $this->repository->loadRelations($this->repository->findOrFail($id), [
-            'categories:id', 
+            'categories:id',
             'productAttributes' => function($query){
                 return $query->with(['attribute.variations', 'attributeVariations:id']);
-            }, 
+            },
             'productVariations.attributeVariations'
         ]);
-        
+
         $product = new ProductEditResource($product);
         $categories = $this->repositoryCategory->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
@@ -106,8 +115,9 @@ class ProductController extends Controller
             ]
         );
     }
- 
-    public function update(ProductRequest $request){
+
+    public function update(ProductRequest $request): RedirectResponse
+    {
 
         $instance = $this->service->update($request);
 
@@ -118,15 +128,17 @@ class ProductController extends Controller
 
     }
 
-    public function delete($id){
+    public function delete($id): RedirectResponse
+    {
 
         $this->service->delete($id);
-        
+
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
-        
+
     }
 
-    public function searchRenderProductAndVariation(ProductRequest $request){
+    public function searchRenderProductAndVariation(ProductRequest $request): Factory|View|Application
+    {
         $products = $this->repository->getByColumnsWithRelationsLimit([
             'name' => $request->input('key')
         ]);

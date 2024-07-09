@@ -2,57 +2,89 @@
 
 namespace App\Api\V1\Services\User;
 
-use App\Api\V1\Services\User\UserServiceInterface;
+use App\Admin\Services\File\FileService;
+use App\Admin\Traits\Roles;
 use  App\Api\V1\Repositories\User\UserRepositoryInterface;
+use App\Api\V1\Support\AuthServiceApi;
+use App\Api\V1\Support\UseLog;
+use App\Enums\User\Gender;
+use Exception;
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
-use App\Enums\User\UserGender;
-use App\Enums\User\UserRoles;
-use App\Enums\User\UserVip;
+use Illuminate\Support\Facades\DB;
+use Throwable;
+
 
 class UserService implements UserServiceInterface
 {
-    use Setup;
+    use Setup, Roles, AuthServiceApi, UseLog;
+
     /**
      * Current Object instance
      *
      * @var array
      */
-    protected $data;
-    
-    protected $repository;
+    protected array $data;
 
-    public function __construct(UserRepositoryInterface $repository){
+    protected UserRepositoryInterface $repository;
+
+    protected FileService $fileService;
+
+    public function __construct(UserRepositoryInterface $repository,
+                                FileService             $fileService)
+    {
         $this->repository = $repository;
-    }
-    
-    public function store(Request $request){
-
-        $this->data = $request->validated();
-        $this->data['username'] = $this->data['phone'];
-        $this->data['code'] = $this->createCodeUser();
-        $this->data['roles'] = UserRoles::Member();
-        $this->data['vip'] = UserVip::Default();
-        $this->data['gender'] = UserGender::Male();
-        $this->data['password'] = bcrypt($this->data['password']);
-        return $this->repository->create($this->data);
+        $this->fileService = $fileService;
     }
 
-    public function update(Request $request){
-        
-        $this->data = $request->validated();
+    public function store(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $data = $request->validated();
+            $data['username'] = $data['phone'];
+            $data['password'] = bcrypt($data['password']);
+            $data['code'] = $this->createCodeUser();
+            $data['gender'] = Gender::Female;
 
-        if(isset($this->data['password']) && $this->data['password']){
-            $this->data['password'] = bcrypt($this->data['password']);
-        }else{
-            unset($this->data['password']);
+            $user = $this->repository->create($data);
+            $this->repository->assignRoles($user, [$this->getRoleCustomer()]);
+            DB::commit();
+            return $user;
+        } catch (Throwable $e) {
+            DB::rollback();
+            $this->logError('Failed to process register user API', $e);
+            return false;
         }
 
-        return $this->repository->update($this->data['id'], $this->data);
-
     }
 
-    public function delete($id){
+    public function update(Request $request): bool|object
+    {
+        DB::beginTransaction();
+        try {
+            $data = $request->validated();
+            $user = $this->getCurrentUser();
+            $avatar = $data['avatar'];
+            if ($avatar) {
+                $data['avatar'] = $this->fileService->uploadAvatar('images/users', $avatar, $user->avatar);
+            }
+            $response = $this->repository->update($user->id, $data);
+            DB::commit();
+            return $response;
+        } catch (Exception $e) {
+            DB::rollback();
+            $this->logError('Failed to process update user API', $e);
+            return false;
+        }
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    public function delete($id): object|bool
+    {
         return $this->repository->delete($id);
 
     }

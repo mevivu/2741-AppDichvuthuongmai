@@ -7,4 +7,13 @@
             <x-button.submit :title="__('Thêm')" />
         </div>
     </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            @lang('avatar')
+        </div>
+        <div class="card-body p-2">
+            <x-input-image-ckfinder name="avatar" showImage="featureImage"/>
+        </div>
+    </div>
 </div>
+

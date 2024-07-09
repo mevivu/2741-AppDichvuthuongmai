@@ -15,6 +15,8 @@ class Product extends Model
     protected $table = 'products';
 
     protected $guarded = [];
+    protected $columnSlug = 'name';
+
 
     protected static function boot()
     {

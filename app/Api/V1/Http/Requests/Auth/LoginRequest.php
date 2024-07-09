@@ -11,10 +11,10 @@ class LoginRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodPost()
+    protected function methodPost(): array
     {
         return [
-            'username' => 'required',
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'password' => 'required'
         ];
     }

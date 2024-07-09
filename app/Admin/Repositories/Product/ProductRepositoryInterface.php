@@ -20,9 +20,12 @@ interface ProductRepositoryInterface extends EloquentRepositoryInterface
     public function attachCategories(Product $product, array $categoriesId);
 
     public function syncCategories(Product $product, array $categoriesId);
-	
+
     public function getQueryBuilderWithRelations($relations = ['categories', 'productVariations']);
 
     public function getQueryBuilderOrderBy($column = 'id', $sort = 'DESC');
+
+    public function searchAllLimit($value = '', $meta = [], $select = [], $limit = 10);
+
 
 }

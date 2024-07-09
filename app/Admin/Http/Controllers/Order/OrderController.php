@@ -9,14 +9,19 @@ use App\Admin\DataTables\Order\OrderDataTable;
 use App\Enums\Order\OrderStatus;
 use App\Admin\Http\Requests\Order\OrderRequest;
 use App\Admin\Repositories\User\UserRepositoryInterface;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use App\Admin\Repositories\Product\{ProductRepositoryInterface, ProductVariationRepositoryInterface};
 
 class OrderController extends Controller
 {
-    protected $repositoryUser;
-    protected $repositoryProduct;
-    protected $repositoryProductVariation;
-    
+    protected UserRepositoryInterface $repositoryUser;
+    protected ProductRepositoryInterface $repositoryProduct;
+    protected ProductVariationRepositoryInterface $repositoryProductVariation;
+
     public function __construct(
         OrderRepositoryInterface $repository,
         UserRepositoryInterface $repositoryUser,
@@ -32,7 +37,8 @@ class OrderController extends Controller
         $this->repositoryProductVariation = $repositoryProductVariation;
         $this->service = $service;
     }
-    public function getView(){
+    public function getView(): array
+    {
         return [
             'index' => 'admin.orders.index',
             'create' => 'admin.orders.create',
@@ -43,7 +49,8 @@ class OrderController extends Controller
         ];
     }
 
-    public function getRoute(){
+    public function getRoute(): array
+    {
         return [
             'index' => 'admin.order.index',
             'create' => 'admin.order.create',
@@ -56,22 +63,26 @@ class OrderController extends Controller
             'status' => OrderStatus::asSelectArray()
         ]);
     }
-    public function create(){
+    public function create(): Factory|View|Application
+    {
         return view($this->view['create']);
     }
-    public function store(OrderRequest $request){
+    public function store(OrderRequest $request): RedirectResponse
+    {
         $order = $this->service->store($request);
         if($order){
             return to_route($this->route['edit'], $order->id);
         }
         return back()->with('error', __('notifyFail'));
     }
-    public function edit($id){
+    public function edit($id): Factory|View|Application
+    {
         $order = $this->repository->findOrFailWithRelations($id);
         $status = OrderStatus::asSelectArray();
         return view($this->view['edit'], compact('order', 'status'));
     }
-    public function update(OrderRequest $request){
+    public function update(OrderRequest $request): RedirectResponse
+    {
         $response = $this->service->update($request);
         if($response){
             return back()->with('success', __('notifySuccess'));
@@ -79,12 +90,14 @@ class OrderController extends Controller
         return back()->with('error', __('notifyFail'));
     }
 
-    public function delete($id){
+    public function delete($id): RedirectResponse
+    {
         $this->service->delete($id);
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
     }
 
-    public function renderInfoShipping(OrderRequest $request){
+    public function renderInfoShipping(OrderRequest $request): Factory|View|Application
+    {
         $user = $this->repositoryUser->findOrFail($request->input('user_id'));
         return view($this->view['info_shipping'], [
             'customer_fullname' => $user->fullname,
@@ -94,8 +107,9 @@ class OrderController extends Controller
         ]);
     }
 
-    public function addProduct(OrderRequest $request){
-        
+    public function addProduct(OrderRequest $request): JsonResponse
+    {
+
         $product = $this->service->addProduct($request);
 
         if(!$product){
@@ -113,7 +127,8 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function calculateTotalBeforeSaveOrder(OrderRequest $request){
+    public function calculateTotalBeforeSaveOrder(OrderRequest $request): JsonResponse
+    {
         if(!$request->input('order_detail.product_id')){
             $total = 0;
         }else{

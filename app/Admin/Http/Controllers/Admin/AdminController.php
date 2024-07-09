@@ -7,23 +7,28 @@ use App\Admin\Http\Requests\Admin\AdminRequest;
 use App\Admin\Repositories\Admin\AdminRepositoryInterface;
 use App\Admin\Services\Admin\AdminServiceInterface;
 use App\Admin\DataTables\Admin\AdminDataTable;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class AdminController extends Controller
 {
     public function __construct(
-        AdminRepositoryInterface $repository, 
+        AdminRepositoryInterface $repository,
         AdminServiceInterface $service
     ){
 
         parent::__construct();
 
         $this->repository = $repository;
-        
+
         $this->service = $service;
-        
+
     }
 
-    public function getView(){
+    public function getView(): array
+    {
         return [
             'index' => 'admin.admins.index',
             'create' => 'admin.admins.create',
@@ -31,7 +36,8 @@ class AdminController extends Controller
         ];
     }
 
-    public function getRoute(){
+    public function getRoute(): array
+    {
         return [
             'index' => 'admin.admin.index',
             'create' => 'admin.admin.create',
@@ -43,25 +49,28 @@ class AdminController extends Controller
         return $dataTable->render($this->view['index']);
     }
 
-    public function create(){
+    public function create(): Factory|View|Application
+    {
 		$roles = $this->repository->getAllRolesByGuardName('admin');
         return view($this->view['create'], [
 			'roles' => $roles
 		]);
     }
-	
 
-    public function store(AdminRequest $request){
+
+    public function store(AdminRequest $request): RedirectResponse
+    {
 
         $instance = $this->service->store($request);
 		$instance->syncRoles($request->roles);
-		
+
         return to_route($this->route['edit'], $instance->id);
 
     }
 
-    public function edit($id){
-        
+    public function edit($id): Factory|View|Application
+    {
+
         $instance = $this->repository->findOrFail($id);
 		$roles = $this->repository->getAllRolesByGuardName('admin');
         return view(
@@ -69,12 +78,13 @@ class AdminController extends Controller
 			[
                 'admin' => $instance,
 				'roles' => $roles,
-            ], 
+            ],
         );
 
     }
 
-    public function update(AdminRequest $request){
+    public function update(AdminRequest $request): RedirectResponse
+    {
 
         $this->service->update($request);
 
@@ -82,11 +92,12 @@ class AdminController extends Controller
 
     }
 
-    public function delete($id){
+    public function delete($id): RedirectResponse
+    {
 
         $this->service->delete($id);
-        
+
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
-        
+
     }
 }

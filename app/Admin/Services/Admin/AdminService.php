@@ -17,13 +17,13 @@ class AdminService implements AdminServiceInterface
      * @var array
      */
     protected $data;
-    
+
     protected $repository;
 
     public function __construct(AdminRepositoryInterface $repository){
         $this->repository = $repository;
     }
-    
+
     public function store(Request $request){
 
         $this->data = $request->validated();
@@ -34,7 +34,7 @@ class AdminService implements AdminServiceInterface
     }
 
     public function update(Request $request){
-        
+
         $this->data = $request->safe()->except(['old_password']);
 
         if(isset($this->data['password']) && $this->data['password']){
@@ -42,8 +42,8 @@ class AdminService implements AdminServiceInterface
         }else{
             unset($this->data['password']);
         }
-		
-		$this->repository->syncAdminRoles($this->data['id'],$request->roles);
+
+		$this->repository->syncModelRoles($this->data['id'],$request->roles);
         return $this->repository->update($this->data['id'], $this->data);
 
     }
