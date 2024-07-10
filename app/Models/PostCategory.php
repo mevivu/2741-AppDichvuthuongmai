@@ -11,7 +11,7 @@ use Kalnoy\Nestedset\NodeTrait;
 class PostCategory extends Model
 {
     use HasFactory, Sluggable, NodeTrait;
-    
+
     protected $table = 'posts_categories';
 
     protected $guarded = [];
@@ -23,15 +23,20 @@ class PostCategory extends Model
     {
         parent::boot();
     }
-    public function isPublished(){
+    public function isPublished()
+    {
         return $this->status == PostCategoryStatus::Published();
     }
 
-    public function categories(){
+    public function categories()
+    {
         return $this->belongsToMany(PostCategory::class, 'posts_posts_categories', 'category_id', 'post_id');
+        // return $this->belongsToMany(Post::class, 'post_post_category', 'category_id', 'post_id');
+
     }
 
-    public function scopePublished($query){
+    public function scopePublished($query)
+    {
         return $query->where('status', PostCategoryStatus::Published);
     }
 }

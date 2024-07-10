@@ -22,19 +22,20 @@ class PostDataTable extends BaseDataTable
 
     public function __construct(
         PostRepositoryInterface $repository
-    ){
+    ) {
         parent::__construct();
 
         $this->repository = $repository;
     }
 
-    public function getView(){
+    public function setView()
+    {
         $this->view = [
             'action' => 'admin.posts.datatable.action',
             'image' => 'admin.posts.datatable.image',
             'editlink' => 'admin.posts.datatable.editlink',
             'status' => 'admin.posts.datatable.status',
-            'is_featured' => 'admin.posts.datatable.is-featured',
+            'is_featured' => 'admin.posts.datatable.is-featured'
         ];
     }
     /**
@@ -88,7 +89,8 @@ class PostDataTable extends BaseDataTable
     }
 
 
-    protected function setCustomRawColumns(){
+    protected function setCustomRawColumns()
+    {
         $this->customRawColumns = ['image', 'title', 'status', 'is_featured', 'action'];
     }
 
