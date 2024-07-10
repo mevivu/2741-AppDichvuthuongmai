@@ -169,12 +169,6 @@ Route::controller(App\Api\V1\Http\Controllers\Slider\SliderController::class)
     });
 
 
-Route::controller(App\Api\V1\Http\Controllers\Store\ResetPasswordController::class)
-    ->prefix('/reset-password')
-    ->as('reset_password.')
-    ->group(function () {
-        Route::post('/', 'checkAndSendMail')->name('check_and_send_mail');
-    });
 
 Route::fallback(function () {
     return response()->json([

@@ -97,7 +97,7 @@ class StoreService implements StoreServiceInterface
         DB::beginTransaction();
         try {
             $data = $request->validated();
-            $store = $this->getCurrentStoreUser(); // Gọi phương thức từ AuthServiceApi trait
+            $store = $this->getCurrentStoreUser();
             $logo = $data['logo'];
             if ($logo) {
                 $data['logo'] = $this->fileService->uploadAvatar('images/stores', $logo, $store->logo);
