@@ -98,7 +98,7 @@ return [
     |
      */
 
-    'output' => '/2741-AppDichvuthuongmai/docs/api/v1',
+    'output' => '/App_ThuongMai/2741-AppDichvuthuongmai/docs/api/v1',
 
 
     /*
