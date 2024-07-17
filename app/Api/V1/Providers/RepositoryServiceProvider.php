@@ -22,6 +22,7 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Api\V1\Repositories\Post\PostRepositoryInterface' => 'App\Api\V1\Repositories\Post\PostRepository',
         'App\Api\V1\Repositories\PostCategory\PostCategoryRepositoryInterface' => 'App\Api\V1\Repositories\PostCategory\PostCategoryRepository',
         'App\Api\V1\Repositories\Review\ReviewRepositoryInterface' => 'App\Api\V1\Repositories\Review\ReviewRepository',
+        'App\Api\V1\Repositories\Discount\DiscountRepositoryInterface' => 'App\Api\V1\Repositories\Discount\DiscountRepository',
 
     ];
     /**
