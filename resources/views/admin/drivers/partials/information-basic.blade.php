@@ -35,7 +35,22 @@
             </x-select>
         </div>
     </div>
-
+    <!-- new password -->
+    <div class="col-md-6 col-12">
+        <div class="mb-3">
+            <label class="control-label">@lang('password'):</label>
+            <x-input-password name="user_info[password]"/>
+        </div>
+    </div>
+    <!-- new password confirmation-->
+    <div class="col-md-6 col-12">
+        <div class="mb-3">
+            <label class="control-label">@lang('passwordConfirm'):</label>
+            <x-input-password name="user_info[password_confirmation]"
+                              data-parsley-equalto="input[name='user_info[password]']"
+                              data-parsley-equalto-message="{{ __('passwordMismatch') }}"/>
+        </div>
+    </div>
     <!-- birthday -->
     <div class="col-md-6 col-12">
         <div class="mb-3">

@@ -815,7 +815,7 @@ return [
             'orderable' => false,
         ],
         'auto_accept' => [
-            'title' => 'receive_the_trip',
+            'title' => 'Tự động nhận chuyến',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],

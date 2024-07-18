@@ -66,7 +66,6 @@ class DriverService implements DriverServiceInterface
             $dataUser['code'] = uniqid_real();
             $dataUser['username'] = $dataUser['phone'];
             $user = $this->userRepository->create($dataUser);
-            // roles
             $roles = $this->getRoleDriver();
             $this->repository->assignRoles($user, [$roles]);
             $userId = $user->id;
@@ -100,6 +99,7 @@ class DriverService implements DriverServiceInterface
             $dataUser['address'] = $data['address'];
             $dataUser['latitude'] = $data['lat'];
             $dataUser['longitude'] = $data['lng'];
+            $dataUser['username'] = $dataUser['phone'];
 
             if (isset($dataUser['password']) && $dataUser['password']) {
                 $dataUser['password'] = bcrypt($dataUser['password']);
