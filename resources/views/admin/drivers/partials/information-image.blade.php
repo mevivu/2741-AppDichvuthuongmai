@@ -87,21 +87,5 @@
                 </div>
             </div>
         </div>
-        {{-- driver_license_back --}}
-        <div class="col-md-6 col-12">
-            <div class="card mb-3">
-                <div class="card-header">
-                    @lang('driver_license_back')
-                </div>
-                <div class="card-body p-2">
-                    <x-input-image-ckfinder
-                        name="driver_license_back"
-                        :value="$driver->vehicle_front_image"
-                        showImage="featureImageDriverLicenseBack"
-                        class="img-fluid"
-                    />
-                </div>
-            </div>
-        </div>
     </div>
 </div>

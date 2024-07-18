@@ -144,6 +144,14 @@
                              :placeholder="__('license_plate')"/>
                 </div>
             </div>
+            {{-- vehicle_company --}}
+            <div class="col-md-6 col-12">
+                <div class="mb-3">
+                    <label class="control-label">@lang('vehicle_company'):</label>
+                    <x-input name="vehicle_company" :value="old('vehicle_company')"
+                             :placeholder="__('vehicle_company')"/>
+                </div>
+            </div>
             {{-- brand --}}
             <div class="col-md-6 col-12">
                 <div class="mb-3">
@@ -159,6 +167,17 @@
                     <x-input name="color" :value="old('color')"
                              :required="true"
                              placeholder="{{__('Màu sắc')}}"/>
+                </div>
+            </div>
+            {{-- price --}}
+            <div class="col-md-6 col-sm-12">
+                <div class="mb-3">
+                    <label class="control-label">{{ __('price_rent') }}:</label>
+                    <x-input-price name="price"
+                                   id="price"
+                                   :value="old('price')"
+                                   :required="true"
+                                   :placeholder="__('price_rent')"/>
                 </div>
             </div>
             <!-- type -->
@@ -180,6 +199,26 @@
                              :value="old('seat_number')"
                              :required="true"
                              placeholder="{{ __('Số chổ ngồi') }}"/>
+                </div>
+            </div>
+            {{-- amenities --}}
+            <div class="col-12">
+                <div class="mb-3">
+                    <label class="control-label"><strong>{{ __('amenities') }}:</strong></label>
+                    <textarea name="amenities"
+                              class="ckeditor visually-hidden">
+                        {{ old('amenities') }}
+                    </textarea>
+                </div>
+            </div>
+            {{-- description --}}
+            <div class="col-12">
+                <div class="mb-3">
+                    <label class="control-label"><strong>{{ __('description') }}:</strong></label>
+                    <textarea name="description"
+                              class="ckeditor visually-hidden">
+                          {{ old('description') }}
+                    </textarea>
                 </div>
             </div>
 
