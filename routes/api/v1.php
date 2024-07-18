@@ -105,7 +105,17 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('/delete', 'delete')->name('delete');
         });
 });
-
+//cart
+Route::controller(App\Api\V1\Http\Controllers\Cart\CartController::class)
+    ->group(function () {
+        Route::middleware('auth:sanctum')->prefix('/carts')->as('cart.')->group(function () {
+            Route::get('/', 'show')->name('show');
+            Route::post('/calculate', 'calculateTotal')->name('calculate');
+            Route::post('/', 'store')->name('store');
+            Route::put('/', 'update')->name('update');
+            Route::delete('/', 'delete')->name('delete');
+        });
+    });
 
 Route::prefix('/category')
     ->as('category.')
