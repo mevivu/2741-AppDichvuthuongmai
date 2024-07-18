@@ -21,8 +21,7 @@ class PostCategoryController extends Controller
     public function __construct(
         PostCategoryRepositoryInterface $repository,
         PostRepositoryInterface $repositoryPost
-    )
-    {
+    ) {
         $this->repository = $repository;
         $this->repositoryPost = $repositoryPost;
     }
@@ -35,6 +34,8 @@ class PostCategoryController extends Controller
      * @headersParam X-TOKEN-ACCESS string required
      * token để lấy dữ liệu. Example: 132323
      * 
+     * @authenticated Authorization string required 
+     * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -58,7 +59,8 @@ class PostCategoryController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $categories = $this->repository->getTree();
         $categories = new AllPostCategoryTreeResource($categories);
@@ -77,8 +79,17 @@ class PostCategoryController extends Controller
      * @headersParam X-TOKEN-ACCESS string required
      * token để lấy dữ liệu. Example: 132323
      * 
+     * @queryParam page integer
+     * Trang hiện tại, page > 0. Ví dụ: 1
+     * Số lượng Phòng trong 1 trang, limit > 0. Ví dụ: 1
+     * 
+     * @queryParam limit integer
+     * @authenticated Authorization string required 
+     * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K
+     * 
      * @pathParam id integer required
      * id hoặc chuyên mục. Example: 1
+     * 
      * 
      * 
      * @response 200 {
@@ -113,17 +124,19 @@ class PostCategoryController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id, PostCategoryRequest $request){
-        try{
+    public function show($id, PostCategoryRequest $request)
+    {
+        try {
             $category = $this->repository->findByIdWithAncestorsAndDescendants($id);
             $category = new ShowCategoryWithPostResource($category, $this->repositoryPost);
-            
+
+
             return response()->json([
                 'status' => 200,
                 'message' => __('Thực hiện thành công.'),
                 'data' => $category
             ]);
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             throw $th;
             return response()->json([
                 'status' => 404,

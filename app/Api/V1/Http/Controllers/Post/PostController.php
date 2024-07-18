@@ -21,19 +21,21 @@ class PostController extends Controller
         $this->repository = $repository;
     }
     /**
-     * DS bài viết
+     * DS Quản lý Bài viết
      *
-     * Lấy danh sách bài viết.
+     * Lấy danh sách các Bài viết.
      *
      * @headersParam X-TOKEN-ACCESS string
-     * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
+     * token để lấy dữ liệu. Ví dụ: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
      * 
      * @queryParam page integer
-     * Trang hiện tại, page > 0. Example: 1
+     * Trang hiện tại, page > 0. Ví dụ: 1
      * 
      * @queryParam limit integer
-     * Số lượng bài viết trong 1 trang, limit > 0. Example: 1
+     * Số lượng Phòng trong 1 trang, limit > 0. Ví dụ: 1
      * 
+     * @authenticated Authorization string required 
+     * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K
      * 
      * @response 200 {
      *      "status": 200,
@@ -50,7 +52,7 @@ class PostController extends Controller
      *           }
      *      ]
      * }
-     *
+     * 
      * @param  \Illuminate\Http\Request  $request
      * 
      * @return \Illuminate\Http\Response
@@ -83,6 +85,8 @@ class PostController extends Controller
      * @queryParam limit integer
      * Số lượng bài viết trong 1 trang, limit > 0. Example: 1
      * 
+     * @authenticated Authorization string required 
+     * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K
      * 
      * @response 200 {
      *      "status": 200,
@@ -124,6 +128,8 @@ class PostController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
+     * @authenticated Authorization string required
+     * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K
      * 
      * @pathParam id integer required
      * id bài viết. Example: 1
@@ -175,6 +181,8 @@ class PostController extends Controller
      * @queryParam limit integer
      * Số lượng bài viết trong 1 trang, limit > 0. Example: 1
      * 
+     * @authenticated Authorization string required 
+     * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K
      * 
      * @response 200 {
      *      "status": 200,

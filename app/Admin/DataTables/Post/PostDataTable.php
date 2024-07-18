@@ -28,14 +28,14 @@ class PostDataTable extends BaseDataTable
         $this->repository = $repository;
     }
 
-    public function getView()
+    public function setView()
     {
         $this->view = [
             'action' => 'admin.posts.datatable.action',
             'image' => 'admin.posts.datatable.image',
             'editlink' => 'admin.posts.datatable.editlink',
             'status' => 'admin.posts.datatable.status',
-            'is_featured' => 'admin.posts.datatable.is-featured',
+            'is_featured' => 'admin.posts.datatable.is-featured'
         ];
     }
     /**
@@ -68,10 +68,10 @@ class PostDataTable extends BaseDataTable
     protected function setCustomEditColumns()
     {
         $this->customEditColumns = [
-            'image' => $this->view['image'] ?? 'admin.posts.datatable.image',
-            'status' => $this->view['status'] ?? 'admin.posts.datatable.status',
-            'title' => $this->view['editlink'] ?? 'admin.posts.datatable.editlink',
-            'is_featured' => $this->view['is_featured'] ?? 'admin.posts.datatable.is-featured',
+            'image' => $this->view['image'],
+            'status' => $this->view['status'],
+            'title' => $this->view['editlink'],
+            'is_featured' => $this->view['is_featured'],
             'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
         ];
     }
@@ -79,7 +79,7 @@ class PostDataTable extends BaseDataTable
     protected function setCustomAddColumns()
     {
         $this->customAddColumns = [
-            'action' => $this->view['action'] ?? 'admin.posts.datatable.action',
+            'action' => $this->view['action'],
         ];
     }
 
