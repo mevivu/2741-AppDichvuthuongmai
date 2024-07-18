@@ -65,6 +65,8 @@ abstract class EloquentRepository implements EloquentRepositoryInterface
         return $this->model->where($field, $value)->with($relations)->first();
     }
 
+
+
     /**
      * Get All
      * @return \Illuminate\Database\Eloquent\Collection|static[]
