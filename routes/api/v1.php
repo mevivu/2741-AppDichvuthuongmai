@@ -169,7 +169,6 @@ Route::controller(App\Api\V1\Http\Controllers\Slider\SliderController::class)
     });
 
 
-
 Route::fallback(function () {
     return response()->json([
         'status' => 404,

@@ -46,11 +46,6 @@
                     <div id="vehicleFormsContainer">
                         @include('admin.vehicle.forms.partials.edit-vehicle')
                     </div>
-                    <button id="addVehicle"
-                            type="button"
-                            class="btn btn-primary">
-                        {{ __('Thêm phương tiện') }}
-                    </button>
                 </div>
             </div>
         </div>
