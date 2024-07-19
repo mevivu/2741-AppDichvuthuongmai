@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\V1\Http\Controllers\Auth\AuthController;
 use App\Api\V1\Http\Controllers\Driver\DriverController;
 use App\Api\V1\Http\Controllers\Store\StoreController;
 use App\Api\V1\Http\Controllers\Order\OrderController;
@@ -53,6 +54,13 @@ Route::prefix('drivers')->controller(DriverController::class)
         Route::post('/refresh', 'refresh')->name('refresh');
 
     });
+
+//auth
+Route::prefix('auth')->controller(AuthController::class)
+->group(function () {
+    Route::post('/login', 'login')->name('login');
+
+});
 
 
 //order

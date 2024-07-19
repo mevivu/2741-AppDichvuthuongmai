@@ -3,9 +3,7 @@
 namespace App\Api\V1\Http\Requests\Driver;
 
 use App\Api\V1\Http\Requests\BaseRequest;
-use App\Enums\User\Gender;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 
 
 class DriverUpdateRequest extends BaseRequest
