@@ -7,7 +7,6 @@ use App\Api\V1\Http\Requests\Auth\LoginRequest as AuthLoginRequest;
 use App\Api\V1\Http\Requests\Driver\DriverRequest;
 use App\Api\V1\Http\Requests\Driver\DriverUpdateRequest;
 use App\Api\V1\Http\Resources\Auth\AuthResource;
-use App\Api\V1\Http\Resources\Driver\DriverResource;
 use App\Api\V1\Repositories\User\UserRepositoryInterface;
 use App\Api\V1\Services\Driver\DriverServiceInterface;
 use App\Api\V1\Support\AuthServiceApi;
@@ -52,7 +51,6 @@ class DriverController extends Controller
             Auth::login($user);
             return true;
         }
-
         return false;
     }
 
@@ -74,8 +72,6 @@ class DriverController extends Controller
      * API này dùng để cập nhật thông tin cho tài xế
      * @authenticated
      * Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjczNi1BcHBEdWFSdW9jL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzE5NDU0ODM5LCJleHAiOjE3MjQ2Mzg4MzksIm5iZiI6MTcxOTQ1NDgzOSwianRpIjoiZG5NWXE4d2dWTWFkOFNCdiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uGA0ylhxwMxq8zBOsDEmSGrE97LHQxSn811jl3BLrK4
-     *
-     *
      *
      * @bodyParam fullname string optional
      * Họ và tên của tài xế. Example: Phạm Minh Mạnh
