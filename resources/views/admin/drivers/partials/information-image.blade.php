@@ -35,7 +35,7 @@
                 <div class="card-body p-2">
                     <x-input-image-ckfinder
                         name="vehicle_registration_front"
-                        :value="$driver->vehicle_registration_front"
+                        :value="$driver->vehicle->vehicle_registration_front"
                         showImage="featureImageVehicleRegistrationFront"
                     />
                 </div>
@@ -50,7 +50,7 @@
                 <div class="card-body p-2">
                     <x-input-image-ckfinder
                         name="vehicle_registration_back"
-                        :value="$driver->vehicle_registration_back"
+                        :value="$driver->vehicle->vehicle_registration_back"
                         showImage="featureImageVehicleRegistrationBack"
                     />
                 </div>

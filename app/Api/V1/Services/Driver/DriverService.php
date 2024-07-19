@@ -52,18 +52,11 @@ class DriverService implements DriverServiceInterface
         try {
             $data = $request->validated();
             $data = $this->fileService->uploadImages($this->folderDriver, $data, ImageFields::getDriverFields());
-            $userInfo = [
-                'phone' => $data['phone'],
-                'password' => bcrypt($data['password']),
-                'username' => $data['phone'],
-                'email' => $data['email'],
-                'fullname' => $data['fullname'],
-                'code' => $this->createCodeUser(),
-                'gender' => Gender::Female,
-                'avatar' => $data['avatar']
-            ];
+            $data['username'] = $data['phone'];
+            $data['code'] = $this->createCodeUser();
+            $data['gender'] = Gender::Female;
             // create user
-            $createdUser = $this->userRepository->create($userInfo);
+            $createdUser = $this->userRepository->create($data);
             $this->userRepository->assignRoles($createdUser, [$this->getRoleDriver()]);
             $data['user_id'] = $createdUser->id;
             // create driver
@@ -79,7 +72,7 @@ class DriverService implements DriverServiceInterface
 
     }
 
-    public function update(Request $request): bool|object
+    public function update(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -89,17 +82,12 @@ class DriverService implements DriverServiceInterface
             $data = $this->fileService->uploadImages($this->folderDriver, $data,
                 ImageFields::getDriverFields(), $driver, ['user' => ['avatar']]);
             $user = $this->getCurrentUser();
-            $userInfo = [
-                'email' => $data['email'],
-                'fullname' => $data['fullname'],
-                'gender' => $data['gender'],
-                'avatar' => $data['avatar']
-            ];
-            $this->userRepository->update($user->id, $userInfo);
-            $driver = $this->repository->update($driver->id, $data);
-
+            if(isset($data['phone'])){
+                $data['username'] = $data['phone'];
+            }
+            $this->userRepository->update($user->id, $data);
             DB::commit();
-            return $driver;
+            return true;
         } catch (Exception $e) {
             DB::rollback();
             $this->logError('Failed to process update driver', $e);

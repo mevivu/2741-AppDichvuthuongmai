@@ -3,7 +3,6 @@
 /public/hot
 /public/storage
 /public/uploads
-/config/ckfinder.php
 /storage/*.key
 /vendor
 .env
@@ -19,3 +18,4 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
+/config/ckfinder.php

@@ -67,11 +67,46 @@ class DriverController extends Controller
         }
     }
 
+
+    /**
+     * Cập nhật tài xế
+     *
+     * API này dùng để cập nhật thông tin cho tài xế
+     * @authenticated
+     * Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjczNi1BcHBEdWFSdW9jL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzE5NDU0ODM5LCJleHAiOjE3MjQ2Mzg4MzksIm5iZiI6MTcxOTQ1NDgzOSwianRpIjoiZG5NWXE4d2dWTWFkOFNCdiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uGA0ylhxwMxq8zBOsDEmSGrE97LHQxSn811jl3BLrK4
+     *
+     *
+     *
+     * @bodyParam fullname string optional
+     * Họ và tên của tài xế. Example: Phạm Minh Mạnh
+     *
+     * @bodyParam email string optional
+     * Email của tài xế. Example: manh@gmail.com
+     *
+     * @bodyParam address string optional
+     * Địa chỉ của tài xế. Example: 123 Gò vấp
+     *
+     * @bodyParam bithday date optional
+     * Ngày sinh của tài xế. Example: 2001-01-01
+     *
+     * @bodyParam avatar file optional
+     * Avatar của tài xế. Example: avatar.png
+     *
+     * @bodyParam phone string optional
+     * Số điện thoại của tài xế. Example: 0961592551
+     *
+     * @response 200 {
+     *     "status": 200,
+     *     "message": "Thực hiện thành công.",
+     * }
+     *
+     * @return JsonResponse
+     */
     public function update(DriverUpdateRequest $request): JsonResponse
     {
         try {
-            $response = $this->service->update($request);
-            return $this->jsonResponseSuccess(new DriverResource($response));
+            $this->service->update($request);
+            return $this->jsonResponseSuccess(null, '', 200);
         } catch (Exception $e) {
             Log::error('Order creation failed: ' . $e->getMessage());
             return $this->jsonResponseError($e->getMessage(), 500);
