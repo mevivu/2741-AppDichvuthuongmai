@@ -51,7 +51,7 @@ trait JwtService
 
         return response()->json([
             'status' => 401,
-            'message' => __('Tài khoản hoặc mật khẩu không đúng.')
+            'message' => __('Thông tin đăng nhập chưa chính xác.')
         ], 401);
     }
 

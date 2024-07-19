@@ -17,14 +17,13 @@ class DriverRequest extends BaseRequest
         return [
             'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:users,phone'],
             'fullname' => ['required', 'string'],
-            'password' => ['required', 'string', 'confirmed'],
             'email' => ['required', 'email', 'unique:users,email'],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'id_card' => ['required', 'string'],
+            'id_card' => ['required', 'string', 'digits:12', 'unique:drivers,id_card'],
             'id_card_front' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'id_card_back' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'name' => ['required', 'string'],
-            'license_plate' => ['required', 'string'],
+            'fullname' => ['required', 'string'],
+            'license_plate' => ['required', 'string', 'unique:vehicles,license_plate'],
             'license_plate_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'vehicle_company' => ['required', 'string'],
             'vehicle_registration_front' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
@@ -40,7 +39,6 @@ class DriverRequest extends BaseRequest
             'bank_name' => ['required', 'string'],
             'bank_account_name' => ['required', 'string'],
             'bank_account_number' => ['required', 'string', 'max:20'],
-
         ];
     }
 }

@@ -114,9 +114,9 @@ class DriverService implements DriverServiceInterface
             $data['current_lat'] = $data['end_lat'];
             $data['current_lng'] = $data['end_lng'];
             $data['current_address'] = $data['end_address'];
-            $roles = $this->getRoleDriver();
             $driver = $this->repository->update($data['id'], $data);
-            $this->repository->assignRoles($driver->user, [$roles]);
+            $vehicle = $this->vehicleRepository->findByField('driver_id', $driver->id);
+            $this->vehicleRepository->update($vehicle->id, $data);
             DB::commit();
 
             return $driver;

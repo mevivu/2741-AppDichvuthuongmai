@@ -32,7 +32,7 @@
             @lang('avatar')
         </div>
         <div class="card-body p-2">
-            <x-input-image-ckfinder name="user_info[feature_image]" :value="$driver->user->avatar" showImage="featureImage"/>
+            <x-input-image-ckfinder name="user_info[avatar]" :value="$driver->user->avatar" showImage="featureImage"/>
         </div>
     </div>
     <div class="card mb-3">
