@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-/**
- * @group Người dùng
- */
 class UserController extends Controller
 {
     use Response;
