@@ -8,6 +8,7 @@ class RepositoryServiceProvider extends ServiceProvider
 {
     protected array $repositories = [
         'App\Api\V1\Repositories\CategorySystem\CategorySystemRepositoryInterface' => 'App\Api\V1\Repositories\CategorySystem\CategorySystemRepository',
+        'App\Api\V1\Repositories\Topping\ToppingRepositoryInterface' => 'App\Api\V1\Repositories\Topping\ToppingRepository',
 
         'App\Api\V1\Repositories\User\UserRepositoryInterface' => 'App\Api\V1\Repositories\User\UserRepository',
         'App\Api\V1\Repositories\Driver\DriverRepositoryInterface' => 'App\Api\V1\Repositories\Driver\DriverRepository',

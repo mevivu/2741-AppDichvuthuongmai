@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Admin\Repositories\Product;
+
 use App\Admin\Repositories\EloquentRepositoryInterface;
 use App\Models\Product;
 
@@ -26,6 +27,14 @@ interface ProductRepositoryInterface extends EloquentRepositoryInterface
     public function getQueryBuilderOrderBy($column = 'id', $sort = 'DESC');
 
     public function searchAllLimit($value = '', $meta = [], $select = [], $limit = 10);
+    public function findOrFailWithRelations($id, array $relations = ['toppings']);
+    public function attachTopping(Product $product, array $toppingsId);
+    public function syncTopping(Product $product, array $toppingsId);
+    public function getAllTopping();
+
+
+
+
 
 
 }

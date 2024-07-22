@@ -485,6 +485,27 @@ return [
         ],
 
     ],
+    'product_topping' => [
+        'name' => [
+            'title' => 'name',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'created_at' => [
+            'title' => 'createdAt',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'action' => [
+            'title' => 'action',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+
+    ],
     'category' => [
         'name' => [
             'title' => 'Tên danh mục',

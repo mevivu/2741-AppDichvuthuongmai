@@ -27,7 +27,7 @@ class ProductController extends Controller
         CategoryRepositoryInterface $repositoryCategory,
         AttributeRepositoryInterface $repositoryAttribute,
         ProductServiceInterface $service
-    ){
+    ) {
         parent::__construct();
         $this->repository = $repository;
         $this->repositoryCategory = $repositoryCategory;
@@ -54,12 +54,13 @@ class ProductController extends Controller
             'delete' => 'admin.product.delete'
         ];
     }
-    public function index(ProductDataTable $dataTable){
+    public function index(ProductDataTable $dataTable)
+    {
         $inStock = [1 => __('Còn hàng'), 0 => __('Hết hàng')];
         $isUserDiscount = [1 => __('Có'), 0 => __('Không')];
         $categories = $this->repositoryCategory->getFlatTree();
-        $categories = $categories->map(function($category){
-            return [$category->id => generate_text_depth_tree($category->depth).$category->name];
+        $categories = $categories->map(function ($category) {
+            return [$category->id => generate_text_depth_tree($category->depth) . $category->name];
         });
         return $dataTable->render($this->view['index'], [
             'in_stock' => $inStock,
@@ -72,11 +73,15 @@ class ProductController extends Controller
     {
         $categories = $this->repositoryCategory->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
-        return view($this->view['create'],
+        $toppings = $this->repository->getAllTopping(); // lấy danh sách các tiện ích
+
+        return view(
+            $this->view['create'],
             [
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
-                'attributes' => $attributes
+                'attributes' => $attributes,
+                'toppings' => $toppings,
             ]
         );
     }
@@ -85,7 +90,7 @@ class ProductController extends Controller
     {
 
         $instance = $this->service->store($request);
-        if($instance){
+        if ($instance) {
             return to_route($this->route['edit'], $instance->id);
         }
         return back()->with('error', __('notifyFail'))->withInput();
@@ -96,7 +101,8 @@ class ProductController extends Controller
 
         $product = $this->repository->loadRelations($this->repository->findOrFail($id), [
             'categories:id',
-            'productAttributes' => function($query){
+            'toppings:id',
+            'productAttributes' => function ($query) {
                 return $query->with(['attribute.variations', 'attributeVariations:id']);
             },
             'productVariations.attributeVariations'
@@ -105,13 +111,17 @@ class ProductController extends Controller
         $product = new ProductEditResource($product);
         $categories = $this->repositoryCategory->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
+        $toppings = $this->repository->getAllTopping();//Lấy danh sách topping
+        $response = $this->repository->findOrFail($id);
+
         return view(
             $this->view['edit'],
             [
-                'product' => (object)$product->toArray($request),
+                'product' => (object) $product->toArray($request),
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
-                'attributes' => $attributes
+                'attributes' => $attributes,
+                'toppings' => $toppings
             ]
         );
     }
@@ -121,7 +131,7 @@ class ProductController extends Controller
 
         $instance = $this->service->update($request);
 
-        if($instance){
+        if ($instance) {
             return back()->with('success', __('notifySuccess'));
         }
         return back()->with('error', __('notifyFail'));

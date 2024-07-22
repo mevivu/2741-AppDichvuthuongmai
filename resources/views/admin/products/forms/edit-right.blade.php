@@ -14,7 +14,19 @@
         </div>
         <div class="card-body p-2 wrap-list-checkbox">
             @foreach ($categories as $category)
-                <x-input-checkbox :depth="$category->depth" :checked="$product->categories->pluck('id')->toArray()" name="categories_id[]" :label="$category->name" :value="$category->id"/>
+                <x-input-checkbox :depth="$category->depth" :checked="$product->categories->pluck('id')->toArray()"
+                    name="categories_id[]" :label="$category->name" :value="$category->id" />
+            @endforeach
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ __('Topping') }}
+        </div>
+        <div class="card-body p-2 wrap-list-checkbox">
+            @foreach ($toppings as $topping)
+                <x-input-checkbox :depth="$topping->depth" name="toppings_id[]" :label="$topping->name"
+                    :value="$topping->id" />
             @endforeach
         </div>
     </div>
@@ -36,7 +48,7 @@
         <div class="card-body p-2">
             <x-select class="form-select" name="product[is_user_discount]" :required="true">
                 <x-select-option value="0" :title="__('Không')" />
-                <x-select-option :option="$product->is_user_discount ? '1' : '0'"  value="1" :title="__('Có')" />
+                <x-select-option :option="$product->is_user_discount ? '1' : '0'" value="1" :title="__('Có')" />
             </x-select>
         </div>
     </div>
@@ -56,7 +68,7 @@
             {{ __('Ảnh đại diện') }}
         </div>
         <div class="card-body p-2">
-            <x-input-image-ckfinder name="product[avatar]" showImage="avatar" :value="$product->avatar"/>
+            <x-input-image-ckfinder name="product[avatar]" showImage="avatar" :value="$product->avatar" />
         </div>
     </div>
     <div class="card mb-3">
@@ -64,7 +76,7 @@
             {{ __('Thư viện ảnh') }}
         </div>
         <div class="card-body p-2">
-            <x-input-gallery-ckfinder name="product[gallery]" type="multiple" :value="$product->gallery"/>
+            <x-input-gallery-ckfinder name="product[gallery]" type="multiple" :value="$product->gallery" />
         </div>
     </div>
 </div>

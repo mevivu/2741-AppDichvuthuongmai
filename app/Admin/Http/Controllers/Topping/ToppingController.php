@@ -15,7 +15,7 @@ class ToppingController extends Controller
     public function __construct(
         ToppingRepositoryInterface $repository,
         ToppingServiceInterface $service
-    ){
+    ) {
 
         parent::__construct();
 
@@ -25,7 +25,8 @@ class ToppingController extends Controller
 
     }
 
-    public function getView(){
+    public function getView()
+    {
         return [
             'index' => 'stores.toppings.index',
             'create' => 'stores.toppings.create',
@@ -33,7 +34,8 @@ class ToppingController extends Controller
         ];
     }
 
-    public function getRoute(){
+    public function getRoute()
+    {
         return [
             'index' => 'admin.topping.index',
             'create' => 'admin.topping.create',
@@ -41,21 +43,24 @@ class ToppingController extends Controller
             'delete' => 'admin.topping.delete'
         ];
     }
-    public function index(ToppingDataTable $dataTable){
+    public function index(ToppingDataTable $dataTable)
+    {
         return $dataTable->render($this->view['index']);
     }
 
-    public function create(){
-		$roles = $this->repository->getAllRolesByGuardName('admin');
+    public function create()
+    {
+        $roles = $this->repository->getAllRolesByGuardName('admin');
         $status = ToppingStatus::asSelectArray();
         return view($this->view['create'], [
-			'roles' => $roles,
+            'roles' => $roles,
             'status' => $status
-		]);
+        ]);
     }
 
 
-    public function store(ToppingRequest $request){
+    public function store(ToppingRequest $request)
+    {
         $instance = $this->service->store($request);
 
 
@@ -63,26 +68,29 @@ class ToppingController extends Controller
 
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         $instance = $this->repository->findOrFail($id);
         return view(
             $this->view['edit'],
-			[
+            [
                 'topping' => $instance,
             ],
         );
 
     }
 
-    public function update(ToppingRequest $request){
+    public function update(ToppingRequest $request)
+    {
         $this->service->update($request);
 
         return back()->with('success', __('notifySuccess'));
 
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
 
         $this->service->delete($id);
 

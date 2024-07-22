@@ -93,7 +93,7 @@ class ProductDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['action','avatar','name','in_stock','price','categories'];
+        $this->customRawColumns = ['action', 'avatar', 'name', 'in_stock', 'price', 'categories'];
     }
 
     protected function setCustomFilterColumns(): void

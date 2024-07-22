@@ -13,7 +13,19 @@
         </div>
         <div class="card-body p-2 wrap-list-checkbox">
             @foreach ($categories as $category)
-                <x-input-checkbox :depth="$category->depth" name="categories_id[]" :label="$category->name" :value="$category->id"/>
+                <x-input-checkbox :depth="$category->depth" name="categories_id[]" :label="$category->name"
+                    :value="$category->id" />
+            @endforeach
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ __('Topping') }}
+        </div>
+        <div class="card-body p-2 wrap-list-checkbox">
+            @foreach ($toppings as $topping)
+                <x-input-checkbox :depth="$topping->depth" name="toppings_id[]" :label="$topping->name"
+                    :value="$topping->id" />
             @endforeach
         </div>
     </div>
@@ -63,7 +75,7 @@
             {{ __('Thư viện ảnh') }}
         </div>
         <div class="card-body p-2">
-            <x-input-gallery-ckfinder name="product[gallery]" type="multiple"/>
+            <x-input-gallery-ckfinder name="product[gallery]" type="multiple" />
         </div>
     </div>
 </div>
