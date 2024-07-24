@@ -11,7 +11,7 @@
                     <x-input name="name" :value="$topping->name" :required="true" :placeholder="__('name')" />
                 </div>
             </div>
-            {{--      Price      --}}
+            {{-- Price --}}
             <div class="col-6">
                 <div class="mb-3">
                     <label class="control-label">@lang('price')</label>
@@ -19,17 +19,16 @@
                 </div>
             </div>
             <!-- position -->
-{{--            <div class="col-md-12 col-12">--}}
-{{--                <div class="mb-3">--}}
-{{--                    <label class="control-label">{{ __('Bắt buộc') }}:</label></br>--}}
-{{--                    <input type="checkbox" name="obligatory" value="1"--}}
-{{--                           @if($topping->obligatory)--}}
-{{--                               checked--}}
-{{--                           @endif--}}
-{{--                               style="transform: scale(1.5);"--}}
-{{--                    >--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            {{-- <div class="col-md-12 col-12">--}}
+                {{-- <div class="mb-3">--}}
+                    {{-- <label class="control-label">{{ __('Bắt buộc') }}:</label></br>--}}
+                    {{-- <input type="checkbox" name="obligatory" value="1" --}} {{-- @if($topping->obligatory)--}}
+                    {{-- checked--}}
+                    {{-- @endif--}}
+                    {{-- style="transform: scale(1.5);"--}}
+                    {{-- >--}}
+                    {{-- </div>--}}
+                {{-- </div>--}}
         </div>
     </div>
 </div>

@@ -8,6 +8,7 @@ class ServiceServiceProvider extends ServiceProvider
 {
     protected array $services = [
         'App\Api\V1\Services\CategorySystem\CategorySystemServiceInterface' => 'App\Api\V1\Services\CategorySystem\CategorySystemService',
+        'App\Api\V1\Services\Topping\ToppingServiceInterface' => 'App\Api\V1\Services\Topping\ToppingService',
 
         'App\Api\V1\Services\User\UserServiceInterface' => 'App\Api\V1\Services\User\UserService',
         'App\Api\V1\Services\Auth\StoreServiceInterface' => 'App\Api\V1\Services\Auth\StoreService',

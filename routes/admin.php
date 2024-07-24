@@ -107,29 +107,18 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
     });
 
 
-
+    //store
     Route::prefix('/stores')->as('store.')->group(function () {
 
-        // Store routes with middleware
         Route::controller(App\Admin\Http\Controllers\Store\StoreController::class)->group(function () {
+            Route::get('/add', 'create')->name('create');
+            Route::get('/', 'index')->name('index');
+            Route::get('/{id}', 'getById')->name('detail');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/edit', 'update')->name('update');
+            Route::post('/add', 'store')->name('store');
+            Route::delete('/delete/{id}', 'delete')->name('delete');
 
-            Route::group(['middleware' => ['permission:createStore', 'auth:admin']], function () {
-                Route::get('/them', 'create')->name('create');
-                Route::post('/them', 'store')->name('store');
-            });
-
-            Route::group(['middleware' => ['permission:viewStore', 'auth:admin']], function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/sua/{id}', 'edit')->name('edit');
-            });
-
-            Route::group(['middleware' => ['permission:updateStore', 'auth:admin']], function () {
-                Route::put('/sua', 'update')->name('update');
-            });
-
-            Route::group(['middleware' => ['permission:deleteStore', 'auth:admin']], function () {
-                Route::delete('/xoa/{id}', 'delete')->name('delete');
-            });
         });
 
         // Category routes with middleware
@@ -185,7 +174,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
 
         });
 
-    //Topping
+    // Topping
     Route::controller(App\Admin\Http\Controllers\Topping\ToppingController::class)
         ->prefix('/toppings')
         ->as('topping.')
@@ -210,7 +199,6 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
             });
 
         });
-
     //Vehicle
     Route::controller(App\Admin\Http\Controllers\Vehicle\VehicleController::class)
         ->prefix('/vehicles')

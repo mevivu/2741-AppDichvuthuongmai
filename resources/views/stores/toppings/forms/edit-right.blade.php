@@ -26,7 +26,7 @@
             {{ __('Ảnh đại diện') }}
         </div>
         <div class="card-body p-2">
-            <x-input-image-ckfinder name="avatar" showImage="avatar" :value="$topping->avatar"/>
+            <x-input-image-ckfinder name="avatar" showImage="avatar" :value="$topping->avatar" />
         </div>
     </div>
 

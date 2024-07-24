@@ -18,13 +18,13 @@ class ProductVariationRequest extends BaseRequest
      */
     protected function methodGet()
     {
-        if($this->routeIs('admin.product.variation.check') || $this->routeIs('admin.product.variation.create')){
+        if ($this->routeIs('admin.product.variation.check') || $this->routeIs('admin.product.variation.create')) {
             $this->validate['product_attribute.attribute_id'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_id.*'] = ['required', 'exists:App\Models\Attribute,id'];
             $this->validate['product_attribute.attribute_variation_id'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_variation_id.*'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_variation_id.*.*'] = ['required', 'exists:App\Models\AttributeVariation,id'];
-            if($this->routeIs('admin.product.variation.create')){
+            if ($this->routeIs('admin.product.variation.create')) {
                 $this->validate['variation_action'] = ['required', new EnumValue(ProductVariationAction::class, false)];
             }
         }
@@ -46,7 +46,9 @@ class ProductVariationRequest extends BaseRequest
             'price' => ['nullable', 'numeric'],
             'promotion_price' => ['nullable', 'numeric'],
             'in_stock' => ['required', 'boolean'],
-            'gallery' => ['nullable']
+            'gallery' => ['nullable'],
+            'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
+
         ];
     }
 
@@ -66,8 +68,8 @@ class ProductVariationRequest extends BaseRequest
             //     },
             // ],
             'fullname' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:App\Models\User,email,'.$this->id],
-            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:App\Models\User,phone,'.$this->id],
+            'email' => ['required', 'email', 'unique:App\Models\User,email,' . $this->id],
+            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:App\Models\User,phone,' . $this->id],
             'address' => ['nullable'],
             'gender' => ['required', new EnumValue(UserGender::class, false)],
             'password' => ['nullable', 'string', 'confirmed'],
@@ -77,7 +79,7 @@ class ProductVariationRequest extends BaseRequest
 
     protected function failedValidation(Validator $validator)
     {
-        if($this->routeIs('admin.product.variation.check')){
+        if ($this->routeIs('admin.product.variation.check')) {
             $errors = (new ValidationException($validator))->errors();
             $viewError = view('admin.products.data.partials.no-variation')->render();
             throw new HttpResponseException(

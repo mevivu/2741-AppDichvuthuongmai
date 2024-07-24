@@ -81,6 +81,16 @@ Route::controller(App\Api\V1\Http\Controllers\Post\PostController::class)
         Route::get('/show/{id}', 'show')->name('show');
         Route::get('/related/{id}', 'related')->name('related');
     });
+//Toppings
+Route::controller(App\Api\V1\Http\Controllers\Topping\ToppingController::class)
+    ->prefix('/toppings')
+    ->as('topping.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::delete('/delete', 'delete')->name('delete');
+        Route::post('/add', 'add')->name('add');
+        Route::put('/edit', 'edit')->name('edit');
+    });
 //review product
 Route::controller(App\Api\V1\Http\Controllers\Review\ReviewController::class)
     ->prefix('/reviews')

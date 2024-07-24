@@ -8,7 +8,8 @@ use App\Enums\Product\ProductType;
 
 class ProductRequest extends BaseRequest
 {
-    public function methodGet(){
+    public function methodGet()
+    {
         return [
 
         ];
@@ -33,18 +34,20 @@ class ProductRequest extends BaseRequest
             'product.is_active' => ['required', 'boolean'],
             'product.is_user_discount' => ['required', 'boolean'],
             'product.is_earning_point' => ['required', 'boolean'],
-            'product.gallery' => ['nullable']
+            'product.gallery' => ['nullable'],
+            'toppings_id' => ['nullable', 'array'],
+            'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
         ];
-        if($this->input('product.type') == ProductType::Simple){
+        if ($this->input('product.type') == ProductType::Simple) {
             $this->validate['product.price'] = ['required', 'numeric'];
-        }elseif($this->input('product.type') == ProductType::Variable){
+        } elseif ($this->input('product.type') == ProductType::Variable) {
             $this->validate['product_attribute.attribute_id'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_id.*'] = ['required', 'exists:App\Models\Attribute,id'];
             $this->validate['product_attribute.attribute_variation_id'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_variation_id.*'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_variation_id.*.*'] = ['required', 'exists:App\Models\AttributeVariation,id'];
             $this->validate['products_variations.attribute_variation_id'] = ['nullable', 'array'];
-            if($this->input('products_variations.attribute_variation_id') && count($this->input('products_variations.attribute_variation_id')) > 0){
+            if ($this->input('products_variations.attribute_variation_id') && count($this->input('products_variations.attribute_variation_id')) > 0) {
                 $this->validate['products_variations.id'] = ['required', 'array'];
                 $this->validate['products_variations.id.*'] = ['required', 'integer'];
                 $this->validate['products_variations.attribute_variation_id'] = ['nullable', 'array'];
@@ -77,17 +80,19 @@ class ProductRequest extends BaseRequest
             'product.is_user_discount' => ['required', 'boolean'],
             'product.is_earning_point' => ['required', 'boolean'],
             'product.gallery' => ['nullable'],
+            'toppings_id' => ['nullable', 'array'],
+            'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id']
         ];
-        if($this->input('product.type') == ProductType::Simple){
+        if ($this->input('product.type') == ProductType::Simple) {
             $this->validate['product.price'] = ['required', 'numeric'];
-        }elseif($this->input('product.type') == ProductType::Variable){
+        } elseif ($this->input('product.type') == ProductType::Variable) {
             $this->validate['product_attribute.attribute_id'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_id.*'] = ['required', 'exists:App\Models\Attribute,id'];
             $this->validate['product_attribute.attribute_variation_id'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_variation_id.*'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_variation_id.*.*'] = ['required', 'exists:App\Models\AttributeVariation,id'];
             $this->validate['products_variations.attribute_variation_id'] = ['nullable', 'array'];
-            if($this->input('products_variations.attribute_variation_id') && count($this->input('products_variations.attribute_variation_id')) > 0){
+            if ($this->input('products_variations.attribute_variation_id') && count($this->input('products_variations.attribute_variation_id')) > 0) {
                 $this->validate['products_variations.id'] = ['required', 'array'];
                 $this->validate['products_variations.id.*'] = ['required', 'integer'];
                 $this->validate['products_variations.attribute_variation_id'] = ['nullable', 'array'];
