@@ -186,8 +186,8 @@ return [
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
-        'brand' => [
-            'title' => 'Hãng',
+        'vehicle_company' => [
+            'title' => 'Nhà sản xuất',
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
