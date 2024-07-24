@@ -14,6 +14,8 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Api\V1\Services\Auth\StoreServiceInterface' => 'App\Api\V1\Services\Auth\StoreService',
         'App\Api\V1\Services\Driver\DriverServiceInterface' => 'App\Api\V1\Services\Driver\DriverService',
         'App\Api\V1\Services\ShoppingCart\ShoppingCartServiceInterface' => 'App\Api\V1\Services\ShoppingCart\ShoppingCartService',
+        'App\Api\V1\Services\Cart\CartServiceInterface' => 'App\Api\V1\Services\Cart\CartService',
+        'App\Api\V1\Services\CartItem\CartItemServiceInterface' => 'App\Api\V1\Services\CartItem\CartItemServiceInterface',
         'App\Api\V1\Services\Order\OrderServiceInterface' => 'App\Api\V1\Services\Order\OrderService',
         'App\Api\V1\Services\Store\StoreServiceInterface' => 'App\Api\V1\Services\Store\StoreService',
     ];

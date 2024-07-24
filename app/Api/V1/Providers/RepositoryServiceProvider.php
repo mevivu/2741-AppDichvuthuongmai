@@ -15,6 +15,9 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Api\V1\Repositories\Product\ProductVariationRepositoryInterface' => 'App\Api\V1\Repositories\Product\ProductVariationRepository',
         'App\Api\V1\Repositories\Category\CategoryRepositoryInterface' => 'App\Api\V1\Repositories\Category\CategoryRepository',
         'App\Api\V1\Repositories\ShoppingCart\ShoppingCartRepositoryInterface' => 'App\Api\V1\Repositories\ShoppingCart\ShoppingCartRepository',
+        'App\Api\V1\Repositories\Cart\CartRepositoryInterface' => 'App\Api\V1\Repositories\Cart\CartRepository',
+        'App\Api\V1\Repositories\CartItem\CartItemRepositoryInterface' => 'App\Api\V1\Repositories\CartItem\CartItemRepository',
+        'App\Api\V1\Repositories\CartItemTopping\CartItemToppingRepositoryInterface' => 'App\Api\V1\Repositories\CartItemTopping\CartItemToppingRepository',
         'App\Api\V1\Repositories\Order\OrderRepositoryInterface' => 'App\Api\V1\Repositories\Order\OrderRepository',
         'App\Api\V1\Repositories\Order\OrderDetailRepositoryInterface' => 'App\Api\V1\Repositories\Order\OrderDetailRepository',
         'App\Api\V1\Repositories\Slider\SliderRepositoryInterface' => 'App\Api\V1\Repositories\Slider\SliderRepository',
@@ -22,6 +25,8 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Api\V1\Repositories\Post\PostRepositoryInterface' => 'App\Api\V1\Repositories\Post\PostRepository',
         'App\Api\V1\Repositories\PostCategory\PostCategoryRepositoryInterface' => 'App\Api\V1\Repositories\PostCategory\PostCategoryRepository',
         'App\Api\V1\Repositories\Review\ReviewRepositoryInterface' => 'App\Api\V1\Repositories\Review\ReviewRepository',
+        'App\Api\V1\Repositories\Discount\DiscountRepositoryInterface' => 'App\Api\V1\Repositories\Discount\DiscountRepository',
+        'App\Api\V1\Repositories\Area\AreaRepositoryInterface' => 'App\Api\V1\Repositories\Area\AreaRepository',
 
     ];
     /**
