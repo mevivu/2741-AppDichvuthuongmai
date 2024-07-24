@@ -25,7 +25,9 @@ class DriverRequest extends BaseRequest
             'license_plate' => ['required', 'string', 'unique:vehicles,license_plate'],
             'license_plate_image' => ['nullable'],
             'vehicle_company' => ['nullable', 'string', 'max:255'],
+            'brand' => ['required', 'string', 'max:255'],
             'price' => 'required',
+            'name' => 'required',
             'bank_name' => ['nullable', 'string', 'max:255'],
             'bank_account_name' => ['nullable', 'string', 'max:255'],
             'bank_account_number' => ['nullable', 'string', 'max:50'],
@@ -36,7 +38,6 @@ class DriverRequest extends BaseRequest
             'auto_accept' => ['nullable ', new Enum(AutoAccept::class)],
             'id_card_front' => ['required'],
             'id_card_back' => ['required'],
-            'fullname' => ['required', 'string'],
             'color' => ['required', 'string'],
             'seat_number' => ['required', 'integer'],
             'type' => ['required', new Enum(VehicleType::class)],
@@ -52,6 +53,7 @@ class DriverRequest extends BaseRequest
             'insurance_back_image' => ['required'],
             'user_info' => ['nullable', 'array'],
             'user_info.*' => ['nullable'],
+            'user_info.fullname' => ['required', 'string'],
             'user_info.phone' => ['required', 'string', 'unique:users,phone'],
             'user_info.email' => ['required', 'string', 'email', 'unique:users,email'],
             'lat' => 'nullable',
@@ -60,6 +62,7 @@ class DriverRequest extends BaseRequest
 
         ];
     }
+
     public function driver()
     {
         return Driver::find($this->id);
@@ -88,7 +91,7 @@ class DriverRequest extends BaseRequest
             'id_card_front' => ['required'],
             'id_card_back' => ['required'],
             'fullname' => ['required', 'string'],
-            'brand' =>['required', 'string'],
+            'brand' => ['required', 'string'],
             'color' => ['required', 'string'],
             'seat_number' => ['required', 'integer'],
             'type' => ['required', new Enum(VehicleType::class)],

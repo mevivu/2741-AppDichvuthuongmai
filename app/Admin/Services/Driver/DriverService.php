@@ -58,6 +58,7 @@ class DriverService implements DriverServiceInterface
         try {
             DB::beginTransaction();
             $data = $request->validated();
+            $data['brand'] = $data['vehicle_company'];
 
             $dataUser = $data['user_info'];
             $dataUser['address'] = $data['address'];

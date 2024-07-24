@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Admin\Support\Eloquent\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -38,11 +37,9 @@ class User extends Authenticatable implements JWTSubject
         'avatar',
         'area_id',
         'address',
-        'password',
         'status',
         'longitude',
         'latitude',
-        'token_get_password',
         'device_token',
         'notification_preference',
     ];
@@ -53,7 +50,6 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
