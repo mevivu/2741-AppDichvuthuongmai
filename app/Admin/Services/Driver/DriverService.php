@@ -58,14 +58,17 @@ class DriverService implements DriverServiceInterface
         try {
             DB::beginTransaction();
             $data = $request->validated();
-            $data['brand'] = $data['vehicle_company'];
-
             $dataUser = $data['user_info'];
             $dataUser['address'] = $data['address'];
             $dataUser['latitude'] = $data['lat'];
             $dataUser['longitude'] = $data['lng'];
             $dataUser['code'] = uniqid_real();
             $dataUser['username'] = $dataUser['phone'];
+            if (isset($dataUser['password']) && $dataUser['password']) {
+                $dataUser['password'] = bcrypt($dataUser['password']);
+            } else {
+                unset($dataUser['password']);
+            }
             $user = $this->userRepository->create($dataUser);
             $roles = $this->getRoleDriver();
             $this->repository->assignRoles($user, [$roles]);
@@ -101,6 +104,8 @@ class DriverService implements DriverServiceInterface
             $dataUser['latitude'] = $data['lat'];
             $dataUser['longitude'] = $data['lng'];
             $dataUser['username'] = $dataUser['phone'];
+
+
 
             if (isset($dataUser['password']) && $dataUser['password']) {
                 $dataUser['password'] = bcrypt($dataUser['password']);

@@ -12,19 +12,6 @@
             </div>
         </div>
     </div>
-{{--    <div class="card mb-3">--}}
-{{--        <div class="card-header">--}}
-{{--            @lang('customer')--}}
-{{--        </div>--}}
-{{--        <div class="card-body d-flex flex-column p-2 wrap-select2">--}}
-{{--            <x-select name="user_id" class="select2-bs5-ajax-many" :data-url="route('admin.search.select.user')"--}}
-{{--                      :required="true">--}}
-{{--            </x-select>--}}
-{{--            <x-link :href="route('admin.user.create')" class="mb-2">--}}
-{{--                <span class="ms-1">@lang('add') mới</span>--}}
-{{--            </x-link>--}}
-{{--        </div>--}}
-{{--    </div>--}}
     <div class="card mb-3">
         <div class="card-header">
             @lang('avatar')

@@ -32,18 +32,6 @@
                              placeholder="{{ __('Tên phương tiện') }}"/>
                 </div>
             </div>
-            {{-- Hãng --}}
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{__('Hãng')}}:</label>
-                    <div class="input-group">
-                        <x-input name="brand"
-                                 :value="$vehicle->brand"
-                                 :required="true"
-                                 placeholder="{{ __('Hãng') }}"/>
-                    </div>
-                </div>
-            </div>
             {{-- Màu sắc --}}
             <div class="col-md-6 col-sm-12">
                 <div class="mb-3">
@@ -73,17 +61,6 @@
                              :value="$vehicle->seat_number"
                              :required="true"
                              placeholder="{{ __('Số chổ ngồi') }}"/>
-                </div>
-            </div>
-            {{-- price --}}
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('price_rent') }}:</label>
-                    <x-input-price name="price"
-                                   id="price"
-                                   :value="$vehicle->price"
-                                   :required="true"
-                                   :placeholder="__('price_rent')"/>
                 </div>
             </div>
 

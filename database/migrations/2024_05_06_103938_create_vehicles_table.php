@@ -18,13 +18,11 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('driver_id');
             $table->string('name');
-            $table->string('brand');
             $table->string('color');
             $table->integer('type')->default(VehicleType::Car->value);
             $table->integer('seat_number')->nullable();
             $table->string('license_plate');
             $table->string('license_plate_image')->nullable();
-            $table->double('price', 10, 2)->nullable();
             $table->string('vehicle_company')->nullable();
             $table->string('vehicle_registration_front')->nullable();
             $table->string('vehicle_registration_back')->nullable();
@@ -36,7 +34,6 @@ return new class extends Migration {
             $table->string('insurance_back_image')->nullable();
             $table->text('amenities')->nullable();
             $table->text('description')->nullable();
-            $table->text('avatar')->nullable();
             $table->tinyInteger('status')->default(VehicleStatus::Pending->value);
             $table->timestamps();
 

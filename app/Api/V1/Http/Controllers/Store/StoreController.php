@@ -45,31 +45,6 @@ class StoreController extends Controller
         return Auth::guard(self::$GUARD_API)->attempt($this->login);
 
     }
-
-
-    /**
-     * Đăng nhập
-     *
-     * @bodyParam phone string required
-     * Tên tài khoản là số điện thoại. Example: 0999999999
-     *
-     * @bodyParam password string required
-     * Mật khẩu của bạn. Example: 123456
-     *
-     * @response {
-     *      "refresh_token": "1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K"
-     *      "access_token": "1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K",
-     *      "expires_in": 5184000
-     * }
-     * @response 401 {
-     *      "status": 401,
-     *      "message": "Tài khoản hoặc mật khẩu không đúng."
-     * }
-     *
-     * @param LoginRequest $request
-     *
-     * @return JsonResponse
-     */
     public function login(LoginRequest $request): JsonResponse
     {
         $this->login = $request->validated();

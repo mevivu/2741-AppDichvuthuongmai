@@ -18,8 +18,6 @@ class Vehicle extends Model
         'driver_id',
         /** Tên phương tiện */
         'name',
-        /** Thương hiệu */
-        'brand',
         /** Màu sắc */
         'color',
         /** Loại phương tiện */
@@ -30,8 +28,6 @@ class Vehicle extends Model
         'license_plate',
         /** Ảnh biển số xe */
         'license_plate_image',
-        /** Giá */
-        'price',
         /** Nhà sản xuất xe */
         'vehicle_company',
         /** Giấy đăng ký xe mặt trước */
@@ -62,13 +58,11 @@ class Vehicle extends Model
 
     protected $casts = [
         'name' => 'string',
-        'brand' => 'string',
         'color' => 'string',
         'seat_number' => 'integer',
         'license_plate' => 'string',
         'type' => VehicleType::class,
         'status' => VehicleStatus::class,
-        'price' =>'double'
     ];
 
     public function driver(): BelongsTo

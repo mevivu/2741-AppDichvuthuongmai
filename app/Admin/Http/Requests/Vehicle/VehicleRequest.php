@@ -20,7 +20,6 @@ class VehicleRequest extends BaseRequest
 
         return [
             'name' => ['required', 'string'],
-            'brand' => ['required', 'string'],
             'color' => ['required', 'string'],
             'seat_number' => ['required', 'integer'],
             'license_plate' => ['required', 'string', 'max:250'],
@@ -28,7 +27,6 @@ class VehicleRequest extends BaseRequest
             'avatar' => ['nullable', 'string'],
             'description' => ['required', 'string'],
             'amenities' => ['required', 'string'],
-            'price' => ['required'],
             'id_card' => ['required', 'string', 'unique:drivers,id_card'],
             'vehicle_company' => ['nullable', 'string', 'max:255'],
             'bank_name' => ['nullable', 'string', 'max:255'],
@@ -62,7 +60,6 @@ class VehicleRequest extends BaseRequest
         return [
             'id' => ['required', 'exists:App\Models\Vehicle,id'],
             'name' => ['required', 'string'],
-            'brand' => ['required', 'string'],
             'color' => ['required', 'string'],
             'seat_number' => ['required', 'integer'],
             'license_plate' => ['required', 'string', 'max:250'],
@@ -70,7 +67,6 @@ class VehicleRequest extends BaseRequest
             'avatar' => ['nullable', 'string'],
             'description' => ['required', 'string'],
             'amenities' => ['required', 'string'],
-            'price' => ['required'],
             'id_card' => [
                 'required',
                 'string',
