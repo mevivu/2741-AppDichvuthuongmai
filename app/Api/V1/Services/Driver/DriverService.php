@@ -2,6 +2,7 @@
 
 namespace App\Api\V1\Services\Driver;
 
+use App\Admin\Repositories\Vehicle\VehicleRepositoryInterface;
 use App\Admin\Services\File\FileService;
 use App\Admin\Traits\Roles;
 use App\Api\V1\Repositories\Driver\DriverRepositoryInterface;
@@ -33,15 +34,19 @@ class DriverService implements DriverServiceInterface
     protected DriverRepositoryInterface $repository;
 
     protected UserRepositoryInterface $userRepository;
+    protected VehicleRepositoryInterface $vehicleRepository;
 
     protected FileService $fileService;
 
-    public function __construct(DriverRepositoryInterface $repository,
-                                UserRepositoryInterface   $userRepository,
-                                FileService               $fileService)
-    {
+    public function __construct(
+        DriverRepositoryInterface $repository,
+        UserRepositoryInterface   $userRepository,
+        VehicleRepositoryInterface $vehicleRepository,
+        FileService               $fileService
+    ) {
         $this->repository = $repository;
         $this->userRepository = $userRepository;
+        $this->vehicleRepository = $vehicleRepository;
         $this->fileService = $fileService;
     }
 
@@ -52,22 +57,17 @@ class DriverService implements DriverServiceInterface
         try {
             $data = $request->validated();
             $data = $this->fileService->uploadImages($this->folderDriver, $data, ImageFields::getDriverFields());
-            $userInfo = [
-                'phone' => $data['phone'],
-                'password' => bcrypt($data['password']),
-                'username' => $data['phone'],
-                'email' => $data['email'],
-                'fullname' => $data['fullname'],
-                'code' => $this->createCodeUser(),
-                'gender' => Gender::Female,
-                'avatar' => $data['avatar']
-            ];
+            $data['username'] = $data['phone'];
+            $data['code'] = $this->createCodeUser();
+            $data['gender'] = Gender::Female;
             // create user
-            $createdUser = $this->userRepository->create($userInfo);
+            $createdUser = $this->userRepository->create($data);
             $this->userRepository->assignRoles($createdUser, [$this->getRoleDriver()]);
             $data['user_id'] = $createdUser->id;
             // create driver
             $driver = $this->repository->create($data);
+            // create vehicle
+            $this->vehicleRepository->create($data);
 
             DB::commit();
             return $driver;
@@ -76,30 +76,29 @@ class DriverService implements DriverServiceInterface
             $this->logError('Failed to process register driver', $e);
             return false;
         }
-
     }
 
-    public function update(Request $request): bool|object
+    public function update(Request $request)
     {
         DB::beginTransaction();
         try {
 
             $data = $request->validated();
             $driver = $this->getCurrentDriver();
-            $data = $this->fileService->uploadImages($this->folderDriver, $data,
-                ImageFields::getDriverFields(), $driver, ['user' => ['avatar']]);
+            $data = $this->fileService->uploadImages(
+                $this->folderDriver,
+                $data,
+                ImageFields::getDriverFields(),
+                $driver,
+                ['user' => ['avatar']]
+            );
             $user = $this->getCurrentUser();
-            $userInfo = [
-                'email' => $data['email'],
-                'fullname' => $data['fullname'],
-                'gender' => $data['gender'],
-                'avatar' => $data['avatar']
-            ];
-            $this->userRepository->update($user->id, $userInfo);
-            $driver = $this->repository->update($driver->id, $data);
-
+            if (isset($data['phone'])) {
+                $data['username'] = $data['phone'];
+            }
+            $this->userRepository->update($user->id, $data);
             DB::commit();
-            return $driver;
+            return true;
         } catch (Exception $e) {
             DB::rollback();
             $this->logError('Failed to process update driver', $e);
@@ -114,7 +113,5 @@ class DriverService implements DriverServiceInterface
     public function delete($id): object|bool
     {
         return $this->repository->delete($id);
-
     }
-
 }

@@ -66,7 +66,6 @@ class DriverService implements DriverServiceInterface
             $dataUser['code'] = uniqid_real();
             $dataUser['username'] = $dataUser['phone'];
             $user = $this->userRepository->create($dataUser);
-            // roles
             $roles = $this->getRoleDriver();
             $this->repository->assignRoles($user, [$roles]);
             $userId = $user->id;
@@ -100,6 +99,7 @@ class DriverService implements DriverServiceInterface
             $dataUser['address'] = $data['address'];
             $dataUser['latitude'] = $data['lat'];
             $dataUser['longitude'] = $data['lng'];
+            $dataUser['username'] = $dataUser['phone'];
 
             if (isset($dataUser['password']) && $dataUser['password']) {
                 $dataUser['password'] = bcrypt($dataUser['password']);
@@ -114,9 +114,9 @@ class DriverService implements DriverServiceInterface
             $data['current_lat'] = $data['end_lat'];
             $data['current_lng'] = $data['end_lng'];
             $data['current_address'] = $data['end_address'];
-            $roles = $this->getRoleDriver();
             $driver = $this->repository->update($data['id'], $data);
-            $this->repository->assignRoles($driver->user, [$roles]);
+            $vehicle = $this->vehicleRepository->findByField('driver_id', $driver->id);
+            $this->vehicleRepository->update($vehicle->id, $data);
             DB::commit();
 
             return $driver;

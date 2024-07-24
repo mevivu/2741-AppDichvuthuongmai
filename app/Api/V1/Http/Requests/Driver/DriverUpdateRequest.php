@@ -3,8 +3,7 @@
 namespace App\Api\V1\Http\Requests\Driver;
 
 use App\Api\V1\Http\Requests\BaseRequest;
-use App\Enums\User\Gender;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rule;
 
 
 class DriverUpdateRequest extends BaseRequest
@@ -17,30 +16,18 @@ class DriverUpdateRequest extends BaseRequest
     protected function methodPost(): array
     {
         return [
-            'fullname' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:App\Models\User,email,' . $this->user()->id],
+            'fullname' => ['nullable', 'string'],
+            'address' => ['nullable', 'string'],
+            'email' => [
+                'nullable',
+                Rule::unique('users', 'email')->ignore($this->user()->id, 'id')
+            ],
+            'phone' => [
+                'nullable', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/',
+                Rule::unique('users', 'phone')->ignore($this->user()->id, 'id')
+            ],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'gender' => ['required', new Enum(Gender::class)],
-            'id_card' => ['required', 'string'],
-            'id_card_front' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'id_card_back' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'license_plate' => ['required', 'string'],
-            'license_plate_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'vehicle_company' => ['required', 'string'],
-            'vehicle_registration_front' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'vehicle_registration_back' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'driver_license_front' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'driver_license_back' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'vehicle_front_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'vehicle_back_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'vehicle_side_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'vehicle_interior_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'insurance_front_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'insurance_back_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'bank_name' => ['required', 'string'],
-            'bank_account_name' => ['required', 'string'],
-            'bank_account_number' => ['required', 'string', 'max:20'],
-
+            'birthday' => ['nullable'],
         ];
     }
 }

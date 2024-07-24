@@ -35,6 +35,7 @@ class DriverResource extends JsonResource
             'is_on' => $this->is_on,
             'images' => [
                 'id_card_front' => $this->id_card_front,
+                'avatar' => $this->user->avatar,
                 'id_card_back' => $this->id_card_back,
                 'license_plate_image' => $this->license_plate_image,
                 'vehicle_registration_front' => $this->vehicle_registration_front,

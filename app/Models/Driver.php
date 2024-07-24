@@ -8,6 +8,7 @@ use App\Enums\Driver\DriverStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -61,9 +62,9 @@ class Driver extends Authenticatable
         return $this->belongsTo(User::class);
     }
 
-    public function vehicles(): HasMany
+    public function vehicle(): HasOne
     {
-        return $this->hasMany(Vehicle::class);
+        return $this->hasOne(Vehicle::class);
     }
 
     public function orders(): HasMany

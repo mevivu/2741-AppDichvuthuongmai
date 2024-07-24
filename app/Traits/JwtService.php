@@ -15,12 +15,13 @@ trait JwtService
 
     private static string $GUARD_API = 'api';
 
-    protected function respondWithToken($token, $refreshToken): JsonResponse
+    protected function respondWithToken($token, $refreshToken, $user): JsonResponse
     {
         $ttl = config('jwt.ttl');
         return response()->json([
             'access_token' => $token,
             'refresh_token' => $refreshToken,
+            'role' => $user->roles[0]->name,
             'expires_in' => $ttl * 60
         ]);
     }
@@ -46,12 +47,12 @@ trait JwtService
             $user = Auth::user();
             $token = JWTAuth::fromUser($user);
             $refreshToken = $this->createRefreshToken($user);
-            return $this->respondWithToken($token, $refreshToken);
+            return $this->respondWithToken($token, $refreshToken, $user);
         }
 
         return response()->json([
             'status' => 401,
-            'message' => __('Tài khoản hoặc mật khẩu không đúng.')
+            'message' => __('Thông tin đăng nhập chưa chính xác.')
         ], 401);
     }
 
@@ -98,7 +99,7 @@ trait JwtService
             $newToken = JWTAuth::fromUser($user);
             $newRefreshToken = $this->createRefreshToken($user);
 
-            return $this->respondWithToken($newToken, $newRefreshToken);
+            return $this->respondWithToken($newToken, $newRefreshToken, null);
 
         } catch (Exception $e) {
             $this->logError("Error for refresh token", $e);
