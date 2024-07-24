@@ -1,2 +1,1 @@
-
-<x-link :href="route('store.topping.edit', $id)" :title="$title"/>
+<x-link :href="route('admin.topping.edit', $id)" :title="$title" />

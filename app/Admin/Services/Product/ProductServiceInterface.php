@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Admin\Services\Product;
+
 use Illuminate\Http\Request;
 
 interface ProductServiceInterface

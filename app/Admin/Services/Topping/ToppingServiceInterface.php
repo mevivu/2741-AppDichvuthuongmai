@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Admin\Services\Topping;
+
 use Illuminate\Http\Request;
 
 interface ToppingServiceInterface
