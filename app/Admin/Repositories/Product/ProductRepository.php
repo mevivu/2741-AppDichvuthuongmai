@@ -5,7 +5,6 @@ namespace App\Admin\Repositories\Product;
 use App\Admin\Repositories\EloquentRepository;
 use App\Admin\Repositories\Product\ProductRepositoryInterface;
 use App\Models\Product;
-use App\Models\Topping;
 use Illuminate\Support\Facades\DB;
 
 class ProductRepository extends EloquentRepository implements ProductRepositoryInterface
@@ -65,7 +64,6 @@ class ProductRepository extends EloquentRepository implements ProductRepositoryI
     {
         return $product->categories()->sync($categoriesId);
     }
-<<<<<<< HEAD
     public function attachToppings(Product $product, array $toppingsId)
     {
         return $product->toppings()->attach($toppingsId);
@@ -75,8 +73,6 @@ class ProductRepository extends EloquentRepository implements ProductRepositoryI
     {
         return $product->toppings()->sync($toppingsId);
     }
-=======
->>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
     public function deleteProductAttributes(Product $product)
     {
         $product->productAttributes()->delete();
@@ -89,11 +85,7 @@ class ProductRepository extends EloquentRepository implements ProductRepositoryI
     {
         return $product->load($relations);
     }
-<<<<<<< HEAD
     public function getQueryBuilderWithRelations($relations = ['categories', 'productVariations', 'toppings'])
-=======
-    public function getQueryBuilderWithRelations($relations = ['categories', 'productVariations'])
->>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
     {
         $this->getQueryBuilderOrderBy();
         $this->instance = $this->instance->with($relations);
@@ -124,25 +116,4 @@ class ProductRepository extends EloquentRepository implements ProductRepositoryI
                 ->orWhere('price', 'LIKE', '%' . $key . '%');
         });
     }
-
-    //Topping
-    public function findOrFailWithRelations($id, array $relations = ['toppings'])
-    {
-        $this->findOrFail($id);
-        $this->instance = $this->instance->load($relations);
-        return $this->instance;
-    }
-    public function attachTopping(Product $product, array $toppingsId)
-    {
-        return $product->toppings()->attach($toppingsId);
-    }
-    public function syncTopping(Product $product, array $toppingsId)
-    {
-        return $product->toppings()->sync($toppingsId);
-    }
-    public function getAllTopping()
-    {
-        return Topping::all();
-    }
-
 }

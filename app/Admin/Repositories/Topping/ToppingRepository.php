@@ -59,8 +59,4 @@ class ToppingRepository extends EloquentRepository implements ToppingRepositoryI
         return $this->instance;
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
 }

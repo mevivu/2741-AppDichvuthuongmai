@@ -11,6 +11,7 @@ use App\Admin\Repositories\AttributeVariation\AttributeVariationRepositoryInterf
 use App\Enums\Product\ProductType;
 use App\Enums\Product\ProductVariationAction;
 
+
 class ProductService implements ProductServiceInterface
 {
     use Setup;
@@ -42,7 +43,6 @@ class ProductService implements ProductServiceInterface
     {
 
         $this->data = $request->validated();
-<<<<<<< HEAD
         DB::beginTransaction();
         try {
             $this->data['product']['gallery'] = $this->data['product']['gallery'] ? explode(",", $this->data['product']['gallery']) : null;
@@ -50,16 +50,6 @@ class ProductService implements ProductServiceInterface
 
             $this->repository->attachCategories($instance, $this->data['categories_id'] ?? []);
             $this->repository->attachToppings($instance, $this->data['toppings_id'] ?? []);
-=======
-
-        DB::beginTransaction();
-        try {
-            $this->data['product']['gallery'] = $this->data['product']['gallery'] ? explode(",", $this->data['product']['gallery']) : null;
-            $instance = $this->repository->create($this->data['product']);
-
-            $this->repository->attachCategories($instance, $this->data['categories_id'] ?? []);
-            $this->repository->attachTopping($instance, $this->data['toppings_id'] ?? []);
->>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
             if ($instance->type == ProductType::Variable() && isset($this->data['product_attribute']) && $this->data['product_attribute']) {
 
                 $this->repositoryProductAttribute->createOrUpdateWithVariation($instance->id, $this->data['product_attribute']);
@@ -74,37 +64,22 @@ class ProductService implements ProductServiceInterface
             DB::rollBack();
             return false;
         }
-        // if (isset($this->data['toppings_id'])) {
-        //     $toppings = $this->data['toppings_id'];
-        //     unset($this->data['toppings_id']);
-        // } else {
-        //     $toppings = array();
-        // }
-        // $product = $this->repository->create($this->data); // Lấy ID của Room mới tạo $productId = $product->id; $this->repository->syncTopping($product, $toppings); return $productId; $topping = $this->repository->create($this->data); return $topping;
     }
 
     public function update(Request $request)
     {
-<<<<<<< HEAD
 
         $this->data = $request->validated();
-=======
->>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
 
-        $this->data = $request->validated();
         DB::beginTransaction();
         try {
             $this->data['product']['gallery'] = $this->data['product']['gallery'] ? explode(",", $this->data['product']['gallery']) : null;
 
             $instance = $this->repository->update($this->data['product']['id'], $this->data['product']);
             $this->repository->syncCategories($instance, $this->data['categories_id'] ?? []);
-<<<<<<< HEAD
             $this->repository->syncToppings($instance, $this->data['toppings_id'] ?? []);
 
 
-=======
-            $this->repository->syncTopping($instance, $this->data['toppings_id'] ?? []);
->>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
             if ($instance->type == ProductType::Variable() && isset($this->data['product_attribute']) && $this->data['product_attribute']) {
                 $this->repositoryProductAttribute->createOrUpdateWithVariation($instance->id, $this->data['product_attribute']);
                 $this->storeOrUpdateProductVariations($instance->id);
@@ -120,16 +95,6 @@ class ProductService implements ProductServiceInterface
             DB::rollBack();
             return false;
         }
-        // if (isset($this->data['toppings_id'])) {
-        //     $toppings = $this->data['toppings_id'];
-        //     unset($this->data['toppings_id']);
-        // } else {
-        //     $toppings = array();
-        // }
-        // $product = $this->repository->update($this->data['id'], $this->data);
-        // $this->repository->syncTopping($product, $toppings);
-
-        // return 1;
     }
 
     public function delete($id)
