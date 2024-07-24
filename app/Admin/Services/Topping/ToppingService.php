@@ -30,7 +30,6 @@ class ToppingService implements ToppingServiceInterface
         $this->data = $request->validated();
         $this->data['obligatory'] = $obligatory;
         $topping = $this->repository->create($this->data);
-
         return $topping;
     }
 

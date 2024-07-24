@@ -186,6 +186,18 @@ Route::fallback(function () {
         'message' => __('Không tìm thấy đường dẫn.')
     ], 404);
 });
+
+//Topping
+Route::controller(App\Api\V1\Http\Controllers\Topping\ToppingController::class)
+    ->prefix('/toppings')
+    ->as('topping.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index'); // Route xuất ra danh sách các Topping
+        Route::get('/show/{id}', 'show')->name('show'); // Route xem chi tiết 1 Topping, tham số là {id} là toppongid
+        Route::delete('/delete', 'delete')->name('delete'); // Route xóa 1 Phòng
+        Route::post('/add', 'add')->name('add'); // Route thêm 1 Phòng mới
+        Route::put('/edit', 'edit')->name('edit'); // Route sửa thông tin 1 Phòng
+    });
 //***** -- Category System -- ******* //
 Route::controller(App\Api\V1\Http\Controllers\CategorySystem\CategorySystemController::class)
     ->prefix('/category_system')

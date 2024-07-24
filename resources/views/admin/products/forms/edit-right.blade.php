@@ -25,8 +25,13 @@
         </div>
         <div class="card-body p-2 wrap-list-checkbox">
             @foreach ($toppings as $topping)
+<<<<<<< HEAD
                 <x-input-checkbox :depth="$topping->depth" :checked="isset($product->toppings) ? $product->toppings : []"
                     name="toppings_id[]" :label="$topping->name" :value="$topping->id" />
+=======
+                <x-input-checkbox :depth="$topping->depth" name="toppings_id[]" :label="$topping->name"
+                    :value="$topping->id" />
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
             @endforeach
         </div>
     </div>

@@ -81,7 +81,11 @@ class ProductRequest extends BaseRequest
             'product.is_earning_point' => ['required', 'boolean'],
             'product.gallery' => ['nullable'],
             'toppings_id' => ['nullable', 'array'],
+<<<<<<< HEAD
             'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id']
+=======
+            'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
         ];
         if ($this->input('product.type') == ProductType::Simple) {
             $this->validate['product.price'] = ['required', 'numeric'];

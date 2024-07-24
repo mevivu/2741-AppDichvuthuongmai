@@ -2,11 +2,19 @@
 
 namespace App\Api\V1\Repositories\Topping;
 
+<<<<<<< HEAD
 use App\Admin\Repositories\Topping\ToppingRepository as AdminToppingRepository;
 use App\Api\V1\Repositories\Topping\ToppingRepositoryInterface;
 use App\Models\Topping;
 
 class ToppingRepository extends AdminToppingRepository implements ToppingRepositoryInterface
+=======
+use App\Admin\Repositories\Topping\ToppingRepository as AdminRoomRepository;
+use App\Api\V1\Repositories\Topping\ToppingRepositoryInterface;
+use App\Models\Topping;
+
+class ToppingRepository extends AdminRoomRepository implements ToppingRepositoryInterface
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
 {
     public function getModel()
     {

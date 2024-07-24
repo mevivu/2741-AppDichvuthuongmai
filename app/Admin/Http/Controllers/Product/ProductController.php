@@ -66,10 +66,13 @@ class ProductController extends Controller
         $categories = $this->repositoryCategory->getFlatTree();
         $categories = $categories->map(function ($category) {
             return [$category->id => generate_text_depth_tree($category->depth) . $category->name];
+<<<<<<< HEAD
         });
         $toppings = $this->repositoryTopping->getFlatTree();
         $toppings = $toppings->map(function ($topping) {
             return [$topping->id => generate_text_depth_tree($topping->depth) . $topping->name];
+=======
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
         });
         return $dataTable->render($this->view['index'], [
             'in_stock' => $inStock,
@@ -84,14 +87,23 @@ class ProductController extends Controller
     {
         $categories = $this->repositoryCategory->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
+<<<<<<< HEAD
         $toppings = $this->repositoryTopping->getFlatTree();
+=======
+        $toppings = $this->repository->getAllTopping(); // lấy danh sách các tiện ích
+
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
         return view(
             $this->view['create'],
             [
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
                 'attributes' => $attributes,
+<<<<<<< HEAD
                 'toppings' => $toppings
+=======
+                'toppings' => $toppings,
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
             ]
         );
     }
@@ -121,6 +133,9 @@ class ProductController extends Controller
         $categories = $this->repositoryCategory->getFlatTree();
         $toppings = $this->repositoryTopping->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
+        $toppings = $this->repository->getAllTopping();//Lấy danh sách topping
+        $response = $this->repository->findOrFail($id);
+
         return view(
             $this->view['edit'],
             [

@@ -5,14 +5,23 @@ namespace App\Api\V1\Http\Controllers\Topping;
 use App\Admin\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Api\V1\Http\Requests\Topping\ToppingRequest;
+<<<<<<< HEAD
 use App\Api\V1\Http\Resources\Topping\{AllToppingResource, ShowToppingResource};
+=======
+use App\Api\V1\Http\Resources\Topping\{AllToppingResources, ShowToppingResources};
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
 use App\Api\V1\Repositories\Topping\ToppingRepositoryInterface;
 use App\Api\V1\Services\Topping\ToppingServiceInterface;
 use App\Api\V1\Services\Topping\ToppingService;
 
+<<<<<<< HEAD
 
 /**
  * @group Quản lý Topping
+=======
+/**
+ * @group Quản lý Phòng
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
  */
 
 class ToppingController extends Controller
@@ -27,14 +36,21 @@ class ToppingController extends Controller
     /**
      * DS Quản lý Topping
      *
+<<<<<<< HEAD
      * Lấy danh sách các Topping.
+=======
+     * Lấy danh sách các Phòng.
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
      *
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Ví dụ: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
      * 
+<<<<<<< HEAD
      * @authenticated Authorization string required
      * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K
      *  
+=======
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
      * @queryParam page integer
      * Trang hiện tại, page > 0. Ví dụ: 1
      * 
@@ -48,6 +64,7 @@ class ToppingController extends Controller
      *      "data": [
      *         {
      *               "id": 4,
+<<<<<<< HEAD
      *               "name": "Thạch dừa",
      *               "price": "Thông tin của Loại Giá phòng",
      *               "status": "Thông tin của trạng thái topping",
@@ -57,6 +74,17 @@ class ToppingController extends Controller
      *               
      *               
      *         
+=======
+     *               "name": "Thông tin của Tên Phòng",
+     *               "number_of_beds": "Thông tin của Số lượng Phòng",
+     *               "type": "Thông tin của Loại Phòng",
+     *               "price": "Thông tin của Loại Giá phòng",
+     *               "owner_phone": "Thông tin của Số điện thoại chủ phòng",
+     *               "owner_email": "Thông tin của Email chủ phòng",
+     *               "owner_birthday": "Thông tin của Ngày sinh chủ phòng",
+     *               "owner_gender": "Thông tin của Giới tính chủ phòng"
+     *         }
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
      *      ]
      * }
      * @response 400 {
@@ -77,7 +105,11 @@ class ToppingController extends Controller
         try {
             $data = $request->validated();
             $toppings = $this->repository->paginate(...$data);
+<<<<<<< HEAD
             $toppings = new AllToppingResource($toppings);
+=======
+            $toppings = new AllToppingResources($toppings);
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
             return response()->json([
                 'status' => 200,
                 'message' => __('Thực hiện thành công.'),
@@ -91,6 +123,69 @@ class ToppingController extends Controller
             ]);
         }
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Chi tiết Phòng
+     *
+     * Lấy chi tiết của Phòng
+     *
+     * @headersParam X-TOKEN-ACCESS string
+     * token để lấy dữ liệu. Ví dụ: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
+     * 
+     * @pathParam id integer required
+     * ID
+     * 
+     * 
+     * @response 200 {
+     *      "status": 200,
+     *      "message": "Thực hiện thành công.",
+     *      "data": [
+     *         {
+     *               "id": 4,
+     *               "name": "Thông tin của Tên Phòng",
+     *               "number_of_beds": "Thông tin của Số lượng Phòng",
+     *               "type": "Thông tin của Loại Phòng",
+     *               "price": "Thông tin của Loại Giá phòng",
+     *               "owner_phone": "Thông tin của Số điện thoại chủ phòng",
+     *               "owner_email": "Thông tin của Email chủ phòng",
+     *               "owner_birthday": "Thông tin của Ngày sinh chủ phòng",
+     *               "owner_gender": "Thông tin của Giới tính chủ phòng"
+     *         }
+     *      ]
+     * }
+     * @response 500 {
+     *      "status": 500,
+     *      "message": "Thực hiện thất bại."
+     * }
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        try {
+            $topping = $this->repository->findByID($id);
+            $topping = new ShowToppingResources($topping);
+            return response()->json([
+                'status' => 200,
+                'message' => __('Thực hiện thành công.'),
+                'data' => $topping
+            ]);
+        } catch (\Exception $e) {
+            // Xử lý ngoại lệ nếu cần thiết
+            return response()->json([
+                'status' => 500,
+                'message' => __('Thực hiện thất bại.')
+            ]);
+        }
+    }
+
+
+
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
     /**
      * Xóa Topping
      *
@@ -98,12 +193,19 @@ class ToppingController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Ví dụ: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
+<<<<<<< HEAD
      * 
+=======
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
      * @authenticated Authorization string required 
      * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K
      * 
      * @pathParam id integer required
+<<<<<<< HEAD
      * id Topping. Ví dụ: 1
+=======
+     * id Phòng. Ví dụ: 1
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
      * 
      * 
      * @response 200 {
@@ -142,6 +244,7 @@ class ToppingController extends Controller
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Ví dụ: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
      * 
+<<<<<<< HEAD
      * @authenticated Authorization string required
      * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K 
      * 
@@ -156,12 +259,26 @@ class ToppingController extends Controller
      * 
      * @pathParam avatar String nullable
      * Avatar
+=======
+     * @pathParam name String(200) required
+     * Tên Topping
+     * 
+     * 
+     * @pathParam status Integer required
+     * Trạng thái món ( 1: Còn món, 2: Hết món)
+     * @pathParam price double required
+     * Giá Topping
+     * 
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
      * 
      * 
      * 
      * 
      * 
+<<<<<<< HEAD
      *
+=======
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
      * 
      * 
      * 
@@ -194,6 +311,10 @@ class ToppingController extends Controller
         ], 400);
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
     /**
      * Sửa Topping
      *
@@ -202,6 +323,7 @@ class ToppingController extends Controller
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Ví dụ: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
      * 
+<<<<<<< HEAD
      * @authenticated Authorization string required
      * access_token được cấp sau khi đăng nhập. Example: Bearer 1|WhUre3Td7hThZ8sNhivpt7YYSxJBWk17rdndVO8K 
      * 
@@ -224,6 +346,18 @@ class ToppingController extends Controller
      * 
      * 
      * 
+=======
+     * 
+     * @pathParam name String(200) required
+     * Tên Topping
+     * 
+     * 
+     * @pathParam status Integer required
+     * Trạng thái món ( 1: Còn món, 2: Hết món)
+     * 
+     * @pathParam price double required
+     * Giá Topping
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
      * 
      * @response 200 {
      *      "status": 200,
@@ -253,5 +387,9 @@ class ToppingController extends Controller
         ], 400);
     }
 
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> 4b56050f4255d0d88105c67cfbc5436467f668fc
