@@ -3,11 +3,12 @@
 namespace App\Store\Http\Controllers\Discount;
 
 use App\Admin\Http\Controllers\Controller;
-use App\Admin\Http\Requests\Store\Discount\DiscountRequests;
+use App\Admin\Http\Requests\Discount\DiscountRequest;
 use App\Admin\Repositories\Discount\DiscountRepository;
 use App\Admin\Services\Discount\DiscountService;
 use App\Admin\Repositories\Discount\DiscountApplicationRepositoryInterface;
 use App\Store\DataTables\Discount\DiscountDataTable;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -55,7 +56,7 @@ class DiscountController extends Controller
     public function index(DiscountDataTable $dataTable)
     {
         return $dataTable->render($this->view['index'], [
-            'breadcrums' => $this->crums->add(__('list'),
+            'breadcrumbs' => $this->crums->add(__('list'),
                 route($this->route['index']))
         ]);
 
@@ -66,15 +67,15 @@ class DiscountController extends Controller
         $store_id = auth('store')->user();
         return view($this->view['create'], [
             'store_id' => $store_id,
-            'breadcrums' => $this->crums->add(__('listdiscount'), route($this->route['index']))->add(__('add')),
+            'breadcrumbs' => $this->crums->add(__('listdiscount'), route($this->route['index']))->add(__('add')),
         ]);
     }
 
 
-    public function store(DiscountRequests $request): RedirectResponse
+    public function store(DiscountRequest $request): RedirectResponse
     {
 
-        $response = $this->service->storeStore($request);
+        $response = $this->service->store($request);
 
         if ($response) {
             return $request->input('submitter') == 'save'
@@ -86,7 +87,7 @@ class DiscountController extends Controller
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function edit($id): Factory|View|Application
     {
@@ -97,15 +98,15 @@ class DiscountController extends Controller
             [
                 'products' => $products,
                 'discount' => $discount,
-                'breadcrums' => $this->crums->add(__('Sửa mã giảm giá'), route($this->route['index']))->add(__('edit'))
+                'breadcrumbs' => $this->crums->add(__('Sửa mã giảm giá'), route($this->route['index']))->add(__('edit'))
             ],
         );
     }
 
-    public function update(DiscountRequests $request): RedirectResponse
+    public function update(DiscountRequest $request): RedirectResponse
     {
 
-        $response = $this->service->updateStore($request);
+        $response = $this->service->update($request);
 
         if ($response) {
             return $request->input('submitter') == 'save'
@@ -116,6 +117,9 @@ class DiscountController extends Controller
         return back()->with('error', __('notifyFail'));
     }
 
+    /**
+     * @throws Exception
+     */
     public function delete($id): RedirectResponse
     {
 
