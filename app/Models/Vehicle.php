@@ -50,8 +50,6 @@ class Vehicle extends Model
         'amenities',
         /** Mô tả */
         'description',
-        /** Hình đại diện */
-        'avatar',
         /** Trạng thái */
         'status'
     ];

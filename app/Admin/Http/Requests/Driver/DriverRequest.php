@@ -25,14 +25,14 @@ class DriverRequest extends BaseRequest
             'license_plate' => ['required', 'string', 'unique:vehicles,license_plate'],
             'license_plate_image' => ['nullable'],
             'vehicle_company' => ['nullable', 'string', 'max:255'],
-            'name' => 'required',
+            'fullname' => 'required',
             'bank_name' => ['nullable', 'string', 'max:255'],
             'bank_account_name' => ['nullable', 'string', 'max:255'],
             'bank_account_number' => ['nullable', 'string', 'max:50'],
             'end_address' => ['required'],
             'end_lat' => ['required'],
-            'avatar' => 'nullable',
             'end_lng' => ['required'],
+            'avatar' => 'nullable',
             'auto_accept' => ['nullable ', new Enum(AutoAccept::class)],
             'id_card_front' => ['required'],
             'id_card_back' => ['required'],
@@ -57,7 +57,6 @@ class DriverRequest extends BaseRequest
             'lat' => 'nullable',
             'lng' => 'nullable',
             'address' => 'nullable',
-
         ];
     }
 

@@ -61,11 +61,12 @@ class DriverService implements DriverServiceInterface
             $data['code'] = $this->createCodeUser();
             $data['gender'] = Gender::Female;
             // create user
-            $createdUser = $this->userRepository->create($data);
-            $this->userRepository->assignRoles($createdUser, [$this->getRoleDriver()]);
-            $data['user_id'] = $createdUser->id;
+            $user = $this->userRepository->create($data);
+            $this->userRepository->assignRoles($user, [$this->getRoleDriver()]);
+            $data['user_id'] = $user->id;
             // create driver
             $driver = $this->repository->create($data);
+            $data['driver_id'] = $driver->id;
             // create vehicle
             $this->vehicleRepository->create($data);
 
@@ -97,6 +98,8 @@ class DriverService implements DriverServiceInterface
                 $data['username'] = $data['phone'];
             }
             $this->userRepository->update($user->id, $data);
+            $this->repository->update($driver->id, $data);
+            $this->vehicleRepository->update($driver->vehicle->id, $data);
             DB::commit();
             return true;
         } catch (Exception $e) {
