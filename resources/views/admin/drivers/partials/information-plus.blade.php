@@ -67,28 +67,12 @@
                      :placeholder="__('vehicle_company')"/>
         </div>
     </div>
-    {{-- Thương hiệu --}}
-    <div class="col-md-6 col-12">
-        <div class="mb-3">
-            <label class="control-label">{{ __('Thương hiệu') }}:</label>
-            <x-input name="brand" :value="$driver->vehicle->brand ?? old('brand')"
-                     :placeholder="__('Thương hiệu')"/>
-        </div>
-    </div>
     {{-- Màu sắc --}}
     <div class="col-md-6 col-12">
         <div class="mb-3">
             <label class="control-label">{{ __('Màu sắc') }}:</label>
             <x-input name="color" :value="$driver->vehicle->color ?? old('color')"
                      :placeholder="__('Màu sắc')"/>
-        </div>
-    </div>
-    {{-- Giá thuê --}}
-    <div class="col-md-6 col-12">
-        <div class="mb-3">
-            <label class="control-label">{{ __('Giá thuê') }}:</label>
-            <x-input name="price" :value="$driver->vehicle->price ?? old('price')"
-                     :placeholder="__('Giá thuê')"/>
         </div>
     </div>
     {{-- Loại xe --}}

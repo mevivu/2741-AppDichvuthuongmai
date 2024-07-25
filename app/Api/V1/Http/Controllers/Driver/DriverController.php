@@ -3,10 +3,8 @@
 namespace App\Api\V1\Http\Controllers\Driver;
 
 use App\Admin\Http\Controllers\Controller;
-use App\Api\V1\Http\Requests\Auth\LoginRequest as AuthLoginRequest;
 use App\Api\V1\Http\Requests\Driver\DriverRequest;
 use App\Api\V1\Http\Requests\Driver\DriverUpdateRequest;
-use App\Api\V1\Http\Resources\Auth\AuthResource;
 use App\Api\V1\Repositories\User\UserRepositoryInterface;
 use App\Api\V1\Services\Driver\DriverServiceInterface;
 use App\Api\V1\Support\AuthServiceApi;
@@ -56,31 +54,36 @@ class DriverController extends Controller
     /**
      * Cập nhật tài xế
      *
-     * API này dùng để cập nhật thông tin cho tài xế
+     * API này dùng để cập nhật tài xế
      * @authenticated
      * Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjczNi1BcHBEdWFSdW9jL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzE5NDU0ODM5LCJleHAiOjE3MjQ2Mzg4MzksIm5iZiI6MTcxOTQ1NDgzOSwianRpIjoiZG5NWXE4d2dWTWFkOFNCdiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uGA0ylhxwMxq8zBOsDEmSGrE97LHQxSn811jl3BLrK4
      *
+     * @bodyParam phone string optional
+     * Số điện thoại của tài xế. Example: 0901234567
+     *
      * @bodyParam fullname string optional
-     * Họ và tên của tài xế. Example: Phạm Minh Mạnh
+     * Họ và tên của tài xế. Example: Nguyễn Văn A
+     *
+     * @bodyParam birthday string optional
+     * Họ và tên của tài xế. Example: Nguyễn Văn A
+     *
+     * @bodyParam address string optional
+     * Địa chỉ của tài xế. Example: Nguyễn Văn A
      *
      * @bodyParam email string optional
      * Email của tài xế. Example: manh@gmail.com
      *
-     * @bodyParam address string optional
-     * Địa chỉ của tài xế. Example: 123 Gò vấp
-     *
-     * @bodyParam bithday date optional
-     * Ngày sinh của tài xế. Example: 2001-01-01
-     *
      * @bodyParam avatar file optional
-     * Avatar của tài xế. Example: avatar.png
-     *
-     * @bodyParam phone string optional
-     * Số điện thoại của tài xế. Example: 0961592551
+     * Ảnh đại diện của tài xế. Example: avatar.jpg
      *
      * @response 200 {
      *     "status": 200,
      *     "message": "Thực hiện thành công.",
+     * }
+     *
+     * @response 500 {
+     *     "status": 500,
+     *     "message": "Error.",
      * }
      *
      * @return JsonResponse
