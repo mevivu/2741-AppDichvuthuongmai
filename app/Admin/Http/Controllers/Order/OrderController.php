@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use App\Admin\Repositories\Product\{ProductRepositoryInterface, ProductVariationRepositoryInterface};
+use App\Enums\Payment\PaymentMethod;
 
 class OrderController extends Controller
 {
@@ -79,7 +80,8 @@ class OrderController extends Controller
     {
         $order = $this->repository->findOrFailWithRelations($id);
         $status = OrderStatus::asSelectArray();
-        return view($this->view['edit'], compact('order', 'status'));
+        $payment_methods = PaymentMethod::asSelectArray();
+        return view($this->view['edit'], compact('order', 'status', 'payment_methods'));
     }
     public function update(OrderRequest $request): RedirectResponse
     {
@@ -105,6 +107,24 @@ class OrderController extends Controller
             'customer_phone' => $user->phone,
             'shipping_address' => $user->address
         ]);
+    }
+
+    public function confirm($id)
+    {
+        $result = $this->service->confirm($id);
+        if($result){
+            return to_route($this->route['index'])->with('success', __('Duyệt đơn hàng thành công'));
+        }
+        return to_route($this->route['index'])->with('error', __('Duyệt đơn hàng thất bại'));
+    }
+
+    public function cancel($id)
+    {
+        $result = $this->service->cancel($id);
+        if($result){
+            return to_route($this->route['index'])->with('success', __('Từ chối đơn hàng thành công'));
+        }
+        return to_route($this->route['index'])->with('error', __('Từ chối đơn hàng thất bại'));
     }
 
     public function addProduct(OrderRequest $request): JsonResponse

@@ -28,6 +28,7 @@ enum OrderStatus: int
 
     // Không thành công
     case Failed = 8;
+
     public function badge(): string
     {
         return match($this) {

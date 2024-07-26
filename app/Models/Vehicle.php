@@ -26,6 +26,8 @@ class Vehicle extends Model
         'seat_number',
         /** Biển số xe */
         'license_plate',
+        /** Giá */
+        'price',
         /** Ảnh biển số xe */
         'license_plate_image',
         /** Nhà sản xuất xe */

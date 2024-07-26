@@ -36,11 +36,11 @@ class OrderObserver
     {
         //
 
-        if($order->status == OrderStatus::Completed() && !$order->checkEarningPoint()){
+        if($order->status == OrderStatus::Completed && !$order->checkEarningPoint()){
             $orderDetails = $order->orderDetails()->get();
 
             $point = 0;
-            
+
             foreach($orderDetails as $item){
                 if($item->detail['product']['is_earning_point']){
                     $point += $item->qty;

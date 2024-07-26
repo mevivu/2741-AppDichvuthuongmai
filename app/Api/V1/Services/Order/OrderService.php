@@ -7,10 +7,12 @@ use App\Api\V1\Support\AuthServiceApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Api\V1\Support\AuthSupport;
+use App\Enums\Order\OrderType;
+use App\Traits\UseLog;
 
 class OrderService implements OrderServiceInterface
 {
-    use AuthSupport, AuthServiceApi;
+    use AuthSupport, AuthServiceApi, UseLog;
 
     /**
      * Current Object instance
@@ -30,7 +32,7 @@ class OrderService implements OrderServiceInterface
     }
 
 
-    public function createBookOrder(Request $request): object
+    public function createBookOrder(Request $request): object|bool
     {
         try {
             DB::beginTransaction();
@@ -42,21 +44,32 @@ class OrderService implements OrderServiceInterface
             return $order;
 
         } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-//           return false;
+            DB::rollback();
+            $this->logError('Failed to process book order: ', $e);
+            return false;
+        }
+    }
+
+    public function createRentOrder(Request $request): object|bool
+    {
+        try {
+            DB::beginTransaction();
+            $data = $request->validated();
+            $userId = $this->getCurrentUserId();
+            $data['order_type'] = OrderType::Renting;
+            $data['user_id'] = $userId;
+            $order = $this->repository->create($data);
+            DB::commit();
+            return $order;
+        } catch (\Exception $e) {
+            DB::rollback();
+            $this->logError('Failed to process rent order: ', $e);
+            return false;
         }
     }
 
     public function store(Request $request)
     {
-
-    }
-
-    public function cancel(Request $request)
-    {
-
-        return $this->repository->cancel($request->input('id'));
 
     }
 
@@ -68,6 +81,6 @@ class OrderService implements OrderServiceInterface
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        return $this->repository->update($id, ['is_deleted' => 1]);
     }
 }

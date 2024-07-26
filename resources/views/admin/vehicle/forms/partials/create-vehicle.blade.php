@@ -60,6 +60,17 @@
                              placeholder="{{ __('Số chổ ngồi') }}"/>
                 </div>
             </div>
+            {{-- price --}}
+            <div class="col-md-6 col-sm-12">
+                <div class="mb-3">
+                    <label class="control-label">{{ __('price_rent') }}:</label>
+                    <x-input-price name="price"
+                                   id="price"
+                                   :value="old('price')"
+                                   :required="true"
+                                   :placeholder="__('price_rent')"/>
+                </div>
+            </div>
 
             {{-- vehicle_registration_front --}}
             <div class="col-md-6 col-12">

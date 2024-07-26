@@ -18,6 +18,7 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Api\V1\Services\CartItem\CartItemServiceInterface' => 'App\Api\V1\Services\CartItem\CartItemServiceInterface',
         'App\Api\V1\Services\Order\OrderServiceInterface' => 'App\Api\V1\Services\Order\OrderService',
         'App\Api\V1\Services\Store\StoreServiceInterface' => 'App\Api\V1\Services\Store\StoreService',
+        'App\Api\V1\Services\Vehicle\VehicleServiceInterface' => 'App\Api\V1\Services\Vehicle\VehicleService',
     ];
     /**
      * Register services.

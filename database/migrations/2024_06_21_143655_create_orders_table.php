@@ -41,6 +41,9 @@ return new class extends Migration {
             $table->dateTime('return_time')->nullable();
             $table->tinyInteger('status')->default(OrderStatus::Pending->value);
             $table->text('note')->nullable();
+
+            $table->unsignedInteger('is_deleted')->default(0);
+
             $table->timestamps();
 
             $table->foreign('user_id')
