@@ -90,20 +90,45 @@ class StoreController extends Controller
      * @authenticated
      *
      * Các trạng thái (status) của đơn hàng bao gồm:
-     * - 1: Hoạt động
-     * - 2: Chờ xác nhận
-     * - 3: Khoá
+     * - 1: Mở cửa
+     * - 2: Đóng cửa
+     *
+     * Độ ưu tiên (priority) của đơn hàng bao gồm:
+     * - 0: Không
+     * - 1: Có
      *
      * @response 200 {
      *      "status": 200,
-     *      "message": "Lấy thông tin người dùng thành công.",
+     *      "message": "Thực hiện thành công.",
      *      "data": {
-     *          "id": 1,
-     *          "name": "Nguyen Van A",
-     *          "email": "example@example.com",
-     *          "phone": "0123456789",
-     *          "created_at": "2021-01-01T00:00:00Z",
-     *          "updated_at": "2021-12-01T00:00:00Z"
+     *          "id": 29,
+     *          "category_id": 1,
+     *          "area_id": 1,
+     *          "code": "S9FDC71721960833",
+     *          "slug": "my-store",
+     *          "username": "0901234567",
+     *          "store_name": "My Store",
+     *          "store_phone": "0901234567",
+     *          "contact_name": "My Store",
+     *          "contact_email": "contact@example.com",
+     *          "contact_phone": "0901234567",
+     *          "logo": "public/uploads/images/stores//qDZjNjZ7gOQ7ZBpJAW7DTancFq61Wy4kQmHnFNp2.jpg",
+     *          "address": "123 Main St",
+     *          "address_detail": "123 Main St",
+     *          "tax_code": "123456789",
+     *          "open_hours_1": "08:00",
+     *          "close_hours_1": "17:00",
+     *          "open_hours_2": "18:00",
+     *          "close_hours_2": "22:00",
+     *          "status": 1,
+     *          "priority": 0,
+     *          "lng": 106.660172,
+     *          "lat": 10.762622,
+     *          "created_at": "2024-07-26T02:27:13.000000Z",
+     *          "updated_at": "2024-07-26T02:27:13.000000Z",
+     *          "roles": [
+     *              "store"
+     *          ]
      *      }
      * }
      *
@@ -111,7 +136,7 @@ class StoreController extends Controller
      */
     public function show(): JsonResponse
     {
-        $user = auth(self::$GUARD_API_STORE)->user();
+        $user = $this->getCurrentStoreUser();
         return response()->json([
             'status' => 200,
             'message' => __('notifySuccess'),
@@ -124,8 +149,8 @@ class StoreController extends Controller
      *
      * API này dùng để đăng ký cho cửa hàng
      *
-     * @bodyParam category_id int nullable ID của danh mục cửa hàng (nếu có). Example: 1
-     * @bodyParam area_id int nullable ID của khu vực (nếu có). Example: 2
+     * @bodyParam category_id int required ID của danh mục cửa hàng (nếu có). Example: 1
+     * @bodyParam area_id int required ID của khu vực (nếu có). Example: 2
      * @bodyParam store_name string required Tên cửa hàng. Example: Vios
      * @bodyParam store_phone string required Số điện thoại cửa hàng (theo định dạng Việt Nam). Example: 0987654321
      * @bodyParam contact_email string nullable Địa chỉ email liên hệ của cửa hàng. Example: store@example.com
