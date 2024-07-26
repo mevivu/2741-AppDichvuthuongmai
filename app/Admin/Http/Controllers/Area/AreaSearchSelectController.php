@@ -10,11 +10,11 @@ class AreaSearchSelectController extends BaseSearchSelectController
 {
     public function __construct(
         AreaRepositoryInterface $repository
-    ){
+    ) {
         $this->repository = $repository;
     }
 
-    protected function selectResponse(): void
+    protected function selectResponse()
     {
         $this->instance = [
             'results' => AreaSearchSelectResource::collection($this->instance)

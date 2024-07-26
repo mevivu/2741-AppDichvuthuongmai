@@ -15,14 +15,15 @@ class ToppingDataTable extends BaseDataTable
 
     public function __construct(
         ToppingRepositoryInterface $repository
-    ){
+    ) {
         $this->repository = $repository;
 
         parent::__construct();
 
     }
 
-    public function setView(){
+    public function setView()
+    {
         $this->view = [
             'action' => 'stores.toppings.datatable.action',
             'edit_link' => 'stores.toppings.datatable.edit-link',
@@ -31,9 +32,10 @@ class ToppingDataTable extends BaseDataTable
         ];
     }
 
-    public function setColumnSearch(){
+    public function setColumnSearch()
+    {
 
-        $this->columnAllSearch = [0,1];
+        $this->columnAllSearch = [0, 1];
 
         $this->columnSearchSelect = [
 
@@ -52,11 +54,13 @@ class ToppingDataTable extends BaseDataTable
         return $this->repository->getQueryBuilder();
     }
 
-    protected function setCustomColumns(){
+    protected function setCustomColumns()
+    {
         $this->customColumns = config('datatables_columns.topping', []);
     }
 
-    protected function setCustomEditColumns(){
+    protected function setCustomEditColumns()
+    {
         $this->customEditColumns = [
             'name' => $this->view['edit_link'],
             'avatar' => $this->view['avatar'],
@@ -64,14 +68,15 @@ class ToppingDataTable extends BaseDataTable
         ];
     }
 
-    protected function setCustomAddColumns(){
+    protected function setCustomAddColumns()
+    {
         $this->customAddColumns = [
             'action' => $this->view['action'],
         ];
     }
 
-    protected function setCustomRawColumns(){
-        $this->customRawColumns = ['action','name','avatar', 'price'];
+    protected function setCustomRawColumns()
+    {
+        $this->customRawColumns = ['action', 'name', 'avatar', 'price'];
     }
 }
-

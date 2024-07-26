@@ -11,26 +11,31 @@ use App\Enums\Product\ProductType;
 use App\Admin\Repositories\Category\CategoryRepositoryInterface;
 use App\Admin\Repositories\Attribute\AttributeRepositoryInterface;
 use App\Admin\Http\Resources\Product\ProductEditResource;
+use App\Admin\Repositories\Topping\ToppingRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+
 class ProductController extends Controller
 {
     protected $repositoryCategory;
     protected $repositoryAttribute;
+    protected $repositoryTopping;
 
     public function __construct(
         ProductRepositoryInterface $repository,
         CategoryRepositoryInterface $repositoryCategory,
+        ToppingRepositoryInterface $repositoryTopping,
         AttributeRepositoryInterface $repositoryAttribute,
         ProductServiceInterface $service
-    ){
+    ) {
         parent::__construct();
         $this->repository = $repository;
         $this->repositoryCategory = $repositoryCategory;
+        $this->repositoryTopping = $repositoryTopping;
         $this->repositoryAttribute = $repositoryAttribute;
         $this->service = $service;
     }
@@ -54,29 +59,39 @@ class ProductController extends Controller
             'delete' => 'admin.product.delete'
         ];
     }
-    public function index(ProductDataTable $dataTable){
+    public function index(ProductDataTable $dataTable)
+    {
         $inStock = [1 => __('Còn hàng'), 0 => __('Hết hàng')];
         $isUserDiscount = [1 => __('Có'), 0 => __('Không')];
         $categories = $this->repositoryCategory->getFlatTree();
-        $categories = $categories->map(function($category){
-            return [$category->id => generate_text_depth_tree($category->depth).$category->name];
+        $categories = $categories->map(function ($category) {
+            return [$category->id => generate_text_depth_tree($category->depth) . $category->name];
+        });
+        $toppings = $this->repositoryTopping->getFlatTree();
+        $toppings = $toppings->map(function ($topping) {
+            return [$topping->id => generate_text_depth_tree($topping->depth) . $topping->name];
         });
         return $dataTable->render($this->view['index'], [
             'in_stock' => $inStock,
             'is_user_discount' => $isUserDiscount,
-            'categories' => $categories
+            'categories' => $categories,
+            'toppings' => $toppings,
         ]);
+
     }
 
     public function create(): Factory|View|Application
     {
         $categories = $this->repositoryCategory->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
-        return view($this->view['create'],
+        $toppings = $this->repositoryTopping->getFlatTree();
+        return view(
+            $this->view['create'],
             [
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
-                'attributes' => $attributes
+                'attributes' => $attributes,
+                'toppings' => $toppings
             ]
         );
     }
@@ -85,7 +100,7 @@ class ProductController extends Controller
     {
 
         $instance = $this->service->store($request);
-        if($instance){
+        if ($instance) {
             return to_route($this->route['edit'], $instance->id);
         }
         return back()->with('error', __('notifyFail'))->withInput();
@@ -96,22 +111,24 @@ class ProductController extends Controller
 
         $product = $this->repository->loadRelations($this->repository->findOrFail($id), [
             'categories:id',
-            'productAttributes' => function($query){
+            'toppings:id',
+            'productAttributes' => function ($query) {
                 return $query->with(['attribute.variations', 'attributeVariations:id']);
             },
             'productVariations.attributeVariations'
         ]);
-
         $product = new ProductEditResource($product);
         $categories = $this->repositoryCategory->getFlatTree();
+        $toppings = $this->repositoryTopping->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
         return view(
             $this->view['edit'],
             [
-                'product' => (object)$product->toArray($request),
+                'product' => (object) $product->toArray($request),
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
-                'attributes' => $attributes
+                'attributes' => $attributes,
+                'toppings' => $toppings
             ]
         );
     }
@@ -121,10 +138,11 @@ class ProductController extends Controller
 
         $instance = $this->service->update($request);
 
-        if($instance){
+        if ($instance) {
             return back()->with('success', __('notifySuccess'));
         }
         return back()->with('error', __('notifyFail'));
+
 
     }
 
