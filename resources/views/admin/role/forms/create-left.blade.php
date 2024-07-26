@@ -4,7 +4,7 @@
             <h2 class="mb-0">{{ __('Thông tin Vai trò') }}</h2>
         </div>
         <div class="row card-body">
-		
+
             <!-- title -->
             <div class="col-12">
                 <div class="mb-3">
@@ -13,7 +13,7 @@
                         placeholder="{{ __('Ví dụ: Kế toán') }}" />
                 </div>
             </div>
-			
+
 			<!-- name -->
             <div class="col-12">
                 <div class="mb-3">
@@ -22,8 +22,8 @@
                         placeholder="{{ __('Viết liền không khoảng cách, không dấu dựa theo tên vai trò. Ví dụ: ketoan') }}" />
                 </div>
             </div>
-			
-			
+
+
 			<!-- guard_name -->
             <div class="col-12">
                 <div class="mb-3">
@@ -31,16 +31,17 @@
                     <x-select name="guard_name" :value="old('guard_name')" :required="true" >
 						<x-select-option value="admin" title="Admin" />
 						<x-select-option value="web" title="Thành viên trên Web" />
+                        <x-select-option value="store-api" title="Cửa hàng" />
                     </x-select>
                 </div>
             </div>
-			
+
 			<!-- permissions -->
 			<div class="col-12">
                 <div class="mb-3">
                     <label class="control-label givePermissionsLabel">{{ __('Phân quyền') }}:</label><br />
 					<div id="checkAllPermissionsDiv"><input type="checkbox" id="checkAllPermissions"> Chọn tất cả</div>
-					
+
 
 					<div class="row">
 						@foreach($listPermissionsInAllModules as $moduleID => $permissionsListOfTheModule)
@@ -49,12 +50,12 @@
 									<input type="checkbox" id="{{ $moduleID }}" class="checkboxPermission clickSelectAllPermissionInModule"> <strong>{{ $listPermissionsInAllModules[$moduleID]['module_name'] }}</strong> <br /> <br />
 									@foreach($listPermissionsInAllModules[$moduleID]['list'] as $permission )
 										<input class="checkboxPermission checkboxFromModule_{{$moduleID}}" name="permissions[]" value="{{ $permission->name }}" type="checkbox" /> {{ $permission->title }} <br />
-									@endforeach	
+									@endforeach
 								</div>
 							</div>
 						@endforeach
 					</div>
-					
+
 					<div class="row">
 						@foreach($listpermissions as $permission)
 							<div class="col-4">
@@ -62,7 +63,7 @@
 							</div>
 						@endforeach
 					</div>
-                    
+
                 </div>
             </div>
 

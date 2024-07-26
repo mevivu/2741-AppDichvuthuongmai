@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('driver_id');
             $table->string('name');
             $table->string('color');
+            $table->double('price', 10, 2)->nullable();
             $table->integer('type')->default(VehicleType::Car->value);
             $table->integer('seat_number')->nullable();
             $table->string('license_plate');

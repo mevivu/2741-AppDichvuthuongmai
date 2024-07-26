@@ -18,7 +18,6 @@ class RentVehicleOrderRequest extends BaseRequest
     protected function methodPost(): array
     {
         return [
-            'user_id' => ['required', 'exists:users,id'],
             'vehicle_id' => ['required', 'exists:vehicles,id'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
@@ -31,6 +30,4 @@ class RentVehicleOrderRequest extends BaseRequest
             'note' => ['nullable', 'string'],
         ];
     }
-
-
 }

@@ -33,6 +33,7 @@ class VehicleRequest extends BaseRequest
             'bank_account_name' => ['nullable', 'string', 'max:255'],
             'bank_account_number' => ['nullable', 'string', 'max:50'],
             'id_card_front' => ['required'],
+            'price' => ['required'],
             'id_card_back' => ['required'],
             'vehicle_registration_front' => ['required'],
             'vehicle_registration_back' => ['required'],

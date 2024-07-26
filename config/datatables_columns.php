@@ -666,6 +666,11 @@ return [
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
+        'order_type' => [
+            'title' => 'Loại hợp đồng',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
         'total' => [
             'title' => 'Tổng tiền',
             'orderable' => false,

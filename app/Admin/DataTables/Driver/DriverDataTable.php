@@ -42,7 +42,6 @@ class DriverDataTable extends BaseDataTable
         $this->columnSearchDate = [5];
 
         $this->columnSearchSelect = [
-
             [
                 'column' => 3,
                 'data' => DriverStatus::asSelectArray()
@@ -114,8 +113,6 @@ class DriverDataTable extends BaseDataTable
                     $subQuery->where('fullname', 'like', '%' . $keyword . '%');
                 });
             },
-
-
         ];
     }
 }

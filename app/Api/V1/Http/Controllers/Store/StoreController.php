@@ -84,9 +84,9 @@ class StoreController extends Controller
 
 
     /**
-     * Lấy thông tin Cửa hàng tạp hoá
+     * Lấy thông tin Cửa hàng
      *
-     * API này trả về thông tin chi tiết của Cửa hàng tạp hoá đã xác thực hiện tại
+     * API này trả về thông tin chi tiết của Cửa hàng đã xác thực hiện tại
      * @authenticated
      *
      * Các trạng thái (status) của đơn hàng bao gồm:

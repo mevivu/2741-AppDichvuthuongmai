@@ -11,11 +11,13 @@ use App\Enums\Payment\PaymentMethod;
 use App\Enums\PostCategory\PostCategoryStatus;
 use App\Enums\Post\PostStatus;
 use App\Enums\Module\ModuleStatus;
+use App\Enums\Order\OrderType;
 use App\Enums\Vehicle\VehicleType;
 use App\Enums\Product\{ProductType, ProductVariationAction};
 use App\Enums\Setting\SettingGroup;
 use App\Enums\Slider\SliderStatus;
 use App\Enums\User\{Gender, UserVip, UserRoles};
+use App\Enums\Vehicle\VehicleStatus;
 
 return [
 
@@ -55,6 +57,12 @@ return [
         DriverAssignmentType::Auto->value => 'Tự động',
         DriverAssignmentType::Manual->value => 'Thủ công',
     ],
+    VehicleStatus::class => [
+        VehicleStatus::Pending->value => 'Chờ xác nhận',
+        VehicleStatus::Rented->value => 'Đã thuê',
+        VehicleStatus::Inactive->value => 'Không hoạt động',
+        VehicleStatus::UnderMaintenance->value => 'Đang bảo trì',
+    ],
     UserVip::class => [
         UserVip::Default => 'Mặc định',
         UserVip::Bronze => 'Đồng',
@@ -91,6 +99,10 @@ return [
         OrderStatus::Completed->value => 'Hoàn thành',
         OrderStatus::Cancelled->value => 'Hủy bỏ',
         OrderStatus::Failed->value => 'Không thành công',
+    ],
+    OrderType::class => [
+        OrderType::Renting->value => 'Thuê',
+        OrderType::Booking->value => ' Đặt',
     ],
     SliderStatus::class => [
         SliderStatus::Active => 'Hoạt động',

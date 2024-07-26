@@ -4,7 +4,7 @@ namespace App\Admin\Http\Requests\Order;
 
 use App\Admin\Http\Requests\BaseRequest;
 use App\Enums\Order\OrderStatus;
-use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Validation\Rules\Enum;
 
 class OrderRequest extends BaseRequest
 {
@@ -34,20 +34,20 @@ class OrderRequest extends BaseRequest
     {
         return [
             'order.id' => ['required', 'exists:App\Models\Order,id'],
-            'order.status' => ['required', new EnumValue(OrderStatus::class, false)],
+            'order.status' => ['required', new Enum(OrderStatus::class)],
             'order.user_id' => ['required', 'exists:App\Models\User,id'],
-            'order.customer_fullname' => ['required', 'string'],
-            'order.customer_email' => ['required', 'email'],
-            'order.customer_phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/'],
-            'order.shipping_address' => ['required'],
+            'order.customer_fullname' => ['nullable', 'string'],
+            'order.customer_email' => ['nullable', 'email'],
+            'order.customer_phone' => ['nullable', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/'],
+            'order.shipping_address' => ['nullable'],
             'order.note' => ['nullable'],
-            'order_detail.id' => ['required', 'array'],
-            'order_detail.product_id' => ['required', 'array'],
-            'order_detail.product_id.*' => ['required', 'exists:App\Models\Product,id'],
-            'order_detail.product_variation_id' => ['required', 'array'],
-            'order_detail.product_variation_id.*' => ['required'],
-            'order_detail.product_qty' => ['required', 'array'],
-            'order_detail.product_qty.*' => ['required', 'integer', 'min:1'],
+            'order_detail.id' => ['nullable', 'array'],
+            'order_detail.product_id' => ['nullable', 'array'],
+            'order_detail.product_id.*' => ['nullable', 'exists:App\Models\Product,id'],
+            'order_detail.product_variation_id' => ['nullable', 'array'],
+            'order_detail.product_variation_id.*' => ['nullable'],
+            'order_detail.product_qty' => ['nullable', 'array'],
+            'order_detail.product_qty.*' => ['nullable', 'integer', 'min:1'],
         ];
     }
 

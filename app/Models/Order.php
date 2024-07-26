@@ -62,7 +62,9 @@ class Order extends Model
         /** Giờ khởi hành */
         'departure_time',
         /** Giờ trả xe */
-        'return_time'
+        'return_time',
+        /** Trạng thái xoá */
+        'is_deleted'
     ];
 
     protected $casts = [
@@ -87,6 +89,11 @@ class Order extends Model
     public function driver(): BelongsTo
     {
         return $this->belongsTo(Driver::class, 'driver_id');
+    }
+
+    public function vehicle(): BelongsTo
+    {
+        return $this->BelongsTo(Vehicle::class);
     }
 
     public function store(): BelongsTo

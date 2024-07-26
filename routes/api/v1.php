@@ -5,6 +5,7 @@ use App\Api\V1\Http\Controllers\Driver\DriverController;
 use App\Api\V1\Http\Controllers\Store\StoreController;
 use App\Api\V1\Http\Controllers\Order\OrderController;
 use App\Api\V1\Http\Controllers\User\UserController;
+use App\Api\V1\Http\Controllers\Vehicle\VehicleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,12 @@ Route::prefix('stores')->controller(StoreController::class)
         Route::post('/send-otp', 'sendOTP')->name('sendOTP');
         Route::put('/update-password', 'updatePassword')->name('updatePassword');
     });
+
+    //store
+Route::prefix('vehicles')->controller(VehicleController::class)
+->group(function () {
+    Route::get('/', 'view')->name('view');
+});
 
 //auth
 Route::prefix('auth')->controller(UserController::class)
@@ -67,6 +74,8 @@ Route::prefix('auth')->controller(AuthController::class)
 Route::prefix('orders')->controller(OrderController::class)
     ->group(function () {
         Route::post('/book-car', 'createBookOrder')->name('createBookOrder');
+        Route::post('/rent-car', 'createRentOrder')->name('createRentOrder');
+        Route::delete('/{id}', 'delete')->name('delete');
     });
 
 
