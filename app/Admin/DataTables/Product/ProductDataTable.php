@@ -32,7 +32,9 @@ class ProductDataTable extends BaseDataTable
             'edit_link' => 'admin.products.datatable.editlink',
             'instock' => 'admin.products.datatable.instock',
             'price' => 'admin.products.datatable.price',
-            'categories' => 'admin.products.datatable.categories'
+            'categories' => 'admin.products.datatable.categories',
+            'toppings' => 'admin.products.datatable.toppings'
+
 
 
         ];
@@ -79,6 +81,7 @@ class ProductDataTable extends BaseDataTable
             'avatar' => $this->view['avatar'],
             'in_stock' => $this->view['instock'],
             'categories' => $this->view['categories'],
+            'toppings' => $this->view['toppings'],
             'created_at' => '{{ format_date($created_at) }}',
         ];
     }
@@ -93,14 +96,16 @@ class ProductDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['action','avatar','name','in_stock','price','categories'];
+        $this->customRawColumns = ['action', 'avatar', 'name', 'in_stock', 'price', 'categories', 'toppings'];
     }
 
     protected function setCustomFilterColumns(): void
     {
         $this->customFilterColumns = [
-            'categories' => fn($query, $keyword) => $query->whereRelation('categories', fn($q) => $q->whereIn('id', explode(',', $keyword)))
+            'categories' => fn($query, $keyword) => $query->whereRelation('categories', fn($q) => $q->whereIn('id', explode(',', $keyword))),
+            'toppings' => fn($query, $keyword) => $query->whereRelation('toppings', fn($q) => $q->whereIn('id', explode(',', $keyword)))
         ];
     }
+
 
 }

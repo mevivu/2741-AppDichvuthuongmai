@@ -10,11 +10,12 @@ class ToppingSearchSelectController extends BaseSearchSelectController
 {
     public function __construct(
         ToppingRepositoryInterface $repository
-    ){
+    ) {
         $this->repository = $repository;
     }
 
-    protected function selectResponse(){
+    protected function selectResponse()
+    {
         $this->instance = [
             'results' => ToppingSearchSelectResource::collection($this->instance)
         ];

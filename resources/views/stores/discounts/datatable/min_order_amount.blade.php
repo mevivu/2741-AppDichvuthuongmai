@@ -1,0 +1,1 @@
+{{$min_order_amount}}

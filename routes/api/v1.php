@@ -89,6 +89,16 @@ Route::controller(App\Api\V1\Http\Controllers\Post\PostController::class)
         Route::get('/show/{id}', 'show')->name('show');
         Route::get('/related/{id}', 'related')->name('related');
     });
+//Toppings
+Route::controller(App\Api\V1\Http\Controllers\Topping\ToppingController::class)
+    ->prefix('/toppings')
+    ->as('topping.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::delete('/delete', 'delete')->name('delete');
+        Route::post('/add', 'add')->name('add');
+        Route::put('/edit', 'edit')->name('edit');
+    });
 //review product
 Route::controller(App\Api\V1\Http\Controllers\Review\ReviewController::class)
     ->prefix('/reviews')
@@ -113,7 +123,17 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('/delete', 'delete')->name('delete');
         });
 });
-
+//cart
+Route::controller(App\Api\V1\Http\Controllers\Cart\CartController::class)
+    ->group(function () {
+        Route::middleware('auth:sanctum')->prefix('/carts')->as('cart.')->group(function () {
+            Route::get('/', 'show')->name('show');
+            Route::post('/calculate', 'calculateTotal')->name('calculate');
+            Route::post('/', 'store')->name('store');
+            Route::put('/', 'update')->name('update');
+            Route::delete('/', 'delete')->name('delete');
+        });
+    });
 
 Route::prefix('/category')
     ->as('category.')
@@ -183,6 +203,18 @@ Route::fallback(function () {
         'message' => __('Không tìm thấy đường dẫn.')
     ], 404);
 });
+
+//Topping
+Route::controller(App\Api\V1\Http\Controllers\Topping\ToppingController::class)
+    ->prefix('/toppings')
+    ->as('topping.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index'); // Route xuất ra danh sách các Topping
+        Route::get('/show/{id}', 'show')->name('show'); // Route xem chi tiết 1 Topping, tham số là {id} là toppongid
+        Route::delete('/delete', 'delete')->name('delete'); // Route xóa 1 Phòng
+        Route::post('/add', 'add')->name('add'); // Route thêm 1 Phòng mới
+        Route::put('/edit', 'edit')->name('edit'); // Route sửa thông tin 1 Phòng
+    });
 //***** -- Category System -- ******* //
 Route::controller(App\Api\V1\Http\Controllers\CategorySystem\CategorySystemController::class)
     ->prefix('/category_system')

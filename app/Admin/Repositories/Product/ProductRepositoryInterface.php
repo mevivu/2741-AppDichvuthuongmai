@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Admin\Repositories\Product;
+
 use App\Admin\Repositories\EloquentRepositoryInterface;
 use App\Models\Product;
 
@@ -21,11 +22,14 @@ interface ProductRepositoryInterface extends EloquentRepositoryInterface
 
     public function syncCategories(Product $product, array $categoriesId);
 
-    public function getQueryBuilderWithRelations($relations = ['categories', 'productVariations']);
-
+    public function getQueryBuilderWithRelations($relations = ['categories', 'productVariations', 'toppings']);
     public function getQueryBuilderOrderBy($column = 'id', $sort = 'DESC');
 
     public function searchAllLimit($value = '', $meta = [], $select = [], $limit = 10);
+    public function attachToppings(Product $product, array $toppingsId);
+    public function syncToppings(Product $product, array $toppingsId);
+
+
 
 
 }

@@ -34,7 +34,9 @@ class ProductAttributeRequest extends BaseRequest
             'price' => ['nullable', 'numeric'],
             'promotion_price' => ['nullable', 'numeric'],
             'in_stock' => ['required', 'boolean'],
-            'gallery' => ['nullable']
+            'gallery' => ['nullable'],
+            'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
+
         ];
     }
 
@@ -54,8 +56,8 @@ class ProductAttributeRequest extends BaseRequest
             //     },
             // ],
             'fullname' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:App\Models\User,email,'.$this->id],
-            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:App\Models\User,phone,'.$this->id],
+            'email' => ['required', 'email', 'unique:App\Models\User,email,' . $this->id],
+            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:App\Models\User,phone,' . $this->id],
             'address' => ['nullable'],
             'gender' => ['required', new EnumValue(UserGender::class, false)],
             'password' => ['nullable', 'string', 'confirmed'],
