@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Review extends Model
 {
@@ -11,13 +12,15 @@ class Review extends Model
 
     protected $table = "reviews";
 
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'stars',
+        'content',
+    ];
 
-    public function user(){
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function scopeAuthCurrent($query){
-        return $query->where('user_id', auth('sanctum')->user()->id);
-    }
 }
