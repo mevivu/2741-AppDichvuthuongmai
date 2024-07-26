@@ -4,36 +4,38 @@ namespace App\Api\V1\Http\Controllers\Store;
 
 use App\Admin\Http\Controllers\Controller;
 use App\Admin\Repositories\Store\StoreRepositoryInterface;
-use App\Api\V1\Http\Requests\Store\LoginRequest;
+use App\Api\V1\Http\Requests\Auth\LoginRequest as AuthLoginRequest;
 use App\Api\V1\Http\Requests\Store\RegisterRequest;
-use App\Api\V1\Http\Requests\Store\UpdatePasswordRequest;
 use App\Api\V1\Http\Requests\Store\UpdateRequest;
 use App\Api\V1\Http\Resources\Store\StoreResource;
-use Illuminate\Support\Facades\Hash;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use App\Api\V1\Http\Requests\Auth\{RefreshTokenRequest};
 use App\Api\V1\Services\Store\StoreServiceInterface;
+use App\Api\V1\Support\AuthServiceApi;
+use App\Api\V1\Support\Response;
+use App\Traits\JwtService;
+use App\Traits\UseLog;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Log;
 
 /**
- * @group Cửa hàng tạp hoá
+ * @group Cửa hàng
  */
 class StoreController extends Controller
 {
-    private static string $GUARD_API = 'store-api';
+    private static string $GUARD_API_STORE = 'store-api';
     private $login;
 
     protected $auth;
+
+    use AuthServiceApi, Response, JwtService, UseLog;
 
 
     public function __construct(
         StoreServiceInterface    $service,
         StoreRepositoryInterface $repository
-    )
-    {
+    ) {
         $this->service = $service;
         $this->repository = $repository;
         $this->middleware('auth:store-api', ['except' => ['login', 'register', 'sendOTP']]);
@@ -41,25 +43,43 @@ class StoreController extends Controller
 
     protected function resolve(): bool
     {
-
-        return Auth::guard(self::$GUARD_API)->attempt($this->login);
-
-    }
-    public function login(LoginRequest $request): JsonResponse
-    {
-        $this->login = $request->validated();
-
-        if ($this->resolve()) {
-            $user = Auth::guard(self::$GUARD_API)->user();
-            $token = JWTAuth::fromUser($user);
-            $refreshToken = $this->createRefreshToken($user);
-            return $this->respondWithToken($token, $refreshToken);
+        $store = $this->repository->findByField('store_phone', $this->login['phone']);
+        if ($store) {
+            Auth::guard(self::$GUARD_API_STORE)->login($store);
+            return true;
         }
-
-        return response()->json([
-            'status' => 401,
-            'message' => __('Tài khoản hoặc mật khẩu không đúng.')
-        ], 401);
+        return false;
+    }
+    /**
+     * Đăng nhập Cửa hàng
+     *
+     * API này dùng để đăng nhập cho cửa hàng
+     *
+     * @bodyParam phone string required
+     * Username của người dùng. Example: 0961592551
+     *
+     * @response 200 {
+     *     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjc0MS1BcHBEaWNodnV0aHVvbmdtYWkvYXBpL3YxL2RyaXZlcnMvbG9naW4iLCJpYXQiOjE3MjEzODM2ODQsImV4cCI6MTcyNjU2NzY4NCwibmJmIjoxNzIxMzgzNjg0LCJqdGkiOiJwWnNJclVrSms2UHFzT0xrIiwic3ViIjoiOSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.En3WpOwOpKMTMHk4PmG799dZZ0DwfrH9HraimUqSU24",
+     *     "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5LCJyYW5kb20iOiIxMzcwNzU5NTQxMTcyMTM4MzY4NCIsImlzX3JlZnJlc2hfdG9rZW4iOnRydWUsImV4cCI6MTcyMTkwOTI4NH0.abTovSfJmNOB_8ZqGpbNBFxwhGpue7OSEQgnbdPiVak",
+     *     "role": "store",
+     *     "expires_in": 5184000
+     * }
+     *
+     * @response 401 {
+     *     "status": 401,
+     *     "message": "Thông tin đăng nhập chưa chính xác.",
+     * }
+     *
+     * @return JsonResponse
+     */
+    public function login(AuthLoginRequest $request): JsonResponse
+    {
+        try {
+            return $this->loginStore($request);
+        } catch (Exception $e) {
+            $this->logError("Login failed", $e);
+            return $this->jsonResponseError($e->getMessage());
+        }
     }
 
 
@@ -91,7 +111,7 @@ class StoreController extends Controller
      */
     public function show(): JsonResponse
     {
-        $user = auth(self::$GUARD_API)->user();
+        $user = auth(self::$GUARD_API_STORE)->user();
         return response()->json([
             'status' => 200,
             'message' => __('notifySuccess'),
@@ -99,15 +119,60 @@ class StoreController extends Controller
         ]);
     }
 
+    /**
+     * Đăng ký Cửa hàng
+     *
+     * API này dùng để đăng ký cho cửa hàng
+     *
+     * @bodyParam category_id int nullable ID của danh mục cửa hàng (nếu có). Example: 1
+     * @bodyParam area_id int nullable ID của khu vực (nếu có). Example: 2
+     * @bodyParam store_name string required Tên cửa hàng. Example: Vios
+     * @bodyParam store_phone string required Số điện thoại cửa hàng (theo định dạng Việt Nam). Example: 0987654321
+     * @bodyParam contact_email string nullable Địa chỉ email liên hệ của cửa hàng. Example: store@example.com
+     * @bodyParam logo file nullable Logo của cửa hàng. Example: file.png
+     * @bodyParam address string nullable Địa chỉ cửa hàng. Example: 123 Đường ABC, Quận XYZ, Thành phố HCM
+     * @bodyParam tax_code string nullable Mã số thuế của cửa hàng. Example: 1234567890
+     * @bodyParam open_hours_1 string nullable Giờ mở cửa (lần 1) theo định dạng H:i. Example: 08:00
+     * @bodyParam close_hours_1 string nullable Giờ đóng cửa (lần 1) theo định dạng H:i. Example: 18:00
+     * @bodyParam open_hours_2 string nullable Giờ mở cửa (lần 2) theo định dạng H:i. Example: 20:00
+     * @bodyParam close_hours_2 string nullable Giờ đóng cửa (lần 2) theo định dạng H:i. Example: 22:00
+     * @bodyParam status string nullable Trạng thái của cửa hàng (1: Mở, 2: Đóng). Example: 1
+     * @bodyParam priority int nullable Độ ưu tiên của cửa hàng (0: Không, 1: Có). Example: 1
+     * @bodyParam lng float required Kinh độ của cửa hàng. Example: 106.7009
+     * @bodyParam lat float required Vĩ độ của cửa hàng. Example: 10.762622
+     *
+     * @response 200 {
+     *     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjc0MS1BcHBEaWNodnV0aHVvbmdtYWkvYXBpL3YxL2RyaXZlcnMvbG9naW4iLCJpYXQiOjE3MjEzODM2ODQsImV4cCI6MTcyNjU2NzY4NCwibmJmIjoxNzIxMzgzNjg0LCJqdGkiOiJwWnNJclVrSms2UHFzT0xrIiwic3ViIjoiOSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.En3WpOwOpKMTMHk4PmG799dZZ0DwfrH9HraimUqSU24",
+     *     "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5LCJyYW5kb20iOiIxMzcwNzU5NTQxMTcyMTM4MzY4NCIsImlzX3JlZnJlc2hfdG9rZW4iOnRydWUsImV4cCI6MTcyMTkwOTI4NH0.abTovSfJmNOB_8ZqGpbNBFxwhGpue7OSEQgnbdPiVak",
+     *     "role": "store",
+     *     "expires_in": 5184000
+     * }
+     *
+     * @response 400 {
+     *     "status": 400,
+     *     "message": "Vui lòng kiểm tra lại các trường.",
+     * }
+     *
+     * @response 500 {
+     *     "status": 500,
+     *     "message": "ERROR!!!",
+     * }
+     *
+     * @return JsonResponse
+     */
     public function register(RegisterRequest $request): JsonResponse
     {
-        $user = $this->service->store($request);
+        try {
+            $user = $this->service->store($request);
 
-        $accessToken = JWTAuth::fromUser($user);
-        $refreshToken = $this->createRefreshTokenById($user);
+            $accessToken = JWTAuth::fromUser($user);
+            $refreshToken = $this->createRefreshTokenById($user);
 
-        return $this->respondWithToken($accessToken, $refreshToken);
-
+            return $this->respondWithToken($accessToken, $refreshToken, $user);
+        } catch (Exception $e) {
+            Log::error('Registration store failed: ' . $e->getMessage());
+            return $this->jsonResponseError($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -117,114 +182,58 @@ class StoreController extends Controller
      */
     public function logout(): JsonResponse
     {
-        auth(self::$GUARD_API)->logout();
+        auth(self::$GUARD_API_STORE)->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-    public function refresh(RefreshTokenRequest $request): JsonResponse
-    {
-        $data = $request->validated();
-        $refreshToken = $data['refresh_token'];
-
-        try {
-            $decoded = JWTAuth::setToken($refreshToken)->getPayload();
-            if (!$decoded->get('is_refresh_token', false)) {
-                return response()->json(['message' => 'Invalid token type.'], 401);
-            }
-
-            if (time() - $decoded->get('token_generated') < config('jwt.refresh_ttl')) {
-                return response()->json(['message' => 'Refresh token has already been used.'], 401);
-            }
-
-            $user = $this->repository->findOrFail($decoded->get('sub'));
-
-            $newToken = JWTAuth::fromUser($user);
-            $newRefreshToken = $this->createRefreshToken($user);
-
-            return $this->respondWithToken($newToken, $newRefreshToken);
-
-        } catch (Exception $e) {
-            return response()->json(['message' => 'Invalid token.', 'error' => $e->getMessage()], 401);
-        }
-    }
-
-    protected function respondWithToken($token, $refreshToken): JsonResponse
-    {
-        $ttl = config('jwt.ttl');
-        return response()->json([
-            'access_token' => $token,
-            'refresh_token' => $refreshToken,
-            'expires_in' => $ttl * 60
-        ]);
-    }
-
-    public function updatePassword(UpdatePasswordRequest $request): JsonResponse
-    {
-        $user = auth(self::$GUARD_API)->user();
-
-        // Verify old password
-        if (!Hash::check($request->old_password, $user->password)) {
-            return response()->json(['message' => 'Current password does not match.'], 400);
-        }
-
-        // Update password
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return response()->json(['message' => 'Password updated successfully.']);
-    }
-
-
+    /**
+     * Cập nhật Cửa hàng
+     *
+     * API này dùng để cập nhật cho cửa hàng
+     *
+     * @bodyParam category_id int nullable ID của danh mục cửa hàng (nếu có). Example: 1
+     * @bodyParam area_id int nullable ID của khu vực (nếu có). Example: 2
+     * @bodyParam store_name string nullable Tên cửa hàng. Example: Vios
+     * @bodyParam store_phone string nullable Số điện thoại cửa hàng (theo định dạng Việt Nam). Example: 0987654321
+     * @bodyParam contact_email string nullable Địa chỉ email liên hệ của cửa hàng. Example: store@example.com
+     * @bodyParam logo file nullable Logo của cửa hàng. Example: file.png
+     * @bodyParam address string nullable Địa chỉ cửa hàng. Example: 123 Đường ABC, Quận XYZ, Thành phố HCM
+     * @bodyParam tax_code string nullable Mã số thuế của cửa hàng. Example: 1234567890
+     * @bodyParam open_hours_1 string nullable Giờ mở cửa (lần 1) theo định dạng H:i. Example: 08:00
+     * @bodyParam close_hours_1 string nullable Giờ đóng cửa (lần 1) theo định dạng H:i. Example: 18:00
+     * @bodyParam open_hours_2 string nullable Giờ mở cửa (lần 2) theo định dạng H:i. Example: 20:00
+     * @bodyParam close_hours_2 string nullable Giờ đóng cửa (lần 2) theo định dạng H:i. Example: 22:00
+     * @bodyParam status string nullable Trạng thái của cửa hàng (1: Mở, 2: Đóng). Example: 1
+     * @bodyParam priority int nullable Độ ưu tiên của cửa hàng (0: Không, 1: Có). Example: 1
+     * @bodyParam lng float nullable Kinh độ của cửa hàng. Example: 106.7009
+     * @bodyParam lat float nullable Vĩ độ của cửa hàng. Example: 10.762622
+     *
+     * @response 200 {
+     *     "status": 200,
+     *     "message": "Thực hiện thành công."
+     * }
+     *
+     * @response 400 {
+     *     "status": 400,
+     *     "message": "Vui lòng kiểm tra lại các trường.",
+     * }
+     *
+     * @response 500 {
+     *     "status": 500,
+     *     "message": "ERROR!!!",
+     * }
+     *
+     * @return JsonResponse
+     */
     public function update(UpdateRequest $request): JsonResponse
     {
         try {
-            $response = $this->service->update($request);
-            return $this->jsonResponseSuccess($response);
+            $this->service->update($request);
+            return $this->jsonResponseSuccessNoData();
         } catch (Exception $e) {
-            Log::error('Order creation failed: ' . $e->getMessage());
+            Log::error('Update store failed: ' . $e->getMessage());
             return $this->jsonResponseError($e->getMessage(), 500);
         }
-    }
-
-    private function createRefreshToken($user)
-    {
-        $data = [
-            'user_id' => $user->id,
-            'random' => rand() . time(),
-            'is_refresh_token' => true,
-            'exp' => time() + config('jwt.refresh_ttl'),
-        ];
-        return JWTAuth::getJWTProvider()->encode($data);
-    }
-
-    /**
-     * Create refresh_token.
-     */
-    private function createRefreshTokenById($user)
-    {
-        $data = [
-            'user_id' => $user->id,
-            'random' => rand() . time(),
-            'exp' => time() + config('jwt.refresh_ttl')
-        ];
-        return JWTAuth::getJWTProvider()->encode($data);
-    }
-
-    protected function jsonResponseError($message, $code = 500): JsonResponse
-    {
-        return response()->json([
-            'status' => $code,
-            'message' => $message
-        ], $code);
-    }
-
-    public function jsonResponseSuccess($data, $message = 'Success', $status = 200)
-    {
-        return response()->json([
-            'status' => 'success',
-            'message' => $message,
-            'data' => $data
-        ], $status);
     }
 }

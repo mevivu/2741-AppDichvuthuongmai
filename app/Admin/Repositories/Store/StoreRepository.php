@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Admin\Repositories\Store;
+
 use App\Admin\Repositories\EloquentRepository;
 use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Models\Store;
@@ -12,10 +13,12 @@ class StoreRepository extends EloquentRepository implements StoreRepositoryInter
         return Store::class;
     }
 
-    public function count(){
+    public function count()
+    {
         return $this->model->count();
     }
-    public function searchAllLimit($keySearch = '', $meta = [], $limit = 10){
+    public function searchAllLimit($keySearch = '', $meta = [], $limit = 10)
+    {
 
         $this->instance = $this->model;
 
@@ -28,10 +31,10 @@ class StoreRepository extends EloquentRepository implements StoreRepositoryInter
 
     protected function getQueryBuilderFindByKey($key): void
     {
-        $this->instance = $this->instance->where(function($query) use ($key){
-            return $query->where('store_name', 'LIKE', '%'.$key.'%')
-                ->orWhere('store_phone', 'LIKE', '%'.$key.'%')
-                ->orWhere('contact_phone', 'LIKE', '%'.$key.'%');
+        $this->instance = $this->instance->where(function ($query) use ($key) {
+            return $query->where('store_name', 'LIKE', '%' . $key . '%')
+                ->orWhere('store_phone', 'LIKE', '%' . $key . '%')
+                ->orWhere('contact_phone', 'LIKE', '%' . $key . '%');
         });
     }
 }

@@ -25,6 +25,7 @@ class StoreService implements StoreServiceInterface
      * @var array
      */
     protected array $data;
+    private string $folderStore = "images/stores";
 
     protected $repository;
 
@@ -43,54 +44,28 @@ class StoreService implements StoreServiceInterface
 
         try {
             $data = $request->validated();
+            if (isset($data['logo'])) {
+                $logo = $data['logo'];
+                $data['logo'] = $this->fileService->uploadAvatar($this->folderStore, $logo, null);
+            }
+
+            $data['code'] = $this->createCodeStore();
             $data['username'] = $data['store_phone'];
-            $data['code'] = $this->createCodeUser();
-            $data['password'] = bcrypt($data['password']);
             $data['contact_name'] = $data['store_name'];
             $data['contact_phone'] = $data['store_phone'];
             $data['address_detail'] = $data['address'];
-            $type = $data['type'];
-            unset($data['type']);
             $store = $this->repository->create($data);
 
-            switch ($type) {
-                case BossType::Restaurant->value:
-                    $this->repository->assignRoles($store, [$this->getRoleRestaurant()]);
-                    break;
-                case BossType::Grocery->value:
-                    $this->repository->assignRoles($store, [$this->getRoleStore()]);
-                    break;
-                case BossType::Hotel->value:
-                    $this->repository->assignRoles($store, [$this->getRoleHotel()]);
-                    break;
-            }
+            $this->repository->assignRoles($store, [$this->getRoleStore()]);
 
             DB::commit();
             return $store;
         } catch (Throwable $e) {
             DB::rollback();
-            $this->logError('Failed to process create store', $e);
+            $this->logError('Failed to process create store API', $e);
             return false;
         }
     }
-
-    /**
-     * @throws Exception
-     */
-    // public function update(Request $request): object|bool
-    // {
-
-    //     $this->data = $request->validated();
-
-    //     if (isset($this->data['password']) && $this->data['password']) {
-    //         $this->data['password'] = bcrypt($this->data['password']);
-    //     } else {
-    //         unset($this->data['password']);
-    //     }
-
-    //     return $this->repository->update($this->data['id'], $this->data);
-
-    // }
 
     public function update(Request $request): bool|object
     {
@@ -98,10 +73,14 @@ class StoreService implements StoreServiceInterface
         try {
             $data = $request->validated();
             $store = $this->getCurrentStoreUser();
-            $logo = $data['logo'];
-            if ($logo) {
+            if (isset($data['logo'])) {
+                $logo = $data['logo'];
                 $data['logo'] = $this->fileService->uploadAvatar('images/stores', $logo, $store->logo);
             }
+            $data['username'] = isset($data['store_phone']) ? $data['store_phone'] : null;
+            $data['contact_name'] = isset($data['store_name']) ? $data['store_name'] : null;
+            $data['contact_phone'] = isset($data['store_phone']) ? $data['store_phone'] : null;
+            $data['address_detail'] = isset($data['address']) ? $data['address'] : null;
             $response = $this->repository->update($store->id, $data);
             DB::commit();
             return $response;
@@ -112,10 +91,9 @@ class StoreService implements StoreServiceInterface
         }
     }
 
-      public function delete($id): object|bool
+    public function delete($id): object|bool
     {
         return $this->repository->delete($id);
-
     }
 
     public function getInstance()

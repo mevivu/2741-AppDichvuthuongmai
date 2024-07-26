@@ -14,6 +14,7 @@ trait JwtService
 {
 
     private static string $GUARD_API = 'api';
+    private static string $GUARD_API_STORE = 'store-api';
 
     protected function respondWithToken($token, $refreshToken, $user): JsonResponse
     {
@@ -48,6 +49,23 @@ trait JwtService
             $token = JWTAuth::fromUser($user);
             $refreshToken = $this->createRefreshToken($user);
             return $this->respondWithToken($token, $refreshToken, $user);
+        }
+
+        return response()->json([
+            'status' => 401,
+            'message' => __('Thông tin đăng nhập chưa chính xác.')
+        ], 401);
+    }
+
+    public function loginStore(Request $request): JsonResponse
+    {
+        $this->login = $request->validated();
+
+        if ($this->resolve()) {
+            $store = Auth::guard(self::$GUARD_API_STORE)->user();
+            $token = JWTAuth::fromUser($store);
+            $refreshToken = $this->createRefreshToken($store);
+            return $this->respondWithToken($token, $refreshToken, $store);
         }
 
         return response()->json([

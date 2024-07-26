@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('slug')->unique();
             $table->string('username')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('store_name');
             $table->char('store_phone', 20)->unique();
             $table->string('contact_name');

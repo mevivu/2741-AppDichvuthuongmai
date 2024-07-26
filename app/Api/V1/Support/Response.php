@@ -22,6 +22,14 @@ trait Response {
         ], $status);
     }
 
+    protected function jsonResponseSuccessNoData(string $message = '', int $status = 200): JsonResponse
+    {
+        return response()->json([
+            'status' => $status,
+            'message' => $message ?: __('Thực hiện thành công.'),
+        ], $status);
+    }
+
 
     /**
      * Return a standardized error JSON response.
