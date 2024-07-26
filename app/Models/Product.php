@@ -81,4 +81,8 @@ class Product extends Model
     {
         return $this->belongsToMany(Topping::class, 'topping_product', 'product_id', 'topping_id')->orderBy('position', 'asc');
     }
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'product_id', 'id');
+    }
 }

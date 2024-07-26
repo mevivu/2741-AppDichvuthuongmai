@@ -17,6 +17,7 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Api\V1\Services\Cart\CartServiceInterface' => 'App\Api\V1\Services\Cart\CartService',
         'App\Api\V1\Services\CartItem\CartItemServiceInterface' => 'App\Api\V1\Services\CartItem\CartItemServiceInterface',
         'App\Api\V1\Services\Order\OrderServiceInterface' => 'App\Api\V1\Services\Order\OrderService',
+        'App\Api\V1\Services\Review\ReviewServiceInterface' => 'App\Api\V1\Services\Review\ReviewService',
         'App\Api\V1\Services\Store\StoreServiceInterface' => 'App\Api\V1\Services\Store\StoreService',
     ];
     /**
