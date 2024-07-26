@@ -36,7 +36,6 @@ class VehicleResourceCollection extends ResourceCollection
                     'insurance_back_image' => $item->insurance_back_image,
                     'amenities' => $item->amenities,
                     'description' => $item->description,
-                    'status' => $item->status,
                     'created_at' => $item->created_at,
                     'updated_at' => $item->updated_at,
                     'price' => $item->price,
