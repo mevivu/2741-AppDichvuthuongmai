@@ -11,7 +11,7 @@ enum AutoAccept: int
 
     case Auto = 1;
     case Off = 2;
-    case Locked =3;
+    case Locked = 3;
     public function badge(): string
     {
         return match($this) {

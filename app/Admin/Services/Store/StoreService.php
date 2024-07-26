@@ -50,5 +50,4 @@ class StoreService implements StoreServiceInterface
         return $this->repository->delete($id);
 
     }
-
 }

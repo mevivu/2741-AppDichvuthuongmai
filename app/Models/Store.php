@@ -19,12 +19,7 @@ class Store extends Authenticatable implements JWTSubject
     use HasRoles, HasFactory, HasApiTokens, Sluggable, Notifiable;
 
     protected $columnSlug = 'store_name';
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [];
+    protected $table = 'stores';
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -33,6 +28,56 @@ class Store extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+    protected $fillable = [
+        /** ID danh mục */
+        'category_id',
+        /** ID khu vực */
+        'area_id',
+        /** Mã cửa hàng */
+        'code',
+        /** Tên đăng nhập */
+        'username',
+        /** Tên cửa hàng */
+        'store_name',
+        /** Số điện thoại cửa hàng */
+        'store_phone',
+        /** Tên người liên hệ */
+        'contact_name',
+        /** Email người liên hệ */
+        'contact_email',
+        /** Số điện thoại người liên hệ */
+        'contact_phone',
+        /** Logo cửa hàng */
+        'logo',
+        /** Địa chỉ cửa hàng */
+        'address',
+        /** Chi tiết địa chỉ cửa hàng */
+        'address_detail',
+        /** Mã số thuế */
+        'tax_code',
+        /** Giờ mở cửa 1 */
+        'open_hours_1',
+        /** Giờ đóng cửa 1 */
+        'close_hours_1',
+        /** Giờ mở cửa 2 */
+        'open_hours_2',
+        /** Giờ đóng cửa 2 */
+        'close_hours_2',
+        /** Trạng thái cửa hàng */
+        'status',
+        /** Độ ưu tiên */
+        'priority',
+        /** Kinh độ */
+        'lng',
+        /** Vĩ độ */
+        'lat',
+        /** Token lấy lại mật khẩu */
+        'token_get_password',
+        /** Thời gian xác thực email */
+        'email_verified_at',
+        /** Token thiết bị */
+        'device_token',
     ];
     /**
      * The attributes that should be cast.

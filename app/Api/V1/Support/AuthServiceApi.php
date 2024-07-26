@@ -30,27 +30,32 @@ trait AuthServiceApi
         return auth(self::$GUARD_API_STORE)->user()->id;
     }
 
-    public function getCurrentStoreUser():?Authenticatable{
+    public function getCurrentStoreUser(): ?Authenticatable
+    {
         return auth(self::$GUARD_API_STORE)->user();
     }
 
-    /**
-     * @throws Exception
-     */
-    public function getCurrentDriver(){
-        $driverRepository = app(DriverRepositoryInterface::class);
+    private function getEntityByUserId($repositoryInterface)
+    {
+        $repository = app($repositoryInterface);
         $userId = $this->getCurrentUserId();
-        return $driverRepository->findByField('user_id', $userId);
+        return $repository->findByField('user_id', $userId);
     }
 
     /**
      * @throws Exception
      */
-    public function getCurrentDriverId(){
-        $userId = $this->getCurrentUserId();
-        $driverRepository = app(DriverRepositoryInterface::class);
-        return $driverRepository->findByField('user_id', $userId)->id;
+    public function getCurrentDriver()
+    {
+        return $this->getEntityByUserId(DriverRepositoryInterface::class);
     }
-   
 
+    /**
+     * @throws Exception
+     */
+    public function getCurrentDriverId()
+    {
+        $driver = $this->getCurrentDriver();
+        return $driver ? $driver->id : null;
+    }
 }

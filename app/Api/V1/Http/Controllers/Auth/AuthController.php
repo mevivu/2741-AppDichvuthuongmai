@@ -72,7 +72,6 @@ class AuthController extends Controller
     {
         try {
             return $this->loginUser($request);
-
         } catch (Exception $e) {
             $this->logError("Login failed", $e);
             return $this->jsonResponseError($e->getMessage());
