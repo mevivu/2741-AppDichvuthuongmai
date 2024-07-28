@@ -62,6 +62,11 @@ class Driver extends Authenticatable
         return $this->belongsTo(User::class);
     }
 
+    public function area(): BelongsTo
+    {
+        return $this->belongsTo(Area::class);
+    }
+
     public function vehicle(): HasOne
     {
         return $this->hasOne(Vehicle::class);

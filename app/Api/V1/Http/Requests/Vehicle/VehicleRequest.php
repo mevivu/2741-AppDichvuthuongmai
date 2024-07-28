@@ -17,6 +17,7 @@ class VehicleRequest extends BaseRequest
         return [
             'type' => ['nullable'],
             'vehicle_company' => ['nullable'],
+            'address' => ['nullable'],
         ];
     }
 }
