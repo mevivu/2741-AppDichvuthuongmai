@@ -62,6 +62,38 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * Thêm mới đơn thuê xe
+     *
+     * API này dùng để Thêm mới đơn thuê xe
+     * @authenticated
+     * Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjczNi1BcHBEdWFSdW9jL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzE5NDU0ODM5LCJleHAiOjE3MjQ2Mzg4MzksIm5iZiI6MTcxOTQ1NDgzOSwianRpIjoiZG5NWXE4d2dWTWFkOFNCdiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uGA0ylhxwMxq8zBOsDEmSGrE97LHQxSn811jl3BLrK4
+     *
+     * @bodyParam vehicle_id int required ID của phương tiện. Example: 1
+     * @bodyParam start_date date optional Ngày bắt đầu. Example: 2024-07-26
+     * @bodyParam end_date date optional Ngày kết thúc (phải sau hoặc bằng ngày bắt đầu). Example: 2024-07-27
+     * @bodyParam payment_method string required Phương thức thanh toán. Example: credit_card
+     * @bodyParam total float required Tổng số tiền. Example: 150.0
+     * @bodyParam note string nullable Ghi chú (nếu có). Example: Giao hàng từ cửa hàng ABC đến địa chỉ XYZ
+     *
+     *
+     * @response 200 {
+     *     "status": 200,
+     *     "message": "Thực hiện thành công."
+     * }
+     *
+     * @response 400 {
+     *     "status": 400,
+     *     "message": "Kiểm tra lại các trường."
+     * }
+     *
+     * @response 500 {
+     *     "status": 500,
+     *     "message": "Error."
+     * }
+     *
+     * @return JsonResponse
+     */
     public function createRentOrder(RentVehicleOrderRequest $request): JsonResponse
     {
         try {
@@ -69,10 +101,36 @@ class OrderController extends Controller
             return $this->jsonResponseSuccessNoData();
         } catch (Exception $e) {
             $this->logError('Order creation failed:', $e);
-            return $this->jsonResponseError('', 500);
+            return $this->jsonResponseError($e->getMessage(), 500);
         }
     }
 
+    /**
+     * Xoá đơn hàng
+     *
+     * API này dùng để Xoá đơn hàng
+     * @authenticated
+     * Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjczNi1BcHBEdWFSdW9jL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzE5NDU0ODM5LCJleHAiOjE3MjQ2Mzg4MzksIm5iZiI6MTcxOTQ1NDgzOSwianRpIjoiZG5NWXE4d2dWTWFkOFNCdiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uGA0ylhxwMxq8zBOsDEmSGrE97LHQxSn811jl3BLrK4
+     *
+     * @pathParam id int required ID của đơn hàng cần xoá. Example: 1
+     *
+     * @response 200 {
+     *     "status": 200,
+     *     "message": "Thực hiện thành công."
+     * }
+     *
+     * @response 400 {
+     *     "status": 400,
+     *     "message": "ERROR."
+     * }
+     *
+     * @response 500 {
+     *     "status": 500,
+     *     "message": "Error."
+     * }
+     *
+     * @return JsonResponse
+     */
     public function delete($id): JsonResponse
     {
         try {
@@ -83,7 +141,7 @@ class OrderController extends Controller
             return $this->jsonResponseError();
         } catch (Exception $e) {
             $this->logError('Order delete failed:', $e);
-            return $this->jsonResponseError('', 500);
+            return $this->jsonResponseError($e->getMessage(), 500);
         }
     }
 }

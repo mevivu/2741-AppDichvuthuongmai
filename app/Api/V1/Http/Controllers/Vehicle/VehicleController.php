@@ -56,6 +56,11 @@ class VehicleController extends Controller
      *
      * API này trả về danh sách xe cho thuê
      * @authenticated
+     * Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjczNi1BcHBEdWFSdW9jL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzE5NDU0ODM5LCJleHAiOjE3MjQ2Mzg4MzksIm5iZiI6MTcxOTQ1NDgzOSwianRpIjoiZG5NWXE4d2dWTWFkOFNCdiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uGA0ylhxwMxq8zBOsDEmSGrE97LHQxSn811jl3BLrK4
+     *
+     * @queryParam address string optional Địa chỉ khu vực. Example: 123 Gò Vấp
+     * @queryParam type int optional Loại xe. Example: 1
+     * @queryParam vehicle_company string optional Hãng xe. Example: Audi
      *
      * Các loại (type) của xe bao gồm:
      * - 1: Chưa được phân loại
@@ -95,6 +100,11 @@ class VehicleController extends Controller
      *              }
      *          ]
      *      }
+     * }
+     *
+     * @response 500 {
+     *     "status": 500,
+     *     "message": "Error."
      * }
      *
      * @return JsonResponse
