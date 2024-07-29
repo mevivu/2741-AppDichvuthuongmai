@@ -3,6 +3,7 @@
 namespace App\Admin\Repositories\Product;
 
 use App\Admin\Repositories\EloquentRepositoryInterface;
+use App\Models\Discount;
 use App\Models\Product;
 
 interface ProductRepositoryInterface extends EloquentRepositoryInterface
@@ -28,6 +29,10 @@ interface ProductRepositoryInterface extends EloquentRepositoryInterface
     public function searchAllLimit($value = '', $meta = [], $select = [], $limit = 10);
     public function attachToppings(Product $product, array $toppingsId);
     public function syncToppings(Product $product, array $toppingsId);
+
+    public function attachDiscounts(Product $product, array $discountIds);
+
+    public function syncDiscounts(Product $product, array $discountIds);
 
 
 

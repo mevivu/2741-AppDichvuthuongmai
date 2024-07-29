@@ -47,9 +47,10 @@ class ProductService implements ProductServiceInterface
         try {
             $this->data['product']['gallery'] = $this->data['product']['gallery'] ? explode(",", $this->data['product']['gallery']) : null;
             $instance = $this->repository->create($this->data['product']);
-
             $this->repository->attachCategories($instance, $this->data['categories_id'] ?? []);
             $this->repository->attachToppings($instance, $this->data['toppings_id'] ?? []);
+            $this->repository->attachDiscounts($instance, $this->data['discount_ids'] ?? []);
+
             if ($instance->type == ProductType::Variable() && isset($this->data['product_attribute']) && $this->data['product_attribute']) {
 
                 $this->repositoryProductAttribute->createOrUpdateWithVariation($instance->id, $this->data['product_attribute']);
@@ -78,6 +79,7 @@ class ProductService implements ProductServiceInterface
             $instance = $this->repository->update($this->data['product']['id'], $this->data['product']);
             $this->repository->syncCategories($instance, $this->data['categories_id'] ?? []);
             $this->repository->syncToppings($instance, $this->data['toppings_id'] ?? []);
+            $this->repository->syncDiscounts($instance, $this->data['discount_ids'] ?? []);
 
 
             if ($instance->type == ProductType::Variable() && isset($this->data['product_attribute']) && $this->data['product_attribute']) {
@@ -87,7 +89,6 @@ class ProductService implements ProductServiceInterface
                 $this->repository->deleteProductAttributes($instance);
                 $this->repository->deleteProductVariations($instance);
             }
-
             DB::commit();
             return $instance;
         } catch (\Throwable $th) {

@@ -4,6 +4,7 @@ namespace App\Admin\Repositories\Product;
 
 use App\Admin\Repositories\EloquentRepository;
 use App\Admin\Repositories\Product\ProductRepositoryInterface;
+use App\Models\Discount;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
@@ -64,6 +65,17 @@ class ProductRepository extends EloquentRepository implements ProductRepositoryI
     {
         return $product->categories()->sync($categoriesId);
     }
+
+    public function attachDiscounts(Product $product, array $discountIds)
+    {
+        return $product->discounts()->attach($discountIds);
+    }
+
+    public function syncDiscounts(Product $product, array $discountIds)
+    {
+        return $product->discounts()->sync($discountIds);
+    }
+
     public function attachToppings(Product $product, array $toppingsId)
     {
         return $product->toppings()->attach($toppingsId);

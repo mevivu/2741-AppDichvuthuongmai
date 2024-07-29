@@ -35,6 +35,8 @@ class ProductRequest extends BaseRequest
             'product.gallery' => ['nullable'],
             'toppings_id' => ['nullable', 'array'],
             'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
+            'discount_ids' => ['nullable', 'array'],
+            'discount_ids.*' => ['nullable', 'exists:App\Models\Discount,id'],
         ];
         if ($this->input('product.type') == ProductType::Simple) {
             $this->validate['product.price'] = ['required', 'numeric'];
@@ -77,7 +79,9 @@ class ProductRequest extends BaseRequest
             'product.is_active' => ['required', 'boolean'],
             'product.gallery' => ['nullable'],
             'toppings_id' => ['nullable', 'array'],
-            'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id']
+            'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
+            'discount_ids' => ['nullable', 'array'],
+            'discount_ids.*' => ['nullable', 'exists:App\Models\Discount,id'],
         ];
         if ($this->input('product.type') == ProductType::Simple) {
             $this->validate['product.price'] = ['required', 'numeric'];

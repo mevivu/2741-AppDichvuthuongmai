@@ -81,4 +81,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Topping::class, 'topping_product', 'product_id', 'topping_id')->orderBy('position', 'asc');
     }
+
+    public function discounts(): BelongsToMany
+    {
+        return $this->belongsToMany(Discount::class, 'discount_applications', 'product_id', 'discount_code_id');
+    }
 }
