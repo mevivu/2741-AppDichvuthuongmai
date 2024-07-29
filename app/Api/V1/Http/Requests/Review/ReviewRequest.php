@@ -11,7 +11,7 @@ class ReviewRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodPost()
+    protected function methodPost(): array
     {
         return [
             'product_id' => ['required', 'exists:App\Models\Product,id'],
@@ -25,7 +25,7 @@ class ReviewRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodGet()
+    protected function methodGet(): array
     {
         return [
             'product_id' => ['required', 'exists:App\Models\Product,id']
