@@ -1,15 +1,15 @@
 <div class="d-flex">
     @if ($status == App\Enums\Order\OrderStatus::Pending->value)
-        <a href="{{ route('admin.order.confirm', $id) }}" class="ml-2">
-            <x-button type="button" class="btn-info btn-icon">
-                <i class="ti ti-bookmark"></i>
+        <a id="confirm-order" href="{{ route('admin.order.confirm', $id) }}" class="ml-2">
+            <x-button type="button" class="btn-info">
+                Duyệt
             </x-button>
         </a>
     @endif
     @if($status != App\Enums\Order\OrderStatus::Cancelled->value)
-        <a style="margin-left: 0.3rem" href="{{ route('admin.order.cancel', $id) }}" class="ml-2">
-            <x-button type="button" class="btn-danger btn-icon">
-                <i class="ti ti-arrow-down"></i>
+        <a id="cancel-order" style="margin-left: 0.3rem" href="{{ route('admin.order.cancel', $id) }}" class="ml-2">
+            <x-button type="button" class="btn-danger">
+                Từ chối
             </x-button>
         </a>
     @endif

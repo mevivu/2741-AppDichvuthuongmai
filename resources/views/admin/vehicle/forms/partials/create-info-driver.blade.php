@@ -1,5 +1,14 @@
 <div class="container">
     <div class="row">
+        <div class="mb-3 mt-3">
+            <label for="">{{ __('Khu vực') }}</label>
+            <x-select name="area_id"
+            id="area_id"
+            class="select2-bs5-ajax"
+            data-url="{{ route('admin.search.select.area') }}"
+            :required="true">
+           </x-select>
+        </div>
         <!-- Fullname -->
         <div class="col-md-6">
             <div class="mb-3">

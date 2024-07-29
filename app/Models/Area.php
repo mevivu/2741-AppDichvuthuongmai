@@ -14,10 +14,25 @@ class Area extends Model
 
     protected $guarded = [];
 
-	protected $casts = [
-        'status' => AreaStatus::class
+    protected $fillable = [
+        /** Tên khu vực */
+        'name',
+        /** Trạng thái khu vực */
+        'status',
+        /** Vị trí khu vực */
+        'position',
+        /** Địa chỉ khu vực */
+        'address',
+        /** Kinh độ */
+        'lng',
+        /** Vĩ độ */
+        'lat',
+        /** Ranh giới khu vực */
+        'boundaries',
     ];
 
 
-
+    protected $casts = [
+        'status' => AreaStatus::class
+    ];
 }

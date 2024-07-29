@@ -21,6 +21,7 @@ class DriverRequest extends BaseRequest
     protected function methodPost(): array
     {
         return [
+            'area_id' => ['nullable', 'exists:App\Models\Area,id'],
             'id_card' => ['required', 'string', 'unique:drivers,id_card'],
             'license_plate' => ['required', 'string', 'unique:vehicles,license_plate'],
             'license_plate_image' => ['nullable'],
@@ -72,6 +73,7 @@ class DriverRequest extends BaseRequest
         $driver = $this->driver();
         $user_id = $driver ? $driver->user_id : null;
         return [
+            'area_id' => ['nullable', 'exists:App\Models\Area,id'],
             'id' => ['required', 'exists:App\Models\Driver,id'],
             'id_card' => 'required|string|max:50|unique:drivers,id_card,' . $this->id . ',id',
             'license_plate' => ['nullable', 'string', 'max:20'],

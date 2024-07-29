@@ -19,10 +19,9 @@ class AreaRequest extends BaseRequest
             'name' => ['required', 'string'],
             'position' => ['nullable', 'integer'],
             'status' => ['required', new Enum(AreaStatus::class)],
-            // 'lat' => ['required', 'numeric'],
-            // 'lng' => ['required', 'numeric'],
-            // 'address' => ['required'],
-
+            'lat' => ['required', 'numeric'],
+            'lng' => ['required', 'numeric'],
+            'address' => ['required'],
         ];
     }
 
