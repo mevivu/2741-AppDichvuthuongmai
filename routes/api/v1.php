@@ -36,6 +36,7 @@ Route::prefix('stores')->controller(StoreController::class)
 Route::prefix('vehicles')->controller(VehicleController::class)
 ->group(function () {
     Route::get('/', 'view')->name('view');
+    Route::get('/show/{id}', 'show')->name('show');
 });
 
 //auth
