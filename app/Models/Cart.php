@@ -13,14 +13,11 @@ class Cart extends Model
 
     protected $table = 'carts';
 
-    protected $guarded = [];
 
     protected $fillable = [
         'user_id',
     ];
-    protected $casts = [
 
-    ];
 
     public function user(): BelongsTo
     {
