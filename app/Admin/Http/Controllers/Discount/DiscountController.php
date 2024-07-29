@@ -74,7 +74,9 @@ class DiscountController extends Controller
         $response = $this->service->store($request);
 
         if ($response) {
-            return to_route($this->route['index'])->with('success', __('notifySuccess'));
+            return $request->input('submitter') == 'save'
+                ? to_route($this->route['index'])->with('success', __('notifySuccess'))
+                : back()->with('success', __('notifySuccess'));
         }
 
         return back()->with('error', __('notifyFail'))->withInput();

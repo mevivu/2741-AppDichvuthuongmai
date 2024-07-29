@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Discount\DiscountType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->dateTime('date_end');
             $table->integer('max_usage')->nullable();
             $table->double('min_order_amount')->nullable();
-            $table->tinyInteger('type');
+            $table->tinyInteger('type')->default(DiscountType::Money);
             $table->double('discount_value');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

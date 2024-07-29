@@ -35,13 +35,17 @@ class DiscountService implements DiscountServiceInterface
         try {
             $data = $request->validated();
             $discountId = $data['id'];
+            $discount = $this->repository->update($discountId, $data);
 
             $storeIds = $data['store_ids'] ?? [];
             $userIds = $data['user_ids'] ?? [];
+            $driverIds = $data['driver_ids'] ?? [];
+            $productIds = $data['product_ids'] ?? [];
 
-            $discount = $this->repository->update($discountId, $data);
             $discount->stores()->sync($storeIds);
             $discount->users()->sync($userIds);
+            $discount->drivers()->sync($driverIds);
+            $discount->products()->sync($productIds);
             DB::commit();
             return $discount;
         } catch (Exception $e) {
@@ -71,14 +75,26 @@ class DiscountService implements DiscountServiceInterface
 
         try {
             $data = $request->validated();
-            $store_ids = $data['store_ids'];
-            $user_ids = $data['user_ids'];
 
             $discount = $this->repository->create($data);
             $discountId = $discount->id;
-            $this->repository->attachRelations($discountId, $store_ids, 'stores');
 
-            $this->repository->attachRelations($discountId, $user_ids, 'users');
+            if(isset($data['store_ids'])){
+                $store_ids = $data['store_ids'];
+                $this->repository->attachRelations($discountId, $store_ids, 'stores');
+            }
+            if(isset($data['driver_ids'])){
+                $driver_ids = $data['driver_ids'];
+                $this->repository->attachRelations($discountId, $driver_ids, 'drivers');
+            }
+            if(isset($data['product_ids'])){
+                $product_ids = $data['product_ids'];
+                $this->repository->attachRelations($discountId, $product_ids, 'products');
+            }
+            if(isset($data['user_ids'])){
+                $user_ids = $data['user_ids'];
+                $this->repository->attachRelations($discountId, $user_ids, 'users');
+            }
 
             DB::commit();
 

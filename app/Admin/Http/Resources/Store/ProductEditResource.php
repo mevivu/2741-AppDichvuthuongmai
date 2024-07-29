@@ -42,6 +42,7 @@ class ProductEditResource extends JsonResource
             'productVariations' => $productVariations,
             'arrProductAttributesId' => $this->arrProductAttributesId,
             'arrProductAttributes' => $this->arrProductAttributes,
+            'toppings' => $this->toppings->toArray(),
         ];
         return $data;
         // dd($data);

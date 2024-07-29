@@ -31,6 +31,16 @@
     </div>
     <div class="card mb-3">
         <div class="card-header">
+            {{ __('Mã giảm giá') }}
+        </div>
+        <div class="card-body p-2 wrap-list-checkbox">
+            @foreach ($discounts as $discount)
+                <x-input-checkbox name="discount_ids[]" :label="$discount->code" :value="$discount->id" />
+            @endforeach
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
             {{ __('Trạng thái') }}
         </div>
         <div class="card-body p-2">
