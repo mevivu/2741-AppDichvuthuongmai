@@ -9,8 +9,8 @@
 <script>
 
     $(document).on('click', '#confirm-order', function(e) {
-        e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
-        var url = $(this).attr('href'); // Lấy URL từ thuộc tính href
+        e.preventDefault();
+        var url = $(this).attr('href');
 
         Swal.fire({
             title: "Bạn có chắc chắn muốn duyệt đơn này?",
@@ -22,14 +22,14 @@
             cancelButtonText: "Quay lại!"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = url; // Thực hiện hành động
+                window.location.href = url;
             }
         });
     });
 
     $(document).on('click', '#cancel-order', function(e) {
-        e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
-        var url = $(this).attr('href'); // Lấy URL từ thuộc tính href
+        e.preventDefault();
+        var url = $(this).attr('href');
 
         Swal.fire({
             title: "Bạn có chắc chắn muốn từ chối đơn này?",
@@ -41,7 +41,7 @@
             cancelButtonText: "Quay lại!"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = url; // Thực hiện hành động
+                window.location.href = url;
             }
         });
     });

@@ -14,7 +14,13 @@ return [
             'visible' => true
         ],
         'status' => [
-            'title' => 'createdAt',
+            'title' => 'status',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'address' => [
+            'title' => 'address',
             'orderable' => false,
             'addClass' => 'align-middle',
             'visible' => true

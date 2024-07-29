@@ -36,7 +36,7 @@ class AreaDataTable extends BaseDataTable
     public function setColumnSearch(): void
     {
 
-        $this->columnAllSearch = [0, 1, 2];
+        $this->columnAllSearch = [0, 1, 2, 3];
 
         $this->columnSearchDate = [1];
 
@@ -63,7 +63,7 @@ class AreaDataTable extends BaseDataTable
     {
         $this->customEditColumns = [
             'name' => $this->view['name'],
-            'created_at' => '{{ format_date($created_at) }}',
+            'created_at' => '{{ $created_at ? format_date($created_at) : "" }}',
             'status' => $this->view['status'],
         ];
     }
