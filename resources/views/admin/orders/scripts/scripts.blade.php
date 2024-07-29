@@ -7,7 +7,46 @@
 
 <x-input type="hidden" name="route_add_product" :value="route('admin.order.add_product')" />
 <script>
-    
+
+    $(document).on('click', '#confirm-order', function(e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+        var url = $(this).attr('href'); // Lấy URL từ thuộc tính href
+
+        Swal.fire({
+            title: "Bạn có chắc chắn muốn duyệt đơn này?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Chắc chắn!",
+            cancelButtonText: "Quay lại!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url; // Thực hiện hành động
+            }
+        });
+    });
+
+    $(document).on('click', '#cancel-order', function(e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+        var url = $(this).attr('href'); // Lấy URL từ thuộc tính href
+
+        Swal.fire({
+            title: "Bạn có chắc chắn muốn từ chối đơn này?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Chắc chắn!",
+            cancelButtonText: "Quay lại!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url; // Thực hiện hành động
+            }
+        });
+    });
+
+
     function searchProduct(keyword, elmRender){
         $.ajax({
             type: "GET",
@@ -93,7 +132,7 @@
         }));
     });
     $(document).on('click', '.add-product', function (e) {
-        var that = $(this), 
+        var that = $(this),
         productId = that.data('product-id');
         if(checkAddProduct(productId)){
             msgWarning('Sản phẩm này đã được thêm');
@@ -104,7 +143,7 @@
         });
     })
     $(document).on('click', '.add-product-variation', function (e) {
-        var that = $(this), 
+        var that = $(this),
         productId = that.data('product-id'),
         productVariationId = that.data('product-variation-id');
         if(checkAddProduct(productId, productVariationId)){

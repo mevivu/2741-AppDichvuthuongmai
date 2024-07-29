@@ -50,5 +50,6 @@
 {{ $dataTable->scripts() }}
 
 @include('admin.orders.scripts.datatable')
+@include('admin.orders.scripts.scripts')
 
 @endpush

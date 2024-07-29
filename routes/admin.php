@@ -402,8 +402,8 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
             });
 
             Route::get('/render-info-shipping', 'renderInfoShipping')->name('render_info_shipping');
-            Route::get('/confirm/{id}', 'confirm')->name('confirm');
-            Route::get('/cancel/{id}', 'cancel')->name('cancel');
+            Route::get('/confirm/{id?}', 'confirm')->name('confirm');
+            Route::get('/cancel/{id?}', 'cancel')->name('cancel');
             Route::get('/add-product', 'addProduct')->name('add_product');
             Route::get('/calculate-total-before-save-order', 'calculateTotalBeforeSaveOrder')->name('calculate_total_before_save_order');
         });
