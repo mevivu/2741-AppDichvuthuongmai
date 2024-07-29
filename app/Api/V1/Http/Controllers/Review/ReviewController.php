@@ -27,10 +27,10 @@ class ReviewController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string required
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @queryParam product_id integer required
      * id sản phẩm. Example: 1
-     * 
+     *
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -46,7 +46,7 @@ class ReviewController extends Controller
      * }
      *
      * @param  \Illuminate\Http\Request  $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
 
@@ -66,18 +66,18 @@ class ReviewController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @bodyParam product_id integer required
      * id sản phẩm. Example: 1
-     * 
+     *
      * @bodyParam rating integer required
      * Xếp hạng đánh giá. Example: 5
-     * 
+     *
      * @bodyParam content string
      * Nội dung đánh giá. Example: content
-     * 
+     *
      * @authenticated
-     * 
+     *
      * @response {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -91,7 +91,7 @@ class ReviewController extends Controller
      * }
      *
      * @param  \Illuminate\Http\Request  $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
 
@@ -102,6 +102,60 @@ class ReviewController extends Controller
             'status' => 200,
             'message' => __('notifySuccess'),
             'data' => new ShowReviewResource($response)
+        ], 200);
+    }
+    /**
+     * Lọc đánh giá theo số sao
+     *
+     * Lọc danh sách đánh giá của sản phẩm theo số sao.
+     *
+     * @headersParam X-TOKEN-ACCESS string required
+     * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
+     *
+     * @queryParam product_id integer required
+     * id sản phẩm. Example: 1
+     *
+     * @queryParam rating integer
+     * số sao của đánh giá. Example: 5
+     *
+     * @queryParam per_page integer
+     * số lượng đánh giá mỗi trang. Example: 10
+     *
+     * @response 200 {
+     *      "status": 200,
+     *      "message": "Thực hiện thành công.",
+     *      "data": {
+     *          "current_page": 1,
+     *          "data": [
+     *              {
+     *                  "id": 10,
+     *                  "fullname": "Tran Van A",
+     *                  "avatar": "http://domain.com/public/assets/images/default-image.png",
+     *                  "content": "content",
+     *                  "rating": 5
+     *              }
+     *          ],
+     *          "last_page": 1,
+     *          "per_page": 10,
+     *          "total": 1
+     *      }
+     * }
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(ReviewRequest $request){
+        $product_id = $request->get('product_id');
+        $stars = $request->get('rating');
+        $perPage = $request->get('per_page', 10);
+
+        $reviews = $this->repository->filterByRating($product_id, $stars, $perPage);
+
+        return response()->json([
+            'status' => 200,
+            'message' => __('notifySuccess'),
+            'data' => new ReviewResource($reviews)
         ], 200);
     }
 }

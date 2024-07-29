@@ -86,4 +86,8 @@ class Product extends Model
     {
         return $this->belongsToMany(Discount::class, 'discount_applications', 'product_id', 'discount_code_id');
     }
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'product_id', 'id');
+    }
 }

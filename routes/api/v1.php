@@ -2,6 +2,7 @@
 
 use App\Api\V1\Http\Controllers\Auth\AuthController;
 use App\Api\V1\Http\Controllers\Driver\DriverController;
+use App\Api\V1\Http\Controllers\Review\ReviewController;
 use App\Api\V1\Http\Controllers\Store\StoreController;
 use App\Api\V1\Http\Controllers\Order\OrderController;
 use App\Api\V1\Http\Controllers\User\UserController;
@@ -80,6 +81,8 @@ Route::prefix('orders')->controller(OrderController::class)
     });
 
 
+
+
 //post category
 Route::controller(App\Api\V1\Http\Controllers\PostCategory\PostCategoryController::class)
     ->prefix('/posts-categories')
@@ -116,6 +119,7 @@ Route::controller(App\Api\V1\Http\Controllers\Review\ReviewController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store')->middleware('auth:sanctum');
+        Route::get('/filter', 'filter')->name('filter');
     });
 
 

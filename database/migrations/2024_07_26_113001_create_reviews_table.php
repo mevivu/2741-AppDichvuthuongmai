@@ -18,9 +18,12 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedTinyInteger('stars');
             $table->text('content');
+            $table->unsignedBigInteger('product_id');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
