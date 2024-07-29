@@ -21,7 +21,7 @@ return new class extends Migration
             $table->dateTime('date_end');
             $table->integer('max_usage')->nullable();
             $table->double('min_order_amount')->nullable();
-            $table->tinyInteger('type')->default(DiscountType::Money);
+            $table->tinyInteger('type')->default(DiscountType::Money->value);
             $table->double('discount_value');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
