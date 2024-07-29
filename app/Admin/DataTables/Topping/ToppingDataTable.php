@@ -5,6 +5,7 @@ namespace App\Admin\DataTables\Topping;
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Topping\ToppingRepositoryInterface;
 use App\Enums\Product\Type;
+use App\Enums\Topping\ToppingStatus;
 
 //use App\Enums\Product\Type;
 
@@ -29,16 +30,20 @@ class ToppingDataTable extends BaseDataTable
             'edit_link' => 'stores.toppings.datatable.edit-link',
             'avatar' => 'stores.toppings.datatable.avatar',
             'price' => 'stores.toppings.datatable.price',
+            'status' => 'stores.toppings.datatable.status',
         ];
     }
 
     public function setColumnSearch()
     {
 
-        $this->columnAllSearch = [0, 1];
+        $this->columnAllSearch = [0, 1, 2];
 
         $this->columnSearchSelect = [
-
+            [
+                'column' => 2,
+                'data' => ToppingStatus::asSelectArray()
+            ],
         ];
 
     }
@@ -64,6 +69,7 @@ class ToppingDataTable extends BaseDataTable
         $this->customEditColumns = [
             'name' => $this->view['edit_link'],
             'avatar' => $this->view['avatar'],
+            'status' => $this->view['status'],
             'created_at' => '{{ format_date($created_at) }}',
         ];
     }
@@ -77,6 +83,6 @@ class ToppingDataTable extends BaseDataTable
 
     protected function setCustomRawColumns()
     {
-        $this->customRawColumns = ['action', 'name', 'avatar', 'price'];
+        $this->customRawColumns = ['action', 'name', 'avatar', 'price', 'status'];
     }
 }

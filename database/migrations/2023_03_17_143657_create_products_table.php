@@ -29,8 +29,6 @@ return new class extends Migration {
             $table->integer('qty')->nullable();
             $table->boolean('in_stock')->default(true);
             $table->boolean('is_active')->default(true);
-            $table->boolean('is_user_discount')->default(false);
-            $table->boolean('is_earning_point')->default(false);
             $table->text('avatar')->nullable();
             $table->longText('gallery')->nullable();
             $table->longText('desc')->nullable();

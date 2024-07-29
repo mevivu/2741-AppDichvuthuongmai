@@ -98,6 +98,5 @@ class CategoryDataTable extends BaseDataTable
 
     protected function setColumnSearch()
     {
-        // TODO: Implement setColumnSearch() method.
     }
 }

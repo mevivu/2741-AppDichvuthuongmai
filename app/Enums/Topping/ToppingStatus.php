@@ -2,12 +2,21 @@
 
 namespace App\Enums\Topping;
 
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Contracts\LocalizedEnum;
+use App\Supports\Enum;
 
-final class ToppingStatus extends Enum implements LocalizedEnum
+enum ToppingStatus: int
 {
-    const HetMon = 0;
-    const ConMon = 1;
+    use Enum;
+
+    case InStock = 1;
+    case OutOfStock = 2;
+
+    public function badge(): string
+    {
+        return match($this) {
+            self::InStock => 'bg-yellow-lt',
+            self::OutOfStock => 'bg-green-lt',
+        };
+    }
 
 }

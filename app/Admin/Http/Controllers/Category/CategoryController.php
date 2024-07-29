@@ -11,16 +11,16 @@ use App\Admin\DataTables\Category\CategoryDataTable;
 class CategoryController extends Controller
 {
     public function __construct(
-        CategoryRepositoryInterface $repository, 
+        CategoryRepositoryInterface $repository,
         CategoryServiceInterface $service
     ){
 
         parent::__construct();
 
         $this->repository = $repository;
-        
+
         $this->service = $service;
-        
+
     }
 
     public function getView(){
@@ -57,7 +57,13 @@ class CategoryController extends Controller
 
         $instance = $this->service->store($request);
 
-        return to_route($this->route['edit'], $instance->id);
+        if($instance){
+            return $request->input('submitter') == 'save'
+                ? to_route($this->route['index'])->with('success', __('notifySuccess'))
+                : to_route($this->route['edit'], $instance->id)->with('success', __('notifySuccess'));
+        }
+
+        return back()->with('error', __('notifyFail'))->withInput();
 
     }
 
@@ -83,8 +89,8 @@ class CategoryController extends Controller
     public function delete($id){
 
         $this->service->delete($id);
-        
+
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
-        
+
     }
 }

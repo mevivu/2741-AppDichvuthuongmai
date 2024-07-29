@@ -39,6 +39,7 @@ class VehicleResourceCollection extends ResourceCollection
                     'created_at' => $item->created_at,
                     'updated_at' => $item->updated_at,
                     'price' => $item->price,
+                    'status' => $item->status,
                 ];
                 return $data;
             }),

@@ -146,7 +146,7 @@ return [
             'addClass' => 'align-middle'
         ],
         'price' => [
-            'price' => 'Giá',
+            'title' => 'Giá',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
@@ -616,7 +616,7 @@ return [
             'addClass' => 'text-center align-middle'
         ],
         'is_user_discount' => [
-            'title' => 'Chiếc khẩu',
+            'title' => 'Chiết khẩu',
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
@@ -769,6 +769,11 @@ return [
     'post_category' => [
         'name' => [
             'title' => 'Tên danh mục',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'parents_name' => [
+            'title' => 'Danh mục cha',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
