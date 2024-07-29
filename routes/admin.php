@@ -583,6 +583,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
             Route::get('/store-categories', [App\Admin\Http\Controllers\Store\Category\StoreCategorySearchSelectController::class, 'selectSearch'])->name('store_category');
             Route::get('/store', [StoreSearchSelectController::class, 'selectSearch'])->name('store');
             Route::get('/area', [App\Admin\Http\Controllers\Area\AreaSearchSelectController::class, 'selectSearch'])->name('area');
+            Route::get('/topping', [App\Admin\Http\Controllers\Topping\ToppingSearchSelectController::class, 'selectSearch'])->name('topping');
 
 
         });

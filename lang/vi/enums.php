@@ -16,6 +16,7 @@ use App\Enums\Vehicle\VehicleType;
 use App\Enums\Product\{ProductType, ProductVariationAction};
 use App\Enums\Setting\SettingGroup;
 use App\Enums\Slider\SliderStatus;
+use App\Enums\Topping\ToppingStatus;
 use App\Enums\User\{Gender, UserVip, UserRoles};
 use App\Enums\Vehicle\VehicleStatus;
 
@@ -102,7 +103,11 @@ return [
     ],
     OrderType::class => [
         OrderType::Renting->value => 'Thuê',
-        OrderType::Booking->value => ' Đặt',
+        OrderType::Booking->value => 'Đặt',
+    ],
+    ToppingStatus::class => [
+        ToppingStatus::InStock->value => 'Còn hàng',
+        ToppingStatus::OutOfStock->value => 'Hết hàng',
     ],
     SliderStatus::class => [
         SliderStatus::Active => 'Hoạt động',
@@ -110,7 +115,7 @@ return [
     ],
     SettingGroup::class => [
         SettingGroup::General => 'Chung',
-        SettingGroup::UserDiscount => 'Chiếc khấu mua hàng theo cấp TV',
+        SettingGroup::UserDiscount => 'Chiết khấu mua hàng theo cấp TV',
         SettingGroup::UserUpgrade => 'SL SP nâng cấp TV',
     ],
     PostCategoryStatus::class => [

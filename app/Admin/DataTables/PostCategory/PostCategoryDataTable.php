@@ -10,10 +10,7 @@ use App\Models\PostCategory;
 
 class PostCategoryDataTable extends BaseDataTable
 {
-
-
     protected $nameTable = 'postCategoryTable';
-
 
     public function __construct(
         PostCategoryRepositoryInterface $repository
@@ -27,23 +24,24 @@ class PostCategoryDataTable extends BaseDataTable
     public function setView(): void
     {
         $this->view = [
-            'action' => 'admin.areas.datatable.action',
-            'name' => 'admin.areas.datatable.name',
-            'status' => 'admin.areas.datatable.status',
+            'action' => 'admin.posts_categories.datatable.action',
+            'name' => 'admin.posts_categories.datatable.editlink',
+            'status' => 'admin.posts_categories.datatable.status',
+            'parents_name' => 'admin.posts_categories.datatable.parents',
         ];
     }
 
     public function setColumnSearch(): void
     {
 
-        $this->columnAllSearch = [0, 1, 2];
+        $this->columnAllSearch = [0, 1, 2, 3];
 
-        $this->columnSearchDate = [2];
+        $this->columnSearchDate = [3];
 
         $this->columnSearchSelect = [
 
             [
-                'column' => 1,
+                'column' => 2,
                 'data' => DefaultStatus::asSelectArray()
             ],
         ];
@@ -57,7 +55,7 @@ class PostCategoryDataTable extends BaseDataTable
 
     protected function setCustomColumns(): void
     {
-        $this->customColumns = config('datatables_columns.post_category', []);
+        $this->customColumns = config('datatables_columns.post_category', ['categories']);
     }
 
     protected function setCustomEditColumns(): void
@@ -66,6 +64,11 @@ class PostCategoryDataTable extends BaseDataTable
             'name' => $this->view['name'],
             'created_at' => '{{ format_date($created_at) }}',
             'status' => $this->view['status'],
+            'parents_name' => function ($post_category) {
+                return view($this->view['parents_name'], [
+                    'parents_name' => $post_category->categories,
+                ])->render();
+            },
         ];
     }
 
@@ -79,9 +82,6 @@ class PostCategoryDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['name', 'action', 'status'];
+        $this->customRawColumns = ['name', 'action', 'status', 'parent_name'];
     }
-
-
-
 }

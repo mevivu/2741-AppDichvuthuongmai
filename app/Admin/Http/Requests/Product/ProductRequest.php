@@ -32,8 +32,6 @@ class ProductRequest extends BaseRequest
             'product.promotion_price' => ['nullable', 'numeric'],
             'product.in_stock' => ['required', 'boolean'],
             'product.is_active' => ['required', 'boolean'],
-            'product.is_user_discount' => ['required', 'boolean'],
-            'product.is_earning_point' => ['required', 'boolean'],
             'product.gallery' => ['nullable'],
             'toppings_id' => ['nullable', 'array'],
             'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
@@ -77,8 +75,6 @@ class ProductRequest extends BaseRequest
             'product.promotion_price' => ['nullable', 'numeric'],
             'product.in_stock' => ['required', 'boolean'],
             'product.is_active' => ['required', 'boolean'],
-            'product.is_user_discount' => ['required', 'boolean'],
-            'product.is_earning_point' => ['required', 'boolean'],
             'product.gallery' => ['nullable'],
             'toppings_id' => ['nullable', 'array'],
             'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id']

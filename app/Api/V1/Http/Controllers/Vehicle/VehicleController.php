@@ -55,6 +55,19 @@ class VehicleController extends Controller
     /**
      * Lấy Danh sách xe cho thuê
      *
+     * Các loại (type) của xe bao gồm:
+     * - 1: Chưa được phân loại
+     * - 2: Gắn máy
+     * - 3: Xe ô tô
+     * - 4: Xe tải
+     * - 5: Xe tải đông lạnh
+     *
+     * Các trạng thái (status) của xe bao gồm:
+     * - 1: Chờ xác nhận
+     * - 2: Đã thuê
+     * - 3: Không hoạt động
+     * - 4: Đang sửa chữa
+     *
      * API này trả về danh sách xe cho thuê
      * @authenticated
      * Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjczNi1BcHBEdWFSdW9jL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzE5NDU0ODM5LCJleHAiOjE3MjQ2Mzg4MzksIm5iZiI6MTcxOTQ1NDgzOSwianRpIjoiZG5NWXE4d2dWTWFkOFNCdiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uGA0ylhxwMxq8zBOsDEmSGrE97LHQxSn811jl3BLrK4
@@ -62,13 +75,6 @@ class VehicleController extends Controller
      * @queryParam address string optional Địa chỉ khu vực. Example: 123 Gò Vấp
      * @queryParam type int optional Loại xe. Example: 1
      * @queryParam vehicle_company string optional Hãng xe. Example: Audi
-     *
-     * Các loại (type) của xe bao gồm:
-     * - 1: Chưa được phân loại
-     * - 2: Gắn máy
-     * - 3: Xe ô tô
-     * - 4: Xe tải
-     * - 5: Xe tải đông lạnh
      *
      * @response 200 {
      *      "status": 200,
@@ -123,18 +129,24 @@ class VehicleController extends Controller
     /**
      * Lấy thông tin chi tiết xe
      *
-     * API này trả về thông tin chi tiết xe
-     * @authenticated
-     * Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjczNi1BcHBEdWFSdW9jL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzE5NDU0ODM5LCJleHAiOjE3MjQ2Mzg4MzksIm5iZiI6MTcxOTQ1NDgzOSwianRpIjoiZG5NWXE4d2dWTWFkOFNCdiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uGA0ylhxwMxq8zBOsDEmSGrE97LHQxSn811jl3BLrK4
-     *
-     * @pathParam id int required ID của phương tiện. Example: 1
-     *
      * Các loại (type) của xe bao gồm:
      * - 1: Chưa được phân loại
      * - 2: Gắn máy
      * - 3: Xe ô tô
      * - 4: Xe tải
      * - 5: Xe tải đông lạnh
+     *
+     * Các trạng thái (status) của xe bao gồm:
+     * - 1: Chờ xác nhận
+     * - 2: Đã thuê
+     * - 3: Không hoạt động
+     * - 4: Đang sửa chữa
+     *
+     * API này trả về thông tin chi tiết xe
+     * @authenticated
+     * Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjczNi1BcHBEdWFSdW9jL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzE5NDU0ODM5LCJleHAiOjE3MjQ2Mzg4MzksIm5iZiI6MTcxOTQ1NDgzOSwianRpIjoiZG5NWXE4d2dWTWFkOFNCdiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uGA0ylhxwMxq8zBOsDEmSGrE97LHQxSn811jl3BLrK4
+     *
+     * @pathParam id int required ID của phương tiện. Example: 1
      *
      * @response 200 {
      *      "status": 200,
