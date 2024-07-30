@@ -13,7 +13,7 @@ use App\Api\V1\Http\Resources\Product\ShowProductVariationResource;
 
 class ProductVariationController extends Controller
 {
-    
+
     public function __construct(
         ProductVariationRepositoryInterface $repository
     )
@@ -21,20 +21,20 @@ class ProductVariationController extends Controller
         $this->repository = $repository;
     }
     /**
-     * chi tiết biến thể sản phẩm
+     * Chi tiết biến thể sản phẩm
      *
      * Lấy tiết biến thể của sản phẩm.
      *
      * @headersParam X-TOKEN-ACCESS string required
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @queryParam product_id integer required
      * id sản phẩm. Example: 1
-     * 
+     *
      * @queryParam variation_id[] integer required
      * số id biến thể sản phẩm phải tương ứng với thuộc tính sp. Example: 1
-     * 
-     * 
+     *
+     *
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -49,7 +49,7 @@ class ProductVariationController extends Controller
      * }
      *
      * @param  \Illuminate\Http\Request  $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(ProductVariationRequest $request){

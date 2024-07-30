@@ -67,7 +67,7 @@ class StoreController extends Controller
      *
      * @response 401 {
      *     "status": 401,
-     *     "message": "Thông tin đăng nhập chưa chính xác.",
+     *     "message": "Thông tin đăng nhập chưa chính xác."
      * }
      *
      * @return JsonResponse
@@ -78,7 +78,7 @@ class StoreController extends Controller
             return $this->loginStore($request);
         } catch (Exception $e) {
             $this->logError("Login failed", $e);
-            return $this->jsonResponseError($e->getMessage());
+            return $this->jsonResponseError($e->getMessage(), 500);
         }
     }
 
@@ -137,11 +137,8 @@ class StoreController extends Controller
     public function show(): JsonResponse
     {
         $user = $this->getCurrentStoreUser();
-        return response()->json([
-            'status' => 200,
-            'message' => __('notifySuccess'),
-            'data' => new StoreResource($user)
-        ]);
+        $data = new StoreResource($user);
+        return $this->jsonResponseSuccess($data);
     }
 
     /**
@@ -175,12 +172,12 @@ class StoreController extends Controller
      *
      * @response 400 {
      *     "status": 400,
-     *     "message": "Vui lòng kiểm tra lại các trường.",
+     *     "message": "Vui lòng kiểm tra lại các trường."
      * }
      *
      * @response 500 {
      *     "status": 500,
-     *     "message": "ERROR!!!",
+     *     "message": "ERROR!!!"
      * }
      *
      * @return JsonResponse
@@ -195,7 +192,7 @@ class StoreController extends Controller
 
             return $this->respondWithToken($accessToken, $refreshToken, $user);
         } catch (Exception $e) {
-            Log::error('Registration store failed: ' . $e->getMessage());
+            $this->logError('Registration Store Failed: ', $e);
             return $this->jsonResponseError($e->getMessage(), 500);
         }
     }
@@ -241,7 +238,7 @@ class StoreController extends Controller
      *
      * @response 400 {
      *     "status": 400,
-     *     "message": "Vui lòng kiểm tra lại các trường.",
+     *     "message": "Vui lòng kiểm tra lại các trường."
      * }
      *
      * @response 500 {
@@ -257,7 +254,7 @@ class StoreController extends Controller
             $this->service->update($request);
             return $this->jsonResponseSuccessNoData();
         } catch (Exception $e) {
-            Log::error('Update store failed: ' . $e->getMessage());
+            $this->logError('Update Store Failed: ', $e);
             return $this->jsonResponseError($e->getMessage(), 500);
         }
     }

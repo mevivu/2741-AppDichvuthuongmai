@@ -7,7 +7,7 @@ use App\Enums\Product\ProductType;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Api\V1\Support\AuthSupport;
 
-class ShowProductResource extends JsonResource
+class ProductResource extends JsonResource
 {
     use AuthSupport;
     /**
@@ -20,7 +20,6 @@ class ShowProductResource extends JsonResource
     {
         $discount = 1 - $this->getDiscountProduct() / 100;
         $discount = $this->is_user_discount == true ? $discount : 1;
-        
         $data = [
             'id' => $this->id,
             'name' => $this->name,
@@ -30,11 +29,11 @@ class ShowProductResource extends JsonResource
             'gallery' => $this->gallery ? array_map(function($value){
                 return asset($value);
             }, $this->gallery->toArray()) : [],
-            'desc' => $this->desc
+            'desc' => strip_tags($this->desc)
         ];
 
-        if($this->type == ProductType::Simple()){
-            
+        if($this->type == ProductType::Simple){
+
             $data['price'] = $this->price * $discount;
             $data['promotion_price'] = $this->promotion_price * $discount ?: null;
 

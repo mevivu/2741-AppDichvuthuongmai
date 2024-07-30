@@ -25,6 +25,18 @@ class ProductAttributeRepository extends EloquentRepository implements ProductAt
         }
     }
 
+    public function createOrUpdateWithVariationApi($product_id, array $productAttribute){
+        foreach($productAttribute['attribute_id'] as $key => $value){
+            $this->model->updateOrCreate([
+                'product_id' => $product_id,
+                'attribute_id' => $value,
+            ],[
+                'position' => $key
+            ])->attributeVariations()
+            ->sync($productAttribute['attribute_variation_id'][$key]);
+        }
+    }
+
     public function delete($id)
     {
         $this->findOrFail($id);
