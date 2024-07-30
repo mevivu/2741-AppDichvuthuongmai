@@ -27,7 +27,7 @@ class ReviewService implements ReviewServiceInterface{
         $this->repository = $repository;
     }
 
-    public function createReview(Request $request):object
+    public function store(Request $request):object
     {
         try {
             DB::beginTransaction();
@@ -41,15 +41,13 @@ class ReviewService implements ReviewServiceInterface{
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
-//           return false;
+
         }
     }
     public function filterReviews(Request $request): object
     {
         $data = $request->validated();
-
         $perPage = $request->query('per_page', 10);
-
         return $this->repository->filterByRating($data['product_id'], $data['rating'], $perPage);
     }
 

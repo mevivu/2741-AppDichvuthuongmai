@@ -8,6 +8,6 @@ interface ReviewServiceInterface
 
 
     public function filterReviews(Request $request);
-    public function createReview(Request $request);
+    public function store(Request $request);
 
 }

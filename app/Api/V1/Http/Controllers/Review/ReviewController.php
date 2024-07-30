@@ -103,26 +103,17 @@ class ReviewController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(ReviewRequest $request){
-        $data = $request->validated();
-        $response = $this->repository->createAuthCurrent($data)->load(['user']);
-        return response()->json([
-            'status' => 200,
-            'message' => __('notifySuccess'),
-            'data' => new ShowReviewResource($response)
-        ], 200);
-    }
-
-    public function createReview(ReviewRequest $request):JsonResponse
-    {
+    public function store(ReviewRequest $request):JsonResponse{
         try {
-            $response = $this->service->createReview($request);
+            $response = $this->service->store($request);
             return $this->jsonResponseSuccess($response);
         }catch(Exception $e){
             $this->logError('Review creation failed:', $e);
             return $this->jsonResponseError('',500);
         }
     }
+
+
     /**
      * Lọc đánh giá theo số sao
      *

@@ -10,5 +10,5 @@ interface ReviewRepositoryInterface extends EloquentRepositoryInterface
     public function getByProductId($product_id);
     public function createAuthCurrent($data);
     public function filterByRating($product_id, $rating, $perPage);
-    public function create(array $data);
+    public function store(array $data);
 }

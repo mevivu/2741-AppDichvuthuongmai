@@ -23,7 +23,7 @@ class ReviewRepository extends EloquentRepository implements ReviewRepositoryInt
         $this->instance = auth('sanctum')->user()->reviews()->create($data);
         return $this->instance;
     }
-    public function create(array $data)
+    public function store(array $data)
     {
         return $this->model->create($data);
     }
