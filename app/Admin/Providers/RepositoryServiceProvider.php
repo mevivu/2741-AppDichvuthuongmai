@@ -35,6 +35,8 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Admin\Repositories\Vehicle\VehicleRepositoryInterface' => 'App\Admin\Repositories\Vehicle\VehicleRepository',
         'App\Admin\Repositories\Discount\DiscountRepositoryInterface' => 'App\Admin\Repositories\Discount\DiscountRepository',
         'App\Admin\Repositories\Discount\DiscountApplicationRepositoryInterface' => 'App\Admin\Repositories\Discount\DiscountApplicationRepository',
+        'App\Admin\Repositories\Cart\CartRepositoryInterface' => 'App\Admin\Repositories\Cart\CartRepository',
+        'App\Admin\Repositories\CartItem\CartItemRepositoryInterface' => 'App\Admin\Repositories\CartItem\CartItemRepository',
 
 
 

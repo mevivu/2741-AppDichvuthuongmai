@@ -29,6 +29,8 @@ class DiscountDataTable extends BaseDataTable
             'edit_link' => 'admin.discounts.datatable.edit-link',
             'stores' => 'admin.discounts.datatable.stores',
             'users' => 'admin.discounts.datatable.users',
+            'drivers' => 'admin.discounts.datatable.drivers',
+            'products' => 'admin.discounts.datatable.products',
         ];
     }
 
@@ -76,6 +78,18 @@ class DiscountDataTable extends BaseDataTable
                     'stores' => $stores
                 ])->render();
             },
+            'drivers' => function ($discount) {
+                $drivers = $discount->drivers;
+                return view($this->view['drivers'], [
+                    'drivers' => $drivers
+                ])->render();
+            },
+            'products' => function ($discount) {
+                $products = $discount->products;
+                return view($this->view['products'], [
+                    'products' => $products
+                ])->render();
+            },
             'users' => function ($discount) {
                 $users = $discount->users;
                 return view($this->view['users'], [
@@ -95,7 +109,7 @@ class DiscountDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['action', 'code', 'stores', 'users'];
+        $this->customRawColumns = ['action', 'code', 'stores', 'users', 'drivers', 'products'];
     }
 
     public function setCustomFilterColumns(): void
@@ -109,6 +123,16 @@ class DiscountDataTable extends BaseDataTable
             'stores' => function ($query, $keyword) {
                 $query->whereHas('stores', function ($subQuery) use ($keyword) {
                     $subQuery->where('store_name', 'like', '%' . $keyword . '%');
+                });
+            },
+            'products' => function ($query, $keyword) {
+                $query->whereHas('products', function ($subQuery) use ($keyword) {
+                    $subQuery->where('name', 'like', '%' . $keyword . '%');
+                });
+            },
+            'drivers' => function ($query, $keyword) {
+                $query->whereHas('drivers.user', function ($subQuery) use ($keyword) {
+                    $subQuery->where('fullname', 'like', '%' . $keyword . '%');
                 });
             },
 

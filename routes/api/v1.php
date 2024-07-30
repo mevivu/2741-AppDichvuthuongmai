@@ -2,6 +2,7 @@
 
 use App\Api\V1\Http\Controllers\Auth\AuthController;
 use App\Api\V1\Http\Controllers\Driver\DriverController;
+use App\Api\V1\Http\Controllers\Review\ReviewController;
 use App\Api\V1\Http\Controllers\Store\StoreController;
 use App\Api\V1\Http\Controllers\Order\OrderController;
 use App\Api\V1\Http\Controllers\User\UserController;
@@ -24,10 +25,10 @@ Route::controller(App\Api\V1\Http\Controllers\Discount\DiscountController::class
     Route::get('/', 'index')->name('index'); // Route xuất ra danh sách các discount
     Route::get('/show/{id}', 'show')->name('show'); // Route xem chi tiết 1 discount, tham số là {id} là discountid
     Route::get('/store/{storeId}', 'getByStore')->name('getByStore'); // Route lấy danh sách discount theo store_id
-    Route::get('/user/{userId}', 'getByUser')->name('getByUser'); 
-    Route::get('/driver/{driverId}', 'getByDriver')->name('getByDriver'); 
+    Route::get('/user/{userId}', 'getByUser')->name('getByUser');
+    Route::get('/driver/{driverId}', 'getByDriver')->name('getByDriver');
     // Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
-    Route::get('/store/{storeId}/discount/{discountId}', 'getDiscountByStoreAndId')->name('getDiscountByStoreAndId'); 
+    Route::get('/store/{storeId}/discount/{discountId}', 'getDiscountByStoreAndId')->name('getDiscountByStoreAndId');
     Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
 
 
@@ -50,6 +51,7 @@ Route::prefix('stores')->controller(StoreController::class)
 Route::prefix('vehicles')->controller(VehicleController::class)
 ->group(function () {
     Route::get('/', 'view')->name('view');
+    Route::get('/show/{id}', 'show')->name('show');
 });
 
 //auth
@@ -93,6 +95,8 @@ Route::prefix('orders')->controller(OrderController::class)
     });
 
 
+
+
 //post category
 Route::controller(App\Api\V1\Http\Controllers\PostCategory\PostCategoryController::class)
     ->prefix('/posts-categories')
@@ -129,6 +133,8 @@ Route::controller(App\Api\V1\Http\Controllers\Review\ReviewController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store')->middleware('auth:sanctum');
+        Route::get('/filter', 'filter')->name('filter');
+
     });
 
 

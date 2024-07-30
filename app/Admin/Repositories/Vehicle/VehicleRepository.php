@@ -15,5 +15,12 @@ class VehicleRepository extends EloquentRepository implements VehicleRepositoryI
         return Vehicle::class;
     }
 
+    public function searchAllLimit($keySearch = '', $meta = [], $limit = 10)
+    {
 
+        $this->instance = $this->model->where('name', 'like', '%' . $keySearch . '%');
+
+        $this->applyFilters($meta);
+        return $this->instance->limit($limit)->get();
+    }
 }

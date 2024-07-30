@@ -25,9 +25,11 @@ return new class extends Migration {
             $table->double('start_latitude', 10, 6)->nullable();
             $table->double('start_longitude', 10, 6)->nullable();
             $table->string('start_address', 255)->nullable();
+            $table->timestamp('start_date')->nullable();
             $table->double('end_latitude', 10, 6)->nullable();
             $table->double('end_longitude', 10, 6)->nullable();
             $table->string('end_address', 255)->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->double('sub_total')->nullable();
             $table->string('payment_code')->nullable();
             $table->tinyInteger('shipping_method')->nullable();

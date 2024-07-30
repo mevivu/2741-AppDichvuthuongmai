@@ -11,7 +11,7 @@ class VehicleRepository extends AdminVehicleRepository implements VehicleReposit
 {
     public function searchVehicle(Request $request)
     {
-        $filters = [['status', '=' , VehicleStatus::Pending]];
+        $filters = [['status', '=', VehicleStatus::Pending]];
 
         if (isset($request['type'])) {
             $filters[] = ['type', '=', $request['type']];
@@ -25,6 +25,12 @@ class VehicleRepository extends AdminVehicleRepository implements VehicleReposit
         $page = $request->input('page', 1);
 
         $query = $this->getQueryBuilder()->where($filters);
+
+        if (isset($request['address'])) {
+            $query->whereHas('driver.area', function ($subQuery) use ($request) {
+                $subQuery->where('address', 'LIKE', '%' . $request['address'] . '%');
+            });
+        }
 
         return $query->paginate($limit, ['*'], 'page', $page);
     }

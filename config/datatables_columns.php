@@ -14,7 +14,13 @@ return [
             'visible' => true
         ],
         'status' => [
-            'title' => 'createdAt',
+            'title' => 'status',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => true
+        ],
+        'address' => [
+            'title' => 'address',
             'orderable' => false,
             'addClass' => 'align-middle',
             'visible' => true
@@ -140,7 +146,7 @@ return [
             'addClass' => 'align-middle'
         ],
         'price' => [
-            'price' => 'Giá',
+            'title' => 'Giá',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
@@ -610,7 +616,7 @@ return [
             'addClass' => 'text-center align-middle'
         ],
         'is_user_discount' => [
-            'title' => 'Chiếc khẩu',
+            'title' => 'Chiết khẩu',
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
@@ -680,6 +686,55 @@ return [
             'title' => 'Ngày đặt',
             'orderable' => false,
             'visible' => false,
+            'addClass' => 'align-middle'
+        ],
+        'action' => [
+            'title' => 'Thao tác',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
+    'renting-order' => [
+        'id' => [
+            'title' => 'Mã đơn hàng',
+            'orderable' => false,
+        ],
+        'user' => [
+            'title' => 'customer',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'payment_code' => [
+            'title' => 'Mã thanh toán',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => false,
+        ],
+        'status' => [
+            'title' => 'Trạng thái',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'payment_method' => [
+            'title' => 'Phương thức thanh toán',
+            'orderable' => false,
+            'addClass' => 'align-middle text-center',
+        ],
+        'order_type' => [
+            'title' => 'Loại hợp đồng',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'total' => [
+            'title' => 'Tổng tiền',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'created_at' => [
+            'title' => 'Ngày đặt',
+            'orderable' => false,
             'addClass' => 'align-middle'
         ],
         'action' => [
@@ -763,6 +818,11 @@ return [
     'post_category' => [
         'name' => [
             'title' => 'Tên danh mục',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'parents_name' => [
+            'title' => 'Danh mục cha',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],

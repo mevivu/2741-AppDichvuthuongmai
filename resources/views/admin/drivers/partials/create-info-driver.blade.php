@@ -3,6 +3,15 @@
         <h4>{{ __('Thông tin Tài xế') }}</h4>
     </div>
     <div class="row card-body">
+        <div class="mb-3">
+            <label for="">{{ __('Khu vực') }}</label>
+            <x-select name="area_id"
+            id="area_id"
+            class="select2-bs5-ajax"
+            data-url="{{ route('admin.search.select.area') }}"
+            :required="true">
+           </x-select>
+        </div>
         <!-- Fullname -->
         <div class="col-md-6 col-12">
             <div class="mb-3">

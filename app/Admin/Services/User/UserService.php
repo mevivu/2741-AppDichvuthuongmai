@@ -2,6 +2,8 @@
 
 namespace App\Admin\Services\User;
 
+use App\Admin\Repositories\Cart\CartRepository;
+use App\Admin\Repositories\Cart\CartRepositoryInterface;
 use  App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Admin\Traits\Roles;
 use App\Api\V1\Support\UseLog;
@@ -19,13 +21,17 @@ class UserService implements UserServiceInterface
      *
      * @var array
      */
-    protected $data;
+    protected array $data;
 
-    protected $repository;
+    protected UserRepositoryInterface $repository;
 
-    public function __construct(UserRepositoryInterface $repository)
+    protected CartRepositoryInterface $cartRepository;
+
+    public function __construct(UserRepositoryInterface $repository,
+                                CartRepositoryInterface $cartRepository)
     {
         $this->repository = $repository;
+        $this->cartRepository = $cartRepository;
     }
 
     public function store(Request $request): object|false
@@ -41,8 +47,15 @@ class UserService implements UserServiceInterface
 
             $user = $this->repository->create($data);
             $roles = $this->getRoleCustomer();
+            //create role
             $this->repository->assignRoles($user, [$roles]);
 
+            //create cart for new user
+            if ($user) {
+                $userId = $user->id;
+                $cartData = ['user_id' => $userId];
+                $this->cartRepository->create($cartData);
+            }
             DB::commit();
             return $user;
         } catch (Exception $e) {

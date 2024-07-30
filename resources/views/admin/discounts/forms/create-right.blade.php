@@ -46,5 +46,37 @@
             </x-link>
         </div>
     </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            @lang('product')
+        </div>
+        <div class="card-body d-flex flex-column p-2 wrap-select2">
+            <x-select name="product_ids[]"
+                      class="select2-bs5-ajax"
+                      :data-url="route('admin.search.select.product')"
+                      id="product_id"
+                      multiple="true">
+            </x-select>
+            <x-link :href="route('admin.product.create')" class="mb-2">
+                <span class="ms-1">@lang('add') mới</span>
+            </x-link>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            @lang('driver')
+        </div>
+        <div class="card-body d-flex flex-column p-2 wrap-select2">
+            <x-select name="driver_ids[]"
+                      class="select2-bs5-ajax"
+                      :data-url="route('admin.search.select.driver')"
+                      id="driver_id"
+                      multiple="true">
+            </x-select>
+            <x-link :href="route('admin.driver.create')" class="mb-2">
+                <span class="ms-1">@lang('add') mới</span>
+            </x-link>
+        </div>
+    </div>
 
 </div>

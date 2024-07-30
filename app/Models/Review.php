@@ -13,14 +13,25 @@ class Review extends Model
     protected $table = "reviews";
 
     protected $fillable = [
+        /** ID của người dùng */
         'user_id',
-        'stars',
+        //  Số sao đánh giá
+        'rating',
+        // ID sản phẩm
+        'product_id',
+        //Nội dung đánh giá
         'content',
+        //Trạng thái
+        'status'
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
 }

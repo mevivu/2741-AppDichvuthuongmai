@@ -204,22 +204,23 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
         ->prefix('/vehicles')
         ->as('vehicle.')
         ->group(function () {
-            Route::group(['middleware' => ['permission:createDiscountCode', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:createVehicle', 'auth:admin']], function () {
                 Route::get('/add', 'create')->name('create');
                 Route::post('/add', 'store')->name('store');
 
             });
-            Route::group(['middleware' => ['permission:viewDiscountCode', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:viewVehicle', 'auth:admin']], function () {
                 Route::get('/', 'index')->name('index');
+                Route::get('/show/{id?}', 'show')->name('show');
                 Route::get('/edit/{id}', 'edit')->name('edit');
 
             });
 
-            Route::group(['middleware' => ['permission:updateDiscountCode', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:updateVehicle', 'auth:admin']], function () {
                 Route::put('/edit', 'update')->name('update');
             });
 
-            Route::group(['middleware' => ['permission:deleteDiscountCode', 'auth:admin']], function () {
+            Route::group(['middleware' => ['permission:deleteVehicle', 'auth:admin']], function () {
                 Route::delete('/delete/{id}', 'delete')->name('delete');
             });
 
@@ -389,6 +390,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
 
             Route::group(['middleware' => ['permission:viewOrder', 'auth:admin']], function () {
                 Route::get('/', 'index')->name('index');
+                Route::get('/renting', 'viewRentingOrder')->name('renting_order');
                 Route::get('/sua/{id}', 'edit')->name('edit');
             });
 
@@ -402,12 +404,43 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
             });
 
             Route::get('/render-info-shipping', 'renderInfoShipping')->name('render_info_shipping');
-            Route::get('/confirm/{id}', 'confirm')->name('confirm');
-            Route::get('/cancel/{id}', 'cancel')->name('cancel');
+            Route::get('/confirm/{id?}', 'confirm')->name('confirm');
+            Route::get('/cancel/{id?}', 'cancel')->name('cancel');
             Route::get('/add-product', 'addProduct')->name('add_product');
             Route::get('/calculate-total-before-save-order', 'calculateTotalBeforeSaveOrder')->name('calculate_total_before_save_order');
         });
     });
+
+    //Renting-Order
+    Route::prefix('/renting-orders')->as('renting-order.')->group(function () {
+        Route::controller(App\Admin\Http\Controllers\Order\RentingOrderController::class)->group(function () {
+            Route::group(['middleware' => ['permission:createOrder', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+
+            Route::group(['middleware' => ['permission:viewOrder', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
+
+
+            Route::group(['middleware' => ['permission:updateOrder', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteOrder', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+
+            Route::get('/render-info-shipping', 'renderInfoShipping')->name('render_info_shipping');
+            Route::get('/confirm/{id?}', 'confirm')->name('confirm');
+            Route::get('/cancel/{id?}', 'cancel')->name('cancel');
+            Route::get('/add-product', 'addProduct')->name('add_product');
+            Route::get('/calculate-total-before-save-order', 'calculateTotalBeforeSaveOrder')->name('calculate_total_before_save_order');
+        });
+    });
+
     //attributes
     Route::prefix('/attributes')->as('attribute.')->group(function () {
         Route::controller(App\Admin\Http\Controllers\AttributeVariation\AttributeVariationController::class)
@@ -583,6 +616,10 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
             Route::get('/store-categories', [App\Admin\Http\Controllers\Store\Category\StoreCategorySearchSelectController::class, 'selectSearch'])->name('store_category');
             Route::get('/store', [StoreSearchSelectController::class, 'selectSearch'])->name('store');
             Route::get('/area', [App\Admin\Http\Controllers\Area\AreaSearchSelectController::class, 'selectSearch'])->name('area');
+            Route::get('/topping', [App\Admin\Http\Controllers\Topping\ToppingSearchSelectController::class, 'selectSearch'])->name('topping');
+            Route::get('/driver', [App\Admin\Http\Controllers\Driver\DriverSearchSelectController::class, 'selectSearch'])->name('driver');
+            Route::get('/product', [App\Admin\Http\Controllers\Product\ProductSearchSelectController::class, 'selectSearch'])->name('product');
+            Route::get('/vehicle', [App\Admin\Http\Controllers\Vehicle\VehicleSearchSelectController::class, 'selectSearch'])->name('vehicle');
 
 
         });

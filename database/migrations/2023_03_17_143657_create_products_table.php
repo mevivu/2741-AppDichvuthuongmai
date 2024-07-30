@@ -15,8 +15,6 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('topping_id');
             $table->id();
             $table->tinyInteger('type');
             $table->string('name');
@@ -29,15 +27,11 @@ return new class extends Migration {
             $table->integer('qty')->nullable();
             $table->boolean('in_stock')->default(true);
             $table->boolean('is_active')->default(true);
-            $table->boolean('is_user_discount')->default(false);
-            $table->boolean('is_earning_point')->default(false);
             $table->text('avatar')->nullable();
             $table->longText('gallery')->nullable();
             $table->longText('desc')->nullable();
             $table->longText('informations')->nullable();
             $table->timestamps();
-
-            // $table->foreign('category_id')->references('id')->on('store_categories')->onDelete('cascade');
         });
     }
 

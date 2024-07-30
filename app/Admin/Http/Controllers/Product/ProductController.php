@@ -11,6 +11,7 @@ use App\Enums\Product\ProductType;
 use App\Admin\Repositories\Category\CategoryRepositoryInterface;
 use App\Admin\Repositories\Attribute\AttributeRepositoryInterface;
 use App\Admin\Http\Resources\Product\ProductEditResource;
+use App\Admin\Repositories\Discount\DiscountRepositoryInterface;
 use App\Admin\Repositories\Topping\ToppingRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -24,9 +25,11 @@ class ProductController extends Controller
     protected $repositoryCategory;
     protected $repositoryAttribute;
     protected $repositoryTopping;
+    protected $discountRepository;
 
     public function __construct(
         ProductRepositoryInterface $repository,
+        DiscountRepositoryInterface $discountRepository,
         CategoryRepositoryInterface $repositoryCategory,
         ToppingRepositoryInterface $repositoryTopping,
         AttributeRepositoryInterface $repositoryAttribute,
@@ -37,6 +40,7 @@ class ProductController extends Controller
         $this->repositoryCategory = $repositoryCategory;
         $this->repositoryTopping = $repositoryTopping;
         $this->repositoryAttribute = $repositoryAttribute;
+        $this->discountRepository = $discountRepository;
         $this->service = $service;
     }
 
@@ -85,13 +89,15 @@ class ProductController extends Controller
         $categories = $this->repositoryCategory->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
         $toppings = $this->repositoryTopping->getFlatTree();
+        $discounts = $this->discountRepository->getAll();
         return view(
             $this->view['create'],
             [
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
                 'attributes' => $attributes,
-                'toppings' => $toppings
+                'toppings' => $toppings,
+                'discounts' => $discounts,
             ]
         );
     }
@@ -121,6 +127,7 @@ class ProductController extends Controller
         $categories = $this->repositoryCategory->getFlatTree();
         $toppings = $this->repositoryTopping->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
+        $discounts = $this->discountRepository->getAll();
         return view(
             $this->view['edit'],
             [
@@ -128,7 +135,8 @@ class ProductController extends Controller
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
                 'attributes' => $attributes,
-                'toppings' => $toppings
+                'toppings' => $toppings,
+                'discounts' => $discounts,
             ]
         );
     }

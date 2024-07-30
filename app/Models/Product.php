@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\DefaultStatus;
-use App\Enums\Product\StockStatus;
 use App\Supports\Eloquent\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use App\Enums\Product\ProductType;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -40,24 +39,24 @@ class Product extends Model
     {
         return $this->type == ProductType::Simple();
     }
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'products_categories', 'product_id', 'category_id')->orderBy('position', 'asc');
     }
-    public function attributes()
+    public function attributes(): BelongsToMany
     {
         return $this->belongsToMany(Attribute::class, ProductAttribute::class, 'product_id', 'attribute_id')->orderBy('position', 'asc');
     }
-    public function productAttributes()
+    public function productAttributes(): HasMany
     {
         return $this->hasMany(ProductAttribute::class, 'product_id')->orderBy('position', 'asc');
     }
 
-    public function productVariations()
+    public function productVariations(): HasMany
     {
         return $this->hasMany(ProductVariation::class, 'product_id')->orderBy('position', 'asc');
     }
-    public function productVariation()
+    public function productVariation(): HasOne
     {
         return $this->hasOne(ProductVariation::class, 'product_id');
     }
@@ -80,5 +79,14 @@ class Product extends Model
     public function toppings(): BelongsToMany
     {
         return $this->belongsToMany(Topping::class, 'topping_product', 'product_id', 'topping_id')->orderBy('position', 'asc');
+    }
+
+    public function discounts(): BelongsToMany
+    {
+        return $this->belongsToMany(Discount::class, 'discount_applications', 'product_id', 'discount_code_id');
+    }
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'product_id', 'id');
     }
 }

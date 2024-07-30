@@ -25,8 +25,19 @@
         </div>
         <div class="card-body p-2 wrap-list-checkbox">
             @foreach ($toppings as $topping)
-                <x-input-checkbox :depth="$topping->depth" :checked="isset($product->toppings) ? $product->toppings : []"
+                <x-input-checkbox :depth="$topping->depth" :checked="isset($product->toppings) ? $product->toppings->pluck('id')->toArray() : []"
                     name="toppings_id[]" :label="$topping->name" :value="$topping->id" />
+            @endforeach
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ __('Mã giảm giá') }}
+        </div>
+        <div class="card-body p-2 wrap-list-checkbox">
+            @foreach ($discounts as $discount)
+                <x-input-checkbox :checked="isset($product->discounts) ? $product->discounts->pluck('id')->toArray() : []"
+                    name="discount_ids[]" :label="$discount->code" :value="$discount->id" />
             @endforeach
         </div>
     </div>
@@ -38,28 +49,6 @@
             <x-select class="form-select" name="product[is_active]" :required="true">
                 <x-select-option value="1" :title="__('Hoạt động')" />
                 <x-select-option :option="$product->is_active ?: '0'" value="0" :title="__('Tạm ngưng')" />
-            </x-select>
-        </div>
-    </div>
-    <div class="card mb-3">
-        <div class="card-header">
-            {{ __('Chiếc khẩu cho thành viên') }}
-        </div>
-        <div class="card-body p-2">
-            <x-select class="form-select" name="product[is_user_discount]" :required="true">
-                <x-select-option value="0" :title="__('Không')" />
-                <x-select-option :option="$product->is_user_discount ? '1' : '0'" value="1" :title="__('Có')" />
-            </x-select>
-        </div>
-    </div>
-    <div class="card mb-3">
-        <div class="card-header">
-            {{ __('Tích điểm') }}
-        </div>
-        <div class="card-body p-2">
-            <x-select class="form-select" name="product[is_earning_point]" :required="true">
-                <x-select-option value="0" :title="__('Không')" />
-                <x-select-option :option="$product->is_earning_point ? '1' : '0'" value="1" :title="__('Có')" />
             </x-select>
         </div>
     </div>

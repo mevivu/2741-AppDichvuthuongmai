@@ -28,6 +28,7 @@
 
 @endpush
 @push('custom-js')
+    @include('admin.drivers.scripts.scripts')
     @include('admin.layouts.modal.modal-pick-address')
     @include('admin.layouts.modal.modal-pick-end-address')
 

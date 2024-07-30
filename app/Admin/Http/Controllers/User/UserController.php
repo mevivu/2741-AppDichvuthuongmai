@@ -69,9 +69,15 @@ class UserController extends Controller
     public function store(UserRequest $request): RedirectResponse
     {
 
-        $instance = $this->service->store($request);
+        $response = $this->service->store($request);
 
-        return to_route($this->route['edit'], $instance->id);
+        if ($response) {
+            return $request->input('submitter') == 'save'
+                ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
+                : to_route($this->route['index'])->with('success', __('notifySuccess'));
+        }
+
+        return back()->with('error', __('notifyFail'))->withInput();
 
     }
 

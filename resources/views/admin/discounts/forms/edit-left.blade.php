@@ -1,7 +1,7 @@
 <div class="col-12 col-md-9">
     <div class="row">
         <!-- name -->
-        <h2 style="text-align: center; color: red;">phiếu giảm giá chỉnh sửa</h2>
+        <h2 style="text-align: center; color: red;">Sửa phiếu giảm giá</h2>
         <div class="col-12">
             <div class="card">
                 <div class="card-header">

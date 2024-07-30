@@ -13,6 +13,8 @@
 <script src="{{ asset('/public/libs/datatables/plugins/responsive/js/responsive.dataTables.min.js') }}"></script>
 <script src="{{ asset('/public/libs/datatables/plugins/responsive/js/responsive.bootstrap5.min.js') }}"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @stack('libs-js')
 <script type="module" src="{{ asset('public/admin/assets/js/i18n.js') }}"></script>
 <script src="{{ asset('public/admin/assets/js/setup.js') }}"></script>
