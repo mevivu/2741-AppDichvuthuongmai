@@ -37,7 +37,8 @@ return [
      */
 
     'middleware' => [
-        'web'
+        'web',
+        'docsApi'
     ],
 
     /*
@@ -98,7 +99,7 @@ return [
     |
      */
 
-    'output' => '/2741-AppDichvuthuongmai/docs/api/v1',
+    'output' => '/frameworkcty10/docs/api/v1',
 
 
     /*
