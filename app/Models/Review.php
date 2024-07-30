@@ -16,7 +16,7 @@ class Review extends Model
         /** ID của người dùng */
         'user_id',
         //  Số sao đánh giá
-        'stars',
+        'rating',
         // ID sản phẩm
         'product_id',
         //Nội dung đánh giá

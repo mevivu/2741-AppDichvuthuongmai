@@ -27,17 +27,16 @@ class ReviewService implements ReviewServiceInterface{
         $this->repository = $repository;
     }
 
-    public function store(Request $request):object
+    public function createReview(Request $request):object
     {
         try {
             DB::beginTransaction();
             $data = $request->validated();
             $userId = $this->getCurrentUserId();
             $data['user_id'] = $userId;
-            $review = $this->repository->createAuthCurrent($data);
+            $review = $this->repository->create($data);
             DB::commit();
             return $review;
-
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -45,13 +44,15 @@ class ReviewService implements ReviewServiceInterface{
 //           return false;
         }
     }
-    public function filterReviews(Request $request):object
+    public function filterReviews(Request $request): object
     {
-        $productId = $request->query('product_id');
-        $rating = $request->query('stars', null);
+        $data = $request->validated();
+
         $perPage = $request->query('per_page', 10);
 
-        return $this->repository->filterByRating($productId, $rating, $perPage);
+        return $this->repository->filterByRating($data['product_id'], $data['rating'], $perPage);
     }
+
+
 
 }
