@@ -262,21 +262,21 @@ return [
         'routeName' => null,
         'icon' => '<i class="ti ti-car"></i>',
         'roles' => [],
-        'permissions' => ['createOrder', 'viewOrder', 'updateOrder', 'deleteOrder'],
+        'permissions' => ['createRentingOrder', 'viewRentingOrder', 'updateRentingOrder', 'deleteRentingOrder'],
         'sub' => [
             [
                 'title' => 'Thêm đơn thuê xe',
                 'routeName' => 'admin.renting-order.create',
                 'icon' => '<i class="ti ti-plus"></i>',
                 'roles' => [],
-                'permissions' => ['createOrder'],
+                'permissions' => ['createRentingOrder'],
             ],
             [
                 'title' => 'DS đơn hàng thuê xe',
                 'routeName' => 'admin.renting-order.index',
                 'icon' => '<i class="ti ti-list"></i>',
                 'roles' => [],
-                'permissions' => ['viewOrder'],
+                'permissions' => ['viewRentingOrder'],
             ]
         ]
     ],

@@ -33,7 +33,19 @@ Route::prefix('stores')->controller(StoreController::class)
         Route::put('/update-password', 'updatePassword')->name('updatePassword');
     });
 
-//store
+//products
+Route::controller(App\Api\V1\Http\Controllers\Product\ProductController::class)
+    ->prefix('/products')
+    ->as('product.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::delete('/{id}', 'delete')->name('delete');
+        Route::post('/', 'store')->name('store');
+        Route::put('/', 'update')->name('update');
+    });
+
+//vehicles
 Route::prefix('vehicles')->controller(VehicleController::class)
     ->group(function () {
         Route::get('/', 'view')->name('view');
@@ -86,4 +98,4 @@ Route::controller(App\Api\V1\Http\Controllers\CategorySystem\CategorySystemContr
     ->as('category_system.')
     ->group(function () {
         Route::get('/', 'index')->name('index');
-});
+    });

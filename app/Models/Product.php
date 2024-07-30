@@ -18,6 +18,25 @@ class Product extends Model
     protected $table = 'products';
 
     protected $guarded = [];
+
+    protected $fillable = [
+        'type', // Loại sản phẩm
+        'name', // Tên sản phẩm
+        'price', // Giá sản phẩm
+        'selling_price', // Giá bán
+        'promotion_price', // Giá khuyến mãi
+        'sku', // Mã SKU
+        'manager_stock', // Quản lý kho
+        'qty', // Số lượng
+        'in_stock', // Còn hàng
+        'is_active', // Hoạt động
+        'avatar', // Ảnh
+        'gallery', // Bộ sưu tập ảnh
+        'desc', // Mô tả
+        'informations', // Thông tin chi tiết
+        'store_id', // ID cửa hàng
+    ];
+
     protected $columnSlug = 'name';
 
 
