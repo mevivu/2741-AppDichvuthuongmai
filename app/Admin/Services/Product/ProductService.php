@@ -16,12 +16,13 @@ use Illuminate\Support\Facades\DB;
 use App\Admin\Repositories\AttributeVariation\AttributeVariationRepositoryInterface;
 use App\Enums\Product\ProductType;
 use App\Enums\Product\ProductVariationAction;
+use App\Traits\UseLog;
 use Throwable;
 
 
 class ProductService implements ProductServiceInterface
 {
-    use Setup;
+    use Setup, UseLog;
 
     /**
      * Current Object instance
@@ -55,21 +56,20 @@ class ProductService implements ProductServiceInterface
         DB::beginTransaction();
         try {
             $this->data['product']['gallery'] = $this->data['product']['gallery'] ? explode(",", $this->data['product']['gallery']) : null;
+
             $instance = $this->repository->create($this->data['product']);
             $this->repository->attachCategories($instance, $this->data['categories_id'] ?? []);
             $this->repository->attachToppings($instance, $this->data['toppings_id'] ?? []);
             $this->repository->attachDiscounts($instance, $this->data['discount_ids'] ?? []);
-
-            if ($instance->type == ProductType::Variable() && isset($this->data['product_attribute']) && $this->data['product_attribute']) {
-
+            if ($instance->type == ProductType::Variable && isset($this->data['product_attribute'])) {
                 $this->repositoryProductAttribute->createOrUpdateWithVariation($instance->id, $this->data['product_attribute']);
 
                 $this->storeOrUpdateProductVariations($instance->id);
             }
-
             DB::commit();
             return $instance;
-        } catch (Throwable $th) {
+        } catch (Exception $e) {
+            $this->logError('Create Product Failed: ', $e);
             DB::rollBack();
             return false;
         }
@@ -90,8 +90,60 @@ class ProductService implements ProductServiceInterface
             $this->repository->syncDiscounts($instance, $this->data['discount_ids'] ?? []);
 
 
-            if ($instance->type == ProductType::Variable() && isset($this->data['product_attribute']) && $this->data['product_attribute']) {
+            if ($instance->type == ProductType::Variable->value && isset($this->data['product_attribute']) && $this->data['product_attribute']) {
                 $this->repositoryProductAttribute->createOrUpdateWithVariation($instance->id, $this->data['product_attribute']);
+                $this->storeOrUpdateProductVariations($instance->id);
+            } else {
+                $this->repository->deleteProductAttributes($instance);
+                $this->repository->deleteProductVariations($instance);
+            }
+            DB::commit();
+            return $instance;
+        } catch (Throwable $th) {
+            DB::rollBack();
+            return false;
+        }
+    }
+
+    public function storeApi(Request $request)
+    {
+
+        $this->data = $request->validated();
+        DB::beginTransaction();
+        try {
+            $instance = $this->repository->create($this->data['product']);
+            $this->repository->attachCategories($instance, $this->data['categories_id'] ?? []);
+            $this->repository->attachToppings($instance, $this->data['toppings_id'] ?? []);
+            $this->repository->attachDiscounts($instance, $this->data['discount_ids'] ?? []);
+            if ($instance->type == ProductType::Variable && isset($this->data['product_attribute'])) {
+                $this->repositoryProductAttribute->createOrUpdateWithVariationApi($instance->id, $this->data['product_attribute']);
+
+                $this->storeOrUpdateProductVariations($instance->id);
+            }
+            DB::commit();
+            return $instance;
+        } catch (Exception $e) {
+            $this->logError('Create Product Failed: ', $e);
+            DB::rollBack();
+            return false;
+        }
+    }
+
+    public function updateApi(Request $request): object|bool
+    {
+
+        $this->data = $request->validated();
+
+        DB::beginTransaction();
+        try {
+            $instance = $this->repository->update($this->data['product']['id'], $this->data['product']);
+            $this->repository->syncCategories($instance, $this->data['categories_id'] ?? []);
+            $this->repository->syncToppings($instance, $this->data['toppings_id'] ?? []);
+            $this->repository->syncDiscounts($instance, $this->data['discount_ids'] ?? []);
+
+
+            if ($instance->type == ProductType::Variable && isset($this->data['product_attribute'])) {
+                $this->repositoryProductAttribute->createOrUpdateWithVariationApi($instance->id, $this->data['product_attribute']);
                 $this->storeOrUpdateProductVariations($instance->id);
             } else {
                 $this->repository->deleteProductAttributes($instance);

@@ -1,7 +1,5 @@
 <?php
 
-use App\Enums\DefaultStatus;
-use App\Enums\Product\StockStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('type');
             $table->string('name');
@@ -31,6 +29,11 @@ return new class extends Migration {
             $table->longText('gallery')->nullable();
             $table->longText('desc')->nullable();
             $table->longText('informations')->nullable();
+
+            $table->unsignedBigInteger('store_id')->nullable();
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
+
+
             $table->timestamps();
         });
     }

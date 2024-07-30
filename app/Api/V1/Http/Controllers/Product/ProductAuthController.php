@@ -22,39 +22,6 @@ class ProductAuthController extends Controller
         $this->controllerProduct = new ProductController($repository);
     }
 
-    /**
-     * Danh sách sản phẩm của user
-     *
-     * Lấy danh sách sản phẩm.
-     *
-     * @headersParam X-TOKEN-ACCESS string
-     * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
-     * @queryParam keywords string
-     * Từ khóa sản phẩm. Example: ipad
-     * 
-     * @authenticated
-     * 
-     * @response 200 {
-     *      "status": 200,
-     *      "message": "Thực hiện thành công.",
-     *      "data": [
-     *          {
-     *              "id": 10,
-     *               "name": "Iphone 14",
-     *               "slug": "iphone-14",
-     *               "in_stock": true,
-     *               "avatar": "http://localhost/topzone/public/assets/images/default-image.png",
-     *               "price": 20900,
-     *               "promotion_price": 10000
-     *           }
-     *      ]
-     * }
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * 
-     * @return \Illuminate\Http\Response
-     */
     public function index(ProductRequest $request){
         return $this->controllerProduct->index($request);
     }
@@ -65,11 +32,11 @@ class ProductAuthController extends Controller
      *
      * @headersParam X-TOKEN-ACCESS string required
      * token để lấy dữ liệu. Example: ijCCtggxLEkG3Yg8hNKZJvMM4EA1Rw4VjVvyIOb7
-     * 
+     *
      * @pathParam id integer required
      * id sản phẩm. Example: 1
      * @authenticated
-     * 
+     *
      * @response 200 {
      *      "status": 200,
      *      "message": "Thực hiện thành công.",
@@ -87,7 +54,7 @@ class ProductAuthController extends Controller
      * }
      *
      * @param  \Illuminate\Http\Request  $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id){

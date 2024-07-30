@@ -10,43 +10,55 @@ class ProductRepository extends AdminProductRepository implements ProductReposit
     public function findOrFailWithRelations($id, array $relations = ['productAttributes', 'productVariations'])
     {
         $this->findOrFail($id);
-        if(in_array('productAttributes', $relations)){
-            $relations['productAttributes'] = function($query){
+        if (in_array('productAttributes', $relations)) {
+            $relations['productAttributes'] = function ($query) {
                 return $query->with(['attribute', 'attributeVariations']);
             };
         }
         $this->instance = $this->instance->load($relations);
         return $this->instance;
     }
-    
-    public function getByCategoriesWithRelations(array $categories_id = [], array $relations = ['productVariations']){
+
+    public function getByCategoriesWithRelations(array $categories_id = [], array $relations = ['productVariations'])
+    {
         $this->instance = $this->model->active()
-        ->whereHas('categories', function($query) use ($categories_id){
-            $query->whereIn('id', $categories_id);
-        })
-        ->with($relations)
-        ->orderBy('id', 'desc')
-        ->get();
+            ->whereHas('categories', function ($query) use ($categories_id) {
+                $query->whereIn('id', $categories_id);
+            })
+            ->with($relations)
+            ->orderBy('id', 'desc')
+            ->get();
         return $this->instance;
     }
-    public function getSearchByKeysWithRelations(array $data, array $relations = ['productVariations']){
+    public function getSearchByKeysWithRelations(array $data, array $relations = ['productVariations'])
+    {
         $this->instance = $this->model->active();
-        if(isset($data['keywords'])){
-            $this->instance = $this->instance->where('name', 'like', "%{$data['keywords']}%");    
+        if (isset($data['keywords'])) {
+            $this->instance = $this->instance->where('name', 'like', "%{$data['keywords']}%");
         }
+        if (isset($data['store_id'])) {
+            $this->instance = $this->instance->where('store_id', '=', $data['store_id']);
+        }
+
+        $page = $data['page'] ?? 1;
+        $limit = $data['limit'] ?? 10;
+
+
         $this->instance = $this->instance->with($relations)
-        ->orderBy('id', 'desc')
-        ->get();
+            ->orderBy('id', 'desc')
+            ->paginate($limit, ['*'], 'page', $page);
         return $this->instance;
     }
-    public function getAllWithRelations(array $relations = ['productVariations']){
+    public function getAllWithRelations(array $relations = ['productVariations'])
+    {
         $this->instance = $this->model->active()
-        ->with($relations)
-        ->orderBy('id', 'desc')
-        ->get();
+            ->with($relations)
+            ->orderBy('id', 'desc')
+            ->get();
         return $this->instance;
     }
-    public function getQueryBuilderOrderBy($column = 'id', $sort = 'DESC'){
+    public function getQueryBuilderOrderBy($column = 'id', $sort = 'DESC')
+    {
         $this->getQueryBuilder();
         $this->instance = $this->instance->orderBy($column, $sort);
         return $this->instance;
@@ -54,7 +66,7 @@ class ProductRepository extends AdminProductRepository implements ProductReposit
 
     // public function getAllWithRelations(array $relations = ['productVariations']){
     //     $discount = $this->getDiscountProduct();
-        
+
     //     if(in_array('productVariations', $relations)){
     //         $relations['productVariations'] = function($query) use ($discount){
     //             return $query->select('*')

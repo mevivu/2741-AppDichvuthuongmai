@@ -20,19 +20,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::controller(App\Api\V1\Http\Controllers\Discount\DiscountController::class)->prefix('/discounts')
-->as('discount.')
-->group(function () {
-    Route::get('/', 'index')->name('index'); // Route xuất ra danh sách các discount
-    Route::get('/show/{id}', 'show')->name('show'); // Route xem chi tiết 1 discount, tham số là {id} là discountid
-    Route::get('/store/{storeId}', 'getByStore')->name('getByStore'); // Route lấy danh sách discount theo store_id
-    Route::get('/user/{userId}', 'getByUser')->name('getByUser');
-    Route::get('/driver/{driverId}', 'getByDriver')->name('getByDriver');
-    // Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
-    Route::get('/store/{storeId}/discount/{discountId}', 'getDiscountByStoreAndId')->name('getDiscountByStoreAndId');
-    Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
+    ->as('discount.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index'); // Route xuất ra danh sách các discount
+        Route::get('/show/{id}', 'show')->name('show'); // Route xem chi tiết 1 discount, tham số là {id} là discountid
+        Route::get('/store/{storeId}', 'getByStore')->name('getByStore'); // Route lấy danh sách discount theo store_id
+        Route::get('/user/{userId}', 'getByUser')->name('getByUser');
+        Route::get('/driver/{driverId}', 'getByDriver')->name('getByDriver');
+        // Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
+        Route::get('/store/{storeId}/discount/{discountId}', 'getDiscountByStoreAndId')->name('getDiscountByStoreAndId');
+        Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
 
-
-});
+    });
 //***** -- discount -- ******* //
 //store
 Route::prefix('stores')->controller(StoreController::class)
@@ -47,12 +46,12 @@ Route::prefix('stores')->controller(StoreController::class)
         Route::put('/update-password', 'updatePassword')->name('updatePassword');
     });
 
-    //store
+//store
 Route::prefix('vehicles')->controller(VehicleController::class)
-->group(function () {
-    Route::get('/', 'view')->name('view');
-    Route::get('/show/{id}', 'show')->name('show');
-});
+    ->group(function () {
+        Route::get('/', 'view')->name('view');
+        Route::get('/show/{id}', 'show')->name('show');
+    });
 
 //auth
 Route::prefix('auth')->controller(UserController::class)
@@ -80,10 +79,10 @@ Route::prefix('drivers')->controller(DriverController::class)
 
 //auth
 Route::prefix('auth')->controller(AuthController::class)
-->group(function () {
-    Route::post('/login', 'login')->name('login');
+    ->group(function () {
+        Route::post('/login', 'login')->name('login');
 
-});
+    });
 
 
 //order
@@ -93,8 +92,6 @@ Route::prefix('orders')->controller(OrderController::class)
         Route::post('/rent-car', 'createRentOrder')->name('createRentOrder');
         Route::delete('/{id}', 'delete')->name('delete');
     });
-
-
 
 
 //post category
@@ -238,11 +235,11 @@ Route::controller(App\Api\V1\Http\Controllers\Topping\ToppingController::class)
     ->prefix('/toppings')
     ->as('topping.')
     ->group(function () {
-        Route::get('/', 'index')->name('index'); // Route xuất ra danh sách các Topping
-        Route::get('/show/{id}', 'show')->name('show'); // Route xem chi tiết 1 Topping, tham số là {id} là toppongid
-        Route::delete('/delete', 'delete')->name('delete'); // Route xóa 1 Phòng
-        Route::post('/add', 'add')->name('add'); // Route thêm 1 Phòng mới
-        Route::put('/edit', 'edit')->name('edit'); // Route sửa thông tin 1 Phòng
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{id}', 'show')->name('show');
+        Route::delete('/delete', 'delete')->name('delete');
+        Route::post('/add', 'add')->name('add');
+        Route::put('/edit', 'edit')->name('edit');
     });
 //***** -- Category System -- ******* //
 Route::controller(App\Api\V1\Http\Controllers\CategorySystem\CategorySystemController::class)

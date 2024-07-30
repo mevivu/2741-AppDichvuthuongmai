@@ -2,15 +2,11 @@
 
 namespace App\Enums\Product;
 
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Contracts\LocalizedEnum;
+use App\Supports\Enum;
 
-/**
- * @method static static Simple()
- * @method static static Variable()
- */
-final class ProductType extends Enum implements LocalizedEnum
+enum ProductType: int
 {
-    const Simple = 1;
-    const Variable = 2;
+    use Enum;
+    case Simple = 1;
+    case Variable = 2;
 }
