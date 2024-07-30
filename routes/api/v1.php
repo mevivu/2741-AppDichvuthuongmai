@@ -109,7 +109,9 @@ Route::controller(App\Api\V1\Http\Controllers\Review\ReviewController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store')->middleware('auth:sanctum');
+        Route::post('/createReview', 'createReview')->name('createReview')->middleware('auth:sanctum');
         Route::get('/filter', 'filter')->name('filter');
+
     });
 
 

@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 interface ReviewServiceInterface
 {
 
-    public function store(Request $request);
+
     public function filterReviews(Request $request);
+    public function createReview(Request $request);
 
 }
