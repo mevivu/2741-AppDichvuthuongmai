@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Supports\Eloquent\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
@@ -37,7 +36,7 @@ class Product extends Model
     ];
     public function isSimple()
     {
-        return $this->type == ProductType::Simple();
+        return $this->type == ProductType::Simple->value;
     }
     public function categories(): BelongsToMany
     {

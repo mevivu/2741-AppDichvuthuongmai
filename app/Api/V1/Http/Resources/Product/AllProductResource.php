@@ -17,36 +17,25 @@ class AllProductResource extends ResourceCollection
      */
     public function toArray($request)
     {
-        $discount = 1 - $this->getDiscountProduct() / 100;
-        return $this->collection->map(function($product) use ($discount){
-            $discount = $product->is_user_discount == true ? $discount : 1;
-            $data = [
-                'id' => $product->id,
-                'name' => $product->name,
-                'slug' => $product->slug,
-                'in_stock' => $product->in_stock,
-                'avatar' => asset($product->avatar)
-            ];
-            if($product->type == ProductType::Simple()){
-
-                $data['price'] = $product->price * $discount;
-                $data['promotion_price'] = $product->promotion_price * $discount ?: null;
-
-            }elseif($product->productVariations){
-                if($product->productVariations->count() == 1){
-                    $data['price'] = $product->productVariations[0]->price * $discount;
-                    $data['promotion_price'] = $product->productVariations[0]->promotion_price * $discount ?: null;
-
-                }elseif($product->productVariations->count() > 1){
-                    $price_variation = array_column($product->productVariations->toArray(), 'price');
-                    $promotion_price_variation = array_column($product->productVariations->toArray(), 'promotion_price');
-
-                    $data['min_promotion_price'] = min($promotion_price_variation) * $discount ?: null;
-                    $data['min_price'] = min($price_variation) * $discount;
-                    $data['max_price'] = max($price_variation) * $discount;
-                }
-            }
-            return $data;
-        });
+        return [
+            'products' => $this->collection->map(function ($instance) {
+                return new ProductResource($instance);
+            }),
+            'links' => [
+                'first' => $this->url(1),
+                'last' => $this->url($this->lastPage()),
+                'prev' => $this->previousPageUrl(),
+                'next' => $this->nextPageUrl(),
+            ],
+            'meta' => [
+                'current_page' => $this->currentPage(),
+                'from' => $this->firstItem(),
+                'to' => $this->lastItem(),
+                'limit' => $this->perPage(),
+                'total' => $this->total(),
+                'count' => $this->count(),
+                'total_pages' => $this->lastPage(),
+            ],
+        ];
     }
 }

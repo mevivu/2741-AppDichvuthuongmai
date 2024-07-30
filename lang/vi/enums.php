@@ -76,8 +76,8 @@ return [
         UserRoles::Driver->value => 'Tài xế',
     ],
     ProductType::class => [
-        ProductType::Simple => 'Sản phẩm đơn giản',
-        ProductType::Variable => 'Sản phẩm có biến thể'
+        ProductType::Simple->value => 'Sản phẩm đơn giản',
+        ProductType::Variable->value => 'Sản phẩm có biến thể'
     ],
     DefaultStatus::class => array(
         DefaultStatus::Published->value => 'Đã xuất bản',

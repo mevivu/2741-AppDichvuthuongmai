@@ -97,12 +97,12 @@ class DriverController extends Controller
      *
      * @response 200 {
      *     "status": 200,
-     *     "message": "Thực hiện thành công.",
+     *     "message": "Thực hiện thành công."
      * }
      *
      * @response 500 {
      *     "status": 500,
-     *     "message": "Error.",
+     *     "message": "Error."
      * }
      *
      * @return JsonResponse
@@ -164,17 +164,17 @@ class DriverController extends Controller
      *
      * @response 200 {
      *     "status": 200,
-     *     "message": "Thực hiện thành công.",
+     *     "message": "Thực hiện thành công."
      * }
      *
      * @response 400 {
      *     "status": 400,
-     *     "message": "Kiểm tra lại các trường.",
+     *     "message": "Kiểm tra lại các trường."
      * }
      *
      * @response 422 {
      *     "status": 422,
-     *     "error": "Registration failed.",
+     *     "error": "Registration failed."
      * }
      *
      * @return JsonResponse
