@@ -445,3 +445,23 @@ function deleteItemGallery(that, input) {
 	input.val(url_file);
 
 }
+// Dropdown active show child
+$(document).ready(function () {
+    var currentLocation = window.location.href; // Lấy đường dẫn của trang hiện tại
+    // Duyệt qua từng phần tử li trong menu
+    $("#sidebar-menu li").each(function () {
+        var menuItem = $(this);
+        var menuLink = menuItem.find("a");
+        $(menuLink).each(function () {
+            linkLocation = $(this).attr("href");
+            // So sánh đường dẫn của menu item với đường dẫn của trang hiện tại
+            if (linkLocation === currentLocation) {
+                $(this).addClass("active");
+                menuItem
+                    .find(".dropdown-toggle.nav-link, .dropdown-menu")
+                    .addClass("show");
+                // menuItem.find(".dropdown-toggle.nav-link").addClass("show");
+            }
+        });
+    });
+});
