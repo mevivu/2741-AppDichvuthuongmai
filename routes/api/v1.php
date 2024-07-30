@@ -19,7 +19,21 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::controller(App\Api\V1\Http\Controllers\Discount\DiscountController::class)->prefix('/discounts')
+->as('discount.')
+->group(function () {
+    Route::get('/', 'index')->name('index'); // Route xuất ra danh sách các discount
+    Route::get('/show/{id}', 'show')->name('show'); // Route xem chi tiết 1 discount, tham số là {id} là discountid
+    Route::get('/store/{storeId}', 'getByStore')->name('getByStore'); // Route lấy danh sách discount theo store_id
+    Route::get('/user/{userId}', 'getByUser')->name('getByUser'); 
+    Route::get('/driver/{driverId}', 'getByDriver')->name('getByDriver'); 
+    // Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
+    Route::get('/store/{storeId}/discount/{discountId}', 'getDiscountByStoreAndId')->name('getDiscountByStoreAndId'); 
+    Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
 
+
+});
+//***** -- discount -- ******* //
 //store
 Route::prefix('stores')->controller(StoreController::class)
     ->group(function () {
