@@ -164,20 +164,17 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function filter(ReviewRequest $request):JsonResponse{
-        try{
-            $product_id = $request->get('product_id');
-            $stars = $request->get('rating');
-            $perPage = $request->get('per_page', 10);
-
-            $reviews = $this->repository->filterByRating($product_id, $stars, $perPage);
+    public function filter(ReviewRequest $request): JsonResponse
+    {
+        try {
+            $reviews = $this->service->filterReviews($request);
             return $this->jsonResponseSuccess($reviews);
-        }catch (Exception $e){
-            $this->logError('Review creation failed:', $e);
-            return $this->jsonResponseError('',500);
+        } catch (Exception $e) {
+            $this->logError('Review filtering failed:', $e);
+            return $this->jsonResponseError('', 500);
         }
-
     }
+
 
 
 }

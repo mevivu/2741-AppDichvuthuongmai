@@ -6,6 +6,7 @@ use App\Admin\Repositories\EloquentRepositoryInterface;
 
 interface ReviewRepositoryInterface extends EloquentRepositoryInterface
 {
+
     public function getByProductId($product_id);
     public function createAuthCurrent($data);
     public function filterByRating($product_id, $rating, $perPage);

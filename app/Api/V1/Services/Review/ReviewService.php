@@ -51,15 +51,14 @@ class ReviewService implements ReviewServiceInterface{
             'stars' => 'nullable|integer|min:1|max:5',
             'per_page' => 'nullable|integer|min:1|max:100',
         ]);
+
         $productId = $request->query('product_id');
         $rating = $request->query('rating');
         $perPage = $request->query('per_page', 10);
-        $query = $this->repository->getModel()->where('product_id', $productId);
-        if (!is_null($rating)) {
-            $query->where('rating', $rating);
-        }
-        return $query->with('user')->paginate($perPage);
+
+        return $this->repository->filterByRating($productId, $rating, $perPage);
     }
+
 
 
 }
