@@ -81,6 +81,7 @@ class DriverController extends Controller
      * @bodyParam auto_accept boolean optional Tự động chấp nhận chuyến đi (Tự động: 1, Tắt: 2, Khoá: 3). Example: 1
      * @bodyParam vehicle_company string optional Hãng xe. Example: Toyota
      * @bodyParam name string optional Tên xe. Example: Vios
+     * @bodyParam price integer optional Giá thuê. Example: 500000
      * @bodyParam vehicle_registration_front file optional Ảnh mặt trước đăng ký xe. Example: vehicle_registration_front.jpg
      * @bodyParam vehicle_registration_back file optional Ảnh mặt sau đăng ký xe. Example: vehicle_registration_back.jpg
      * @bodyParam vehicle_front_image file optional Ảnh mặt trước xe. Example: vehicle_front_image.jpg
@@ -148,6 +149,7 @@ class DriverController extends Controller
      * @bodyParam auto_accept boolean optional Tự động chấp nhận chuyến đi (Tự động: 1, Tắt: 2, Khoá: 3). Example: 1
      * @bodyParam vehicle_company string optional Hãng xe. Example: Toyota
      * @bodyParam name string required Tên xe. Example: Vios
+     * @bodyParam price integer required Giá thuê. Example: 500000
      * @bodyParam vehicle_registration_front file required Ảnh mặt trước đăng ký xe. Example: vehicle_registration_front.jpg
      * @bodyParam vehicle_registration_back file required Ảnh mặt sau đăng ký xe. Example: vehicle_registration_back.jpg
      * @bodyParam vehicle_front_image file required Ảnh mặt trước xe. Example: vehicle_front_image.jpg

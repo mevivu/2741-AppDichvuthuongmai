@@ -696,6 +696,55 @@ return [
             'addClass' => 'text-center align-middle'
         ],
     ],
+    'renting-order' => [
+        'id' => [
+            'title' => 'Mã đơn hàng',
+            'orderable' => false,
+        ],
+        'user' => [
+            'title' => 'customer',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'payment_code' => [
+            'title' => 'Mã thanh toán',
+            'orderable' => false,
+            'addClass' => 'align-middle',
+            'visible' => false,
+        ],
+        'status' => [
+            'title' => 'Trạng thái',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'payment_method' => [
+            'title' => 'Phương thức thanh toán',
+            'orderable' => false,
+            'addClass' => 'align-middle text-center',
+        ],
+        'order_type' => [
+            'title' => 'Loại hợp đồng',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'total' => [
+            'title' => 'Tổng tiền',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'created_at' => [
+            'title' => 'Ngày đặt',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
+        'action' => [
+            'title' => 'Thao tác',
+            'orderable' => false,
+            'exportable' => false,
+            'printable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+    ],
     'slider' => [
         'name' => [
             'title' => 'Tên',

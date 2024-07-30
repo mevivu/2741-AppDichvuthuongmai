@@ -3,36 +3,45 @@
 namespace App\Admin\Services\Product;
 
 use App\Admin\Services\Product\ProductServiceInterface;
-use App\Admin\Repositories\Product\{ProductRepositoryInterface, ProductAttributeRepositoryInterface, ProductVariationRepositoryInterface};
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use App\Admin\Repositories\Product\{ProductRepositoryInterface,
+    ProductAttributeRepositoryInterface,
+    ProductVariationRepositoryInterface};
 use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
 use Illuminate\Support\Facades\DB;
 use App\Admin\Repositories\AttributeVariation\AttributeVariationRepositoryInterface;
 use App\Enums\Product\ProductType;
 use App\Enums\Product\ProductVariationAction;
+use Throwable;
 
 
 class ProductService implements ProductServiceInterface
 {
     use Setup;
+
     /**
      * Current Object instance
      *
      * @var array
      */
-    protected $data;
+    protected array $data;
 
-    protected $repository;
-    protected $repositoryAttributeVariation;
-    protected $repositoryProductAttribute;
-    protected $repositoryProductVariation;
+    protected ProductRepositoryInterface $repository;
+    protected AttributeVariationRepositoryInterface $repositoryAttributeVariation;
+    protected ProductAttributeRepositoryInterface $repositoryProductAttribute;
+    protected ProductVariationRepositoryInterface $repositoryProductVariation;
 
     public function __construct(
         ProductRepositoryInterface $repository,
         AttributeVariationRepositoryInterface $repositoryAttributeVariation,
         ProductAttributeRepositoryInterface $repositoryProductAttribute,
         ProductVariationRepositoryInterface $repositoryProductVariation,
-    ) {
+    )
+    {
         $this->repository = $repository;
         $this->repositoryAttributeVariation = $repositoryAttributeVariation;
         $this->repositoryProductAttribute = $repositoryProductAttribute;
@@ -60,14 +69,13 @@ class ProductService implements ProductServiceInterface
 
             DB::commit();
             return $instance;
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (Throwable $th) {
             DB::rollBack();
             return false;
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request): object|bool
     {
 
         $this->data = $request->validated();
@@ -91,19 +99,21 @@ class ProductService implements ProductServiceInterface
             }
             DB::commit();
             return $instance;
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (Throwable $th) {
             DB::rollBack();
             return false;
         }
     }
 
-    public function delete($id)
+    /**
+     * @throws Exception
+     */
+    public function delete($id): object|bool
     {
         return $this->repository->delete($id);
     }
 
-    protected function storeOrUpdateProductVariations($product_id)
+    protected function storeOrUpdateProductVariations($product_id): void
     {
         if (isset($this->data['products_variations']['attribute_variation_id']) && $this->data['products_variations']['attribute_variation_id']) {
             $attribute_variation_id = collect($this->data['product_attribute']['attribute_variation_id'])->collapse()->flip();
@@ -117,7 +127,7 @@ class ProductService implements ProductServiceInterface
         }
     }
 
-    public function createProductVariations(Request $request, array $view)
+    public function createProductVariations(Request $request, array $view): View|Factory|string|Application
     {
 
         $data = $request->validated();

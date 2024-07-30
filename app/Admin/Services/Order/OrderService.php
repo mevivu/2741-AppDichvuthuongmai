@@ -60,6 +60,24 @@ class OrderService implements OrderServiceInterface
             return false;
         }
     }
+
+    public function storeRentOrder(Request $request)
+    {
+        $this->data = $request->validated();
+        $this->data['payment_code'] = uniqid_real(6);
+        DB::beginTransaction();
+        try {
+            $order = $this->repository->create($this->data);
+            DB::commit();
+            return $order;
+        } catch (\Throwable $th) {
+            throw $th;
+            DB::rollBack();
+            return false;
+        }
+    }
+
+
     private function makeNewDataOrderDetail()
     {
         $products = $this->repositoryProduct->getByIdsAndOrderByIds(
@@ -125,6 +143,22 @@ class OrderService implements OrderServiceInterface
                 $this->data['order']['sub_total'] = $this->data['order']['total'] = $this->subTotal;
             }
             $order = $this->repository->update($this->data['order']['id'], $this->data['order']);
+            DB::commit();
+            return $order;
+        } catch (\Throwable $th) {
+            throw $th;
+            DB::rollBack();
+            return false;
+        }
+    }
+
+    public function updateRentOrder(Request $request)
+    {
+        $this->data = $request->validated();
+
+        DB::beginTransaction();
+        try {
+            $order = $this->repository->update($this->data['id'], $this->data);
             DB::commit();
             return $order;
         } catch (\Throwable $th) {

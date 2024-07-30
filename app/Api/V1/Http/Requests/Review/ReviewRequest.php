@@ -13,7 +13,7 @@ class ReviewRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodGet(): array
+  protected function methodGet(): array
     {
         return [
             'product_id' => ['required', 'exists:App\Models\Product,id'],

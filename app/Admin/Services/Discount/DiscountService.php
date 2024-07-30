@@ -80,20 +80,20 @@ class DiscountService implements DiscountServiceInterface
             $discountId = $discount->id;
 
             if(isset($data['store_ids'])){
-                $store_ids = $data['store_ids'];
-                $this->repository->attachRelations($discountId, $store_ids, 'stores');
+                $storeIds = $data['store_ids'];
+                $this->repository->attachRelations($discountId, $storeIds, 'stores');
             }
             if(isset($data['driver_ids'])){
-                $driver_ids = $data['driver_ids'];
-                $this->repository->attachRelations($discountId, $driver_ids, 'drivers');
+                $driverIds = $data['driver_ids'];
+                $this->repository->attachRelations($discountId, $driverIds, 'drivers');
             }
             if(isset($data['product_ids'])){
-                $product_ids = $data['product_ids'];
-                $this->repository->attachRelations($discountId, $product_ids, 'products');
+                $productIds = $data['product_ids'];
+                $this->repository->attachRelations($discountId, $productIds, 'products');
             }
             if(isset($data['user_ids'])){
-                $user_ids = $data['user_ids'];
-                $this->repository->attachRelations($discountId, $user_ids, 'users');
+                $userIds = $data['user_ids'];
+                $this->repository->attachRelations($discountId, $userIds, 'users');
             }
 
             DB::commit();

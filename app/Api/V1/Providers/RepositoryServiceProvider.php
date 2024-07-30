@@ -28,6 +28,7 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Api\V1\Repositories\Discount\DiscountRepositoryInterface' => 'App\Api\V1\Repositories\Discount\DiscountRepository',
         'App\Api\V1\Repositories\Area\AreaRepositoryInterface' => 'App\Api\V1\Repositories\Area\AreaRepository',
         'App\Api\V1\Repositories\Vehicle\VehicleRepositoryInterface' => 'App\Api\V1\Repositories\Vehicle\VehicleRepository',
+        
 
     ];
     /**
