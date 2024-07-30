@@ -38,7 +38,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <x-form id="formOrder" :action="route('admin.order.store')" type="post" :validate="true" autocomplete="off">
+            <x-form id="formOrder" :action="route('admin.renting-order.store')" type="post" :validate="true" autocomplete="off">
                 <div class="row justify-content-center">
                     @include('admin.renting_orders.forms.create-left')
                     @include('admin.renting_orders.forms.create-right')
@@ -46,7 +46,6 @@
             </x-form>
         </div>
     </div>
-    @include('admin.renting_orders.partials.modal-add-products')
 @endsection
 @push('libs-js')
 <script src="{{ asset('/public/libs/select2/dist/js/select2.min.js') }}"></script>

@@ -38,8 +38,8 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <x-form id="formOrder" :action="route('admin.order.update')" type="put" :validate="true">
-                <x-input type="hidden" name="order[id]" :value="$order->id" />
+            <x-form id="formOrder" :action="route('admin.renting-order.update')" type="put" :validate="true">
+                <x-input type="hidden" name="id" :value="$order->id" />
                 <div class="row justify-content-center">
                     @include('admin.renting_orders.forms.edit-left')
                     @include('admin.renting_orders.forms.edit-right')
@@ -47,7 +47,6 @@
             </x-form>
         </div>
     </div>
-    @include('admin.renting_orders.partials.modal-add-products')
 @endsection
 
 @push('libs-js')

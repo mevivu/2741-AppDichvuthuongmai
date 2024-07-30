@@ -249,8 +249,22 @@ return [
                 'permissions' => ['createOrder'],
             ],
             [
+                'title' => 'Thêm đơn thuê xe',
+                'routeName' => 'admin.order.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['createOrder'],
+            ],
+            [
                 'title' => 'DS đơn hàng',
                 'routeName' => 'admin.order.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewOrder'],
+            ],
+            [
+                'title' => 'DS đơn hàng thuê xe',
+                'routeName' => 'admin.renting-order.index',
                 'icon' => '<i class="ti ti-list"></i>',
                 'roles' => [],
                 'permissions' => ['viewOrder'],

@@ -710,11 +710,17 @@ return [
             'title' => 'Mã thanh toán',
             'orderable' => false,
             'addClass' => 'align-middle',
+            'visible' => false,
         ],
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,
             'addClass' => 'align-middle'
+        ],
+        'payment_method' => [
+            'title' => 'Phương thức thanh toán',
+            'orderable' => false,
+            'addClass' => 'align-middle text-center',
         ],
         'order_type' => [
             'title' => 'Loại hợp đồng',
