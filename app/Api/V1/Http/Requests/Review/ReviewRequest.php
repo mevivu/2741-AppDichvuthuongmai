@@ -24,7 +24,8 @@ class ReviewRequest extends BaseRequest
     {
         return [
             'product_id' => ['required', 'exists:App\Models\Product,id'],
-            'rating' => ['required'],
+            'rating' => ['nullable'],
+            'per_page'=>['nullable','integer','min:1'],
         ];
     }
 }

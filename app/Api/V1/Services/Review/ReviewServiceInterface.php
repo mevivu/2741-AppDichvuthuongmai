@@ -9,5 +9,6 @@ interface ReviewServiceInterface
 
     public function filterReviews(Request $request);
     public function store(Request $request);
+    public function index(Request $request);
 
 }

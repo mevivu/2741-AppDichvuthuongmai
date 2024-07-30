@@ -58,13 +58,14 @@ class ReviewController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index(ReviewRequest $request){
-        $reviews = $this->repository->getByProductId($request->get('product_id'));
-        return response()->json([
-            'status' => 200,
-            'message' => __('notifySuccess'),
-            'data' => new ReviewResource($reviews)
-        ], 200);
+    public function index(ReviewRequest $request): JsonResponse{
+        try {
+        $reviews = $this->service->index($request);
+            return $this->jsonResponseSuccess($reviews);
+        }catch (Exception $e){
+            $this->logError('Review filtering failed:', $e);
+            return $this->jsonResponseError('',500);
+        }
     }
 
     /**
