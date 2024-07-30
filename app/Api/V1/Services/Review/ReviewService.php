@@ -46,17 +46,11 @@ class ReviewService implements ReviewServiceInterface{
     }
     public function filterReviews(Request $request): object
     {
-        $request->validate([
-            'product_id' => 'required|integer|exists:products,id',
-            'stars' => 'nullable|integer|min:1|max:5',
-            'per_page' => 'nullable|integer|min:1|max:100',
-        ]);
+        $data = $request->validated();
 
-        $productId = $request->query('product_id');
-        $rating = $request->query('rating');
         $perPage = $request->query('per_page', 10);
 
-        return $this->repository->filterByRating($productId, $rating, $perPage);
+        return $this->repository->filterByRating($data['product_id'], $data['rating'], $perPage);
     }
 
 
