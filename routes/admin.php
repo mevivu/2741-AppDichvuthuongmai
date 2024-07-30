@@ -389,6 +389,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
 
             Route::group(['middleware' => ['permission:viewOrder', 'auth:admin']], function () {
                 Route::get('/', 'index')->name('index');
+                Route::get('/renting', 'viewRentingOrder')->name('renting_order');
                 Route::get('/sua/{id}', 'edit')->name('edit');
             });
 
@@ -408,6 +409,37 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
             Route::get('/calculate-total-before-save-order', 'calculateTotalBeforeSaveOrder')->name('calculate_total_before_save_order');
         });
     });
+
+    //Renting-Order
+    Route::prefix('/renting-orders')->as('renting-order.')->group(function () {
+        Route::controller(App\Admin\Http\Controllers\Order\RentingOrderController::class)->group(function () {
+            Route::group(['middleware' => ['permission:createOrder', 'auth:admin']], function () {
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+            });
+
+            Route::group(['middleware' => ['permission:viewOrder', 'auth:admin']], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+            });
+
+
+            Route::group(['middleware' => ['permission:updateOrder', 'auth:admin']], function () {
+                Route::put('/sua', 'update')->name('update');
+            });
+
+            Route::group(['middleware' => ['permission:deleteOrder', 'auth:admin']], function () {
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+
+            Route::get('/render-info-shipping', 'renderInfoShipping')->name('render_info_shipping');
+            Route::get('/confirm/{id?}', 'confirm')->name('confirm');
+            Route::get('/cancel/{id?}', 'cancel')->name('cancel');
+            Route::get('/add-product', 'addProduct')->name('add_product');
+            Route::get('/calculate-total-before-save-order', 'calculateTotalBeforeSaveOrder')->name('calculate_total_before_save_order');
+        });
+    });
+
     //attributes
     Route::prefix('/attributes')->as('attribute.')->group(function () {
         Route::controller(App\Admin\Http\Controllers\AttributeVariation\AttributeVariationController::class)
