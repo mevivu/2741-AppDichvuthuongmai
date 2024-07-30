@@ -8,7 +8,8 @@ use App\Models\Review;
 
 class ReviewRepository extends EloquentRepository implements ReviewRepositoryInterface
 {
-    public function getModel(){
+    public function getModel()
+    {
         return Review::class;
     }
 
@@ -22,12 +23,19 @@ class ReviewRepository extends EloquentRepository implements ReviewRepositoryInt
         $this->instance = auth('sanctum')->user()->reviews()->create($data);
         return $this->instance;
     }
-    public function filterByRating($product_id, $rating=null,$perPage)
+    public function store(array $data)
     {
-        $query = $this->model->where('product_id', $product_id);
-        if($rating !==null){
-            $query->where('stars',$rating);
+        return $this->model->create($data);
+    }
+    public function filterByRating($product_id, $rating = null, $perPage)
+    {
+        $query = $this->model::where('product_id', $product_id);
+
+        if ($rating !== null) {
+            $query->where('rating', $rating);
         }
+
         return $query->with('user')->paginate($perPage);
     }
+
 }
