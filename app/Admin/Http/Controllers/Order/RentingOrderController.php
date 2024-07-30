@@ -8,6 +8,7 @@ use App\Admin\Repositories\Order\OrderRepositoryInterface;
 use App\Admin\Services\Order\OrderServiceInterface;
 use App\Enums\Order\OrderStatus;
 use App\Admin\Http\Requests\Order\OrderRequest;
+use App\Admin\Http\Requests\Order\RentVehicleOrderRequest;
 use App\Admin\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -29,8 +30,7 @@ class RentingOrderController extends Controller
         ProductRepositoryInterface $repositoryProduct,
         ProductVariationRepositoryInterface $repositoryProductVariation,
         OrderServiceInterface $service
-    )
-    {
+    ) {
         parent::__construct();
         $this->repository = $repository;
         $this->repositoryUser = $repositoryUser;
@@ -59,20 +59,23 @@ class RentingOrderController extends Controller
             'delete' => 'admin.renting-order.delete',
         ];
     }
-    public function index(RentingOrderDataTable $dataTable){
+    public function index(RentingOrderDataTable $dataTable)
+    {
         return $dataTable->render($this->view['index'], [
             'status' => OrderStatus::asSelectArray()
         ]);
     }
     public function create(): Factory|View|Application
     {
-        return view($this->view['create']);
+        return view($this->view['create'], [
+            'payment_methods' => PaymentMethod::asSelectArray()
+        ]);
     }
-    public function store(OrderRequest $request): RedirectResponse
+    public function store(RentVehicleOrderRequest $request): RedirectResponse
     {
-        $order = $this->service->store($request);
-        if($order){
-            return to_route($this->route['edit'], $order->id);
+        $order = $this->service->storeRentOrder($request);
+        if ($order) {
+            return to_route($this->route['edit'], $order->id)->with('success', __('notifySuccess'));
         }
         return back()->with('error', __('notifyFail'));
     }
@@ -83,10 +86,10 @@ class RentingOrderController extends Controller
         $payment_methods = PaymentMethod::asSelectArray();
         return view($this->view['edit'], compact('order', 'status', 'payment_methods'));
     }
-    public function update(OrderRequest $request): RedirectResponse
+    public function update(RentVehicleOrderRequest $request): RedirectResponse
     {
-        $response = $this->service->update($request);
-        if($response){
+        $response = $this->service->updateRentOrder($request);
+        if ($response) {
             return back()->with('success', __('notifySuccess'));
         }
         return back()->with('error', __('notifyFail'));
@@ -98,21 +101,10 @@ class RentingOrderController extends Controller
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
     }
 
-    public function renderInfoShipping(OrderRequest $request): Factory|View|Application
-    {
-        $user = $this->repositoryUser->findOrFail($request->input('user_id'));
-        return view($this->view['info_shipping'], [
-            'customer_fullname' => $user->fullname,
-            'customer_email' => $user->email,
-            'customer_phone' => $user->phone,
-            'shipping_address' => $user->address
-        ]);
-    }
-
     public function confirm($id)
     {
         $result = $this->service->confirm($id);
-        if($result){
+        if ($result) {
             return to_route($this->route['index'])->with('success', __('Duyệt đơn hàng thành công'));
         }
         return to_route($this->route['index'])->with('error', __('Duyệt đơn hàng thất bại'));
@@ -121,43 +113,9 @@ class RentingOrderController extends Controller
     public function cancel($id)
     {
         $result = $this->service->cancel($id);
-        if($result){
+        if ($result) {
             return to_route($this->route['index'])->with('success', __('Từ chối đơn hàng thành công'));
         }
         return to_route($this->route['index'])->with('error', __('Từ chối đơn hàng thất bại'));
-    }
-
-    public function addProduct(OrderRequest $request): JsonResponse
-    {
-
-        $product = $this->service->addProduct($request);
-
-        if(!$product){
-            return response()->json([
-                'status' => 400,
-                'message' => __('notifyFail')
-            ], 400);
-        }
-        $response = view($this->view['add_item_product'], compact('product'))->render();
-
-        return response()->json([
-            'status' => 200,
-            'message' => __('notifySuccess'),
-            'data' => $response
-        ], 200);
-    }
-
-    public function calculateTotalBeforeSaveOrder(OrderRequest $request): JsonResponse
-    {
-        if(!$request->input('order_detail.product_id')){
-            $total = 0;
-        }else{
-            $total = $this->service->calculateTotal($request);
-        }
-        return response()->json([
-            'status' => 200,
-            'message' => __('notifySuccess'),
-            'data' => view($this->view['total'], compact('total'))->render()
-        ], 200);
     }
 }

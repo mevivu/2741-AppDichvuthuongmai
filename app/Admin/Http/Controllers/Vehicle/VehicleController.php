@@ -72,6 +72,23 @@ class VehicleController extends BaseController
         );
     }
 
+    public function show($id)
+    {
+        try {
+            $vehicle = $this->repository->findOrFail($id);
+            return response()->json([
+                'status' => 200,
+                'message' => __('Thực hiện thành công.'),
+                'data' => $vehicle
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => __('Thực hiện thất bại.')
+            ]);
+        }
+    }
+
     public function store(VehicleRequest $request): RedirectResponse
     {
         $vehicle = $this->service->store($request);

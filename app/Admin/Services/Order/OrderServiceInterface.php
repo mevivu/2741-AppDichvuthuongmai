@@ -9,6 +9,8 @@ interface OrderServiceInterface
     public function calculateTotal(Request $request);
     public function confirm($id);
     public function cancel($id);
+    public function storeRentOrder(Request $request);
+
      /**
      * Tạo mới
      *

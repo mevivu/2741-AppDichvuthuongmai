@@ -5,7 +5,7 @@ namespace App\Admin\DataTables\Order;
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Order\OrderRepositoryInterface;
 use App\Enums\Order\OrderStatus;
-use App\Enums\Order\OrderType;
+use App\Enums\Payment\PaymentMethod;
 use Illuminate\Database\Eloquent\Builder;
 
 class RentingOrderDataTable extends BaseDataTable
@@ -25,14 +25,18 @@ class RentingOrderDataTable extends BaseDataTable
     }
     protected function setColumnSearch()
     {
-        $this->columnAllSearch = [0, 1, 2, 3, 5, 6];
+        $this->columnAllSearch = [0, 1, 2, 3, 4, 6, 6, 7];
 
-        $this->columnSearchDate = [6];
+        $this->columnSearchDate = [7];
 
         $this->columnSearchSelect = [
             [
                 'column' => 3,
                 'data' => OrderStatus::asSelectArray()
+            ],
+            [
+                'column' => 4,
+                'data' => PaymentMethod::asSelectArray()
             ],
         ];
     }
@@ -44,6 +48,7 @@ class RentingOrderDataTable extends BaseDataTable
             'editlink' => 'admin.renting_orders.datatable.editlink',
             'status' => 'admin.renting_orders.datatable.status',
             'user' => 'admin.renting_orders.datatable.user',
+            'payment_method' => 'admin.renting_orders.datatable.payment-method',
         ];
     }
 
@@ -54,6 +59,7 @@ class RentingOrderDataTable extends BaseDataTable
             'status' => $this->view['status'],
             'total' => '{{ format_price($total) }}',
             'user' => $this->view['user'],
+            'payment_method' => $this->view['payment_method'],
             'created_at' => '{{ format_date($created_at) }}',
             'order_type' => '{{ App\Enums\Order\OrderType::getDescription($order_type) }}',
         ];
@@ -99,7 +105,7 @@ class RentingOrderDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['id', 'status', 'user', 'action'];
+        $this->customRawColumns = ['id', 'status', 'user', 'action', 'payment_method'];
     }
 
     public function setCustomFilterColumns(): void

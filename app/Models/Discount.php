@@ -33,6 +33,11 @@ class Discount extends Model
         return $this->belongsToMany(Store::class, 'discount_applications', 'discount_code_id', 'store_id');
     }
 
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'discount_applications', 'discount_code_id', 'order_id');
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'discount_applications', 'discount_code_id', 'user_id');

@@ -37,6 +37,10 @@ class Order extends Model
         'end_longitude',
         /** Địa chỉ của điểm kết thúc */
         'end_address',
+        /** Ngày bắt đầu */
+        'start_date',
+        /** Ngày kết thúc */
+        'end_date',
         /** Tổng tiền phụ của đơn hàng */
         'sub_total',
         /** Mã thanh toán */
