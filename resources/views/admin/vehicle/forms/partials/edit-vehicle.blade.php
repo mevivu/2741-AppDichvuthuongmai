@@ -74,7 +74,27 @@
                                    :placeholder="__('price_rent')"/>
                 </div>
             </div>
+            {{-- amenities --}}
+            <div class="col-12">
+                <div class="mb-3">
+                    <label class="control-label"><strong>{{ __('amenities') }}:</strong></label>
+                    <textarea name="amenities"
+                              class="ckeditor visually-hidden">
+                        {{$vehicle->amenities }}
+                    </textarea>
+                </div>
+            </div>
+            {{-- description --}}
+            <div class="col-12">
+                <div class="mb-3">
+                    <label class="control-label"><strong>{{ __('description') }}:</strong></label>
+                    <textarea name="description"
+                              class="ckeditor visually-hidden">
+                        {{$vehicle->description }}
 
+                    </textarea>
+                </div>
+            </div>
             {{-- vehicle_registration_front --}}
             <div class="col-md-6 col-12">
                 <div class="card mb-3">
@@ -103,26 +123,112 @@
                     </div>
                 </div>
             </div>
-
-            {{-- amenities --}}
-            <div class="col-12">
-                <div class="mb-3">
-                    <label class="control-label"><strong>{{ __('amenities') }}:</strong></label>
-                    <textarea name="amenities"
-                              class="ckeditor visually-hidden">
-                        {{$vehicle->amenities }}
-                    </textarea>
+            {{--driver_license_front --}}
+            <div class="col-md-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        @lang('driver_license_front')
+                    </div>
+                    <div class="card-body p-2">
+                        <x-input-image-ckfinder
+                            name="driver_license_front"
+                            :value="$vehicle->driver->driver_license_front"
+                            showImage="featureImageDriverLicenseFront"
+                        />
+                    </div>
                 </div>
             </div>
-            {{-- description --}}
-            <div class="col-12">
-                <div class="mb-3">
-                    <label class="control-label"><strong>{{ __('description') }}:</strong></label>
-                    <textarea name="description"
-                              class="ckeditor visually-hidden">
-                        {{$vehicle->description }}
-
-                    </textarea>
+            {{-- driver_license_back --}}
+            <div class="col-md-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        @lang('driver_license_back')
+                    </div>
+                    <div class="card-body p-2">
+                        <x-input-image-ckfinder
+                            name="driver_license_back"
+                            :value="$vehicle->driver->driver_license_back"
+                            showImage="featureImageDriverLicenseBack"
+                        />
+                    </div>
+                </div>
+            </div>
+            {{-- insurance_front_image --}}
+            <div class="col-md-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        @lang('insurance_front_image')
+                    </div>
+                    <div class="card-body p-2">
+                        <x-input-image-ckfinder name="insurance_front_image" :value="old('insurance_front_image')"
+                        :value="$vehicle->insurance_front_image"
+                        showImage="featureImageInsuranceFront"/>
+                    </div>
+                </div>
+            </div>
+            {{-- insurance_back_image --}}
+            <div class="col-md-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        @lang('insurance_back_image')
+                    </div>
+                    <div class="card-body p-2">
+                        <x-input-image-ckfinder name="insurance_back_image" :value="old('insurance_back_image')"
+                        :value="$vehicle->insurance_back_image"
+                        showImage="featureImageInsuranceBack"/>
+                    </div>
+                </div>
+            </div>
+            {{-- vehicle_front_image --}}
+            <div class="col-md-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        @lang('vehicle_front_image')
+                    </div>
+                    <div class="card-body p-2">
+                        <x-input-image-ckfinder name="vehicle_front_image" :value="old('vehicle_front_image')"
+                        :value="$vehicle->vehicle_front_image"
+                        showImage="featureImageVehicleFront"/>
+                    </div>
+                </div>
+            </div>
+            {{-- vehicle_back_image --}}
+            <div class="col-md-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        @lang('vehicle_back_image')
+                    </div>
+                    <div class="card-body p-2">
+                        <x-input-image-ckfinder name="vehicle_back_image" :value="old('vehicle_back_image')"
+                        :value="$vehicle->vehicle_back_image"
+                        showImage="featureImageVehicleBack"/>
+                    </div>
+                </div>
+            </div>
+            {{-- vehicle_side_image --}}
+            <div class="col-md-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        @lang('vehicle_side_image')
+                    </div>
+                    <div class="card-body p-2">
+                        <x-input-image-ckfinder name="vehicle_side_image" :value="old('vehicle_side_image')"
+                        :value="$vehicle->vehicle_side_image"
+                        showImage="featureImageVehicleSide"/>
+                    </div>
+                </div>
+            </div>
+            {{-- vehicle_interior_image --}}
+            <div class="col-md-6 col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        @lang('vehicle_interior_image')
+                    </div>
+                    <div class="card-body p-2">
+                        <x-input-image-ckfinder name="vehicle_interior_image" :value="old('vehicle_interior_image')"
+                        :value="$vehicle->vehicle_interior_image"
+                        showImage="featureImageVehicleInterior"/>
+                    </div>
                 </div>
             </div>
         </div>
