@@ -160,29 +160,29 @@ return [
             ]
         ]
     ],
-    [
-        'title' => 'Đơn hàng',
-        'routeName' => null,
-        'icon' => '<i class="ti ti-box"></i>',
-        'roles' => [],
-        'permissions' => ['createOrder', 'viewOrder', 'updateOrder', 'deleteOrder'],
-        'sub' => [
-            [
-                'title' => 'Thêm đơn hàng',
-                'routeName' => 'admin.order.create',
-                'icon' => '<i class="ti ti-plus"></i>',
-                'roles' => [],
-                'permissions' => ['createOrder'],
-            ],
-            [
-                'title' => 'DS đơn hàng',
-                'routeName' => 'admin.order.index',
-                'icon' => '<i class="ti ti-list"></i>',
-                'roles' => [],
-                'permissions' => ['viewOrder'],
-            ],
-        ]
-    ],
+//    [
+//        'title' => 'Đơn hàng',
+//        'routeName' => null,
+//        'icon' => '<i class="ti ti-box"></i>',
+//        'roles' => [],
+//        'permissions' => ['createOrder', 'viewOrder', 'updateOrder', 'deleteOrder'],
+//        'sub' => [
+//            [
+//                'title' => 'Thêm đơn hàng',
+//                'routeName' => 'admin.order.create',
+//                'icon' => '<i class="ti ti-plus"></i>',
+//                'roles' => [],
+//                'permissions' => ['createOrder'],
+//            ],
+//            [
+//                'title' => 'DS đơn hàng',
+//                'routeName' => 'admin.order.index',
+//                'icon' => '<i class="ti ti-list"></i>',
+//                'roles' => [],
+//                'permissions' => ['viewOrder'],
+//            ],
+//        ]
+//    ],
     [
         'title' => 'Thuê xe',
         'routeName' => null,
