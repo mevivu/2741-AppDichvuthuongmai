@@ -2,15 +2,20 @@
 
 namespace App\Enums\Post;
 
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Contracts\LocalizedEnum;
+use App\Admin\Support\Enum;
 
-/**
- * @method static static Published()
- * @method static static Draft()
- */
-final class PostStatus extends Enum implements LocalizedEnum
+enum PostStatus: int
 {
-    const Published = 1;
-    const Draft = 2;
+    use Enum;
+
+    case Published = 1;
+    case Draft = 2;
+
+    public function badge(): string
+    {
+        return match ($this) {
+            PostStatus::Published => 'bg-green',
+            PostStatus::Draft => 'bg-red',
+        };
+    }
 }

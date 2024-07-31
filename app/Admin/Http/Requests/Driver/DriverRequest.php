@@ -26,7 +26,6 @@ class DriverRequest extends BaseRequest
             'license_plate' => ['required', 'string', 'unique:vehicles,license_plate'],
             'license_plate_image' => ['nullable'],
             'vehicle_company' => ['nullable', 'string', 'max:255'],
-            'fullname' => 'required',
             'bank_name' => ['nullable', 'string', 'max:255'],
             'bank_account_name' => ['nullable', 'string', 'max:255'],
             'bank_account_number' => ['nullable', 'string', 'max:50'],

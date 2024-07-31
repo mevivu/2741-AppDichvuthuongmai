@@ -5,6 +5,8 @@ namespace App\Admin\DataTables\Post;
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Post\PostRepositoryInterface;
 use App\Admin\Traits\GetConfig;
+use App\Enums\FeaturedStatus;
+use App\Enums\Post\PostStatus;
 
 class PostDataTable extends BaseDataTable
 {
@@ -88,8 +90,22 @@ class PostDataTable extends BaseDataTable
     }
 
 
-    protected function setColumnSearch()
+    public function setColumnSearch(): void
     {
-        // TODO: Implement setColumnSearch() method.
+
+        $this->columnAllSearch = [1, 2, 3, 4];
+
+        $this->columnSearchDate = [4];
+
+        $this->columnSearchSelect = [
+            [
+                'column' => 2,
+                'data' => PostStatus::asSelectArray()
+            ],
+            [
+                'column' => 3,
+                'data' => FeaturedStatus::asSelectArray()
+            ],
+        ];
     }
 }

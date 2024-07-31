@@ -6,12 +6,14 @@ use App\Enums\Driver\AutoAccept;
 use App\Enums\Driver\DriverAssignmentType;
 use App\Enums\Driver\DriverStatus;
 use App\Enums\Driver\DriverTransactionStatus;
+use App\Enums\FeaturedStatus;
 use App\Enums\Order\OrderStatus;
 use App\Enums\Payment\PaymentMethod;
 use App\Enums\PostCategory\PostCategoryStatus;
 use App\Enums\Post\PostStatus;
 use App\Enums\Module\ModuleStatus;
 use App\Enums\Order\OrderType;
+use App\Enums\PriorityStatus;
 use App\Enums\Vehicle\VehicleType;
 use App\Enums\Product\{ProductInStock, ProductManagerStock, ProductStatus, ProductType, ProductVariationAction};
 use App\Enums\Setting\SettingGroup;
@@ -135,8 +137,16 @@ return [
         PostCategoryStatus::Draft => 'Bản nháp'
     ],
     PostStatus::class => [
-        PostStatus::Published => 'Đã xuất bản',
-        PostStatus::Draft => 'Bản nháp'
+        PostStatus::Published->value => 'Đã xuất bản',
+        PostStatus::Draft->value => 'Bản nháp'
+    ],
+    PriorityStatus::class => [
+        PriorityStatus::Priority->value => 'Ưu tiên',
+        PriorityStatus::NotPriority->value => 'Không ưu tiên'
+    ],
+    FeaturedStatus::class => [
+        FeaturedStatus::Featured->value => 'Nổi bật',
+        FeaturedStatus::Featureless->value => 'Không nổi bật'
     ],
     ModuleStatus::class => [
         ModuleStatus::ChuaXong => 'Chưa xong',
