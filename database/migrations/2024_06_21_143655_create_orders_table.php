@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\DefaultStatus;
+use App\Enums\DeleteStatus;
 use App\Enums\Order\OrderStatus;
 use App\Enums\Order\OrderType;
 use App\Enums\Payment\PaymentMethod;
@@ -44,7 +46,7 @@ return new class extends Migration {
             $table->tinyInteger('status')->default(OrderStatus::Pending->value);
             $table->text('note')->nullable();
 
-            $table->unsignedInteger('is_deleted')->default(0);
+            $table->tinyInteger('is_deleted')->default(DefaultStatus::Published->value);
 
             $table->timestamps();
 
