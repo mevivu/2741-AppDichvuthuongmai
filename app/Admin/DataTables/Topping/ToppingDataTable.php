@@ -4,10 +4,10 @@ namespace App\Admin\DataTables\Topping;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Topping\ToppingRepositoryInterface;
-use App\Enums\Product\Type;
 use App\Enums\Topping\ToppingStatus;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 
-//use App\Enums\Product\Type;
 
 class ToppingDataTable extends BaseDataTable
 {
@@ -23,18 +23,18 @@ class ToppingDataTable extends BaseDataTable
 
     }
 
-    public function setView()
+    public function setView(): void
     {
         $this->view = [
-            'action' => 'stores.toppings.datatable.action',
-            'edit_link' => 'stores.toppings.datatable.edit-link',
-            'avatar' => 'stores.toppings.datatable.avatar',
-            'price' => 'stores.toppings.datatable.price',
-            'status' => 'stores.toppings.datatable.status',
+            'action' => 'admin.toppings.datatable.action',
+            'edit_link' => 'admin.toppings.datatable.edit-link',
+            'avatar' => 'admin.toppings.datatable.avatar',
+            'price' => 'admin.toppings.datatable.price',
+            'status' => 'admin.toppings.datatable.status',
         ];
     }
 
-    public function setColumnSearch()
+    public function setColumnSearch(): void
     {
 
         $this->columnAllSearch = [0, 1, 2];
@@ -50,21 +50,19 @@ class ToppingDataTable extends BaseDataTable
 
     /**
      * Get query source of dataTable.
-     *return $this->repository->getByQueryBuilder(['store_id' => $this->slider->id]); items
-     * @param \App\Models\User $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function query()
+    public function query(): Builder
     {
         return $this->repository->getQueryBuilder();
     }
 
-    protected function setCustomColumns()
+    protected function setCustomColumns(): void
     {
         $this->customColumns = config('datatables_columns.topping', []);
     }
 
-    protected function setCustomEditColumns()
+    protected function setCustomEditColumns(): void
     {
         $this->customEditColumns = [
             'name' => $this->view['edit_link'],
@@ -74,14 +72,14 @@ class ToppingDataTable extends BaseDataTable
         ];
     }
 
-    protected function setCustomAddColumns()
+    protected function setCustomAddColumns(): void
     {
         $this->customAddColumns = [
             'action' => $this->view['action'],
         ];
     }
 
-    protected function setCustomRawColumns()
+    protected function setCustomRawColumns(): void
     {
         $this->customRawColumns = ['action', 'name', 'avatar', 'price', 'status'];
     }

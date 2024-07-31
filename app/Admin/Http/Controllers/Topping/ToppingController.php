@@ -3,12 +3,15 @@
 namespace App\Admin\Http\Controllers\Topping;
 
 use App\Admin\Http\Controllers\Controller;
-use App\Admin\Http\Requests\Admin\AdminRequest;
 use App\Admin\Http\Requests\Topping\ToppingRequest;
 use App\Admin\Repositories\Topping\ToppingRepositoryInterface;
 use App\Admin\Services\Topping\ToppingServiceInterface;
 use App\Admin\DataTables\Topping\ToppingDataTable;
 use App\Enums\Topping\ToppingStatus;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ToppingController extends Controller
 {
@@ -25,16 +28,16 @@ class ToppingController extends Controller
 
     }
 
-    public function getView()
+    public function getView(): array
     {
         return [
-            'index' => 'stores.toppings.index',
-            'create' => 'stores.toppings.create',
-            'edit' => 'stores.toppings.edit'
+            'index' => 'admin.toppings.index',
+            'create' => 'admin.toppings.create',
+            'edit' => 'admin.toppings.edit'
         ];
     }
 
-    public function getRoute()
+    public function getRoute(): array
     {
         return [
             'index' => 'admin.topping.index',
@@ -48,7 +51,7 @@ class ToppingController extends Controller
         return $dataTable->render($this->view['index']);
     }
 
-    public function create()
+    public function create(): Factory|View|Application
     {
         $roles = $this->repository->getAllRolesByGuardName('admin');
         $status = ToppingStatus::asSelectArray();
@@ -59,7 +62,7 @@ class ToppingController extends Controller
     }
 
 
-    public function store(ToppingRequest $request)
+    public function store(ToppingRequest $request): RedirectResponse
     {
         $instance = $this->service->store($request);
 
@@ -68,7 +71,10 @@ class ToppingController extends Controller
 
     }
 
-    public function edit($id)
+    /**
+     * @throws \Exception
+     */
+    public function edit($id): Factory|View|Application
     {
 
         $instance = $this->repository->findOrFail($id);
@@ -81,7 +87,7 @@ class ToppingController extends Controller
 
     }
 
-    public function update(ToppingRequest $request)
+    public function update(ToppingRequest $request): RedirectResponse
     {
         $this->service->update($request);
 
@@ -89,7 +95,7 @@ class ToppingController extends Controller
 
     }
 
-    public function delete($id)
+    public function delete($id): RedirectResponse
     {
 
         $this->service->delete($id);
