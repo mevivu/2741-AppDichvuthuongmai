@@ -8,7 +8,6 @@
             <x-button.modal-delete data-route="{{ route('admin.topping.delete', $topping->id) }}" :title="__('Xóa')" />
         </div>
     </div>
-
     <div class="card mb-3">
         <div class="card-header">
             {{ __('Trạng thái') }}
@@ -16,11 +15,21 @@
         <div class="card-body p-2">
             <x-select class="form-select" name="status" :required="true">
                 <x-select-option value="1" :title="__('Còn món')" />
-                <x-select-option :option="$topping->status ?: '0'" value="0" :title="__('Hết món')" />
+                <x-select-option :option="$topping->status ?: '2'" value="2" :title="__('Hết món')" />
             </x-select>
         </div>
     </div>
-
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ __('Sản phẩm') }}
+        </div>
+        <div class="card-body p-2 wrap-list-checkbox">
+            @foreach ($products as $product)
+                <x-input-checkbox :checked="$topping->products->pluck('id')->toArray()" name="products_id[]"
+                    :label="$product->name" :value="$product->id" />
+            @endforeach
+        </div>
+    </div>
     <div class="card mb-3">
         <div class="card-header">
             {{ __('Ảnh đại diện') }}

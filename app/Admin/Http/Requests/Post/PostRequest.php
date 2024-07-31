@@ -21,7 +21,7 @@ class PostRequest extends BaseRequest
             'title' => ['required', 'string'],
             'image' => ['required'],
             'is_featured' => ['nullable', 'boolean'],
-            'status' => ['required', new EnumValue(PostStatus::class, false)],
+            'status' => ['required', new EnumValue(PostStatus::class)],
             'excerpt' => ['nullable'],
             'content' => ['nullable']
         ];
@@ -36,7 +36,7 @@ class PostRequest extends BaseRequest
             'title' => ['required', 'string'],
             'image' => ['required'],
             'is_featured' => ['nullable', 'boolean'],
-            'status' => ['required', new EnumValue(PostStatus::class, false)],
+            'status' => ['required', new EnumValue(PostStatus::class)],
             'excerpt' => ['nullable'],
             'content' => ['nullable']
         ];

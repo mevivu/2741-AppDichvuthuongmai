@@ -1,0 +1,1 @@
+<span>{{ App\Enums\Topping\ToppingStatus::from($status)->description() }}</span>

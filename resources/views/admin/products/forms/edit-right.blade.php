@@ -21,17 +21,6 @@
     </div>
     <div class="card mb-3">
         <div class="card-header">
-            {{ __('Topping') }}
-        </div>
-        <div class="card-body p-2 wrap-list-checkbox">
-            @foreach ($toppings as $topping)
-                <x-input-checkbox :depth="$topping->depth" :checked="isset($product->toppings) ? $product->toppings : []"
-                    name="toppings_id[]" :label="$topping->name" :value="$topping->id" />
-            @endforeach
-        </div>
-    </div>
-    <div class="card mb-3">
-        <div class="card-header">
             {{ __('Trạng thái') }}
         </div>
         <div class="card-body p-2">

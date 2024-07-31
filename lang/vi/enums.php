@@ -15,6 +15,7 @@ use App\Enums\Vehicle\VehicleType;
 use App\Enums\Product\{ProductType, ProductVariationAction};
 use App\Enums\Setting\SettingGroup;
 use App\Enums\Slider\SliderStatus;
+use App\Enums\Topping\ToppingStatus;
 use App\Enums\User\{Gender, UserVip, UserRoles};
 
 return [
@@ -39,7 +40,7 @@ return [
     DriverTransactionStatus::class => [
         DriverTransactionStatus::Pending->value => 'Chưa chuyển khoản',
         DriverTransactionStatus::Success->value => 'Đã chuyển',
-//        DriverTransactionStatus::Late->value => 'Chuyển muộn',
+        //        DriverTransactionStatus::Late->value => 'Chuyển muộn',
     ],
     PaymentMethod::class => [
         PaymentMethod::Online->value => 'Online',
@@ -108,6 +109,10 @@ return [
     PostStatus::class => [
         PostStatus::Published => 'Đã xuất bản',
         PostStatus::Draft => 'Bản nháp'
+    ],
+    ToppingStatus::class => [
+        ToppingStatus::available => 'Còn món',
+        ToppingStatus::soldOut => 'Hết món'
     ],
     ModuleStatus::class => [
         ModuleStatus::ChuaXong => 'Chưa xong',

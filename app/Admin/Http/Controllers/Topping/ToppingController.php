@@ -45,16 +45,20 @@ class ToppingController extends Controller
     }
     public function index(ToppingDataTable $dataTable)
     {
-        return $dataTable->render($this->view['index']);
+        return $dataTable->render($this->view['index'], [
+        ]);
     }
 
     public function create()
     {
         $roles = $this->repository->getAllRolesByGuardName('admin');
+        $listProducts = $this->repository->getAllProducts(); // lấy danh sách các sản phẩm
         $status = ToppingStatus::asSelectArray();
         return view($this->view['create'], [
             'roles' => $roles,
-            'status' => $status
+            'status' => $status,
+            'products' => $listProducts, // truyền qua view danh sách các sản phẩm
+
         ]);
     }
 
@@ -71,11 +75,16 @@ class ToppingController extends Controller
     public function edit($id)
     {
 
+        $listProducts = $this->repository->getAllProducts(); // lấy danh sách các tiện ích
+
         $instance = $this->repository->findOrFail($id);
+
         return view(
             $this->view['edit'],
             [
                 'topping' => $instance,
+                'products' => $listProducts, // truyền qua view danh sách các sản phẩm
+                'status' => ToppingStatus::asSelectArray(),
             ],
         );
 

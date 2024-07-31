@@ -4,9 +4,7 @@ namespace App\Admin\DataTables\Topping;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Topping\ToppingRepositoryInterface;
-use App\Enums\Product\Type;
 
-//use App\Enums\Product\Type;
 
 class ToppingDataTable extends BaseDataTable
 {

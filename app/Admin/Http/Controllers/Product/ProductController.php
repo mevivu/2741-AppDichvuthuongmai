@@ -67,15 +67,15 @@ class ProductController extends Controller
         $categories = $categories->map(function ($category) {
             return [$category->id => generate_text_depth_tree($category->depth) . $category->name];
         });
-        $toppings = $this->repositoryTopping->getFlatTree();
-        $toppings = $toppings->map(function ($topping) {
-            return [$topping->id => generate_text_depth_tree($topping->depth) . $topping->name];
-        });
+        // $toppings = $this->repositoryTopping->getFlatTree();
+        // $toppings = $toppings->map(function ($topping) {
+        //     return [$topping->id => generate_text_depth_tree($topping->depth) . $topping->name];
+        // });
         return $dataTable->render($this->view['index'], [
             'in_stock' => $inStock,
             'is_user_discount' => $isUserDiscount,
             'categories' => $categories,
-            'toppings' => $toppings,
+            // 'toppings' => $toppings,
         ]);
 
     }
@@ -84,14 +84,14 @@ class ProductController extends Controller
     {
         $categories = $this->repositoryCategory->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
-        $toppings = $this->repositoryTopping->getFlatTree();
+        // $toppings = $this->repositoryTopping->getFlatTree();
         return view(
             $this->view['create'],
             [
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
                 'attributes' => $attributes,
-                'toppings' => $toppings
+                // 'toppings' => $toppings
             ]
         );
     }
@@ -111,7 +111,7 @@ class ProductController extends Controller
 
         $product = $this->repository->loadRelations($this->repository->findOrFail($id), [
             'categories:id',
-            'toppings:id',
+            // 'toppings:id',
             'productAttributes' => function ($query) {
                 return $query->with(['attribute.variations', 'attributeVariations:id']);
             },
@@ -119,7 +119,7 @@ class ProductController extends Controller
         ]);
         $product = new ProductEditResource($product);
         $categories = $this->repositoryCategory->getFlatTree();
-        $toppings = $this->repositoryTopping->getFlatTree();
+        // $toppings = $this->repositoryTopping->getFlatTree();
         $attributes = $this->repositoryAttribute->getAllPluckById();
         return view(
             $this->view['edit'],
@@ -128,7 +128,7 @@ class ProductController extends Controller
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
                 'attributes' => $attributes,
-                'toppings' => $toppings
+                // 'toppings' => $toppings
             ]
         );
     }

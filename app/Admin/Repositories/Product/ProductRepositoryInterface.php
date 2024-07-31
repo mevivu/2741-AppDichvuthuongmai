@@ -26,8 +26,9 @@ interface ProductRepositoryInterface extends EloquentRepositoryInterface
     public function getQueryBuilderOrderBy($column = 'id', $sort = 'DESC');
 
     public function searchAllLimit($value = '', $meta = [], $select = [], $limit = 10);
-    public function attachToppings(Product $product, array $toppingsId);
-    public function syncToppings(Product $product, array $toppingsId);
+    // public function attachToppings(Product $product, array $toppingsId);
+    // public function syncToppings(Product $product, array $toppingsId);
+
 
 
 

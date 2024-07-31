@@ -64,15 +64,15 @@ class ProductRepository extends EloquentRepository implements ProductRepositoryI
     {
         return $product->categories()->sync($categoriesId);
     }
-    public function attachToppings(Product $product, array $toppingsId)
-    {
-        return $product->toppings()->attach($toppingsId);
-    }
+    // public function attachToppings(Product $product, array $toppingsId)
+    // {
+    //     return $product->toppings()->attach($toppingsId);
+    // }
 
-    public function syncToppings(Product $product, array $toppingsId)
-    {
-        return $product->toppings()->sync($toppingsId);
-    }
+    // public function syncToppings(Product $product, array $toppingsId)
+    // {
+    //     return $product->toppings()->sync($toppingsId);
+    // }
     public function deleteProductAttributes(Product $product)
     {
         $product->productAttributes()->delete();
@@ -116,4 +116,5 @@ class ProductRepository extends EloquentRepository implements ProductRepositoryI
                 ->orWhere('price', 'LIKE', '%' . $key . '%');
         });
     }
+
 }

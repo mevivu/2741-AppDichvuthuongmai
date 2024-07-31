@@ -144,6 +144,7 @@ return [
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
+
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,

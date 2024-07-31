@@ -29,7 +29,17 @@ class ToppingService implements ToppingServiceInterface
         $obligatory = $request->filled('obligatory') ? 0 : 1;
         $this->data = $request->validated();
         $this->data['obligatory'] = $obligatory;
+        if (isset($this->data['products_id'])) {
+            $products = $this->data['products_id'];
+            unset($this->data['products_id']);
+        } else {
+            $products = array();
+        }
+
         $topping = $this->repository->create($this->data);
+        // Lấy ID của topping mới tạo
+
+        $this->repository->attachProducts($topping, $products);
         return $topping;
     }
 
@@ -38,8 +48,17 @@ class ToppingService implements ToppingServiceInterface
         $obligatory = $request->filled('obligatory') ? 0 : 1;
         $this->data = $request->validated();
         $this->data['obligatory'] = $obligatory;
-        $product = $this->repository->update($this->data['id'], $this->data);
-        return $product;
+        if (isset($this->data['products_id'])) {
+            $products = $this->data['products_id'];
+            unset($this->data['products_id']);
+        } else {
+            $products = array();
+        }
+        $topping = $this->repository->update($this->data['id'], $this->data);
+
+        $this->repository->syncProducts($topping, $products);
+
+        return $topping;
     }
 
     public function delete($id)

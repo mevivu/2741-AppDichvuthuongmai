@@ -11,12 +11,12 @@ enum Obligatory: int
     /**
      * The product is in stock and available for purchase.
      */
-    case Obligatory = 0;
+    case Obligatory = 1;
 
     /**
      * The product is out of stock and not available for purchase.
      */
-    case NoObligatory = 1;
+    case NoObligatory = 2;
 
 
 

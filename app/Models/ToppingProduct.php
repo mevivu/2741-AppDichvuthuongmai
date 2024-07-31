@@ -16,13 +16,13 @@ class ToppingProduct extends Model
         'topping_id',
 
     ];
-    public function product(): BelongsTo
+    public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsToMany(Product::class, 'product_id');
     }
 
-    public function topping(): BelongsTo
+    public function topping()
     {
-        return $this->belongsTo(Topping::class, 'topping_id');
+        return $this->belongsToMany(Topping::class, 'topping_id');
     }
 }

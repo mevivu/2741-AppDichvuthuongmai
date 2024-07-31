@@ -3,6 +3,9 @@
 namespace App\Admin\Http\Requests\Topping;
 
 use App\Admin\Http\Requests\BaseRequest;
+use App\Enums\Topping\ToppingStatus;
+use BenSampo\Enum\Rules\EnumValue;
+
 
 // use App\Enums\DefaultStatus;
 // use App\Enums\Product\StockStatus;
@@ -26,6 +29,8 @@ class ToppingRequest extends BaseRequest
             'status' => 'required',
             'obligatory' => 'nullable',
             'position' => 'nullable',
+            'products_id' => ['nullable', 'array'],
+            'products_id.*' => ['nullable', 'exists:App\Models\Product,id'],
         ];
     }
 
@@ -40,7 +45,8 @@ class ToppingRequest extends BaseRequest
             'status' => 'required',
             'obligatory' => 'nullable',
             'position' => 'nullable',
-
+            'products_id' => ['nullable', 'array'],
+            'products_id.*' => ['nullable', 'exists:App\Models\Product,id'],
         ];
     }
 }

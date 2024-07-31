@@ -31,9 +31,16 @@
             </x-select>
         </div>
     </div>
-
-
-
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ __('Sản phẩm') }}
+        </div>
+        <div class="card-body p-2 wrap-list-checkbox">
+            @foreach ($products as $product)
+                <x-input-checkbox name="products_id[]" :label="$product->name" :value="$product->id" />
+            @endforeach
+        </div>
+    </div>
     <div class="card mb-3">
         <div class="card-header">
             {{ __('Ảnh đại diện') }}

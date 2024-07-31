@@ -15,8 +15,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('topping_id');
+            $table->unsignedBigInteger('category_id')->default(true);
+            $table->unsignedBigInteger('topping_id')->default(true);
             $table->id();
             $table->tinyInteger('type');
             $table->string('name');

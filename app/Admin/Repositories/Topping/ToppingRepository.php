@@ -5,6 +5,8 @@ namespace App\Admin\Repositories\Topping;
 use App\Admin\Repositories\EloquentRepository;
 use App\Admin\Repositories\Topping\ToppingRepositoryInterface;
 use App\Models\Topping;
+use App\Models\Product;
+
 use App\Models\Role;
 use App\Models\Permission;
 
@@ -58,5 +60,27 @@ class ToppingRepository extends EloquentRepository implements ToppingRepositoryI
             ->toFlatTree();
         return $this->instance;
     }
+    //Product
+    public function findOrFailWithRelations($id, array $relations = ['products'])
+    {
+        $this->findOrFail($id);
+        $this->instance = $this->instance->load($relations);
+        return $this->instance;
+    }
+    public function attachProducts(Topping $topping, array $productsId)
+    {
+        return $topping->products()->attach($productsId);
+    }
+
+    public function syncProducts(Topping $topping, array $productsId)
+    {
+        return $topping->products()->sync($productsId);
+    }
+    // Lấy danh sách tất cả các sản phẩm
+    public function getAllProducts()
+    {
+        return Product::all();
+    }
+
 
 }

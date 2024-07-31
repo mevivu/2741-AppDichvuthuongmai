@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('topping_id')->references('id')->on('toppings')->onDelete('cascade');
         });
+
     }
 
     /**
@@ -32,10 +33,9 @@ return new class extends Migration {
     {
         Schema::table('topping_product', function (Blueprint $table) {
             // Drop foreign key constraint
-            $table->dropForeign(['product_id']);
             $table->dropForeign(['topping_id']);
+            $table->dropForeign(['product_id']);
         });
         Schema::dropIfExists('topping_product');
-
     }
 };

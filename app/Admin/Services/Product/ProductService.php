@@ -49,7 +49,7 @@ class ProductService implements ProductServiceInterface
             $instance = $this->repository->create($this->data['product']);
 
             $this->repository->attachCategories($instance, $this->data['categories_id'] ?? []);
-            $this->repository->attachToppings($instance, $this->data['toppings_id'] ?? []);
+            // $this->repository->attachToppings($instance, $this->data['toppings_id'] ?? []);
             if ($instance->type == ProductType::Variable() && isset($this->data['product_attribute']) && $this->data['product_attribute']) {
 
                 $this->repositoryProductAttribute->createOrUpdateWithVariation($instance->id, $this->data['product_attribute']);
@@ -77,7 +77,7 @@ class ProductService implements ProductServiceInterface
 
             $instance = $this->repository->update($this->data['product']['id'], $this->data['product']);
             $this->repository->syncCategories($instance, $this->data['categories_id'] ?? []);
-            $this->repository->syncToppings($instance, $this->data['toppings_id'] ?? []);
+            // $this->repository->syncToppings($instance, $this->data['toppings_id'] ?? []);
 
 
             if ($instance->type == ProductType::Variable() && isset($this->data['product_attribute']) && $this->data['product_attribute']) {

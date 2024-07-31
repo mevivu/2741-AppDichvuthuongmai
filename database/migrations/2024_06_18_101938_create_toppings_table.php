@@ -14,9 +14,9 @@ return new class extends Migration {
     {
         Schema::create('toppings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->double('price')->nullable();
-            $table->integer('status')->default(1);
+            $table->tinyInteger('status')->default(true);
             $table->text('avatar')->nullable();
             $table->tinyInteger('position')->default(0);
             $table->boolean('obligatory')->default(1);

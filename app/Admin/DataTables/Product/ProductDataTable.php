@@ -7,6 +7,7 @@ use App\Admin\Repositories\Category\CategoryRepositoryInterface;
 use App\Admin\Repositories\Product\ProductRepositoryInterface;
 
 
+
 class ProductDataTable extends BaseDataTable
 {
 
@@ -15,12 +16,14 @@ class ProductDataTable extends BaseDataTable
     protected CategoryRepositoryInterface $repoCat;
 
 
+
     public function __construct(
         ProductRepositoryInterface $repository,
-        CategoryRepositoryInterface $repoCat
+        CategoryRepositoryInterface $repoCat,
     ) {
         $this->repository = $repository;
         $this->repoCat = $repoCat;
+
         parent::__construct();
     }
 
@@ -59,9 +62,8 @@ class ProductDataTable extends BaseDataTable
                     return [$category->id => generate_text_depth_tree($category->depth) . $category->name];
                 })
             ]
+
         ];
-
-
     }
 
     public function query()
