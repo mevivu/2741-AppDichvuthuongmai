@@ -14,6 +14,7 @@ use App\Enums\Post\PostStatus;
 use App\Enums\Module\ModuleStatus;
 use App\Enums\Order\OrderType;
 use App\Enums\PriorityStatus;
+use App\Enums\Store\StoreStatus;
 use App\Enums\Vehicle\VehicleType;
 use App\Enums\Product\{ProductInStock, ProductManagerStock, ProductStatus, ProductType, ProductVariationAction};
 use App\Enums\Setting\SettingGroup;
@@ -126,6 +127,10 @@ return [
     SliderStatus::class => [
         SliderStatus::Active => 'Hoạt động',
         SliderStatus::Inactive => 'Ngưng hoạt động'
+    ],
+    StoreStatus::class => [
+        StoreStatus::Open->value => 'Mở cửa',
+        StoreStatus::Close->value => 'Đóng cửa'
     ],
     SettingGroup::class => [
         SettingGroup::General => 'Chung',

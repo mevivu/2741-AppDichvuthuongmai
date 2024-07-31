@@ -1,7 +1,7 @@
 <div class="col-12 col-md-9">
     <div class="card">
         <div class="card-header justify-content-center">
-            <h2 class="mb-0">{{ __('Thông tin Tài xế và Thông tin đăng ký') }}</h2>
+            <h2 class="mb-0">{{ __('Thông tin Tài xế và Thông tin đăng ký xe') }}</h2>
         </div>
         <div class="card-body">
             <!-- Nav tabs -->
@@ -26,7 +26,7 @@
                             type="button" role="tab"
                             aria-controls="registrationInfo"
                             aria-selected="false">
-                        {{ __('Thông tin Đăng ký') }}
+                        {{ __('Thông tin Đăng ký xe') }}
                     </button>
                 </li>
             </ul>
