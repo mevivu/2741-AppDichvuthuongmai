@@ -125,4 +125,9 @@ class StoreController extends Controller
 
         return $this->selectResponse();
     }
+    public function getById($id)
+    {
+        $store = $this->repository->findOrFail($id);
+        return response()->json($store);
+    }
 }
