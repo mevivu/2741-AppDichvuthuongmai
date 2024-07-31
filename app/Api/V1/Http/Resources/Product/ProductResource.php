@@ -25,6 +25,9 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'in_stock' => $this->in_stock,
+            'manager_stock' => $this->manager_stock,
+            'type' => $this->type,
+            'is_active' => $this->is_active,
             'avatar' => asset($this->avatar),
             'gallery' => $this->gallery ? array_map(function($value){
                 return asset($value);

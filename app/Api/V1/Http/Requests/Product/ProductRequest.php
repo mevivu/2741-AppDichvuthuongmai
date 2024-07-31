@@ -3,6 +3,8 @@
 namespace App\Api\V1\Http\Requests\Product;
 
 use App\Api\V1\Http\Requests\BaseRequest;
+use App\Enums\Product\ProductInStock;
+use App\Enums\Product\ProductStatus;
 use App\Enums\Product\ProductType;
 use Illuminate\Validation\Rules\Enum;
 
@@ -37,11 +39,11 @@ class ProductRequest extends BaseRequest
             'categories_id' => ['nullable', 'array'],
             'categories_id.*' => ['nullable', 'exists:App\Models\Category,id'],
             'product.avatar' => ['required'],
-            'product.type' => ['required', new Enum(ProductType::class)],
             'product.price' => ['nullable', 'numeric'],
             'product.promotion_price' => ['nullable', 'numeric'],
-            'product.in_stock' => ['required', 'boolean'],
-            'product.is_active' => ['required', 'boolean'],
+            'product.type' => ['required', new Enum(ProductType::class)],
+            'product.in_stock' => ['required', new Enum(ProductInStock::class)],
+            'product.is_active' => ['required', new Enum(ProductStatus::class)],
             'product.gallery' => ['nullable'],
             'toppings_id' => ['nullable', 'array'],
             'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
@@ -82,11 +84,11 @@ class ProductRequest extends BaseRequest
             'categories_id' => ['nullable', 'array'],
             'categories_id.*' => ['nullable', 'exists:App\Models\Category,id'],
             'product.avatar' => ['nullable'],
-            'product.type' => ['nullable', new Enum(ProductType::class)],
             'product.price' => ['nullable', 'numeric'],
             'product.promotion_price' => ['nullable', 'numeric'],
-            'product.in_stock' => ['nullable', 'boolean'],
-            'product.is_active' => ['nullable', 'boolean'],
+            'product.type' => ['nullable', new Enum(ProductType::class)],
+            'product.in_stock' => ['nullable', new Enum(ProductInStock::class)],
+            'product.is_active' => ['nullable', new Enum(ProductStatus::class)],
             'product.gallery' => ['nullable'],
             'toppings_id' => ['nullable', 'array'],
             'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
@@ -94,7 +96,7 @@ class ProductRequest extends BaseRequest
             'discount_ids.*' => ['nullable', 'exists:App\Models\Discount,id'],
         ];
         if ($this->input('product.type') == ProductType::Simple->value) {
-            $this->validate['product.price'] = ['required', 'numeric'];
+            $this->validate['product.price'] = ['nullable', 'numeric'];
         } elseif ($this->input('product.type') == ProductType::Variable->value) {
             $this->validate['product_attribute.attribute_id'] = ['required', 'array'];
             $this->validate['product_attribute.attribute_id.*'] = ['required', 'exists:App\Models\Attribute,id'];

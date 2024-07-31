@@ -13,7 +13,7 @@ use App\Enums\Post\PostStatus;
 use App\Enums\Module\ModuleStatus;
 use App\Enums\Order\OrderType;
 use App\Enums\Vehicle\VehicleType;
-use App\Enums\Product\{ProductType, ProductVariationAction};
+use App\Enums\Product\{ProductInStock, ProductManagerStock, ProductStatus, ProductType, ProductVariationAction};
 use App\Enums\Setting\SettingGroup;
 use App\Enums\Slider\SliderStatus;
 use App\Enums\Topping\ToppingStatus;
@@ -26,6 +26,18 @@ return [
         Gender::Male->value => 'Nam',
         Gender::Female->value => 'Nữ',
         Gender::Other->value => 'Khác',
+    ],
+    ProductStatus::class => [
+        ProductStatus::Active->value => 'Đang hoạt động',
+        ProductStatus::InActive->value => 'Ngưng hoạt động',
+    ],
+    ProductManagerStock::class => [
+        ProductManagerStock::Managed->value => 'Có quản lý',
+        ProductManagerStock::NotManaged->value => 'Không quản lý',
+    ],
+    ProductInStock::class => [
+        ProductInStock::InStock->value => 'Còn hàng',
+        ProductInStock::OutOfStock->value => 'Hết hàng',
     ],
     VehicleType::class => [
         VehicleType::Unclassified->value => 'Chưa được phân loại',

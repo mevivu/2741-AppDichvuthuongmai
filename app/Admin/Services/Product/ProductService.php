@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Admin\Traits\Setup;
 use Illuminate\Support\Facades\DB;
 use App\Admin\Repositories\AttributeVariation\AttributeVariationRepositoryInterface;
+use App\Api\V1\Support\AuthServiceApi;
 use App\Enums\Product\ProductType;
 use App\Enums\Product\ProductVariationAction;
 use App\Traits\UseLog;
@@ -22,7 +23,7 @@ use Throwable;
 
 class ProductService implements ProductServiceInterface
 {
-    use Setup, UseLog;
+    use Setup, UseLog, AuthServiceApi;
 
     /**
      * Current Object instance
@@ -111,6 +112,7 @@ class ProductService implements ProductServiceInterface
         $this->data = $request->validated();
         DB::beginTransaction();
         try {
+            $this->data['product']['store_id'] = $this->getCurrentStoreId();
             $instance = $this->repository->create($this->data['product']);
             $this->repository->attachCategories($instance, $this->data['categories_id'] ?? []);
             $this->repository->attachToppings($instance, $this->data['toppings_id'] ?? []);

@@ -262,6 +262,16 @@ class PermissionSeeder extends Seeder
             'updated_at' => DB::raw('NOW()')
         ]);
 
+        // Module Renting_Order
+        DB::table('modules')->insert([
+            'id' => 23,
+            'name' => 'Quản lý Thuê xe',
+            'description' => '<p>Chức năng quản lý Thuê xe</p>',
+            'status' => 2,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+
 
         // permissions
         DB::table('permissions')->insert([
@@ -1289,6 +1299,61 @@ class PermissionSeeder extends Seeder
             'role_id' => 1
         ]);
         // End permission categories system
+
+        // Start permission renting order
+        DB::table('permissions')->insert([
+            'id' => 91,
+            'title' => 'Xem Thuê Xe',
+            'name' => 'viewRentingOrder',
+            'guard_name' => 'admin',
+            'module_id' => 23,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 92,
+            'title' => 'Thêm Thuê Xe',
+            'name' => 'createRentingOrder',
+            'guard_name' => 'admin',
+            'module_id' => 23,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 93,
+            'title' => 'Sửa Thuê Xe',
+            'name' => 'updateRentingOrder',
+            'guard_name' => 'admin',
+            'module_id' => 23,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('permissions')->insert([
+            'id' => 94,
+            'title' => 'Xóa Thuê Xe',
+            'name' => 'deleteRentingOrder',
+            'guard_name' => 'admin',
+            'module_id' => 23,
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()')
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 91,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 92,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 93,
+            'role_id' => 1
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 94,
+            'role_id' => 1
+        ]);
+        // End permission renting order
 
         //seeding model_has_roles
         DB::table('model_has_roles')->insert([

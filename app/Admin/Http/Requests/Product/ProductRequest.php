@@ -3,8 +3,10 @@
 namespace App\Admin\Http\Requests\Product;
 
 use App\Admin\Http\Requests\BaseRequest;
-use BenSampo\Enum\Rules\EnumValue;
+use App\Enums\Product\ProductInStock;
+use App\Enums\Product\ProductStatus;
 use App\Enums\Product\ProductType;
+use Illuminate\Validation\Rules\Enum;
 
 class ProductRequest extends BaseRequest
 {
@@ -27,11 +29,11 @@ class ProductRequest extends BaseRequest
             'categories_id' => ['nullable', 'array'],
             'categories_id.*' => ['nullable', 'exists:App\Models\Category,id'],
             'product.avatar' => ['required'],
-            'product.type' => ['required', new EnumValue(ProductType::class, false)],
             'product.price' => ['nullable', 'numeric'],
             'product.promotion_price' => ['nullable', 'numeric'],
-            'product.in_stock' => ['required', 'boolean'],
-            'product.is_active' => ['required', 'boolean'],
+            'product.type' => ['required', new Enum(ProductType::class)],
+            'product.in_stock' => ['required', new Enum(ProductInStock::class)],
+            'product.is_active' => ['required', new Enum(ProductStatus::class)],
             'product.gallery' => ['nullable'],
             'toppings_id' => ['nullable', 'array'],
             'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
@@ -72,11 +74,11 @@ class ProductRequest extends BaseRequest
             'categories_id' => ['nullable', 'array'],
             'categories_id.*' => ['nullable', 'exists:App\Models\Category,id'],
             'product.avatar' => ['required'],
-            'product.type' => ['required', new EnumValue(ProductType::class, false)],
             'product.price' => ['nullable', 'numeric'],
             'product.promotion_price' => ['nullable', 'numeric'],
-            'product.in_stock' => ['required', 'boolean'],
-            'product.is_active' => ['required', 'boolean'],
+            'product.type' => ['required', new Enum(ProductType::class)],
+            'product.in_stock' => ['required', new Enum(ProductInStock::class)],
+            'product.is_active' => ['required', new Enum(ProductStatus::class)],
             'product.gallery' => ['nullable'],
             'toppings_id' => ['nullable', 'array'],
             'toppings_id.*' => ['nullable', 'exists:App\Models\Topping,id'],
