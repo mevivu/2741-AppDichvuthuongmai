@@ -3,7 +3,6 @@
     $(document).ready(function() {
         // define columns for the datatables
         columns = window.LaravelDataTables[$("input[name=id_table]").val()].columns();
-        console.log(columns);
         toggleColumnsDatatable(columns);
     });
 </script>

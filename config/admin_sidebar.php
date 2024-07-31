@@ -234,7 +234,12 @@ return [
         'routeName' => null,
         'icon' => '<i class="ti ti-brand-producthunt"></i>',
         'roles' => [],
-        'permissions' => ['createProduct', 'viewProduct', 'updateProduct', 'deleteProduct'],
+        'permissions' => [
+            'createProduct', 'viewProduct',
+            'updateProduct', 'deleteProduct',
+            'createProductCategory','updateProductCategory',
+            'viewProductCategory'
+        ],
         'sub' => [
             [
                 'title' => 'Thêm sản phẩm',
@@ -256,22 +261,6 @@ return [
                 'icon' => '<i class="ti ti-clipboard-list"></i>',
                 'roles' => [],
                 'permissions' => ['viewProductAttribute'],
-            ],
-        ]
-    ],
-    [
-        'title' => 'Danh mục',
-        'routeName' => null,
-        'icon' => '<i class="ti ti-category"></i>',
-        'roles' => [],
-        'permissions' => ['createProductCategory', 'viewProductCategory', 'updateProductCategory', 'deleteProductCategory'],
-        'sub' => [
-            [
-                'title' => 'Thêm danh mục',
-                'routeName' => 'admin.category.create',
-                'icon' => '<i class="ti ti-plus"></i>',
-                'roles' => [],
-                'permissions' => ['createProductCategory'],
             ],
             [
                 'title' => 'DS danh mục',
