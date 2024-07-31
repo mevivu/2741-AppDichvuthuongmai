@@ -13,7 +13,6 @@ enum DefaultStatus: int
     case Draft = 2;
     case Deleted = 3;
 
-    case Deleted = 3;
 
     public function badge(): string
     {
