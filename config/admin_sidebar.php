@@ -12,7 +12,7 @@ return [
     [
         'title' => 'area',
         'routeName' => null,
-        'icon' => '<i class="ti ti-article"></i>',
+        'icon' => '<i class="ti ti-map-pin"></i>',
         'roles' => [],
         'permissions' => ['createArea', 'viewArea', 'updateArea', 'deleteArea'],
         'sub' => [
@@ -32,33 +32,10 @@ return [
             ]
         ]
     ],
-    // [
-    //     'title' => 'Thành viên',
-    //     'routeName' => null,
-    //     'icon' => '<i class="ti ti-article"></i>',
-    //     'roles' => [],
-    //     'permissions' => ['createUser', 'viewUser', 'updateUser', 'deleteUser'],
-    //     'sub' => [
-    //         [
-    //             'title' => 'Thêm thành viên',
-    //             'routeName' => 'admin.user.create',
-    //             'icon' => '<i class="ti ti-plus"></i>',
-    //             'roles' => [],
-    //             'permissions' => ['createUser'],
-    //         ],
-    //         [
-    //             'title' => 'DS thành viên',
-    //             'routeName' => 'admin.user.index',
-    //             'icon' => '<i class="ti ti-list"></i>',
-    //             'roles' => [],
-    //             'permissions' => ['viewUser'],
-    //         ]
-    //     ]
-    // ],
     [
         'title' => 'notification',
         'routeName' => null,
-        'icon' => '<i class="ti ti-article"></i>',
+        'icon' => '<i class="ti ti-bell-check"></i>',
         'roles' => [],
         'permissions' => ['createNotification', 'viewNotification', 'updateNotification', 'deleteNotification'],
         'sub' => [
@@ -83,7 +60,11 @@ return [
         'routeName' => null,
         'icon' => '<i class="ti ti-article"></i>',
         'roles' => [],
-        'permissions' => ['createPost', 'viewPost', 'updatePost', 'deletePost'],
+        'permissions' =>
+            [
+                'createPost', 'viewPost', 'updatePost',
+                'deletePost', 'viewPostCategory', 'createPostCategory', 'updatePostCategory'
+            ],
         'sub' => [
             [
                 'title' => 'Thêm bài viết',
@@ -98,6 +79,13 @@ return [
                 'icon' => '<i class="ti ti-list"></i>',
                 'roles' => [],
                 'permissions' => ['viewPost'],
+            ],
+            [
+                'title' => 'DS chuyên mục',
+                'routeName' => 'admin.post_category.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewPostCategory'],
             ]
         ]
     ],
@@ -148,69 +136,7 @@ return [
 
         ]
     ],
-    [
-        'title' => 'Cửa hàng',
-        'routeName' => null,
-        'icon' => '<i class="ti ti-article"></i>',
-        'roles' => [],
-        'permissions' => [
-            'createUser',
-            'viewUser',
-            'updateUser',
-            'deleteUser',
-            'viewStoreCategory',
-            'updateStoreCategory',
-            'createStoreCategory'
-        ],
-        'sub' => [
-            [
-                'title' => 'Thêm Cửa hàng',
-                'routeName' => 'admin.store.create',
-                'icon' => '<i class="ti ti-plus"></i>',
-                'roles' => [],
-                'permissions' => ['createUser'],
-            ],
 
-            [
-                'title' => 'DS Cửa hàng',
-                'routeName' => 'admin.store.index',
-                'icon' => '<i class="ti ti-list"></i>',
-                'roles' => [],
-                'permissions' => ['viewUser'],
-            ],
-            [
-                'title' => 'DS Danh mục',
-                'routeName' => 'admin.store.category.index',
-                'icon' => '<i class="ti ti-list"></i>',
-                'roles' => [],
-                'permissions' => ['viewStoreCategory'],
-            ]
-        ]
-    ],
-
-    [
-        'title' => 'Chuyên mục',
-        'routeName' => null,
-        'icon' => '<i class="ti ti-category-2"></i>',
-        'roles' => [],
-        'permissions' => ['createPostCategory', 'viewPostCategory', 'updatePostCategory', 'deletePostCategory'],
-        'sub' => [
-            [
-                'title' => 'Thêm chuyên mục',
-                'routeName' => 'admin.post_category.create',
-                'icon' => '<i class="ti ti-plus"></i>',
-                'roles' => [],
-                'permissions' => ['createPostCategory'],
-            ],
-            [
-                'title' => 'DS chuyên mục',
-                'routeName' => 'admin.post_category.index',
-                'icon' => '<i class="ti ti-list"></i>',
-                'roles' => [],
-                'permissions' => ['viewPostCategory'],
-            ]
-        ]
-    ],
     [
         'title' => 'Dịch Vụ',
         'routeName' => null,
@@ -278,6 +204,29 @@ return [
                 'roles' => [],
                 'permissions' => ['viewRentingOrder'],
             ]
+        ]
+    ],
+    [
+        'title' => 'Phương tiện',
+        'routeName' => null,
+        'icon' => '<i class="ti ti-motorbike"></i>',
+        'roles' => [],
+        'permissions' => ['all', 'viewVehicle', 'updateVehicle', 'createVehicle', 'deleteVehicle'],
+        'sub' => [
+            [
+                'title' => 'add',
+                'routeName' => 'admin.vehicle.create',
+                'icon' => '<i class="ti ti-plus"></i>',
+                'roles' => [],
+                'permissions' => ['all', 'createVehicle'],
+            ],
+            [
+                'title' => 'DS phương tiện',
+                'routeName' => 'admin.vehicle.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['all', 'viewVehicle'],
+            ],
         ]
     ],
     [
@@ -357,26 +306,42 @@ return [
         ]
     ],
     [
-        'title' => 'Phương tiện',
+        'title' => 'Cửa hàng',
         'routeName' => null,
-        'icon' => '<i class="ti ti-car"></i>',
+        'icon' => '<i class="ti ti-building-warehouse"></i>',
         'roles' => [],
-        'permissions' => ['all', 'viewVehicle', 'updateVehicle', 'createVehicle', 'deleteVehicle'],
+        'permissions' => [
+            'createUser',
+            'viewUser',
+            'updateUser',
+            'deleteUser',
+            'viewStoreCategory',
+            'updateStoreCategory',
+            'createStoreCategory'
+        ],
         'sub' => [
             [
-                'title' => 'add',
-                'routeName' => 'admin.vehicle.create',
+                'title' => 'Thêm Cửa hàng',
+                'routeName' => 'admin.store.create',
                 'icon' => '<i class="ti ti-plus"></i>',
                 'roles' => [],
-                'permissions' => ['all', 'createVehicle'],
+                'permissions' => ['createUser'],
             ],
+
             [
-                'title' => 'DS phương tiện',
-                'routeName' => 'admin.vehicle.index',
+                'title' => 'DS Cửa hàng',
+                'routeName' => 'admin.store.index',
                 'icon' => '<i class="ti ti-list"></i>',
                 'roles' => [],
-                'permissions' => ['all', 'viewVehicle'],
+                'permissions' => ['viewUser'],
             ],
+            [
+                'title' => 'DS Danh mục',
+                'routeName' => 'admin.store.category.index',
+                'icon' => '<i class="ti ti-list"></i>',
+                'roles' => [],
+                'permissions' => ['viewStoreCategory'],
+            ]
         ]
     ],
     [
