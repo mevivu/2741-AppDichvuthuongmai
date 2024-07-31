@@ -7,6 +7,7 @@ use App\Api\V1\Support\AuthServiceApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Api\V1\Support\AuthSupport;
+use App\Enums\DefaultStatus;
 use App\Enums\Order\OrderType;
 use App\Traits\UseLog;
 
@@ -81,6 +82,6 @@ class OrderService implements OrderServiceInterface
 
     public function delete($id)
     {
-        return $this->repository->update($id, ['is_deleted' => 1]);
+        return $this->repository->update($id, ['is_deleted' => DefaultStatus::Deleted]);
     }
 }

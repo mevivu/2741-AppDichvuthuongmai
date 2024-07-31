@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\DefaultStatus;
+use App\Enums\Product\ProductInStock;
+use App\Enums\Product\ProductManagerStock;
+use App\Enums\Product\ProductStatus;
 use App\Supports\Eloquent\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +39,7 @@ class Product extends Model
         'desc', // Mô tả
         'informations', // Thông tin chi tiết
         'store_id', // ID cửa hàng
+        'is_deleted', // Trạng thái xóa
     ];
 
     protected $columnSlug = 'name';
@@ -48,8 +53,10 @@ class Product extends Model
     protected $casts = [
         'gallery' => AsArrayObject::class,
         'type' => ProductType::class,
-        'is_active' => 'boolean',
-        'in_stock' => 'boolean',
+        'is_active' => ProductStatus::class,
+        'in_stock' => ProductInStock::class,
+        'manager_stock' => ProductManagerStock::class,
+        'is_deleted' => DefaultStatus::class,
         'price' => 'double',
         'promotion_price' => 'double'
     ];

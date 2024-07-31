@@ -11,6 +11,7 @@ enum DefaultStatus: int
 
     case Published = 1;
     case Draft = 2;
+    case Deleted = 3;
 
     case Deleted = 3;
 

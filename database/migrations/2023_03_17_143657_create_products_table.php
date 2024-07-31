@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\DeleteStatus;
 use App\Enums\Product\ProductInStock;
 use App\Enums\Product\ProductManagerStock;
 use App\Enums\Product\ProductStatus;
@@ -33,6 +34,8 @@ return new class extends Migration {
             $table->longText('gallery')->nullable();
             $table->longText('desc')->nullable();
             $table->longText('informations')->nullable();
+
+            $table->tinyInteger('is_deleted')->default(DeleteStatus::Active->value);
 
             $table->unsignedBigInteger('store_id')->nullable();
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');

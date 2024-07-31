@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\DefaultStatus;
 use App\Enums\Order\OrderStatus;
 use App\Enums\Order\OrderType;
 use App\Enums\Payment\PaymentMethod;
@@ -75,6 +76,7 @@ class Order extends Model
         'status' => OrderStatus::class,
         'payment_method' => PaymentMethod::class,
         'order_type' => OrderType::class,
+        'is_deleted' => DefaultStatus::class,
         'total' => 'double',
         'departure_time' => 'datetime',
     ];
