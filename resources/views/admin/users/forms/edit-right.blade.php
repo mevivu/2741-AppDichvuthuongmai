@@ -9,7 +9,6 @@
         </div>
     </div>
     <!-- avatar -->
-    <!-- avatar -->
     <div class="col-12">
         <div class="card mb-3">
             <div class="card-header">

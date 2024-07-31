@@ -6,7 +6,7 @@
             <div class="col-12">
                 <div class="mb-3">
                     <label class="control-label">@lang('name')</label>
-                    <x-input name="name" :value="old('name')" :required="true" :placeholder="__('name')" />
+                    <x-input name="name" :value="old('name')" :required="true" :placeholder="__('name')"/>
                 </div>
             </div>
             <!-- address -->
@@ -16,9 +16,9 @@
                     <x-input-pick-address :label="trans('address')"
                                           name="address"
                                           :placeholder="trans('pickAddress')"
-                                          :required="true" />
-                    <x-input type="hidden" name="lat" />
-                    <x-input type="hidden" name="lng" />
+                                          :required="true"/>
+                    <x-input type="hidden" name="lat"/>
+                    <x-input type="hidden" name="lng"/>
                 </div>
             </div>
         </div>
