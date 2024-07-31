@@ -14,23 +14,27 @@ class PostCategoryRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodPost()
+    protected function methodPost(): array
     {
         return [
             'name' => ['required', 'string'],
+            'desc' => ['required', 'string'],
+            'avatar' => ['required', 'string'],
             'parent_id' => ['nullable', 'exists:App\Models\PostCategory,id'],
             'position' => ['required', 'integer'],
             'status' => ['required', new EnumValue(PostCategoryStatus::class, false)]
         ];
     }
 
-    protected function methodPut()
+    protected function methodPut(): array
     {
         return [
             'id' => ['required', 'exists:App\Models\PostCategory,id'],
+            'desc' => ['required', 'string'],
             'name' => ['required', 'string'],
             'parent_id' => ['nullable', 'exists:App\Models\PostCategory,id', new CategoryParent($this->id)],
             'position' => ['nullable', 'integer'],
+            'avatar' => ['required', 'string'],
             'status' => ['required', new EnumValue(PostCategoryStatus::class, false)]
         ];
     }

@@ -95,7 +95,8 @@ class PostCategoryController extends Controller
 
     }
 
-    public function update(PostCategoryRequest $request){
+    public function update(PostCategoryRequest $request): RedirectResponse
+    {
 
         $this->service->update($request);
 
@@ -103,7 +104,8 @@ class PostCategoryController extends Controller
 
     }
 
-    public function delete($id){
+    public function delete($id): RedirectResponse
+    {
 
         $this->service->delete($id);
 

@@ -4,6 +4,7 @@ namespace App\Admin\Services\PostCategory;
 
 use App\Admin\Services\PostCategory\PostCategoryServiceInterface;
 use  App\Admin\Repositories\PostCategory\PostCategoryRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
 
 class PostCategoryService implements PostCategoryServiceInterface
@@ -13,14 +14,14 @@ class PostCategoryService implements PostCategoryServiceInterface
      *
      * @var array
      */
-    protected $data;
-    
-    protected $repository;
+    protected array $data;
+
+    protected PostCategoryRepositoryInterface $repository;
 
     public function __construct(PostCategoryRepositoryInterface $repository){
         $this->repository = $repository;
     }
-    
+
     public function store(Request $request){
 
         $this->data = $request->validated();
@@ -28,15 +29,20 @@ class PostCategoryService implements PostCategoryServiceInterface
         return $this->repository->create($this->data);
     }
 
-    public function update(Request $request){
-        
+    /**
+     * @throws Exception
+     */
+    public function update(Request $request): object|bool
+    {
+
         $this->data = $request->validated();
 
         return $this->repository->update($this->data['id'], $this->data);
 
     }
 
-    public function delete($id){
+    public function delete($id): object|bool
+    {
         return $this->repository->delete($id);
 
     }
