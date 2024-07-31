@@ -3,8 +3,9 @@
 namespace App\Admin\Http\Requests\Post;
 
 use App\Admin\Http\Requests\BaseRequest;
+use App\Enums\FeaturedStatus;
 use App\Enums\Post\PostStatus;
-use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Validation\Rules\Enum;
 
 class PostRequest extends BaseRequest
 {
@@ -20,8 +21,8 @@ class PostRequest extends BaseRequest
             'categories_id.*' => ['nullable', 'exists:App\Models\PostCategory,id'],
             'title' => ['required', 'string'],
             'image' => ['required'],
-            'is_featured' => ['nullable', 'boolean'],
-            'status' => ['required', new EnumValue(PostStatus::class, false)],
+            'is_featured' => ['nullable', new Enum(FeaturedStatus::class)],
+            'status' => ['required', new Enum(PostStatus::class)],
             'excerpt' => ['nullable'],
             'content' => ['nullable']
         ];
@@ -35,8 +36,8 @@ class PostRequest extends BaseRequest
             'categories_id.*' => ['nullable', 'exists:App\Models\PostCategory,id'],
             'title' => ['required', 'string'],
             'image' => ['required'],
-            'is_featured' => ['nullable', 'boolean'],
-            'status' => ['required', new EnumValue(PostStatus::class, false)],
+            'is_featured' => ['nullable', new Enum(FeaturedStatus::class)],
+            'status' => ['required', new Enum(PostStatus::class)],
             'excerpt' => ['nullable'],
             'content' => ['nullable']
         ];

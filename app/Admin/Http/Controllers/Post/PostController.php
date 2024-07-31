@@ -8,6 +8,7 @@ use App\Admin\Repositories\Post\PostRepositoryInterface;
 use App\Admin\Repositories\PostCategory\PostCategoryRepositoryInterface;
 use App\Admin\Services\Post\PostServiceInterface;
 use App\Admin\DataTables\Post\PostDataTable;
+use App\Enums\FeaturedStatus;
 use App\Enums\Post\PostStatus;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -71,7 +72,6 @@ class PostController extends Controller
 
     public function store(PostRequest $request): RedirectResponse
     {
-
         $response = $this->service->store($request);
 
         if($response){
@@ -94,7 +94,8 @@ class PostController extends Controller
             [
                 'categories' => $categories,
                 'post' => $post,
-                'status' => PostStatus::asSelectArray()
+                'status' => PostStatus::asSelectArray(),
+                'featured_status' => FeaturedStatus::asSelectArray()
             ],
         );
 
