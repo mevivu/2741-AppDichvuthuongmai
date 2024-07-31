@@ -52,7 +52,7 @@
                             <label class="form-label">@lang('type'):</label>
                             <x-select name="type" :required="true">
                                 <x-select-option :value="1" :title="'Tiền'"/>
-                                <x-select-option :value="2" :title="'Phần trăm'"/>
+{{--                                <x-select-option :value="2" :title="'Phần trăm'"/>--}}
                             </x-select>
                         </div>
                     </div>
