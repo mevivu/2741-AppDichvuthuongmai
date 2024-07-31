@@ -255,13 +255,13 @@ return [
                 'roles' => [],
                 'permissions' => ['viewProduct'],
             ],
-            [
-                'title' => 'Các thuộc tính',
-                'routeName' => 'admin.attribute.index',
-                'icon' => '<i class="ti ti-clipboard-list"></i>',
-                'roles' => [],
-                'permissions' => ['viewProductAttribute'],
-            ],
+//            [
+//                'title' => 'Các thuộc tính',
+//                'routeName' => 'admin.attribute.index',
+//                'icon' => '<i class="ti ti-clipboard-list"></i>',
+//                'roles' => [],
+//                'permissions' => ['viewProductAttribute'],
+//            ],
             [
                 'title' => 'DS danh mục',
                 'routeName' => 'admin.category.index',
