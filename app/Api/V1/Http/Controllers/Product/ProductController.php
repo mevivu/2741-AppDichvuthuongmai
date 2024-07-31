@@ -44,7 +44,23 @@ class ProductController extends Controller
     /**
      * Danh sách sản phẩm
      *
-     * Lấy danh sách sản phẩm.
+     * API này trả về danh sách sản phẩm
+     *
+     * Loại của sản phẩm(type) bao gồm:
+     * - 1: Cơ bản
+     * - 2: Có biến thể
+     *
+     * Trạng thái quản lý tồn kho của sản phẩm(manager_stock) bao gồm:
+     * - 1: Có quản lý
+     * - 2: Không quản lý
+     *
+     * Trạng thái còn hàng của sản phẩm(in_stock) bao gồm:
+     * - 1: Còn hàng
+     * - 2: Hết hàng
+     *
+     * Trạng thái hoạt động của sản phẩm(is_active) bao gồm:
+     * - 1: Đang hoạt động
+     * - 2: Ngưng hoạt động
      *
      * @queryParam keywords string
      * Từ khóa theo tên sản phẩm. Example: Trà sữa
@@ -67,7 +83,10 @@ class ProductController extends Controller
      *              "id": 33,
      *              "name": "Sample Product",
      *              "slug": "sample-product",
-     *              "in_stock": true,
+     *              "in_stock": 1,
+     *              "manager_stock": 1,
+     *              "is_active": 1,
+     *              "type": 1,
      *              "avatar": "http://localhost:8080/2741-AppDichvuthuongmai/sample-avatar-url",
      *              "gallery": [
      *                  "https://images2.thanhnien.vn/528068263637045248/2024/1/25/428059e47aeafb68640f168d615371dc-65a11b038315c880-1706156293087602824781.jpg",
@@ -154,6 +173,22 @@ class ProductController extends Controller
      *
      * Lấy tiết của sản phẩm.
      *
+     * Loại của sản phẩm(type) bao gồm:
+     * - 1: Cơ bản
+     * - 2: Có biến thể
+     *
+     * Trạng thái quản lý tồn kho của sản phẩm(manager_stock) bao gồm:
+     * - 1: Có quản lý
+     * - 2: Không quản lý
+     *
+     * Trạng thái còn hàng của sản phẩm(in_stock) bao gồm:
+     * - 1: Còn hàng
+     * - 2: Hết hàng
+     *
+     * Trạng thái hoạt động của sản phẩm(is_active) bao gồm:
+     * - 1: Đang hoạt động
+     * - 2: Ngưng hoạt động
+     *
      * API này trả về thông tin chi tiết của Cửa hàng đã xác thực hiện tại
      * @authenticated
      * Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjc0MS1BcHBEaWNodnV0aHVvbmdtYWkvYXBpL3YxL3N0b3Jlcy9sb2dpbiIsImlhdCI6MTcyMjMyODI3NSwiZXhwIjoxNzI3NTEyMjc1LCJuYmYiOjE3MjIzMjgyNzUsImp0aSI6IlhJSUd4TEs5Y2FKQ1YwZlciLCJzdWIiOiIxIiwicHJ2IjoiZTVjYjM4YmY4ZDIzZGQ2ZWE4ZWFiODIwZDk1NTVlNmI3NGU2NzU0ZSJ9.y1P1ZzH4Qnh0eHFEPCy9FVlZe3ooNv8riyHqzApWeyw
@@ -170,7 +205,10 @@ class ProductController extends Controller
      *              "id": 33,
      *              "name": "Sample Product",
      *              "slug": "sample-product",
-     *              "in_stock": true,
+     *              "in_stock": 1,
+     *              "manager_stock": 1,
+     *              "is_active": 1,
+     *              "type": 1,
      *              "avatar": "http://localhost:8080/2741-AppDichvuthuongmai/sample-avatar-url",
      *              "gallery": [
      *                  "https://images2.thanhnien.vn/528068263637045248/2024/1/25/428059e47aeafb68640f168d615371dc-65a11b038315c880-1706156293087602824781.jpg",
@@ -238,6 +276,18 @@ class ProductController extends Controller
     /**
      * Tạo mới sản phẩm cho cửa hàng
      *
+     * Loại của sản phẩm(type) bao gồm:
+     * - 1: Cơ bản
+     * - 2: Có biến thể
+     *
+     * Trạng thái còn hàng của sản phẩm(in_stock) bao gồm:
+     * - 1: Còn hàng
+     * - 2: Hết hàng
+     *
+     * Trạng thái hoạt động của sản phẩm(is_active) bao gồm:
+     * - 1: Đang hoạt động
+     * - 2: Ngưng hoạt động
+     *
      * API này dùng để tạo mới sản phẩm cho cửa hàng
      * @authenticated
      * Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjc0MS1BcHBEaWNodnV0aHVvbmdtYWkvYXBpL3YxL3N0b3Jlcy9sb2dpbiIsImlhdCI6MTcyMjMyODI3NSwiZXhwIjoxNzI3NTEyMjc1LCJuYmYiOjE3MjIzMjgyNzUsImp0aSI6IlhJSUd4TEs5Y2FKQ1YwZlciLCJzdWIiOiIxIiwicHJ2IjoiZTVjYjM4YmY4ZDIzZGQ2ZWE4ZWFiODIwZDk1NTVlNmI3NGU2NzU0ZSJ9.y1P1ZzH4Qnh0eHFEPCy9FVlZe3ooNv8riyHqzApWeyw
@@ -246,11 +296,11 @@ class ProductController extends Controller
      * @bodyParam product.desc string Mô tả sản phẩm. Example: "Sample Description"
      * @bodyParam categories_id array ID của các danh mục. Example: [1, 2, 3]
      * @bodyParam product.avatar string required URL của ảnh đại diện sản phẩm. Example: "sample-avatar-url"
-     * @bodyParam product.type string required Loại sản phẩm. Example: "Simple"
-     * @bodyParam product.price numeric Giá sản phẩm. Example: 100.0
-     * @bodyParam product.promotion_price numeric Giá khuyến mãi của sản phẩm. Example: 90.0
-     * @bodyParam product.in_stock boolean required Trạng thái còn hàng. Example: true
-     * @bodyParam product.is_active boolean required Trạng thái hoạt động. Example: true
+     * @bodyParam product.price int Giá sản phẩm. Example: 100.0
+     * @bodyParam product.promotion_price int Giá khuyến mãi của sản phẩm. Example: 90.0
+     * @bodyParam product.type int required Loại sản phẩm. Example: 1
+     * @bodyParam product.in_stock int Trạng thái còn hàng. Example: 1
+     * @bodyParam product.is_active int Trạng thái hoạt động. Example: 1
      * @bodyParam product.gallery array Bộ sưu tập ảnh của sản phẩm. Example: ["image1-url", "image2-url"]
      * @bodyParam toppings_id array ID của các topping. Example: [1, 2]
      * @bodyParam discount_ids array ID của các khuyến mãi. Example: [1, 2]
@@ -296,19 +346,31 @@ class ProductController extends Controller
     /**
      * Cập nhật sản phẩm cho cửa hàng
      *
+     * Loại của sản phẩm(type) bao gồm:
+     * - 1: Cơ bản
+     * - 2: Có biến thể
+     *
+     * Trạng thái còn hàng của sản phẩm(in_stock) bao gồm:
+     * - 1: Còn hàng
+     * - 2: Hết hàng
+     *
+     * Trạng thái hoạt động của sản phẩm(is_active) bao gồm:
+     * - 1: Đang hoạt động
+     * - 2: Ngưng hoạt động
+     *
      * API này dùng để Cập nhật sản phẩm cho cửa hàng
      * @authenticated
      * Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvMjc0MS1BcHBEaWNodnV0aHVvbmdtYWkvYXBpL3YxL3N0b3Jlcy9sb2dpbiIsImlhdCI6MTcyMjMyODI3NSwiZXhwIjoxNzI3NTEyMjc1LCJuYmYiOjE3MjIzMjgyNzUsImp0aSI6IlhJSUd4TEs5Y2FKQ1YwZlciLCJzdWIiOiIxIiwicHJ2IjoiZTVjYjM4YmY4ZDIzZGQ2ZWE4ZWFiODIwZDk1NTVlNmI3NGU2NzU0ZSJ9.y1P1ZzH4Qnh0eHFEPCy9FVlZe3ooNv8riyHqzApWeyw
      *
-     * @bodyParam product.name string nullable Tên sản phẩm. Example: "Sample Product"
+     * @bodyParam product.name string optional Tên sản phẩm. Example: "Sample Product"
      * @bodyParam product.desc string Mô tả sản phẩm. Example: "Sample Description"
      * @bodyParam categories_id array ID của các danh mục. Example: [1, 2, 3]
-     * @bodyParam product.avatar string nullable URL của ảnh đại diện sản phẩm. Example: "sample-avatar-url"
-     * @bodyParam product.type string nullable Loại sản phẩm (1: Simple, 2: Variable). Example: 1
+     * @bodyParam product.avatar string optional URL của ảnh đại diện sản phẩm. Example: "sample-avatar-url"
      * @bodyParam product.price numeric Giá sản phẩm. Example: 100.0
      * @bodyParam product.promotion_price numeric Giá khuyến mãi của sản phẩm. Example: 90.0
-     * @bodyParam product.in_stock boolean nullable Trạng thái còn hàng. Example: true
-     * @bodyParam product.is_active boolean nullable Trạng thái hoạt động. Example: true
+     * @bodyParam product.type numeric Loại sản phẩm. Example: 1
+     * @bodyParam product.in_stock int Trạng thái còn hàng. Example: 1
+     * @bodyParam product.is_active int Trạng thái hoạt động. Example: 1
      * @bodyParam product.gallery array Bộ sưu tập ảnh của sản phẩm. Example: ["image1-url", "image2-url"]
      * @bodyParam toppings_id array ID của các topping. Example: [1, 2]
      * @bodyParam discount_ids array ID của các khuyến mãi. Example: [1, 2]
