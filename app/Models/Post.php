@@ -6,6 +6,8 @@ use App\Enums\Post\{PostStatus, PostType};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Admin\Support\Eloquent\Sluggable;
+use App\Enums\FeaturedStatus;
+use App\Enums\PriorityStatus;
 
 class Post extends Model
 {
@@ -25,7 +27,8 @@ class Post extends Model
     protected $casts = [
         'status' => PostStatus::class,
         'post_type' => PostType::class,
-        'is_featured' => 'boolean',
+        'is_featured' => FeaturedStatus::class,
+        'priority' => PriorityStatus::class,
     ];
 
 
@@ -36,7 +39,7 @@ class Post extends Model
 
     public function isPublished()
     {
-        return $this->status == PostStatus::Published();
+        return $this->status == PostStatus::Published;
     }
 
     public function categories()

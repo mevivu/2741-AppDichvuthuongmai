@@ -44,8 +44,10 @@
 
 @push('custom-js')
 
-{{ $dataTable->scripts() }}
+    {{ $dataTable->scripts() }}
 
-@include('admin.posts.scripts.datatable')
+    @include('admin.scripts.datatable-toggle-columns', [
+            'id_table' => $dataTable->getTableAttribute('id')
+    ])
 
 @endpush

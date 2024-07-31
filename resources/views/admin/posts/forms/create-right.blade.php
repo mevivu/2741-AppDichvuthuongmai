@@ -22,7 +22,7 @@
             {{ __('Nổi bật') }}
         </div>
         <div class="card-body p-2">
-            <x-input-switch name="is_featured" value="1" :label="__('Nổi bật?')"/>
+            <x-input-switch name="is_featured" value="{{ App\Enums\FeaturedStatus::Featured->value }}" :label="__('Nổi bật?')"/>
         </div>
     </div>
     <div class="card mb-3">
@@ -37,7 +37,7 @@
             </x-select>
         </div>
     </div>
-    
+
     <div class="card mb-3">
         <div class="card-header">
             {{ __('Ảnh đại diện') }}
