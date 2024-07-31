@@ -37,4 +37,5 @@ class StoreRepository extends EloquentRepository implements StoreRepositoryInter
                 ->orWhere('contact_phone', 'LIKE', '%' . $key . '%');
         });
     }
+
 }

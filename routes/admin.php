@@ -113,7 +113,6 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
         Route::controller(App\Admin\Http\Controllers\Store\StoreController::class)->group(function () {
             Route::get('/add', 'create')->name('create');
             Route::get('/', 'index')->name('index');
-            Route::get('/{id}', 'getById')->name('detail');
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::put('/edit', 'update')->name('update');
             Route::post('/add', 'store')->name('store');
