@@ -23,7 +23,11 @@
             {{ __('Nổi bật') }}
         </div>
         <div class="card-body p-2">
-            <x-input-switch :checked="$post->is_featured" name="is_featured" value="1" :label="__('Nổi bật?')"/>
+            <x-select name="is_featured" :required="true">
+                @foreach ($featured_status as $key => $value)
+                    <x-select-option :option="$post->is_featured->value" :value="$key" :title="$value" />
+                @endforeach
+            </x-select>
         </div>
     </div>
     <div class="card mb-3">
@@ -38,7 +42,7 @@
             </x-select>
         </div>
     </div>
-    
+
     <div class="card mb-3">
         <div class="card-header">
             {{ __('Ảnh đại diện') }}

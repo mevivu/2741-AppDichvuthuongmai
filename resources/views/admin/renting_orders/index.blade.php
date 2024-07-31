@@ -53,7 +53,10 @@
 
 {{ $dataTable->scripts() }}
 
-@include('admin.renting_orders.scripts.datatable')
+@include('admin.scripts.datatable-toggle-columns', [
+        'id_table' => $dataTable->getTableAttribute('id')
+])
+
 @include('admin.renting_orders.scripts.scripts')
 
 @endpush
