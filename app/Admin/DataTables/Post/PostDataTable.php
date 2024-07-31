@@ -10,14 +10,7 @@ class PostDataTable extends BaseDataTable
 {
 
     use GetConfig;
-    /**
-     * Available button actions. When calling an action, the value will be used
-     * as the function name (so it should be available)
-     * If you want to add or disable an action, overload and modify this property.
-     *
-     * @var array
-     */
-    // protected array $actions = ['pageLength', 'excel', 'reset', 'reload'];
+    protected $nameTable = 'PostTable';
     protected array $actions = ['reset', 'reload'];
 
     public function __construct(
