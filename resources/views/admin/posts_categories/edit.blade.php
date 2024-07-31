@@ -8,7 +8,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"
-                                    class="text-muted">{{ __('Dashboard') }}</a></li>
+                                                           class="text-muted">{{ __('Dashboard') }}</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{ __('Sửa chuyên mục') }}</li>
                         </ol>
                     </nav>
@@ -19,7 +19,7 @@
     <div class="page-body">
         <div class="container-xl">
             <x-form :action="route('admin.post_category.update')" type="put" :validate="true">
-                <x-input type="hidden" name="id" :value="$category->id" />
+                <x-input type="hidden" name="id" :value="$category->id"/>
                 <div class="row justify-content-center">
                     @include('admin.posts_categories.forms.edit-left')
                     @include('admin.posts_categories.forms.edit-right')
@@ -30,8 +30,10 @@
 @endsection
 
 @push('libs-js')
-<!-- ckfinder js -->
-@include('ckfinder::setup')
+    <script src="{{ asset('public/libs/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('public/libs/ckeditor/adapters/jquery.js') }}"></script>
+    <!-- ckfinder js -->
+    @include('ckfinder::setup')
 @endpush
 
 

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('position')->default(0);
             $table->tinyInteger('status');
             $table->longText('desc')->nullable();
+            $table->text('avatar')->nullable();
             $table->timestamps();
             $table->foreign('parent_id')->references('id')->on('posts_categories')->onUpdate('NO ACTION')->onDelete('SET NULL');
         });

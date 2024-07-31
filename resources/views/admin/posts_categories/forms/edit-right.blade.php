@@ -29,7 +29,10 @@
                 @lang('avatar')
             </div>
             <div class="card-body p-2">
-                <x-input-image-ckfinder name="avatar" showImage="avatar" class="img-fluid"/>
+                <x-input-image-ckfinder name="avatar"
+                                        showImage="avatar"
+                                        :value="$category->avatar"
+                                        class="img-fluid"/>
             </div>
         </div>
     </div>

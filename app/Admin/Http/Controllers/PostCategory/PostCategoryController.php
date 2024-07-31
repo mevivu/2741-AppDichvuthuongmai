@@ -18,8 +18,9 @@ class PostCategoryController extends Controller
 {
     public function __construct(
         PostCategoryRepositoryInterface $repository,
-        PostCategoryServiceInterface $service
-    ){
+        PostCategoryServiceInterface    $service
+    )
+    {
 
         parent::__construct();
 
@@ -47,8 +48,12 @@ class PostCategoryController extends Controller
             'delete' => 'admin.post_category.delete'
         ];
     }
-    public function index(PostCategoryDataTable $dataTable){
-        return $dataTable->render($this->view['index']);
+
+    public function index(PostCategoryDataTable $dataTable)
+    {
+        return $dataTable->render($this->view['index'], [
+            'breadcrumbs' => $this->crums->add(__('post_categories'),)
+        ]);
     }
 
     public function create(): Factory|View|Application
@@ -66,7 +71,7 @@ class PostCategoryController extends Controller
 
         $response = $this->service->store($request);
 
-        if($response){
+        if ($response) {
             return $request->input('submitter') == 'save'
                 ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
                 : to_route($this->route['index'])->with('success', __('notifySuccess'));
@@ -95,7 +100,8 @@ class PostCategoryController extends Controller
 
     }
 
-    public function update(PostCategoryRequest $request){
+    public function update(PostCategoryRequest $request): RedirectResponse
+    {
 
         $this->service->update($request);
 
@@ -103,7 +109,8 @@ class PostCategoryController extends Controller
 
     }
 
-    public function delete($id){
+    public function delete($id): RedirectResponse
+    {
 
         $this->service->delete($id);
 
