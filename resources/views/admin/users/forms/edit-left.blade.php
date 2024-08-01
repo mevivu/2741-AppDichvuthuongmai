@@ -36,22 +36,6 @@
                 </div>
             </div>
 
-            <!-- new password -->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Mật khẩu') }}:</label>
-                    <x-input-password name="password" />
-                </div>
-            </div>
-            <!-- new password confirmation-->
-            <div class="col-md-6 col-sm-12">
-                <div class="mb-3">
-                    <label class="control-label">{{ __('Xác nhận mật khẩu') }}:</label>
-                    <x-input-password name="password_confirmation"
-                                      data-parsley-equalto="input[name='password']"
-                                      data-parsley-equalto-message="{{ __('Mật khẩu không khớp.') }}" />
-                </div>
-            </div>
             <!-- gender -->
             <div class="col-md-6 col-sm-12">
                 <div class="mb-3">

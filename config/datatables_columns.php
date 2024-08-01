@@ -835,13 +835,13 @@ return [
         ],
     ],
     'post_category' => [
-        'name' => [
-            'title' => 'Tên danh mục',
+        'avatar' => [
+            'title' => 'avatar',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
-        'parents_name' => [
-            'title' => 'Danh mục cha',
+        'name' => [
+            'title' => 'Tên danh mục',
             'orderable' => false,
             'addClass' => 'align-middle'
         ],

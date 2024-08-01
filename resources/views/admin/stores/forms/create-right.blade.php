@@ -53,12 +53,21 @@
             </x-select>
         </div>
     </div>
+{{--    <div class="card mb-3">--}}
+{{--        <div class="card-header">--}}
+{{--            @lang('priority')--}}
+{{--        </div>--}}
+{{--        <div class="card-body p-2">--}}
+{{--            <x-input type="number" name="priority" value="0" :placeholder="trans('priority')"/>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
     <div class="card mb-3">
         <div class="card-header">
-            @lang('priority')
+            {{ __('Ảnh đại diện') }}
         </div>
         <div class="card-body p-2">
-            <x-input type="number" name="priority" value="0" :placeholder="trans('priority')"/>
+            <x-input-image-ckfinder name="logo" showImage="logo" />
         </div>
     </div>
 </div>

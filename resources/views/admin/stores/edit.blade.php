@@ -24,6 +24,8 @@
 <!-- button in datatable -->
 <script src="{{ asset('/public/libs/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ asset('/public/libs/select2/dist/js/i18n/'.trans()->getLocale().'.js') }}"></script>
+<script src="{{ asset('public/libs/ckeditor/adapters/jquery.js') }}"></script>
+@include('ckfinder::setup')
 @endpush
 
 @push('custom-js')

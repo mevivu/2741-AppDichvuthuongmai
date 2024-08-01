@@ -59,12 +59,27 @@
             </x-select>
         </div>
     </div>
-    <div class="card mb-3">
-        <div class="card-header">
-            @lang('priority')
-        </div>
-        <div class="card-body p-2">
-            <x-input type="number" name="priority" :value="$store->priority" :placeholder="trans('priority')"/>
+{{--    <div class="card mb-3">--}}
+{{--        <div class="card-header">--}}
+{{--            @lang('priority')--}}
+{{--        </div>--}}
+{{--        <div class="card-body p-2">--}}
+{{--            <x-input type="number" name="priority" :value="$store->priority" :placeholder="trans('priority')"/>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+    <!-- avatar -->
+    <div class="col-12">
+        <div class="card mb-3">
+            <div class="card-header">
+                @lang('avatar')
+            </div>
+            <div class="card-body p-2">
+                <x-input-image-ckfinder name="logo"
+                                        showImage="logo"
+                                        class="img-fluid"
+                                        :value="$store->logo" />
+            </div>
         </div>
     </div>
 </div>

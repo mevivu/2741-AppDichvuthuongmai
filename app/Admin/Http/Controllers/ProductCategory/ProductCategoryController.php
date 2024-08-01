@@ -1,19 +1,28 @@
 <?php
 
-namespace App\Admin\Http\Controllers\Category;
+namespace App\Admin\Http\Controllers\ProductCategory;
 
+use App\Admin\DataTables\ProductCategory\ProductCategoryDataTable;
 use App\Admin\Http\Controllers\Controller;
-use App\Admin\Http\Requests\Category\CategoryRequest;
+use App\Admin\Http\Requests\Category\ProductCategoryRequest;
 use App\Admin\Repositories\Category\CategoryRepositoryInterface;
 use App\Admin\Services\Category\CategoryServiceInterface;
-use App\Admin\DataTables\Category\CategoryDataTable;
+use App\Traits\ResponseController;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
-class CategoryController extends Controller
+class ProductCategoryController extends Controller
 {
+    use ResponseController;
+
     public function __construct(
         CategoryRepositoryInterface $repository,
-        CategoryServiceInterface $service
-    ){
+        CategoryServiceInterface    $service
+    )
+    {
 
         parent::__construct();
 
@@ -23,7 +32,8 @@ class CategoryController extends Controller
 
     }
 
-    public function getView(){
+    public function getView(): array
+    {
         return [
             'index' => 'admin.categories.index',
             'create' => 'admin.categories.create',
@@ -31,7 +41,8 @@ class CategoryController extends Controller
         ];
     }
 
-    public function getRoute(){
+    public function getRoute(): array
+    {
         return [
             'index' => 'admin.category.index',
             'create' => 'admin.category.create',
@@ -39,7 +50,9 @@ class CategoryController extends Controller
             'delete' => 'admin.category.delete'
         ];
     }
-    public function index(CategoryDataTable $dataTable){
+
+    public function index(ProductCategoryDataTable $dataTable)
+    {
         return $dataTable->render($this->view['index'], [
             'active' => [
                 'Hoạt động' => 'Hoạt động',
@@ -48,26 +61,27 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function create(){
+    public function create(): Factory|View|Application
+    {
         $categories = $this->repository->getFlatTree();
         return view($this->view['create'], ['categories' => $categories]);
     }
 
-    public function store(CategoryRequest $request){
+    public function store(ProductCategoryRequest $request): RedirectResponse
+    {
 
-        $instance = $this->service->store($request);
+        $response = $this->service->store($request);
 
-        if($instance){
-            return $request->input('submitter') == 'save'
-                ? to_route($this->route['index'])->with('success', __('notifySuccess'))
-                : to_route($this->route['edit'], $instance->id)->with('success', __('notifySuccess'));
-        }
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
 
-        return back()->with('error', __('notifyFail'))->withInput();
 
     }
 
-    public function edit($id){
+    /**
+     * @throws Exception
+     */
+    public function edit($id): Factory|View|Application
+    {
         $categories = $this->repository->getFlatTreeNotInNode([$id]);
         $instance = $this->repository->findOrFail($id);
         return view(
@@ -78,7 +92,8 @@ class CategoryController extends Controller
         );
     }
 
-    public function update(CategoryRequest $request){
+    public function update(ProductCategoryRequest $request): RedirectResponse
+    {
 
         $this->service->update($request);
 
@@ -86,11 +101,13 @@ class CategoryController extends Controller
 
     }
 
-    public function delete($id){
+    public function delete($id): RedirectResponse
+    {
 
-        $this->service->delete($id);
+        $response = $this->service->delete($id);
 
-        return to_route($this->route['index'])->with('success', __('notifySuccess'));
+        return $this->handleUpdateResponse($response);
+
 
     }
 }

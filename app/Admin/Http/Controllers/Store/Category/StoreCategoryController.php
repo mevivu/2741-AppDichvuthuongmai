@@ -8,9 +8,16 @@ use App\Admin\Repositories\StoreCategory\StoreCategoryRepositoryInterface;
 use App\Admin\Services\Store\Category\StoreCategoryServiceInterface;
 use App\Admin\DataTables\Store\Category\StoreCategoryDataTable;
 use App\Enums\DefaultStatus;
+use App\Traits\ResponseController;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class StoreCategoryController extends Controller
 {
+    use ResponseController;
+
     public function __construct(
         StoreCategoryRepositoryInterface $repository,
         StoreCategoryServiceInterface    $service
@@ -23,7 +30,7 @@ class StoreCategoryController extends Controller
         $this->service = $service;
     }
 
-    public function getView()
+    public function getView(): array
     {
 
         return [
@@ -33,7 +40,7 @@ class StoreCategoryController extends Controller
         ];
     }
 
-    public function getRoute()
+    public function getRoute(): array
     {
 
         return [
@@ -47,12 +54,14 @@ class StoreCategoryController extends Controller
     public function index(StoreCategoryDataTable $dataTable)
     {
         return $dataTable->render($this->view['index'], [
-            'status' => DefaultStatus::asSelectArray()
+            'status' => DefaultStatus::asSelectArray(),
+            'breadcrumbs' => $this->crums->add(__('storeCategory'))
         ]);
+
     }
 
 
-    public function create()
+    public function create(): Factory|View|Application
     {
 
         $categories = $this->repository->getFlatTree();
@@ -64,21 +73,19 @@ class StoreCategoryController extends Controller
         ]);
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreCategoryRequest $request): RedirectResponse
     {
 
         $response = $this->service->store($request);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
 
-        return back()->with('error', __('notifyFail'))->withInput();
     }
 
-    public function edit($id)
+    /**
+     * @throws \Exception
+     */
+    public function edit($id): Factory|View|Application
     {
 
         $category = $this->repository->findOrFail($id);
@@ -93,21 +100,16 @@ class StoreCategoryController extends Controller
         );
     }
 
-    public function update(StoreCategoryRequest $request)
+    public function update(StoreCategoryRequest $request): RedirectResponse
     {
 
         $response = $this->service->update($request);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? back()->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
+        return $this->handleUpdateResponse($response);
 
-        return back()->with('error', __('notifyFail'));
     }
 
-    public function delete($id)
+    public function delete($id): RedirectResponse
     {
 
         $this->service->delete($id);

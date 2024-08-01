@@ -8,6 +8,7 @@ use App\Admin\Http\Requests\PostCategory\PostCategoryRequest;
 use App\Admin\Repositories\PostCategory\PostCategoryRepositoryInterface;
 use App\Admin\Services\PostCategory\PostCategoryServiceInterface;
 use App\Enums\PostCategory\PostCategoryStatus;
+use App\Traits\ResponseController;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -16,6 +17,8 @@ use Illuminate\Http\RedirectResponse;
 
 class PostCategoryController extends Controller
 {
+    use ResponseController;
+
     public function __construct(
         PostCategoryRepositoryInterface $repository,
         PostCategoryServiceInterface    $service
@@ -68,17 +71,9 @@ class PostCategoryController extends Controller
 
     public function store(PostCategoryRequest $request): RedirectResponse
     {
-
         $response = $this->service->store($request);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
-
-        return back()->with('error', __('notifyFail'))->withInput();
-
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
     }
 
     /**
@@ -103,9 +98,9 @@ class PostCategoryController extends Controller
     public function update(PostCategoryRequest $request): RedirectResponse
     {
 
-        $this->service->update($request);
+        $response = $this->service->update($request);
 
-        return back()->with('success', __('notifySuccess'));
+        return $this->handleUpdateResponse($response);
 
     }
 

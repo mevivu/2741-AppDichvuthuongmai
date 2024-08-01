@@ -10,6 +10,7 @@ use App\Admin\Services\Post\PostServiceInterface;
 use App\Admin\DataTables\Post\PostDataTable;
 use App\Enums\FeaturedStatus;
 use App\Enums\Post\PostStatus;
+use App\Traits\ResponseController;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -17,12 +18,16 @@ use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
 {
-    protected $repositoryPostCategory;
+    use ResponseController;
+
+    protected PostCategoryRepositoryInterface $repositoryPostCategory;
+
     public function __construct(
-        PostRepositoryInterface $repository,
+        PostRepositoryInterface         $repository,
         PostCategoryRepositoryInterface $repositoryPostCategory,
-        PostServiceInterface $service
-    ){
+        PostServiceInterface            $service
+    )
+    {
 
         parent::__construct();
 
@@ -51,13 +56,11 @@ class PostController extends Controller
             'delete' => 'admin.post.delete'
         ];
     }
-    public function index(PostDataTable $dataTable){
+
+    public function index(PostDataTable $dataTable)
+    {
         return $dataTable->render($this->view['index'], [
             'status' => PostStatus::asSelectArray(),
-            'is_featured' => [
-                0 => __('Không'),
-                1 => __('Có')
-            ]
         ]);
     }
 
@@ -73,15 +76,7 @@ class PostController extends Controller
     public function store(PostRequest $request): RedirectResponse
     {
         $response = $this->service->store($request);
-
-        if($response){
-            return $request->input('submitter') == 'save'
-                ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
-
-        return back()->with('error', __('notifyFail'))->withInput();
-
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
     }
 
     public function edit($id): Factory|View|Application
@@ -103,12 +98,8 @@ class PostController extends Controller
 
     public function update(PostRequest $request): RedirectResponse
     {
-
-        $respone = $this->service->update($request);
-        if($respone){
-            return back()->with('success', __('notifySuccess'));
-        }
-        return back()->with('error', __('notifyFail'));
+        $response = $this->service->update($request);
+        return $this->handleUpdateResponse($response);
     }
 
     public function delete($id): RedirectResponse

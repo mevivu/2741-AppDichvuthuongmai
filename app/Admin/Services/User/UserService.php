@@ -41,7 +41,6 @@ class UserService implements UserServiceInterface
             $data = $request->validated();
             $data['username'] = $data['phone'];
             $data['code'] = $this->createCodeUser();
-            $data['password'] = bcrypt($data['password']);
             $data['longitude'] = $request['lng'];
             $data['latitude'] = $request['lat'];
 
@@ -71,11 +70,6 @@ class UserService implements UserServiceInterface
         DB::beginTransaction();
         try {
             $data = $request->validated();
-            if (isset($data['password']) && $data['password']) {
-                $data['password'] = bcrypt($data['password']);
-            } else {
-                unset($data['password']);
-            }
             $data['longitude'] = $request['lng'];
             $data['latitude'] = $request['lat'];
 

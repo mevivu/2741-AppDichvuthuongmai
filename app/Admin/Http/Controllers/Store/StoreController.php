@@ -4,16 +4,20 @@ namespace App\Admin\Http\Controllers\Store;
 
 use App\Admin\Http\Controllers\Controller;
 use App\Admin\Http\Requests\Store\StoreRequest;
-//use App\Admin\Http\Resources\Store\StoreResource;
 use App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Admin\Services\Store\StoreServiceInterface;
 use App\Admin\DataTables\Store\StoreDataTable;
 use App\Enums\Store\StoreStatus;
 use App\Models\StoreCategory;
-use Illuminate\Http\JsonResponse;
+use App\Traits\ResponseController;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 class StoreController extends Controller
 {
+    use ResponseController;
     public function __construct(
         StoreRepositoryInterface $repository,
         StoreServiceInterface    $service
@@ -26,7 +30,7 @@ class StoreController extends Controller
         $this->service = $service;
     }
 
-    public function getView()
+    public function getView(): array
     {
         return [
             'index' => 'admin.stores.index',
@@ -35,7 +39,7 @@ class StoreController extends Controller
         ];
     }
 
-    public function getRoute()
+    public function getRoute(): array
     {
         return [
             'index' => 'admin.store.index',
@@ -48,68 +52,61 @@ class StoreController extends Controller
     public function index(StoreDataTable $dataTable)
     {
         return $dataTable->render($this->view['index'], [
-            'breadcrums' => $this->crums->add(__('store'))
+            'breadcrumbs' => $this->crums->add(__('store'))
         ]);
     }
 
 
 
-    public function create()
+    public function create(): Factory|View|Application
     {
         $store_categories = StoreCategory::all();
         return view($this->view['create'], [
             'status' => StoreStatus::asSelectArray(),
-            'breadcrums' => $this->crums->add(__('store'), route($this->route['index']))->add(__('add')),
+            'breadcrumbs' => $this->crums->add(__('store'), route($this->route['index']))->add(__('add')),
             'store_categories' => $store_categories,
 
 
         ]);
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
 
         $response = $this->service->store($request);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
 
-        return back()->with('error', __('notifyFail'))->withInput();
     }
 
-    public function edit($id)
+    /**
+     * @throws \Exception
+     */
+    public function edit($id): Factory|View|Application
     {
 
-        $instance = $this->repository->findOrFail($id, ['category', 'area']);
+        $instance = $this->repository->findOrFail($id);
 
         return view(
             $this->view['edit'],
             [
                 'store' => $instance,
                 'status' => StoreStatus::asSelectArray(),
-                'breadcrums' => $this->crums->add(__('store'), route($this->route['index']))->add(__('edit'))
+                'breadcrumbs' => $this->crums->add(__('store'), route($this->route['index']))->add(__('edit'))
             ]
         );
     }
 
-    public function update(StoreRequest $request)
+    public function update(StoreRequest $request): RedirectResponse
     {
 
         $response = $this->service->update($request);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? back()->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
+        return $this->handleUpdateResponse($response);
 
-        return back()->with('error', __('notifyFail'));
     }
 
-    public function delete($id)
+    public function delete($id): RedirectResponse
     {
 
         $this->service->delete($id);

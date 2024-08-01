@@ -7,6 +7,7 @@ use App\Admin\Http\Requests\User\UserRequest;
 use App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Admin\Services\User\UserServiceInterface;
 use App\Admin\DataTables\User\UserDataTable;
+use App\Traits\ResponseController;
 use Exception;
 use App\Enums\User\{Gender};
 use Illuminate\Contracts\Foundation\Application;
@@ -16,6 +17,8 @@ use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
+    use ResponseController;
+
     public function __construct(
         UserRepositoryInterface $repository,
         UserServiceInterface    $service
@@ -71,13 +74,8 @@ class UserController extends Controller
 
         $response = $this->service->store($request);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
 
-        return back()->with('error', __('notifyFail'))->withInput();
 
     }
 
@@ -104,9 +102,10 @@ class UserController extends Controller
     public function update(UserRequest $request): RedirectResponse
     {
 
-        $this->service->update($request);
+        $response = $this->service->update($request);
 
-        return back()->with('success', __('notifySuccess'));
+        return $this->handleUpdateResponse($response);
+
 
     }
 

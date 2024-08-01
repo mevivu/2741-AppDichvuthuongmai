@@ -14,7 +14,8 @@ class PostCategoryDataTable extends BaseDataTable
 
     public function __construct(
         PostCategoryRepositoryInterface $repository
-    ) {
+    )
+    {
         $this->repository = $repository;
 
         parent::__construct();
@@ -28,13 +29,14 @@ class PostCategoryDataTable extends BaseDataTable
             'name' => 'admin.posts_categories.datatable.editlink',
             'status' => 'admin.posts_categories.datatable.status',
             'parents_name' => 'admin.posts_categories.datatable.parents',
+            'avatar' => 'admin.posts_categories.datatable.image',
         ];
     }
 
     public function setColumnSearch(): void
     {
 
-        $this->columnAllSearch = [0, 1, 2, 3];
+        $this->columnAllSearch = [1, 2, 3];
 
         $this->columnSearchDate = [3];
 
@@ -69,6 +71,7 @@ class PostCategoryDataTable extends BaseDataTable
                     'parents_name' => $post_category->categories,
                 ])->render();
             },
+            'avatar' => $this->view['avatar'],
         ];
     }
 
@@ -82,6 +85,6 @@ class PostCategoryDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['name', 'action', 'status', 'parent_name'];
+        $this->customRawColumns = ['name', 'action', 'status', 'parent_name', 'avatar'];
     }
 }
