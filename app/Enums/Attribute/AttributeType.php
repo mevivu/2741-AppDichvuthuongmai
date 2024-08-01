@@ -2,15 +2,20 @@
 
 namespace App\Enums\Attribute;
 
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Contracts\LocalizedEnum;
+use App\Admin\Support\Enum;
 
-/**
- * @method static static Button()
- * @method static static Color()
- */
-final class AttributeType extends Enum implements LocalizedEnum
+enum AttributeType: int
 {
-    const Button = 1;
-    const Color = 2;
+    use Enum;
+
+    case Button = 1;
+    case Color = 2;
+
+    public function badge(): string
+    {
+        return match($this) {
+            AttributeType::Button => 'bg-green',
+            AttributeType::Color => '',
+        };
+    }
 }

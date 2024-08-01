@@ -4,7 +4,7 @@ namespace App\Admin\DataTables\Attribute;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Attribute\AttributeRepositoryInterface;
-
+use App\Enums\Attribute\AttributeType;
 
 class AttributeDataTable extends BaseDataTable
 {
@@ -28,16 +28,21 @@ class AttributeDataTable extends BaseDataTable
         $this->view = [
             'action' => 'admin.attributes.datatable.action',
             'editlink' => 'admin.attributes.datatable.editlink',
+            'type' => 'admin.attributes.datatable.type',
             'variations' => 'admin.attributes.datatable.variations',
         ];
     }
 
-    public function setColumnSearch(): void
+    protected function setColumnSearch()
     {
-
         $this->columnAllSearch = [0, 1, 2];
 
-
+        $this->columnSearchSelect = [
+            [
+                'column' => 2,
+                'data' => AttributeType::asSelectArray()
+            ],
+        ];
     }
 
     public function query()
@@ -56,6 +61,7 @@ class AttributeDataTable extends BaseDataTable
         $this->customEditColumns = [
             'created_at' => '{{ format_date($created_at) }}',
             'name' => $this->view['editlink'],
+            'type' => $this->view['type'],
             'variations' => $this->view['variations'],
         ];
     }
@@ -69,8 +75,6 @@ class AttributeDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['name', 'action', 'variations'];
+        $this->customRawColumns = ['name', 'action', 'variations', 'type'];
     }
-
-
 }
