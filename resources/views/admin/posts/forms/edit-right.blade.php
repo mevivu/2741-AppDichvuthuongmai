@@ -23,13 +23,11 @@
             {{ __('Nổi bật') }}
         </div>
         <div class="card-body p-2">
-            <x-select name="is_featured" :required="true">
-                @foreach ($featured_status as $key => $value)
-                    <x-select-option :option="$post->is_featured->value" :value="$key" :title="$value" />
-                @endforeach
-            </x-select>
+            <input type="hidden" name="is_featured" value="{{ App\Enums\FeaturedStatus::Featureless->value }}">
+            <x-input-switch name="is_featured" value="{{ App\Enums\FeaturedStatus::Featured->value }}" :label="__('Nổi bật?')" :checked="$post->is_featured->value == App\Enums\FeaturedStatus::Featured->value"/>
         </div>
     </div>
+
     <div class="card mb-3">
         <div class="card-header">
             {{ __('Trạng thái') }}
