@@ -98,13 +98,8 @@ class AreaController extends Controller
 
         $response = $this->service->update($request);
 
-        if($response){
-            return $request->input('submitter') == 'save'
-                    ? back()->with('success', __('notifySuccess'))
-                    : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
+        return $this->handleUpdateResponse($response);
 
-        return back()->with('error', __('notifyFail'));
     }
 
     public function delete($id): RedirectResponse
