@@ -40,6 +40,7 @@ class UserController extends Controller
     protected function resolve(): bool
     {
         return Auth::guard(self::$GUARD_API)->attempt($this->login);
+       
     }
 
     public function update(UpdateRequest $request): JsonResponse
@@ -62,6 +63,7 @@ class UserController extends Controller
             $token = JWTAuth::fromUser($user);
             $refreshToken = $this->createRefreshToken($user);
             return $this->respondWithToken($token, $refreshToken);
+            
         }
 
         return response()->json([

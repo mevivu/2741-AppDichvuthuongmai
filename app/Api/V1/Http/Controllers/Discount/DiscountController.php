@@ -108,6 +108,7 @@ class DiscountController extends Controller
 public function getDiscountByStoreAndId($storeId, $discountId)
 {
     try {
+       
         $discount = $this->repository->getDiscountByStoreAndId($storeId, $discountId);
         if (!$discount) {
             return response()->json([
@@ -130,38 +131,42 @@ public function getDiscountByStoreAndId($storeId, $discountId)
     }
 }
 
-     /**
- * Danh sách Discount theo user_id
- *
- * Lấy danh sách tất cả Discount theo user_id
- *
- * @param  \Illuminate\Http\Request  $request
- * @param  int  $userId
- * @return \Illuminate\Http\Response
- */
-public function getByUser(Request $request, $userId)
-{
-    try {
-        // Fetch discounts by user ID from the repository
-        $discounts = $this->repository->getDiscountsByUserId($userId);
-        
-        // Transform discounts into a JSON resource collection
-        $discounts = AllDiscountResource::collection($discounts);
-        
-        // Return a successful JSON response
-        return response()->json([
-            'status' => 200,
-            'message' => __('Thực hiện thành công.'),
-            'data' => $discounts
-        ]);
-    } catch (\Exception $e) {
-        // Handle exceptions if necessary
-        return response()->json([
-            'status' => 500,
-            'message' => __('Thực hiện thất bại.')
-        ]);
+   /**
+     * Danh sách Discount theo user_id
+     *
+     * Lấy danh sách tất cả Discount theo user_id
+     *
+     * @param  \App\Api\V1\Http\Requests\Discount\DiscountRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getByUser(DiscountRequest $request)
+    {
+        try {
+            $data = $request->validated();
+
+            $userId = $request->user()->id;
+
+            
+           
+            $discounts = $this->repository->getDiscountsByUserId($userId, ...$data);
+
+            // Chuyển đổi các discount thành tài nguyên JSON
+            $discounts = AllDiscountResource::collection($discounts);
+
+            // Trả về phản hồi JSON thành công
+            return response()->json([
+                'status' => 200,
+                'message' => __('Thực hiện thành công.'),
+                'data' => $discounts
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'status' => 500,
+                'message' => __('Thực hiện thất bại.')
+            ]);
+        }
     }
-}
 
       /**
      * Danh sách Discount theo driver_id
@@ -171,55 +176,12 @@ public function getByUser(Request $request, $userId)
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getByDriver(DiscountRequest $request)
+    public function getByDriver(DiscountRequest $request, $driverId)
     {
         try {
-            // Lấy user_id từ thông tin người dùng đã đăng nhập
-            $user_id = auth()->user()->id;
-            
-            // Xác thực dữ liệu yêu cầu
             $data = $request->validated();
             
-            // Lấy các discount theo driver ID
-            $discounts = $this->repository->getDiscountsByDriverId($user_id);
-            
-            // Phân trang các discount
-            $discounts = $this->repository->paginate(...$discounts);
-            
-            // Chuyển đổi các discount thành tài nguyên JSON
-            $discounts = AllDiscountResource::collection($discounts);
-    
-            // Trả về phản hồi JSON thành công
-            return response()->json([
-                'status' => 200,
-                'message' => __('Thực hiện thành công.'),
-                'data' => $discounts
-            ]);
-        } catch (\Exception $e) {
-            // Ghi log ngoại lệ nếu cần thiết
-            Log::error($e->getMessage());
-    
-            // Trả về phản hồi JSON thất bại
-            return response()->json([
-                'status' => 500,
-                'message' => __('Thực hiện thất bại.')
-            ]);
-        }
-    }
-    /**
-     * Danh sách Discount theo product_id
-     *
-     * Lấy danh sách tất cả Discount theo product_id
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function getByProduct(Request $request, $productId)
-    {
-        try {
-            $page = $request->input('page', 1);
-            $limit = $request->input('limit', 10);
-            $discounts = $this->repository->getDiscountsByProductId($productId, $page, $limit);
+            $discounts = $this->repository->getDiscountsByDriverId($driverId);
             $discounts = AllDiscountResource::collection($discounts);
             return response()->json([
                 'status' => 200,
@@ -234,6 +196,34 @@ public function getByUser(Request $request, $userId)
             ]);
         }
     }
+    /**
+     * Danh sách Discount theo product_id
+     *
+     * Lấy danh sách tất cả Discount theo product_id
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getByProduct(DiscountRequest $request, $productId)
+    {
+        try {
+            $data = $request->validated();
+            $discounts = $this->repository->getDiscountsByProductId($productId, ...$data); 
+            $discounts = AllDiscountResource::collection($discounts);
+            return response()->json([
+                'status' => 200,
+                'message' => __('Thực hiện thành công.'), 
+                'data' => $discounts
+            ]);
+        } catch (\Exception $e) {
+            // Xử lý ngoại lệ nếu cần thiết
+            return response()->json([
+                'status' => 500,
+                'message' => __('Thực hiện thất bại.')
+            ]);
+        }
+    }
+    
     
     
 }

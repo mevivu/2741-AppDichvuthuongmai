@@ -38,26 +38,34 @@ class DiscountRepository extends AdminCategoryRepository implements DiscountRepo
         return $discounts;
     }
 
-    public function getDiscountsByUserId($userId)
+    public function getDiscountsByUserId($userId, $page=1, $limit =10)
+    
     {
+        $offset = ($page -1) *$limit;
         $discounts = $this->model
             ->join('discount_applications', 'discounts.id', '=', 'discount_applications.discount_code_id')
             ->where('discount_applications.user_id', $userId)
             ->select('discounts.*')
+            ->offset($offset)
+            ->limit($limit)
             ->get();
-        
+
         return $discounts;
     }
-    public function getDiscountsByDriverId($driverId)
-    {
-        $discounts = $this->model
-            ->join('discount_applications', 'discounts.id', '=', 'discount_applications.discount_code_id')
-            ->where('discount_applications.driver_id', $driverId)
-            ->select('discounts.*')
-            ->get();
-        
-        return $discounts;
-    }
+    public function getDiscountsByDriverId($driverId, $page=1, $limit=10)
+{
+    $offset = ($page -1) * $limit;
+    $discounts = $this->model
+        ->join('discount_applications', 'discounts.id', '=', 'discount_applications.discount_code_id')
+        ->where('discount_applications.driver_id', $driverId)
+        ->select('discounts.*')
+        ->offset($offset)
+        ->limit($limit)
+        ->get();
+
+    return $discounts;
+}
+
 
     public function getDiscountsByProductId($productId, $page = 1, $limit = 10)
     {
