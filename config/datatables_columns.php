@@ -816,6 +816,11 @@ return [
         ],
     ],
     'post_category' => [
+        'avatar' => [
+            'title' => 'avatar',
+            'orderable' => false,
+            'addClass' => 'align-middle'
+        ],
         'name' => [
             'title' => 'Tên danh mục',
             'orderable' => false,
