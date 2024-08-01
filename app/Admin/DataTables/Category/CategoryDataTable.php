@@ -10,14 +10,9 @@ class CategoryDataTable extends BaseDataTable
 {
 
     use GetConfig;
-    /**
-     * Available button actions. When calling an action, the value will be used
-     * as the function name (so it should be available)
-     * If you want to add or disable an action, overload and modify this property.
-     *
-     * @var array
-     */
-    // protected array $actions = ['pageLength', 'excel', 'reset', 'reload'];
+
+    protected $nameTable = 'categoryTable';
+
     protected array $actions = ['reset', 'reload'];
 
     public function __construct(
@@ -59,7 +54,7 @@ class CategoryDataTable extends BaseDataTable
             'name' => $this->view['editlink'],
             'avatar' => $this->view['avatar'],
             'is_active' => $this->view['is_active'],
-            'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
+            'created_at' => '{{ format_date($created_at) }}',
         ];
     }
 
@@ -98,5 +93,14 @@ class CategoryDataTable extends BaseDataTable
 
     protected function setColumnSearch()
     {
+        $this->columnAllSearch = [0, 2, 3];
+        $this->columnSearchDate = [3];
+
+        $this->columnSearchSelect = [
+            [
+                'column' => 2,
+                'data' => [1 => 'Đang hoạt động', 0 => 'Ngưng hoạt động']
+            ],
+        ];
     }
 }
