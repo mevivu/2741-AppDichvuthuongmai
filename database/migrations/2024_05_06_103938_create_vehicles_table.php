@@ -16,7 +16,6 @@ return new class extends Migration {
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('driver_id');
             $table->string('name');
             $table->string('color');
             $table->double('price')->nullable();
@@ -38,7 +37,11 @@ return new class extends Migration {
             $table->tinyInteger('status')->default(VehicleStatus::Pending->value);
             $table->timestamps();
 
+            $table->unsignedBigInteger('driver_id')->nullable();
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+
+            $table->unsignedBigInteger('vehicle_owner_id')->nullable();
+            $table->foreign('vehicle_owner_id')->references('id')->on('vehicle_owners')->onDelete('cascade');
         });
     }
 

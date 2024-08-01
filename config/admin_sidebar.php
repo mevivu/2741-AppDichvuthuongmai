@@ -214,7 +214,7 @@ return [
         'permissions' => ['all', 'viewVehicle', 'updateVehicle', 'createVehicle', 'deleteVehicle'],
         'sub' => [
             [
-                'title' => 'add',
+                'title' => 'Thêm phương tiện',
                 'routeName' => 'admin.vehicle.create',
                 'icon' => '<i class="ti ti-plus"></i>',
                 'roles' => [],

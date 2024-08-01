@@ -38,14 +38,17 @@ return [
         'title' => [
             'title' => 'Tiêu đề',
             'orderable' => false,
+            'addClass' => 'align-middle'
         ],
         'user_id' => [
             'title' => 'Người nhận',
             'orderable' => false,
+            'addClass' => 'align-middle'
         ],
         'message' => [
             'title' => 'Nội dung',
             'orderable' => false,
+            'addClass' => 'align-middle'
         ],
         'status' => [
             'title' => 'status',
@@ -56,7 +59,6 @@ return [
         'created_at' => [
             'title' => 'Ngày thông báo',
             'orderable' => false,
-            // 'visible' => false,
             'addClass' => 'align-middle',
         ],
         'action' => [
@@ -330,18 +332,22 @@ return [
 
         'fullname' => [
             'title' => 'Họ tên',
+            'addClass' => 'align-middle',
             'orderable' => false
         ],
         'phone' => [
             'title' => 'Số điện thoại',
+            'addClass' => 'align-middle',
             'orderable' => false
         ],
         'email' => [
             'title' => 'Email',
+            'addClass' => 'align-middle',
             'orderable' => false,
         ],
         'roles' => [
             'title' => 'Vai trò',
+            'addClass' => 'align-middle',
             'orderable' => false,
         ],
         'created_at' => [
@@ -354,32 +360,36 @@ return [
             'orderable' => false,
             'exportable' => false,
             'printable' => false,
-            'addClass' => 'text-center'
+            'addClass' => 'text-center align-middle',
         ],
     ],
     'user' => [
 
         'fullname' => [
             'title' => 'Họ tên',
+            'addClass' => 'align-middle',
             'orderable' => false
         ],
         'email' => [
             'title' => 'Email',
+            'addClass' => 'align-middle',
             'orderable' => false,
         ],
         'phone' => [
             'title' => 'Số điện thoại',
+            'addClass' => 'align-middle',
             'orderable' => false
         ],
         'gender' => [
             'title' => 'Giới tính',
+            'addClass' => 'align-middle',
             'orderable' => false,
             'visible' => false
         ],
-
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,
+            'addClass' => 'align-middle',
             'visible' => false
         ],
         'action' => [
@@ -387,41 +397,49 @@ return [
             'orderable' => false,
             'exportable' => false,
             'printable' => false,
-            'addClass' => 'text-center'
+            'addClass' => 'text-center align-middle'
         ],
     ],
     'store' => [
         'priority' => [
             'title' => 'priority',
+            'addClass' => 'align-middle',
             'orderable' => true
         ],
         'store_name' => [
             'title' => 'storeName',
+            'addClass' => 'align-middle',
             'orderable' => false
         ],
         'category' => [
             'title' => 'category2',
+            'addClass' => 'align-middle',
             'orderable' => false
         ],
         'area' => [
             'title' => 'area',
+            'addClass' => 'align-middle',
             'orderable' => false
         ],
         'open_hours_1' => [
             'title' => 'operatingTime',
+            'addClass' => 'align-middle',
             'orderable' => false,
             'visible' => false
         ],
         'status' => [
             'title' => 'status',
+            'addClass' => 'align-middle',
             'orderable' => false
         ],
         'address_detail' => [
             'title' => 'address',
+            'addClass' => 'align-middle',
             'orderable' => false
         ],
         'created_at' => [
             'title' => 'createdAt',
+            'addClass' => 'align-middle',
             'orderable' => false,
             'visible' => false
         ],
@@ -430,7 +448,7 @@ return [
             'orderable' => false,
             'exportable' => false,
             'printable' => false,
-            'addClass' => 'text-center'
+            'addClass' => 'text-center align-middle'
         ],
 
     ],
@@ -545,6 +563,7 @@ return [
     'attribute' => [
         'position' => [
             'title' => 'Vị trí',
+            'addClass' => 'align-middle',
             'orderable' => false,
         ],
         'name' => [
@@ -582,6 +601,7 @@ return [
         ],
         'desc' => [
             'title' => 'Mô tả',
+            'addClass' => 'align-middle',
             'orderable' => false,
         ],
         'action' => [
