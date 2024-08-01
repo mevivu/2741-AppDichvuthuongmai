@@ -18,8 +18,9 @@ class VehicleRepository extends EloquentRepository implements VehicleRepositoryI
 
     public function searchAllLimit($keySearch = '', $meta = [], $limit = 10)
     {
-
-        $this->instance = $this->model->where('status', '=', VehicleStatus::Pending)->where('name', 'like', '%' . $keySearch . '%');
+        $this->instance = $this->model->where('status', '=', VehicleStatus::Pending)
+            ->where('name', 'like', '%' . $keySearch . '%')
+            ->whereDoesntHave('driver');
 
         $this->applyFilters($meta);
         return $this->instance->limit($limit)->get();

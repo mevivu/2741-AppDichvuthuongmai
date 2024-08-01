@@ -205,7 +205,7 @@ class OrderService implements OrderServiceInterface
         $order = $this->repository->findOrFail($id);
         if ($order->status == OrderStatus::Pending) {
             $this->repository->update($id, ['status' => OrderStatus::Confirmed]);
-            return $this->vehicleRepository->update($order->vehicle, ['status' => VehicleStatus::Rented]);
+            return $this->vehicleRepository->update($order->vehicle->id, ['status' => VehicleStatus::Rented]);
         }
         return false;
     }
@@ -215,7 +215,7 @@ class OrderService implements OrderServiceInterface
         $order = $this->repository->findOrFail($id);
         if ($order->status == OrderStatus::Confirmed) {
             $this->repository->update($id, ['status' => OrderStatus::Cancelled]);
-            return $this->vehicleRepository->update($order->vehicle, ['status' => VehicleStatus::Pending]);
+            return $this->vehicleRepository->update($order->vehicle->id, ['status' => VehicleStatus::Pending]);
         }
         return $this->repository->update($id, ['status' => OrderStatus::Cancelled]);
         return false;
