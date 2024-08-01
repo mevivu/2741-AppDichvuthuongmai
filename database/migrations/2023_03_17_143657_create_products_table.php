@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\DefaultStatus;
-use App\Enums\DeleteStatus;
 use App\Enums\Product\ProductInStock;
 use App\Enums\Product\ProductManagerStock;
 use App\Enums\Product\ProductStatus;

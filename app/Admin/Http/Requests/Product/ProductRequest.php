@@ -21,7 +21,7 @@ class ProductRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodPost()
+    protected function methodPost(): array
     {
         $this->validate = [
             'product.name' => ['required', 'string'],
@@ -31,7 +31,7 @@ class ProductRequest extends BaseRequest
             'product.avatar' => ['required'],
             'product.price' => ['nullable', 'numeric'],
             'product.promotion_price' => ['nullable', 'numeric'],
-            'product.type' => ['required', new Enum(ProductType::class)],
+            'product.type' => ['nullable', new Enum(ProductType::class)],
             'product.in_stock' => ['required', new Enum(ProductInStock::class)],
             'product.is_active' => ['required', new Enum(ProductStatus::class)],
             'product.gallery' => ['nullable'],
@@ -76,7 +76,7 @@ class ProductRequest extends BaseRequest
             'product.avatar' => ['required'],
             'product.price' => ['nullable', 'numeric'],
             'product.promotion_price' => ['nullable', 'numeric'],
-            'product.type' => ['required', new Enum(ProductType::class)],
+            'product.type' => ['nullable', new Enum(ProductType::class)],
             'product.in_stock' => ['required', new Enum(ProductInStock::class)],
             'product.is_active' => ['required', new Enum(ProductStatus::class)],
             'product.gallery' => ['nullable'],

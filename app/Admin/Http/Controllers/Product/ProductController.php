@@ -4,15 +4,16 @@ namespace App\Admin\Http\Controllers\Product;
 
 use App\Admin\Http\Controllers\Controller;
 use App\Admin\Http\Requests\Product\ProductRequest;
+use App\Admin\Http\Resources\Product\ProductEditResource;
 use App\Admin\Repositories\Product\ProductRepositoryInterface;
 use App\Admin\Services\Product\ProductServiceInterface;
 use App\Admin\DataTables\Product\ProductDataTable;
 use App\Enums\Product\ProductType;
 use App\Admin\Repositories\Category\CategoryRepositoryInterface;
 use App\Admin\Repositories\Attribute\AttributeRepositoryInterface;
-use App\Admin\Http\Resources\Product\ProductEditResource;
 use App\Admin\Repositories\Discount\DiscountRepositoryInterface;
 use App\Admin\Repositories\Topping\ToppingRepositoryInterface;
+use App\Traits\ResponseController;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -22,19 +23,22 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    protected $repositoryCategory;
-    protected $repositoryAttribute;
-    protected $repositoryTopping;
-    protected $discountRepository;
+    use ResponseController;
+
+    protected CategoryRepositoryInterface $repositoryCategory;
+    protected AttributeRepositoryInterface $repositoryAttribute;
+    protected ToppingRepositoryInterface $repositoryTopping;
+    protected DiscountRepositoryInterface $discountRepository;
 
     public function __construct(
-        ProductRepositoryInterface $repository,
-        DiscountRepositoryInterface $discountRepository,
-        CategoryRepositoryInterface $repositoryCategory,
-        ToppingRepositoryInterface $repositoryTopping,
+        ProductRepositoryInterface   $repository,
+        DiscountRepositoryInterface  $discountRepository,
+        CategoryRepositoryInterface  $repositoryCategory,
+        ToppingRepositoryInterface   $repositoryTopping,
         AttributeRepositoryInterface $repositoryAttribute,
-        ProductServiceInterface $service
-    ) {
+        ProductServiceInterface      $service
+    )
+    {
         parent::__construct();
         $this->repository = $repository;
         $this->repositoryCategory = $repositoryCategory;
@@ -63,6 +67,7 @@ class ProductController extends Controller
             'delete' => 'admin.product.delete'
         ];
     }
+
     public function index(ProductDataTable $dataTable)
     {
         $inStock = [1 => __('Còn hàng'), 0 => __('Hết hàng')];
@@ -105,13 +110,13 @@ class ProductController extends Controller
     public function store(ProductRequest $request): RedirectResponse
     {
 
-        $instance = $this->service->store($request);
-        if ($instance) {
-            return to_route($this->route['edit'], $instance->id);
-        }
-        return back()->with('error', __('notifyFail'))->withInput();
+        $response = $this->service->store($request);
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function edit($id, Request $request): Factory|View|Application
     {
 
@@ -131,7 +136,7 @@ class ProductController extends Controller
         return view(
             $this->view['edit'],
             [
-                'product' => (object) $product->toArray($request),
+                'product' => (object)$product->toArray($request),
                 'type' => ProductType::asSelectArray(),
                 'categories' => $categories,
                 'attributes' => $attributes,
@@ -143,15 +148,8 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request): RedirectResponse
     {
-
-        $instance = $this->service->update($request);
-
-        if ($instance) {
-            return back()->with('success', __('notifySuccess'));
-        }
-        return back()->with('error', __('notifyFail'));
-
-
+        $response = $this->service->update($request);
+        return $this->handleUpdateResponse($response);
     }
 
     public function delete($id): RedirectResponse
