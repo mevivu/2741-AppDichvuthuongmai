@@ -76,7 +76,7 @@ class PostController extends Controller
     public function store(PostRequest $request): RedirectResponse
     {
         $response = $this->service->store($request);
-        return $this->handleResponse($response, $request, $this->route['edit'], $this->route['index']);
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
     }
 
     public function edit($id): Factory|View|Application

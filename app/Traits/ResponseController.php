@@ -14,16 +14,18 @@ trait ResponseController
      *
      * @param mixed $response The result of the store or update operation.
      * @param Request $request The current request instance.
-     * @param string $editRoute The route name for editing the resource.
      * @param string $indexRoute The route name for listing the resources.
+     * @param string $editRoute The route name for editing the resource.
      * @return RedirectResponse
      */
-    public function handleResponse(mixed $response, Request $request, string $editRoute, string $indexRoute): RedirectResponse
+    public function handleResponse(mixed $response, Request $request, string $indexRoute, string $editRoute): RedirectResponse
     {
         if ($response) {
-            return $request->input('submitter') == 'save'
-                ? to_route($editRoute, $response->id)->with('success', __('notifySuccess'))
-                : to_route($indexRoute)->with('success', __('notifySuccess'));
+            if ($request->input('submitter') == 'save') {
+                return to_route($editRoute, ['id' => $response->id])->with('success', __('notifySuccess'));
+            } else {
+                return to_route($indexRoute)->with('success', __('notifySuccess'));
+            }
         }
 
         return back()->with('error', __('notifyFail'))->withInput();

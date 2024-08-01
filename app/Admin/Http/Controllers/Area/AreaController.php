@@ -8,6 +8,7 @@ use App\Admin\Http\Requests\Area\AreaRequest;
 use App\Admin\Repositories\Area\AreaRepositoryInterface;
 use App\Admin\Services\Area\AreaServiceInterface;
 use App\Enums\Area\AreaStatus;
+use App\Traits\ResponseController;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -16,6 +17,7 @@ use Illuminate\Http\RedirectResponse;
 
 class AreaController extends Controller
 {
+    use ResponseController;
 
     public function __construct(
         AreaRepositoryInterface $repository,
@@ -59,7 +61,7 @@ class AreaController extends Controller
     {
 
         return view($this->view['create'], [
-            'breadcrums' => $this->crums->add(__('area'),
+            'breadcrumbs' => $this->crums->add(__('area'),
                 route($this->route['index']))->add(__('add')),
             'status' => AreaStatus::asSelectArray()
         ]);
@@ -70,13 +72,7 @@ class AreaController extends Controller
 
         $response = $this->service->store($request);
 
-        if($response){
-            return $request->input('submitter') == 'save'
-                    ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
-                    : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
-
-        return back()->with('error', __('notifyFail'))->withInput();
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
     }
 
     /**
@@ -92,7 +88,7 @@ class AreaController extends Controller
             [
                 'area' => $area,
                 'status' => AreaStatus::asSelectArray(),
-                'breadcrums' => $this->crums->add(__('area'), route($this->route['index']))->add(__('edit'))
+                'breadcrumbs' => $this->crums->add(__('area'), route($this->route['index']))->add(__('edit'))
             ],
         );
     }

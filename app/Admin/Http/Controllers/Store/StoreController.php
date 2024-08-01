@@ -9,6 +9,7 @@ use App\Admin\Services\Store\StoreServiceInterface;
 use App\Admin\DataTables\Store\StoreDataTable;
 use App\Enums\Store\StoreStatus;
 use App\Models\StoreCategory;
+use App\Traits\ResponseController;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,6 +17,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 class StoreController extends Controller
 {
+    use ResponseController;
     public function __construct(
         StoreRepositoryInterface $repository,
         StoreServiceInterface    $service
@@ -73,13 +75,8 @@ class StoreController extends Controller
 
         $response = $this->service->store($request);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
 
-        return back()->with('error', __('notifyFail'))->withInput();
     }
 
     /**
@@ -105,13 +102,8 @@ class StoreController extends Controller
 
         $response = $this->service->update($request);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? back()->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
+        return $this->handleUpdateResponse($response);
 
-        return back()->with('error', __('notifyFail'));
     }
 
     public function delete($id): RedirectResponse
