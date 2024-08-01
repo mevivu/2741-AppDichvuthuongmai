@@ -11,22 +11,6 @@
                     <x-input name="username" :value="$store->username" :required="true" :placeholder="__('username')" />
                 </div>
             </div>
-            <!-- new password -->
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">@lang('password'):</label>
-                    <x-input-password name="password" />
-                </div>
-            </div>
-            <!-- new password confirmation-->
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">@lang('passwordConfirm'):</label>
-                    <x-input-password name="password_confirmation" 
-                        data-parsley-equalto="input[name='password']"
-                        data-parsley-equalto-message="{{ __('passwordMismatch') }}" />
-                </div>
-            </div>
             <!-- taxCode -->
             <div class="col-12">
                 <div class="mb-3">
@@ -78,7 +62,7 @@
             <!-- address -->
             <div class="col-12">
                 <div class="mb-3">
-                    <x-input-pick-address :label="trans('address')" name="address" :value="$store->address" :placeholder="trans('pickAddress')" :required="true" /> 
+                    <x-input-pick-address :label="trans('address')" name="address" :value="$store->address" :placeholder="trans('pickAddress')" :required="true" />
                     <x-input type="hidden" name="lat" :value="$store->lat" />
                     <x-input type="hidden" name="lng" :value="$store->lng" />
                 </div>
@@ -90,11 +74,11 @@
                     <x-input name="address_detail" :value="$store->address_detail" :placeholder="__('addressDetail')" />
                 </div>
             </div>
-            
+
             <!-- openHour1-->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
-                    <label class="control-label">@lang('openHour') 1:</label>
+                    <label class="control-label">@lang('openHour')</label>
                     <x-input type="time" name="open_hours_1" :value="$store->open_hours_1" :required="true"
                         :placeholder="__('openHour')" />
                 </div>
@@ -103,27 +87,13 @@
             <!-- closeHour1 -->
             <div class="col-md-6 col-12">
                 <div class="mb-3">
-                    <label class="control-label">@lang('closeHour') 1:</label>
+                    <label class="control-label">@lang('closeHour')</label>
                     <x-input type="time" name="close_hours_1" :value="$store->close_hours_1" :required="true"
                         :placeholder="__('closeHour')" />
                 </div>
             </div>
-            <!-- openHour2-->
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">@lang('openHour') 2:</label>
-                    <x-input type="time" name="open_hours_2" :value="$store->open_hours_2" :placeholder="__('openHour')" />
-                </div>
-            </div>
 
-            <!-- closeHour2 -->
-            <div class="col-md-6 col-12">
-                <div class="mb-3">
-                    <label class="control-label">@lang('closeHour') 2:</label>
-                    <x-input type="time" name="close_hours_2" :value="$store->close_hours_2" :placeholder="__('closeHour')" />
-                </div>
-            </div>
         </div>
     </div>
-    
+
 </div>

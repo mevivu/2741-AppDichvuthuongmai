@@ -5,25 +5,32 @@ namespace App\Admin\Services\Store;
 use App\Admin\Services\Store\StoreServiceInterface;
 use  App\Admin\Repositories\Store\StoreRepositoryInterface;
 use App\Admin\Traits\Setup;
+use Exception;
 use Illuminate\Http\Request;
 
 class StoreService implements StoreServiceInterface
 {
     use Setup;
+
     /**
      * Current Object instance
      *
      * @var array
      */
-    protected $data;
+    protected array $data;
 
-    protected $repository;
+    protected StoreRepositoryInterface $repository;
 
-    public function __construct(StoreRepositoryInterface $repository){
+    public function __construct(StoreRepositoryInterface $repository)
+    {
         $this->repository = $repository;
     }
 
-    public function store(Request $request){
+    /**
+     * @throws Exception
+     */
+    public function store(Request $request)
+    {
 
 
         $this->data = $request->validated();
@@ -32,13 +39,17 @@ class StoreService implements StoreServiceInterface
         return $this->repository->create($this->data);
     }
 
-    public function update(Request $request){
+    /**
+     * @throws Exception
+     */
+    public function update(Request $request): object|bool
+    {
 
         $this->data = $request->validated();
 
-        if(isset($this->data['password']) && $this->data['password']){
+        if (isset($this->data['password']) && $this->data['password']) {
             $this->data['password'] = bcrypt($this->data['password']);
-        }else{
+        } else {
             unset($this->data['password']);
         }
 
@@ -46,7 +57,11 @@ class StoreService implements StoreServiceInterface
 
     }
 
-    public function delete($id){
+    /**
+     * @throws Exception
+     */
+    public function delete($id): object|bool
+    {
         return $this->repository->delete($id);
 
     }

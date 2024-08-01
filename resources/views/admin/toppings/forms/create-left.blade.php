@@ -8,23 +8,21 @@
             <div class="col-6">
                 <div class="mb-3">
                     <label class="control-label">@lang('name')</label>
-                    <x-input name="name" :value="old('name')" :required="true" :placeholder="__('name')" />
+                    <x-input name="name" :value="old('name')" :required="true" :placeholder="__('name')"/>
                 </div>
             </div>
             {{-- Price --}}
             <div class="col-6">
                 <div class="mb-3">
                     <label class="control-label">@lang('price')</label>
-                    <x-input name="price" :value="old('price')" :required="true" :placeholder="__('price')" />
+                    <x-input-price name="price"
+                                   id="price"
+                                   :value="old('price')"
+                                   :required="true"
+                                   :placeholder="__('price')"/>
                 </div>
             </div>
-            <!-- position -->
-            {{-- <div class="col-md-12 col-12">--}}
-                {{-- <div class="mb-3">--}}
-                    {{-- <label class="control-label">{{ __('Bắt buộc') }}:</label></br>--}}
-                    {{-- <input type="checkbox" name="obligatory" value="1" checked style="transform: scale(1.5);">--}}
-                    {{-- </div>--}}
-                {{-- </div>--}}
+
         </div>
     </div>
 </div>

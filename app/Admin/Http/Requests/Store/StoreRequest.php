@@ -29,7 +29,6 @@ class StoreRequest extends BaseRequest
                     }
                 },
             ],
-            'password' => ['required', 'string', 'confirmed'],
             'tax_code' => ['required', 'string'],
             'store_name' => ['required', 'string'],
             'store_phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:App\Models\Store,store_phone'],
@@ -42,9 +41,10 @@ class StoreRequest extends BaseRequest
             'open_hours_2' => ['nullable', 'date_format:H:i'],
             'close_hours_2' => ['nullable', 'date_format:H:i'],
             'status' => ['required', new Enum(StoreStatus::class)],
-            'priority' => ['required', 'integer'],
+            'priority' => ['nullable', 'integer'],
             'lat' => ['required', 'numeric'],
-            'lng' => ['required', 'numeric']
+            'lng' => ['required', 'numeric'],
+            'logo' => ['nullable']
         ];
     }
 
@@ -65,7 +65,6 @@ class StoreRequest extends BaseRequest
                     }
                 },
             ],
-            'password' => ['nullable', 'string', 'confirmed'],
             'tax_code' => ['required', 'string'],
             'store_name' => ['required', 'string'],
             'store_phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:App\Models\Store,store_phone,'.$this->id],
@@ -78,9 +77,10 @@ class StoreRequest extends BaseRequest
             'open_hours_2' => ['nullable', 'date_format:H:i'],
             'close_hours_2' => ['nullable', 'date_format:H:i'],
             'status' => ['required', new Enum(StoreStatus::class)],
-            'priority' => ['required', 'integer'],
+            'priority' => ['nullable', 'integer'],
             'lat' => ['required', 'numeric'],
-            'lng' => ['required', 'numeric']
+            'lng' => ['required', 'numeric'],
+            'logo' => ['nullable']
         ];
     }
 }
