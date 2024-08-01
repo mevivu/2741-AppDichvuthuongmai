@@ -14,7 +14,7 @@
         </div>
         <div class="card-body p-2">
             <x-input-image-ckfinder name="avatar"
-                                    :value="$vehicle->driver->user->avatar"
+                                    :value="$vehicle->vehicle_owner->avatar"
                                     showImage="featureImage"/>
         </div>
     </div>

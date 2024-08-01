@@ -53,7 +53,9 @@ class Vehicle extends Model
         /** Mô tả */
         'description',
         /** Trạng thái */
-        'status'
+        'status',
+        /** vehicle_owner_id */
+        'vehicle_owner_id'
     ];
 
     protected $casts = [
@@ -68,5 +70,10 @@ class Vehicle extends Model
     public function driver(): BelongsTo
     {
         return $this->belongsTo(Driver::class, 'driver_id');
+    }
+
+    public function vehicle_owner(): BelongsTo
+    {
+        return $this->belongsTo(VehicleOwner::class);
     }
 }

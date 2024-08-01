@@ -13,30 +13,45 @@
         <div class="col-md-6">
             <div class="mb-3">
                 <label class="control-label">@lang('fullname'):</label>
-                <x-input name="user_info[fullname]"
-                         :value="old('user_info[fullname]')"
+                <x-input name="fullname"
+                         :value="old('fullname]')"
                          :required="true"
                          :placeholder="__('fullname')"/>
+            </div>
+        </div>
+        <!-- email -->
+        <div class="col-md-6 col-12">
+            <div class="mb-3">
+                <label class="control-label">@lang('email'):</label>
+                <x-input-email name="email" :value="old('email]')"/>
             </div>
         </div>
         <!-- Phone -->
         <div class="col-md-6">
             <div class="mb-3">
                 <label class="control-label">@lang('phone'):</label>
-                <x-input-phone name="user_info[phone]"
-                               :value="old('user_info[phone]')"
+                <x-input-phone name="phone"
+                               :value="old('phone]')"
                                :required="true"/>
             </div>
         </div>
         <!-- Gender -->
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="mb-3">
                 <label class="control-label">@lang('gender'):</label>
-                <x-select name="user_info[gender]" :required="true">
+                <x-select name="gender" :required="true">
                     @foreach ($gender as $key => $value)
                         <x-select-option :value="$key" :title="__($value)"/>
                     @endforeach
                 </x-select>
+            </div>
+        </div>
+        <!-- birthday -->
+        <div class="col-md-3 col-12">
+            <div class="mb-3">
+                <label class="control-label">@lang('birthday'):</label>
+                <x-input type="date" name="birthday" :value="old('birthday]')"
+                         :required="true"/>
             </div>
         </div>
         <!-- ID Card -->
@@ -45,6 +60,30 @@
                 <label class="control-label">@lang('id_card'):</label>
                 <x-input name="id_card" :value="old('id_card')" :required="true"
                          :placeholder="__('id_card')"/>
+            </div>
+        </div>
+        {{-- bank_name --}}
+        <div class="col-md-6 col-12">
+            <div class="mb-3">
+                <label class="control-label">@lang('bank_name'):</label>
+                <x-input name="bank_name" :value="old('bank_name')"
+                         :placeholder="__('bank_name')"/>
+            </div>
+        </div>
+        {{-- bank_account_name --}}
+        <div class="col-md-6 col-12">
+            <div class="mb-3">
+                <label class="control-label">@lang('bank_account_name'):</label>
+                <x-input name="bank_account_name" :value="old('bank_account_name')"
+                         :placeholder="__('bank_account_name')"/>
+            </div>
+        </div>
+        {{-- bank_account_number --}}
+        <div class="col-md-6 col-12">
+            <div class="mb-3">
+                <label class="control-label">@lang('bank_account_number'):</label>
+                <x-input name="bank_account_number" :value="old('bank_account_number')"
+                         :placeholder="__('bank_account_number')"/>
             </div>
         </div>
         <!-- Address -->

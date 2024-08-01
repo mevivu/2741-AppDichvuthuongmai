@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\DefaultStatus;
 use App\Enums\DeleteStatus;
 use App\Enums\Product\ProductInStock;
 use App\Enums\Product\ProductManagerStock;
@@ -35,7 +36,7 @@ return new class extends Migration {
             $table->longText('desc')->nullable();
             $table->longText('informations')->nullable();
 
-            $table->tinyInteger('is_deleted')->default(DeleteStatus::Active->value);
+            $table->tinyInteger('is_deleted')->default(DefaultStatus::Published->value);
 
             $table->unsignedBigInteger('store_id')->nullable();
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');

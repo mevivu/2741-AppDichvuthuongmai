@@ -123,8 +123,7 @@
                     </div>
                 </div>
             </div>
-            {{--driver_license_front --}}
-            <div class="col-md-6 col-12">
+            {{-- <div class="col-md-6 col-12">
                 <div class="card mb-3">
                     <div class="card-header">
                         @lang('driver_license_front')
@@ -132,13 +131,12 @@
                     <div class="card-body p-2">
                         <x-input-image-ckfinder
                             name="driver_license_front"
-                            :value="$vehicle->driver->driver_license_front"
+                            :value="$vehicle->vehicle_owner->driver_license_front"
                             showImage="featureImageDriverLicenseFront"
                         />
                     </div>
                 </div>
             </div>
-            {{-- driver_license_back --}}
             <div class="col-md-6 col-12">
                 <div class="card mb-3">
                     <div class="card-header">
@@ -147,12 +145,12 @@
                     <div class="card-body p-2">
                         <x-input-image-ckfinder
                             name="driver_license_back"
-                            :value="$vehicle->driver->driver_license_back"
+                            :value="$vehicle->vehicle_owner->driver_license_back"
                             showImage="featureImageDriverLicenseBack"
                         />
                     </div>
                 </div>
-            </div>
+            </div> --}}
             {{-- insurance_front_image --}}
             <div class="col-md-6 col-12">
                 <div class="card mb-3">

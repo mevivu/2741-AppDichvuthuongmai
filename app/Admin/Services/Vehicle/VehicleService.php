@@ -3,9 +3,9 @@
 namespace App\Admin\Services\Vehicle;
 
 use App\Admin\Repositories\Driver\DriverRepositoryInterface;
-use App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Admin\Services\Vehicle\VehicleServiceInterface;
 use App\Admin\Repositories\Vehicle\VehicleRepositoryInterface;
+use App\Admin\Repositories\VehicleOwner\VehicleOwnerRepositoryInterface;
 use App\Admin\Traits\Roles;
 use App\Api\V1\Support\UseLog;
 use Exception;
@@ -26,19 +26,19 @@ class VehicleService implements VehicleServiceInterface
 
     protected VehicleRepositoryInterface $repository;
 
-    protected UserRepositoryInterface $userRepository;
+    protected VehicleOwnerRepositoryInterface $vehicleOwnerRepository;
 
     protected DriverRepositoryInterface $driverRepository;
 
-    public function __construct(VehicleRepositoryInterface $repository,
-                                DriverRepositoryInterface  $driverRepository,
-                                UserRepositoryInterface    $userRepository)
-    {
+    public function __construct(
+        VehicleRepositoryInterface $repository,
+        DriverRepositoryInterface  $driverRepository,
+        VehicleOwnerRepositoryInterface    $vehicleOwnerRepository
+    ) {
 
         $this->repository = $repository;
-        $this->userRepository = $userRepository;
+        $this->vehicleOwnerRepository = $vehicleOwnerRepository;
         $this->driverRepository = $driverRepository;
-
     }
 
     public function store(Request $request)
@@ -46,18 +46,8 @@ class VehicleService implements VehicleServiceInterface
         DB::beginTransaction();
         try {
             $data = $request->validated();
-            $dataUser = $data['user_info'];
-            $dataUser['address'] = $data['address'];
-            $dataUser['latitude'] = $data['lat'];
-            $dataUser['longitude'] = $data['lng'];
-            $dataUser['code'] = uniqid_real();
-            $roles = $this->getRoleVehicleOwner();
-            $user = $this->userRepository->create($dataUser);
-            $this->repository->assignRoles($user, [$roles]);
-            $userId = $user->id;
-            $data['user_id'] = $userId;
-            $driver = $this->driverRepository->create($data);
-            $data['driver_id'] = $driver->id;
+            $vehicleOwner = $this->vehicleOwnerRepository->create($data);
+            $data['vehicle_owner_id'] = $vehicleOwner->id;
             $vehicle = $this->repository->create($data);
             DB::commit();
             return $vehicle;
@@ -65,7 +55,7 @@ class VehicleService implements VehicleServiceInterface
             DB::rollback();
             $this->logError('Failed to process create vehicle', $e);
             throw $e;
-//            return false;
+            //            return false;
         }
     }
 
@@ -78,20 +68,13 @@ class VehicleService implements VehicleServiceInterface
         try {
             $data = $request->validated();
             $vehicle = $this->repository->findOrFail($data['id']);
-            $driver = $vehicle->driver;
-            $userId = $driver->user->id;
-            $dataUser = $data['user_info'];
-            $dataUser['address'] = $data['address'];
-            $dataUser['latitude'] = $data['lat'];
-            $dataUser['longitude'] = $data['lng'];
-            $this->userRepository->update($userId, $dataUser);
-            $this->driverRepository->update($driver->id,$data);
+            $this->vehicleOwnerRepository->update($vehicle->id, $data);
 
             DB::commit();
             return $this->repository->update($data['id'], $data);
         } catch (Exception $e) {
             DB::rollback();
-            $this->logError('Failed to process create vehicle', $e);
+            $this->logError('Failed to process update vehicle', $e);
             return false;
         }
     }
