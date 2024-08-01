@@ -22,7 +22,7 @@
             <x-select class="select2-bs5-ajax"
                       name="user_ids[]"
                       id="user_id"
-                      :data-url="route('admin.search.select.user')"
+                      :data-url="route('admin.search.select.customer')"
                       multiple>
             </x-select>
             <x-link :href="route('admin.user.create')" class="mb-2">

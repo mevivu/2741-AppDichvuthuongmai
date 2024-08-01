@@ -16,9 +16,11 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use App\Admin\Repositories\Product\{ProductRepositoryInterface, ProductVariationRepositoryInterface};
 use App\Enums\Payment\PaymentMethod;
+use App\Traits\ResponseController;
 
 class OrderController extends Controller
 {
+    use ResponseController;
     protected UserRepositoryInterface $repositoryUser;
     protected ProductRepositoryInterface $repositoryProduct;
     protected ProductVariationRepositoryInterface $repositoryProductVariation;
@@ -94,8 +96,8 @@ class OrderController extends Controller
 
     public function delete($id): RedirectResponse
     {
-        $this->service->delete($id);
-        return to_route($this->route['index'])->with('success', __('notifySuccess'));
+        $response = $this->service->delete($id);
+        return $this->handleUpdateResponse($response);
     }
 
     public function renderInfoShipping(OrderRequest $request): Factory|View|Application

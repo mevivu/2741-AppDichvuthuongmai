@@ -9,6 +9,7 @@ use App\Admin\Repositories\Vehicle\VehicleRepositoryInterface;
 use App\Admin\Services\Vehicle\VehicleServiceInterface;
 use App\Enums\User\Gender;
 use App\Enums\Vehicle\VehicleType;
+use App\Traits\ResponseController;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -17,7 +18,7 @@ use Illuminate\Http\RedirectResponse;
 
 class VehicleController extends BaseController
 {
-
+    use ResponseController;
     protected VehicleRepositoryInterface $repository;
     protected VehicleServiceInterface $service;
 
@@ -68,6 +69,7 @@ class VehicleController extends BaseController
             [
                 'type' => VehicleType::asSelectArray(),
                 'gender' => Gender::asSelectArray(),
+                'breadcrumbs' => $this->crums->add(__('vehicleList'), route($this->route['index']))->add(__('add'))
             ]
         );
     }
@@ -93,7 +95,7 @@ class VehicleController extends BaseController
     {
         $vehicle = $this->service->store($request);
 
-        return to_route($this->route['edit'], $vehicle->id)->with('success', __('notifySuccess'));
+        return $this->handleResponse($vehicle, $request, $this->route['index'], $this->route['edit']);
     }
 
     /**
@@ -108,21 +110,22 @@ class VehicleController extends BaseController
                 'vehicle' => $vehicle,
                 'type' => VehicleType::asSelectArray(),
                 'gender' => Gender::asSelectArray(),
+                'breadcrumbs' => $this->crums->add(__('vehicleList'), route($this->route['index']))->add(__('edit'))
             ],
         );
     }
 
     public function update(VehicleRequest $request): RedirectResponse
     {
-        $this->service->update($request);
+        $response = $this->service->update($request);
 
-        return back()->with('success', __('notifySuccess'));
+        return $this->handleUpdateResponse($response);
     }
 
     public function delete($id): RedirectResponse
     {
-        $this->service->delete($id);
+        $response = $this->service->delete($id);
 
-        return to_route($this->route['index'])->with('success', __('notifySuccess'));
+        return $this->handleUpdateResponse($response);
     }
 }

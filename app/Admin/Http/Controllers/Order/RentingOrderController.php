@@ -7,35 +7,23 @@ use App\Admin\Http\Controllers\Controller;
 use App\Admin\Repositories\Order\OrderRepositoryInterface;
 use App\Admin\Services\Order\OrderServiceInterface;
 use App\Enums\Order\OrderStatus;
-use App\Admin\Http\Requests\Order\OrderRequest;
 use App\Admin\Http\Requests\Order\RentVehicleOrderRequest;
-use App\Admin\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use App\Admin\Repositories\Product\{ProductRepositoryInterface, ProductVariationRepositoryInterface};
 use App\Enums\Payment\PaymentMethod;
+use App\Traits\ResponseController;
 
 class RentingOrderController extends Controller
 {
-    protected UserRepositoryInterface $repositoryUser;
-    protected ProductRepositoryInterface $repositoryProduct;
-    protected ProductVariationRepositoryInterface $repositoryProductVariation;
-
+    use ResponseController;
     public function __construct(
         OrderRepositoryInterface $repository,
-        UserRepositoryInterface $repositoryUser,
-        ProductRepositoryInterface $repositoryProduct,
-        ProductVariationRepositoryInterface $repositoryProductVariation,
         OrderServiceInterface $service
     ) {
         parent::__construct();
         $this->repository = $repository;
-        $this->repositoryUser = $repositoryUser;
-        $this->repositoryProduct = $repositoryProduct;
-        $this->repositoryProductVariation = $repositoryProductVariation;
         $this->service = $service;
     }
     public function getView(): array
@@ -44,9 +32,6 @@ class RentingOrderController extends Controller
             'index' => 'admin.renting_orders.index',
             'create' => 'admin.renting_orders.create',
             'edit' => 'admin.renting_orders.edit',
-            'info_shipping' => 'admin.renting_orders.partials.info-shipping',
-            'add_item_product' => 'admin.renting_orders.partials.add-item-product',
-            'total' => 'admin.renting_orders.partials.total'
         ];
     }
 
@@ -68,54 +53,49 @@ class RentingOrderController extends Controller
     public function create(): Factory|View|Application
     {
         return view($this->view['create'], [
-            'payment_methods' => PaymentMethod::asSelectArray()
+            'payment_methods' => PaymentMethod::asSelectArray(),
+            'breadcrumbs' => $this->crums->add(__('renting-order'), route($this->route['index']))->add(__('add'))
         ]);
     }
     public function store(RentVehicleOrderRequest $request): RedirectResponse
     {
         $order = $this->service->storeRentOrder($request);
-        if ($order) {
-            return to_route($this->route['edit'], $order->id)->with('success', __('notifySuccess'));
-        }
-        return back()->with('error', __('notifyFail'));
+        return $this->handleResponse($order, $request, $this->route['index'], $this->route['edit']);
     }
     public function edit($id): Factory|View|Application
     {
         $order = $this->repository->findOrFailWithRelations($id);
-        $status = OrderStatus::asSelectArray();
-        $payment_methods = PaymentMethod::asSelectArray();
-        return view($this->view['edit'], compact('order', 'status', 'payment_methods'));
+        return view(
+            $this->view['edit'],
+            [
+                'order' => $order,
+                'status' => OrderStatus::asSelectArray(),
+                'payment_methods' => PaymentMethod::asSelectArray(),
+                'breadcrumbs' => $this->crums->add(__('renting-order'), route($this->route['index']))->add(__('edit'))
+            ],
+        );
     }
     public function update(RentVehicleOrderRequest $request): RedirectResponse
     {
         $response = $this->service->updateRentOrder($request);
-        if ($response) {
-            return back()->with('success', __('notifySuccess'));
-        }
-        return back()->with('error', __('notifyFail'));
+        return $this->handleUpdateResponse($response);
     }
 
     public function delete($id): RedirectResponse
     {
-        $this->service->delete($id);
-        return to_route($this->route['index'])->with('success', __('notifySuccess'));
+        $response = $this->service->delete($id);
+        return $this->handleUpdateResponse($response);
     }
 
     public function confirm($id)
     {
-        $result = $this->service->confirm($id);
-        if ($result) {
-            return to_route($this->route['index'])->with('success', __('Duyệt đơn hàng thành công'));
-        }
-        return to_route($this->route['index'])->with('error', __('Duyệt đơn hàng thất bại'));
+        $response = $this->service->confirm($id);
+        return $this->handleUpdateResponse($response);
     }
 
     public function cancel($id)
     {
-        $result = $this->service->cancel($id);
-        if ($result) {
-            return to_route($this->route['index'])->with('success', __('Từ chối đơn hàng thành công'));
-        }
-        return to_route($this->route['index'])->with('error', __('Từ chối đơn hàng thất bại'));
+        $response = $this->service->cancel($id);
+        return $this->handleUpdateResponse($response);
     }
 }
