@@ -10,7 +10,7 @@
         <x-input type="hidden" name="order_detail[product_variation_id][]" :value="$order_detail->detail['productVariation']['id'] ?? 0" />
     </td>
     <td class="align-middle">
-        <x-link :href="route('admin.product.edit', $order_detail->detail['product']['id'])" target="_blank" :title="$order_detail->detail['product']['name']" />
+        <x-link :href="route('admin.product.edit', $order_detail->detail['product']['id'])" :title="$order_detail->detail['product']['name']" />
         @includeUnless($order_detail->detail['product']['type'] == \App\Enums\Product\ProductType::Simple, 'admin.orders.partials.product-variation', [
             'attribute_variations' => $order_detail->detail['productVariation']['attribute_variations'] ?? []
         ])

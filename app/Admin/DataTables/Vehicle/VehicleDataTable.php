@@ -5,6 +5,7 @@ namespace App\Admin\DataTables\Vehicle;
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Vehicle\VehicleRepositoryInterface;
 use App\Admin\Traits\GetConfig;
+use App\Enums\Vehicle\VehicleStatus;
 use App\Enums\Vehicle\VehicleType;
 use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\DataTableAbstract;
@@ -73,13 +74,17 @@ class VehicleDataTable extends BaseDataTable
     public function setColumnSearch(): void
     {
 
-        $this->columnAllSearch = [0,1,2,3,4,5,6,7,8];
+        $this->columnAllSearch = [0,1,2,3,4,5,6,7,8,9];
 
-        $this->columnSearchDate = [8];
+        $this->columnSearchDate = [9];
         $this->columnSearchSelect = [
             [
-                'column' => 6,
+                'column' => 7,
                 'data' => VehicleType::asSelectArray()
+            ],
+            [
+                'column' => 5,
+                'data' => VehicleStatus::asSelectArray()
             ]
         ];
     }

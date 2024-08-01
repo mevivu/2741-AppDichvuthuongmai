@@ -25,17 +25,17 @@ class RentingOrderDataTable extends BaseDataTable
     }
     protected function setColumnSearch()
     {
-        $this->columnAllSearch = [0, 1, 2, 3, 4, 6, 6, 7];
+        $this->columnAllSearch = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-        $this->columnSearchDate = [7];
+        $this->columnSearchDate = [8];
 
         $this->columnSearchSelect = [
             [
-                'column' => 3,
+                'column' => 4,
                 'data' => OrderStatus::asSelectArray()
             ],
             [
-                'column' => 4,
+                'column' => 5,
                 'data' => PaymentMethod::asSelectArray()
             ],
         ];
@@ -48,6 +48,7 @@ class RentingOrderDataTable extends BaseDataTable
             'editlink' => 'admin.renting_orders.datatable.editlink',
             'status' => 'admin.renting_orders.datatable.status',
             'user' => 'admin.renting_orders.datatable.user',
+            'vehicle' => 'admin.renting_orders.datatable.vehicle',
             'payment_method' => 'admin.renting_orders.datatable.payment-method',
         ];
     }
@@ -59,6 +60,7 @@ class RentingOrderDataTable extends BaseDataTable
             'status' => $this->view['status'],
             'total' => '{{ format_price($total) }}',
             'user' => $this->view['user'],
+            'vehicle' => $this->view['vehicle'],
             'payment_method' => $this->view['payment_method'],
             'created_at' => '{{ format_date($created_at) }}',
             'order_type' => '{{ App\Enums\Order\OrderType::getDescription($order_type) }}',
@@ -72,7 +74,7 @@ class RentingOrderDataTable extends BaseDataTable
      */
     public function query(): Builder
     {
-        return $this->repository->getByQueryBuilder([], ['user']);
+        return $this->repository->getByQueryBuilder([], ['user', 'vehicle']);
     }
 
     /**
@@ -105,7 +107,7 @@ class RentingOrderDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['id', 'status', 'user', 'action', 'payment_method'];
+        $this->customRawColumns = ['id', 'status', 'user', 'action', 'payment_method', 'vehicle'];
     }
 
     public function setCustomFilterColumns(): void
@@ -114,6 +116,11 @@ class RentingOrderDataTable extends BaseDataTable
             'user' => function ($query, $keyword) {
                 $query->whereHas('user', function ($subQuery) use ($keyword) {
                     $subQuery->where('fullname', 'like', '%' . $keyword . '%');
+                });
+            },
+            'vehicle' => function ($query, $keyword) {
+                $query->whereHas('vehicle', function ($subQuery) use ($keyword) {
+                    $subQuery->where('name', 'like', '%' . $keyword . '%');
                 });
             },
         ];

@@ -8,7 +8,7 @@
 								<a href="{{ asset(config('idoc.path')) }}" target="_blank" class="link-secondary">
 									{{ __('Documentation api') }}
 								</a>
-							@endif	
+							@endif
                         </li>
                     <li class="list-inline-item"><a href="#" class="link-secondary">License</a></li>
                     <li class="list-inline-item"><a href="#" target="_blank" class="link-secondary"

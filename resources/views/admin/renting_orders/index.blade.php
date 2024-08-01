@@ -15,7 +15,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"
                                     class="text-muted">{{ __('Dashboard') }}</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ __('Danh sách đơn hàng') }}</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ __('Danh sách đơn hàng thuê xe') }}</li>
                         </ol>
                     </nav>
 
@@ -27,7 +27,7 @@
         <div class="container-xl">
             <div class="card">
                 <div class="card-header justify-content-between">
-                    <h2 class="mb-0">{{ __('Danh sách đơn hàng') }}</h2>
+                    <h2 class="mb-0">{{ __('Danh sách đơn hàng thuê xe') }}</h2>
                     <x-link :href="route('admin.renting-order.create')" class="btn btn-primary">
                         <i class="ti ti-plus"></i>
                         <span class="ms-1">@lang('add')</span>
