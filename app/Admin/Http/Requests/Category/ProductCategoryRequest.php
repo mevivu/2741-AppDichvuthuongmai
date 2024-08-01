@@ -5,14 +5,14 @@ namespace App\Admin\Http\Requests\Category;
 use App\Admin\Http\Requests\BaseRequest;
 use App\Admin\Rules\Category\CategoryParent;
 
-class CategoryRequest extends BaseRequest
+class ProductCategoryRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
-    protected function methodPost()
+    protected function methodPost(): array
     {
         return [
             'name' => ['required', 'string'],
@@ -23,7 +23,7 @@ class CategoryRequest extends BaseRequest
         ];
     }
 
-    protected function methodPut()
+    protected function methodPut(): array
     {
         return [
             'id' => ['required', 'exists:App\Models\Category,id'],

@@ -517,9 +517,9 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
             });
     });
 
-    //Category
+    //Product category
     Route::prefix('/categories')->as('category.')->group(function () {
-        Route::controller(App\Admin\Http\Controllers\Category\CategoryController::class)->group(function () {
+        Route::controller(App\Admin\Http\Controllers\ProductCategory\ProductCategoryController::class)->group(function () {
             Route::group(['middleware' => ['permission:createProductCategory', 'auth:admin']], function () {
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');

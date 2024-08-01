@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Admin\DataTables\Category;
+namespace App\Admin\DataTables\ProductCategory;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Category\CategoryRepositoryInterface;
 use App\Admin\Traits\GetConfig;
 
-class CategoryDataTable extends BaseDataTable
+class ProductCategoryDataTable extends BaseDataTable
 {
 
     use GetConfig;

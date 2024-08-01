@@ -13,6 +13,8 @@ use App\Enums\Driver\DriverStatus;
 use App\Enums\User\Gender;
 use App\Enums\User\UserRoles;
 use App\Enums\Vehicle\VehicleType;
+use App\Traits\ResponseController;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -20,6 +22,8 @@ use Illuminate\Http\RedirectResponse;
 
 class DriverController extends Controller
 {
+
+    use ResponseController;
 
     protected AreaRepositoryInterface $areaRepository;
     protected DriverService $userDriverService;
@@ -88,16 +92,14 @@ class DriverController extends Controller
     {
         $response = $this->service->store($request);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? to_route($this->route['edit'], $response->id)->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
+        return $this->handleResponse($response, $request, $this->route['index'], $this->route['edit']);
 
-        return back()->with('error', __('notifyFail'))->withInput();
 
     }
 
+    /**
+     * @throws Exception
+     */
     public function edit($id): Factory|View|Application
     {
         $driver = $this->repository->findOrFail($id);
@@ -121,14 +123,8 @@ class DriverController extends Controller
     {
 
         $response = $this->service->update($request);
+        return $this->handleUpdateResponse($response);
 
-        if ($response) {
-            return $request->input('submitter') == 'save'
-                ? back()->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
-        }
-
-        return back()->with('error', __('notifyFail'));
     }
 
     public function delete($id): RedirectResponse
