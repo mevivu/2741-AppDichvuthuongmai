@@ -821,11 +821,6 @@ return [
             'orderable' => false,
             'addClass' => 'align-middle'
         ],
-        'parents_name' => [
-            'title' => 'Danh mục cha',
-            'orderable' => false,
-            'addClass' => 'align-middle'
-        ],
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,

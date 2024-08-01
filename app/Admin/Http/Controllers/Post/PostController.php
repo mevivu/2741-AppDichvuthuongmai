@@ -17,7 +17,7 @@ use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
 {
-    protected $repositoryPostCategory;
+    protected PostCategoryRepositoryInterface $repositoryPostCategory;
     public function __construct(
         PostRepositoryInterface $repository,
         PostCategoryRepositoryInterface $repositoryPostCategory,

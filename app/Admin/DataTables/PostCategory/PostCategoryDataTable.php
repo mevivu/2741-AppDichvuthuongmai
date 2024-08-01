@@ -34,14 +34,14 @@ class PostCategoryDataTable extends BaseDataTable
     public function setColumnSearch(): void
     {
 
-        $this->columnAllSearch = [0, 1, 2, 3];
+        $this->columnAllSearch = [0, 1, 2];
 
-        $this->columnSearchDate = [3];
+        $this->columnSearchDate = [2];
 
         $this->columnSearchSelect = [
 
             [
-                'column' => 2,
+                'column' => 1,
                 'data' => DefaultStatus::asSelectArray()
             ],
         ];

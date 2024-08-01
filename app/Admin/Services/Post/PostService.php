@@ -5,8 +5,11 @@ namespace App\Admin\Services\Post;
 use App\Admin\Services\Post\PostServiceInterface;
 use  App\Admin\Repositories\Post\PostRepositoryInterface;
 use App\Enums\Post\PostType;
+use App\Enums\PriorityStatus;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class PostService implements PostServiceInterface
 {
@@ -15,9 +18,9 @@ class PostService implements PostServiceInterface
      *
      * @var array
      */
-    protected $data;
+    protected array $data;
 
-    protected $repository;
+    protected PostRepositoryInterface $repository;
 
     public function __construct(PostRepositoryInterface $repository){
         $this->repository = $repository;
@@ -25,27 +28,28 @@ class PostService implements PostServiceInterface
 
     public function store(Request $request){
 
-        $this->data = $request->validated();
-        $this->data['post_type'] = PostType::Default;
-        $this->data['posted_at'] = now();
-        if(isset($this->data['categories_id'])){
-            $categoriesId = $this->data['categories_id'];
-        }
+        $data = $request->validated();
+        $data['post_type'] = PostType::Default;
+        $data['posted_at'] = now();
+        $data['priority'] = PriorityStatus::NotPriority;
+        $categoriesId = $data['categories_id'] ?? null;
+        unset($data['categories_id']);
         DB::beginTransaction();
         try {
-            $post = $this->repository->create($this->data);
-
-            $this->repository->attachCategories($post, $categoriesId ?? []);
+            $post = $this->repository->create($data);
+            if ($categoriesId) {
+                $this->repository->attachCategories($post, $categoriesId);
+            }
             DB::commit();
             return $post;
-        } catch (\Throwable $th) {
-            // throw $th;
+        } catch (Throwable $th) {
             DB::rollBack();
             return false;
         }
     }
 
-    public function update(Request $request){
+    public function update(Request $request): object|bool
+    {
 
         $this->data = $request->validated();
         if(isset($this->data['categories_id'])){
@@ -58,14 +62,18 @@ class PostService implements PostServiceInterface
             $this->repository->syncCategories($post, $categoriesId ?? []);
             DB::commit();
             return $post;
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
             return false;
         }
 
     }
 
-    public function delete($id){
+    /**
+     * @throws Exception
+     */
+    public function delete($id): object|bool
+    {
         return $this->repository->delete($id);
 
     }

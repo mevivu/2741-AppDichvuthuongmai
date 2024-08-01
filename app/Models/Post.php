@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Enums\Post\{PostStatus, PostType};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,24 +33,14 @@ class Post extends Model
     ];
 
 
-    public function isFeatured()
-    {
-        return $this->is_featured == true;
-    }
-
-    public function isPublished()
+    public function isPublished(): bool
     {
         return $this->status == PostStatus::Published;
     }
 
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(PostCategory::class, 'posts_posts_categories', 'post_id', 'category_id');
-    }
-
-    public function scopeFeatured($query)
-    {
-        return $query->where('is_featured', true);
     }
 
     public function scopePublished($query)

@@ -14,7 +14,7 @@ class PostRequest extends BaseRequest
      *
      * @return array
      */
-    protected function methodPost()
+    protected function methodPost(): array
     {
         return [
             'categories_id' => ['nullable', 'array'],
@@ -28,7 +28,7 @@ class PostRequest extends BaseRequest
         ];
     }
 
-    protected function methodPut()
+    protected function methodPut(): array
     {
         return [
             'id' => ['required', 'exists:App\Models\Post,id'],

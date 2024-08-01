@@ -96,7 +96,8 @@ return [
     ],
     DefaultStatus::class => array(
         DefaultStatus::Published->value => 'Đã xuất bản',
-        DefaultStatus::Draft->value => 'Bản nháp'
+        DefaultStatus::Draft->value => 'Bản nháp',
+        DefaultStatus::Deleted->value => 'Đã xoá',
     ),
     AreaStatus::class => array(
         AreaStatus::On->value => 'Hoạt động',
