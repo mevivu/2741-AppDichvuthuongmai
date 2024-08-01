@@ -204,6 +204,11 @@ return [
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
+        'status' => [
+            'title' => 'Trạng thái',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
         'color' => [
             'title' => 'Màu phương tiện',
             'orderable' => false,
@@ -216,7 +221,7 @@ return [
             'addClass' => 'text-center align-middle'
         ],
         'license_plate' => [
-            'title' => 'biển số xe',
+            'title' => 'Biển số xe',
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
@@ -725,6 +730,11 @@ return [
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
+        'vehicle' => [
+            'title' => 'Phương tiện',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
         'payment_code' => [
             'title' => 'Mã thanh toán',
             'orderable' => false,
@@ -742,8 +752,9 @@ return [
             'addClass' => 'align-middle text-center',
         ],
         'order_type' => [
-            'title' => 'Loại hợp đồng',
+            'title' => 'Loại',
             'orderable' => false,
+            'visible' => false,
             'addClass' => 'text-center align-middle'
         ],
         'total' => [
@@ -752,7 +763,7 @@ return [
             'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
-            'title' => 'Ngày đặt',
+            'title' => 'Ngày tạo',
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
