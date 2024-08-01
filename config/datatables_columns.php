@@ -184,8 +184,13 @@ return [
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
-        'driver' => [
+        'vehicle_owner' => [
             'title' => 'Chủ xe',
+            'orderable' => false,
+            'addClass' => 'text-center align-middle'
+        ],
+        'driver' => [
+            'title' => 'Tài xế',
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
@@ -632,24 +637,18 @@ return [
         ],
         'price' => [
             'title' => 'Giá',
-            'orderable' => false,
-            'addClass' => 'text-center align-middle'
-        ],
-        'is_user_discount' => [
-            'title' => 'Chiết khẩu',
+            'width' => '150px',
             'orderable' => false,
             'addClass' => 'text-center align-middle'
         ],
         'categories' => [
             'title' => 'Danh mục',
             'orderable' => false,
-            'visible' => false,
             'addClass' => 'align-middle'
         ],
         'toppings' => [
             'title' => 'Topping',
             'orderable' => false,
-            'visible' => false,
             'addClass' => 'align-middle'
         ],
         'created_at' => [

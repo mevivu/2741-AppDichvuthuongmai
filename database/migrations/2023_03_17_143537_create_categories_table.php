@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('position')->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-            $table->foreign('parent_id')->references('id')->on('categories')->onUpdate('NO ACTION')->onDelete('SET NULL'); 
+            $table->foreign('parent_id')->references('id')->on('categories')->onUpdate('NO ACTION')->onDelete('SET NULL');
         });
     }
 

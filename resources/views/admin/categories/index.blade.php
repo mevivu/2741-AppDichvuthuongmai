@@ -46,12 +46,8 @@
 
 {{ $dataTable->scripts() }}
 
-@include('admin.categories.scripts.datatable')
-<script>
-$(document).ready(function(){
-    // define columns for the datatables
-    columns = window.LaravelDataTables["categoryTable"].columns();
-    toggleColumnsDatatable(columns);
-});
-</script>
+@include('admin.scripts.datatable-toggle-columns', [
+        'id_table' => $dataTable->getTableAttribute('id')
+])
+
 @endpush

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Admin\Support\Eloquent\Sluggable;
+use App\Enums\DefaultStatus;
 use Kalnoy\Nestedset\NodeTrait;
 
 class Category extends Model

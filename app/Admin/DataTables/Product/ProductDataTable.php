@@ -5,7 +5,7 @@ namespace App\Admin\DataTables\Product;
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Category\CategoryRepositoryInterface;
 use App\Admin\Repositories\Product\ProductRepositoryInterface;
-
+use App\Admin\Repositories\Topping\ToppingRepositoryInterface;
 
 class ProductDataTable extends BaseDataTable
 {
@@ -13,14 +13,17 @@ class ProductDataTable extends BaseDataTable
 
     protected $nameTable = 'productTable';
     protected CategoryRepositoryInterface $repoCat;
+    protected ToppingRepositoryInterface $toppingRepository;
 
 
     public function __construct(
         ProductRepositoryInterface $repository,
-        CategoryRepositoryInterface $repoCat
+        CategoryRepositoryInterface $repoCat,
+        ToppingRepositoryInterface $toppingRepository
     ) {
         $this->repository = $repository;
         $this->repoCat = $repoCat;
+        $this->toppingRepository = $toppingRepository;
         parent::__construct();
     }
 
@@ -43,7 +46,7 @@ class ProductDataTable extends BaseDataTable
     public function setColumnSearch(): void
     {
 
-        $this->columnAllSearch = [1, 2, 5];
+        $this->columnAllSearch = [1, 2, 4, 5, 6];
 
         $this->columnSearchDate = [6];
         $this->columnSearchSelect = [
@@ -54,9 +57,15 @@ class ProductDataTable extends BaseDataTable
         ];
         $this->columnSearchSelect2 = [
             [
-                'column' => 5,
+                'column' => 4,
                 'data' => $this->repoCat->getFlatTree()->map(function ($category) {
-                    return [$category->id => generate_text_depth_tree($category->depth) . $category->name];
+                    return [$category->id => $category->name];
+                })
+            ],
+            [
+                'column' => 5,
+                'data' => $this->toppingRepository->getFlatTree()->map(function ($item) {
+                    return [$item->id => $item->name];
                 })
             ]
         ];
