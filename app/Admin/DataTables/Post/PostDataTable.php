@@ -23,7 +23,7 @@ class PostDataTable extends BaseDataTable
         $this->repository = $repository;
     }
 
-    public function setView()
+    public function setView(): void
     {
         $this->view = [
             'action' => 'admin.posts.datatable.action',
@@ -33,62 +33,6 @@ class PostDataTable extends BaseDataTable
             'is_featured' => 'admin.posts.datatable.is-featured'
         ];
     }
-    /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\User $model
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function query()
-    {
-        return $this->repository->getQueryBuilderOrderBy();
-    }
-
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-
-    /**
-     * Get columns.
-     *
-     * @return array
-     */
-    protected function setCustomColumns(): void
-    {
-        $this->customColumns = config('datatables_columns.post', []);
-    }
-
-    protected function setCustomEditColumns()
-    {
-        $this->customEditColumns = [
-            'image' => $this->view['image'],
-            'status' => $this->view['status'],
-            'title' => $this->view['editlink'],
-            'is_featured' => $this->view['is_featured'],
-            'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
-        ];
-    }
-
-    protected function setCustomAddColumns()
-    {
-        $this->customAddColumns = [
-            'action' => $this->view['action'],
-        ];
-    }
-
-    protected function filename(): string
-    {
-        return 'Posts_' . date('YmdHis');
-    }
-
-
-    protected function setCustomRawColumns()
-    {
-        $this->customRawColumns = ['image', 'title', 'status', 'is_featured', 'action'];
-    }
-
 
     public function setColumnSearch(): void
     {
@@ -108,4 +52,42 @@ class PostDataTable extends BaseDataTable
             ],
         ];
     }
+
+    public function query()
+    {
+        return $this->repository->getQueryBuilderOrderBy();
+    }
+
+
+    protected function setCustomColumns(): void
+    {
+        $this->customColumns = config('datatables_columns.post', []);
+    }
+
+    protected function setCustomEditColumns(): void
+    {
+        $this->customEditColumns = [
+            'image' => $this->view['image'],
+            'status' => $this->view['status'],
+            'title' => $this->view['editlink'],
+            'is_featured' => $this->view['is_featured'],
+            'created_at' => '{{ date("d-m-Y", strtotime($created_at)) }}',
+        ];
+    }
+
+    protected function setCustomAddColumns(): void
+    {
+        $this->customAddColumns = [
+            'action' => $this->view['action'],
+        ];
+    }
+
+
+
+    protected function setCustomRawColumns(): void
+    {
+        $this->customRawColumns = ['image', 'title', 'status', 'is_featured', 'action'];
+    }
+
+
 }
