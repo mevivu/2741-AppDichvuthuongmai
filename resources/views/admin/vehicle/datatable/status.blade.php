@@ -1,4 +1,4 @@
 <span @class([
     'badge',
-    App\Enums\Vehicle\VehicleType::from($type)->badge(),
-])>{{ \App\Enums\Vehicle\VehicleType::getDescription($type) }}</span>
+    App\Enums\Vehicle\VehicleStatus::from($status)->badge(),
+])>{{ \App\Enums\Vehicle\VehicleStatus::getDescription($status) }}</span>

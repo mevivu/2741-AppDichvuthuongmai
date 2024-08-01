@@ -46,7 +46,6 @@ class DriverRequest extends BaseRequest
             //vehicleinfo
             'vehicle_company' => ['required', 'string'],
             'name' => ['required', 'string'],
-            'price' => ['required'],
             'vehicle_registration_front' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'vehicle_registration_back' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'vehicle_front_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],

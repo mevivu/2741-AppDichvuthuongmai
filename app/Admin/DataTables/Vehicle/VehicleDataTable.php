@@ -32,12 +32,13 @@ class VehicleDataTable extends BaseDataTable
     public function setView(): void
     {
         $this->view = [
-            'type' => 'admin.vehicle.datatable.status',
+            'type' => 'admin.vehicle.datatable.type',
             'action' => 'admin.vehicle.datatable.action',
             'editlink' => 'admin.vehicle.datatable.editlink',
             'desc' => 'admin.vehicle.datatable.desc',
             'vehicle_owner' => 'admin.vehicle.datatable.vehicle_owner',
             'driver' => 'admin.vehicle.datatable.driver',
+            'status' => 'admin.vehicle.datatable.status',
         ];
     }
 
@@ -95,6 +96,7 @@ class VehicleDataTable extends BaseDataTable
             'type' => $this->view['type'],
             'id' => $this->view['editlink'],
             'desc' => $this->view['desc'],
+            'status' => $this->view['status'],
             'vehicle_owner' => function ($vehicle) {
                 return view($this->view['vehicle_owner'], [
                     'vehicle' => $vehicle,
@@ -110,7 +112,7 @@ class VehicleDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['id', 'vehicle_owner', 'type', 'action', 'desc', 'driver'];
+        $this->customRawColumns = ['id', 'vehicle_owner', 'type', 'action', 'desc', 'driver', 'status'];
     }
 
     protected function setCustomFilterColumns(): void
