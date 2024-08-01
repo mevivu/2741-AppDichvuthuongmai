@@ -21,7 +21,7 @@ class PostCategoryRequest extends BaseRequest
             'desc' => ['required', 'string'],
             'avatar' => ['required', 'string'],
             'parent_id' => ['nullable', 'exists:App\Models\PostCategory,id'],
-            'position' => ['required', 'integer'],
+            'position' => ['nullable', 'integer'],
             'status' => ['required', new EnumValue(PostCategoryStatus::class, false)]
         ];
     }
