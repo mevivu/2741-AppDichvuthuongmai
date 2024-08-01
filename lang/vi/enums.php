@@ -2,6 +2,7 @@
 
 use App\Enums\Area\AreaStatus;
 use App\Enums\DefaultStatus;
+use App\Enums\Discount\DiscountType;
 use App\Enums\Driver\AutoAccept;
 use App\Enums\Driver\DriverAssignmentType;
 use App\Enums\Driver\DriverStatus;
@@ -132,6 +133,10 @@ return [
     StoreStatus::class => [
         StoreStatus::Open->value => 'Mở cửa',
         StoreStatus::Close->value => 'Đóng cửa'
+    ],
+    DiscountType::class => [
+        DiscountType::Money->value => 'Tiền',
+        DiscountType::Percent->value => 'Phần trăm'
     ],
     SettingGroup::class => [
         SettingGroup::General => 'Chung',

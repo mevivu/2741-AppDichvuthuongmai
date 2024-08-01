@@ -7,8 +7,11 @@ use App\Admin\Repositories\Order\{OrderRepositoryInterface, OrderDetailRepositor
 use App\Admin\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Admin\Repositories\Product\{ProductRepositoryInterface, ProductVariationRepositoryInterface};
+use App\Admin\Repositories\Vehicle\VehicleRepositoryInterface;
 use App\Enums\Product\ProductType;
-use App\Enums\Order\{OrderStatus, PaymentMethod};
+use App\Enums\Order\{OrderStatus};
+use App\Enums\Payment\PaymentMethod;
+use App\Enums\Vehicle\VehicleStatus;
 use Illuminate\Support\Facades\DB;
 
 class OrderService implements OrderServiceInterface
@@ -21,18 +24,21 @@ class OrderService implements OrderServiceInterface
     protected $repositoryUser;
     protected $repositoryProduct;
     protected $repositoryProductVariation;
+    protected $vehicleRepository;
 
     public function __construct(
         OrderRepositoryInterface $repository,
         OrderDetailRepositoryInterface $repositoryOrderDetail,
         UserRepositoryInterface $repositoryUser,
         ProductRepositoryInterface $repositoryProduct,
-        ProductVariationRepositoryInterface $repositoryProductVariation
+        ProductVariationRepositoryInterface $repositoryProductVariation,
+        VehicleRepositoryInterface $vehicleRepository
     ) {
         $this->repository = $repository;
         $this->repositoryOrderDetail = $repositoryOrderDetail;
         $this->repositoryUser = $repositoryUser;
         $this->repositoryProduct = $repositoryProduct;
+        $this->vehicleRepository = $vehicleRepository;
         $this->repositoryProductVariation = $repositoryProductVariation;
     }
 
@@ -41,8 +47,8 @@ class OrderService implements OrderServiceInterface
         $this->data = $request->validated();
         $this->data['order']['discount'] = 0;
         $this->data['order']['payment_code'] = uniqid_real(6);
-        $this->data['order']['payment_method'] = PaymentMethod::BankTransfer;
-        $this->data['order']['status'] = OrderStatus::Processing;
+        $this->data['order']['payment_method'] = PaymentMethod::Online->value;
+        $this->data['order']['status'] = OrderStatus::Pending->value;
         // dd($this->data, array_unique($this->data['order_detail']['product_id']));
         DB::beginTransaction();
         try {
@@ -198,14 +204,21 @@ class OrderService implements OrderServiceInterface
     {
         $order = $this->repository->findOrFail($id);
         if ($order->status == OrderStatus::Pending) {
-            return $this->repository->update($id, ['status' => OrderStatus::Confirmed]);
+            $this->repository->update($id, ['status' => OrderStatus::Confirmed]);
+            return $this->vehicleRepository->update($order->vehicle, ['status' => VehicleStatus::Rented]);
         }
         return false;
     }
 
     public function cancel($id)
     {
+        $order = $this->repository->findOrFail($id);
+        if ($order->status == OrderStatus::Confirmed) {
+            $this->repository->update($id, ['status' => OrderStatus::Cancelled]);
+            return $this->vehicleRepository->update($order->vehicle, ['status' => VehicleStatus::Pending]);
+        }
         return $this->repository->update($id, ['status' => OrderStatus::Cancelled]);
+        return false;
     }
 
     public function addProduct(Request $request)
@@ -213,7 +226,7 @@ class OrderService implements OrderServiceInterface
         $data = $request->validated();
         $product = $this->repositoryProduct->findOrFail($data['product_id']);
         $discount = 1 - $this->repositoryUser->findOrFail($data['user_id'])->getDiscountProduct() / 100;
-        if ($product->type == ProductType::Variable()) {
+        if ($product->type == ProductType::Variable) {
             $product = $product->load(['productVariation' => function ($query) use ($data) {
                 $query->where('id', $data['product_variation_id'] ?? 0)->with('attributeVariations');
             }]);

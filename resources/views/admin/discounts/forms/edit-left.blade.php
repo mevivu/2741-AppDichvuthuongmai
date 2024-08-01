@@ -51,13 +51,9 @@
                         <div class="mb-3">
                             <label class="form-label">@lang('type'):</label>
                             <x-select name="type" :required="true">
-                                <?php if ($discount->type == 1): ?>
-                                <x-select-option :value="1" :title="'Tiền'"/>
-                                <x-select-option :value="2" :title="'Phần trăm'"/>
-                                <?php else: ?>
-                                <x-select-option :value="2" :title="'Phần trăm'"/>
-                                <x-select-option :value="1" :title="'Tiền'"/>
-                                <?php endif; ?>
+                                @foreach ($types as $key => $value)
+                                    <x-select-option :option="$discount->type->value" :value="$key" :title="$value"/>
+                                @endforeach
                             </x-select>
                         </div>
                     </div>

@@ -20,7 +20,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         return User::class;
     }
 
-    public function searchAllLimit($keySearch = '', $meta = [], $select = ['id', 'fullname', 'phone'], $limit = 10)
+    public function searchAllLimit($keySearch = '', $meta = [], $select = ['id', 'fullname', 'phone'], $limit = 10, $role = 0)
     {
         $this->instance = $this->model->select($select)
             ->whereHas('roles', function ($query) {
@@ -30,6 +30,12 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
 
         foreach ($meta as $key => $value) {
             $this->instance = $this->instance->where($key, $value);
+        }
+
+        if($role){
+            $this->instance = $this->instance->whereHas('roles', function ($query) use ($role) {
+                $query->where('name', $role);
+            });
         }
 
         return $this->instance->limit($limit)->get();

@@ -5,24 +5,24 @@ return [
         'name' => [
             'title' => 'name',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'createdAt',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => true
         ],
         'status' => [
             'title' => 'status',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => true
         ],
         'address' => [
             'title' => 'address',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => true
         ],
         'action' => [
@@ -38,28 +38,28 @@ return [
         'title' => [
             'title' => 'Tiêu đề',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'user_id' => [
             'title' => 'Người nhận',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'message' => [
             'title' => 'Nội dung',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'status' => [
             'title' => 'status',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
         ],
 
         'created_at' => [
             'title' => 'Ngày thông báo',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
         ],
         'action' => [
             'title' => 'action',
@@ -74,64 +74,64 @@ return [
         'code' => [
             'title' => 'Mã',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'stores' => [
             'title' => 'store',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'products' => [
             'title' => 'product',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false,
         ],
         'users' => [
             'title' => 'user',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'drivers' => [
             'title' => 'driver',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false,
         ],
 
         'date_start' => [
             'title' => 'Ngày bắt đầu',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => true
         ],
         'date_end' => [
             'title' => 'Ngày kết thúc',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => true
         ],
         'max_usage' => [
             'title' => 'Số lượng phiếu',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false
         ],
         'min_order_amount' => [
             'title' => 'Giá trị ĐH',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
         ],
         'type' => [
             'title' => 'Loại',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false
         ],
         'discount_value' => [
             'title' => 'giá trị giảm',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'action',
@@ -145,17 +145,17 @@ return [
         'name' => [
             'title' => 'Tên',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'price' => [
             'title' => 'Giá',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'avatar' => [
             'title' => 'Ảnh',
@@ -167,7 +167,7 @@ return [
         'created_at' => [
             'title' => 'createdAt',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false
         ],
         'action' => [
@@ -239,19 +239,19 @@ return [
             'title' => 'ID',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'name' => [
             'title' => 'Tên Module',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'Thao tác',
@@ -266,25 +266,25 @@ return [
             'title' => 'ID',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'title' => [
             'title' => 'Tên vai trò',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'name' => [
             'title' => 'Slug ( role_name )',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'guard_name' => [
             'title' => 'Vai trò của nhóm ( Guard Name )',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'Thao tác',
@@ -299,31 +299,31 @@ return [
             'title' => 'ID',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'title' => [
             'title' => 'Tên quyền',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'name' => [
             'title' => 'Slug ( Permission_name )',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'module_id' => [
             'title' => 'Thuộc Module',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'guard_name' => [
             'title' => 'Nhóm quyền ( Guard Name )',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'Thao tác',
@@ -337,22 +337,22 @@ return [
 
         'fullname' => [
             'title' => 'Họ tên',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false
         ],
         'phone' => [
             'title' => 'Số điện thoại',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false
         ],
         'email' => [
             'title' => 'Email',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
         ],
         'roles' => [
             'title' => 'Vai trò',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
         ],
         'created_at' => [
@@ -372,29 +372,29 @@ return [
 
         'fullname' => [
             'title' => 'Họ tên',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false
         ],
         'email' => [
             'title' => 'Email',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
         ],
         'phone' => [
             'title' => 'Số điện thoại',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false
         ],
         'gender' => [
             'title' => 'Giới tính',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
             'visible' => false
         ],
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false
         ],
         'action' => [
@@ -408,43 +408,43 @@ return [
     'store' => [
         'priority' => [
             'title' => 'priority',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => true
         ],
         'store_name' => [
             'title' => 'storeName',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false
         ],
         'category' => [
             'title' => 'category2',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false
         ],
         'area' => [
             'title' => 'area',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false
         ],
         'open_hours_1' => [
             'title' => 'operatingTime',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
             'visible' => false
         ],
         'status' => [
             'title' => 'status',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false
         ],
         'address_detail' => [
             'title' => 'address',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false
         ],
         'created_at' => [
             'title' => 'createdAt',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
             'visible' => false
         ],
@@ -461,18 +461,18 @@ return [
         'name' => [
             'title' => 'name',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'status' => [
             'title' => 'status',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'createdAt',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => true
         ],
         'action' => [
@@ -487,23 +487,23 @@ return [
         'name' => [
             'title' => 'name',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'createdAt',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => true
         ],
         'view-topping' => [
             'title' => 'Topping',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'view-discount' => [
             'title' => 'Discount',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'action',
@@ -518,12 +518,12 @@ return [
         'name' => [
             'title' => 'name',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'createdAt',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => true
         ],
         'action' => [
@@ -539,7 +539,7 @@ return [
         'name' => [
             'title' => 'Tên danh mục',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'align-middle text-center'
         ],
         'avatar' => [
             'title' => 'Hình ảnh',
@@ -549,12 +549,12 @@ return [
         'is_active' => [
             'title' => 'Trạng thái',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'align-middle text-center'
         ],
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'align-middle text-center',
             'visible' => false
         ],
         'action' => [
@@ -568,23 +568,23 @@ return [
     'attribute' => [
         'position' => [
             'title' => 'Vị trí',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
         ],
         'name' => [
             'title' => 'Tên thuộc tính',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'type' => [
             'title' => 'Loại',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'variations' => [
             'title' => 'Các biến thể',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'Thao tác',
@@ -606,7 +606,7 @@ return [
         ],
         'desc' => [
             'title' => 'Mô tả',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
         ],
         'action' => [
@@ -644,18 +644,18 @@ return [
         'categories' => [
             'title' => 'Danh mục',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'toppings' => [
             'title' => 'Topping',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,
             'visible' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'Thao tác',
@@ -673,39 +673,39 @@ return [
         'user' => [
             'title' => 'customer',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'driver' => [
             'title' => 'driver',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'payment_code' => [
             'title' => 'Mã thanh toán',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false,
         ],
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'order_type' => [
             'title' => 'Loại hợp đồng',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'total' => [
             'title' => 'Tổng tiền',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'Ngày đặt',
             'orderable' => false,
             'visible' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'Thao tác',
@@ -723,18 +723,18 @@ return [
         'user' => [
             'title' => 'customer',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'payment_code' => [
             'title' => 'Mã thanh toán',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false,
         ],
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'payment_method' => [
             'title' => 'Phương thức thanh toán',
@@ -744,17 +744,17 @@ return [
         'order_type' => [
             'title' => 'Loại hợp đồng',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'total' => [
             'title' => 'Tổng tiền',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'Ngày đặt',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'Thao tác',
@@ -769,30 +769,30 @@ return [
             'title' => 'Tên',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'plain_key' => [
             'title' => 'Key',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'items' => [
             'title' => 'Slider Item',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,
             'visible' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'Thao tác',
@@ -807,24 +807,24 @@ return [
             'title' => 'Tên',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'image' => [
             'title' => 'Hình ảnh',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'position' => [
             'title' => 'Vị trí',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,
             'visible' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'action' => [
             'title' => 'Thao tác',
@@ -838,22 +838,22 @@ return [
         'avatar' => [
             'title' => 'avatar',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'name' => [
             'title' => 'Tên danh mục',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false
         ],
         'action' => [
@@ -868,28 +868,28 @@ return [
         'image' => [
             'title' => 'Ảnh',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'title' => [
             'title' => 'Tiêu đề',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'status' => [
             'title' => 'Trạng thái',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'is_featured' => [
             'title' => 'Nổi bật',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false
         ],
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => false
         ],
 //        'action' => [
@@ -904,16 +904,16 @@ return [
         'fullname' => [
             'title' => 'fullname',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'id_card' => [
             'title' => 'id_card',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'bank_name' => [
             'title' => 'bank_name',
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
         ],
         //        'roles' => [
@@ -928,13 +928,13 @@ return [
         'auto_accept' => [
             'title' => 'Tự động nhận chuyến',
             'orderable' => false,
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
 
         'created_at' => [
             'title' => 'createdAt',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'visible' => true
         ],
 
@@ -951,14 +951,14 @@ return [
             'title' => 'ID',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
 
         'name' => [
             'title' => 'Tên dịch vụ',
             'orderable' => false,
             'width' => '150px',
-            'addClass' => 'align-middle'
+            'addClass' => 'text-center align-middle'
         ],
         'avatar' => [
             'title' => 'Hình ảnh',
@@ -968,7 +968,7 @@ return [
         'created_at' => [
             'title' => 'Ngày tạo',
             'orderable' => false,
-            'addClass' => 'align-middle',
+            'addClass' => 'text-center align-middle',
             'width' => '150px',
             'visible' => true
         ],

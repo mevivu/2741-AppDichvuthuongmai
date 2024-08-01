@@ -4,6 +4,7 @@ namespace App\Admin\DataTables\Discount;
 
 use App\Admin\DataTables\BaseDataTable;
 use App\Admin\Repositories\Discount\DiscountRepositoryInterface;
+use App\Enums\Discount\DiscountType;
 use Illuminate\Database\Eloquent\Builder;
 
 class DiscountDataTable extends BaseDataTable
@@ -31,18 +32,22 @@ class DiscountDataTable extends BaseDataTable
             'users' => 'admin.discounts.datatable.users',
             'drivers' => 'admin.discounts.datatable.drivers',
             'products' => 'admin.discounts.datatable.products',
+            'type' => 'admin.discounts.datatable.type',
         ];
     }
 
     public function setColumnSearch(): void
     {
 
-        $this->columnAllSearch = [0, 1, 2, 3, 4, 5, 6];
+        $this->columnAllSearch = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
         $this->columnSearchDate = [5, 6];
 
         $this->columnSearchSelect = [
-
+            [
+                'column' => 9,
+                'data' => DiscountType::asSelectArray()
+            ],
         ];
 
     }
@@ -109,7 +114,7 @@ class DiscountDataTable extends BaseDataTable
 
     protected function setCustomRawColumns(): void
     {
-        $this->customRawColumns = ['action', 'code', 'stores', 'users', 'drivers', 'products'];
+        $this->customRawColumns = ['action', 'code', 'stores', 'users', 'drivers', 'products', 'type'];
     }
 
     public function setCustomFilterColumns(): void
@@ -135,8 +140,6 @@ class DiscountDataTable extends BaseDataTable
                     $subQuery->where('fullname', 'like', '%' . $keyword . '%');
                 });
             },
-
-
         ];
     }
 }
