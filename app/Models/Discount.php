@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Discount\DiscountType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,10 @@ class Discount extends Model
         'min_order_amount',
         'type',
         'discount_value',
+    ];
+
+    protected $casts = [
+        'type' => DiscountType::class
     ];
 
     public function products(): BelongsToMany

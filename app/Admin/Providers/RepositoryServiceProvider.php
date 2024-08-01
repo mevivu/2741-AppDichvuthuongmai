@@ -38,9 +38,6 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Admin\Repositories\Cart\CartRepositoryInterface' => 'App\Admin\Repositories\Cart\CartRepository',
         'App\Admin\Repositories\CartItem\CartItemRepositoryInterface' => 'App\Admin\Repositories\CartItem\CartItemRepository',
         'App\Admin\Repositories\VehicleOwner\VehicleOwnerRepositoryInterface' => 'App\Admin\Repositories\VehicleOwner\VehicleOwnerRepository',
-
-
-
     ];
     /**
      * Register services.

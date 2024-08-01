@@ -16,16 +16,16 @@ class BaseSearchSelectController extends Controller
         $this->request = $request;
 
         $this->data();
-        
+
         $this->selectResponse();
-        
+
         return $this->instance;
 
     }
 
     protected function data(){
         $this->instance = $this->repository->searchAllLimit(
-            $this->request->input('term', ''), 
+            $this->request->input('term', ''),
             $this->request->except('term', '_type', 'q')
         );
     }

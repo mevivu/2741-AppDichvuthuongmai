@@ -7,6 +7,7 @@ use App\Admin\Http\Controllers\Controller;
 use App\Admin\Http\Requests\Discount\DiscountRequest;
 use App\Admin\Repositories\Discount\DiscountRepositoryInterface;
 use App\Admin\Services\Discount\DiscountServiceInterface;
+use App\Enums\Discount\DiscountType;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -20,13 +21,11 @@ class DiscountController extends Controller
     public function __construct(
         DiscountRepositoryInterface $repository,
         DiscountServiceInterface    $service,
-    )
-    {
+    ) {
 
         parent::__construct();
         $this->repository = $repository;
         $this->service = $service;
-
     }
 
     public function getView(): array
@@ -62,8 +61,11 @@ class DiscountController extends Controller
     {
 
         return view($this->view['create'], [
-            'breadcrumbs' => $this->crums->add(__('listDiscount'),
-                route($this->route['index']))->add(__('add')),
+            'breadcrumbs' => $this->crums->add(
+                __('listDiscount'),
+                route($this->route['index'])
+            )->add(__('add')),
+            'types' => DiscountType::asSelectArray()
         ]);
     }
 
@@ -93,8 +95,11 @@ class DiscountController extends Controller
             $this->view['edit'],
             [
                 'discount' => $discount,
-                'breadcrumbs' => $this->crums->add(__('Trang chủ'),
-                    route($this->route['index']))->add(__('edit'))
+                'types' => DiscountType::asSelectArray(),
+                'breadcrumbs' => $this->crums->add(
+                    __('Trang chủ'),
+                    route($this->route['index'])
+                )->add(__('edit'))
             ],
         );
     }
@@ -119,6 +124,4 @@ class DiscountController extends Controller
 
         return to_route($this->route['index'])->with('success', __('notifySuccess'));
     }
-
-
 }

@@ -51,8 +51,9 @@
                         <div class="mb-3">
                             <label class="form-label">@lang('type'):</label>
                             <x-select name="type" :required="true">
-                                <x-select-option :value="1" :title="'Tiền'"/>
-{{--                                <x-select-option :value="2" :title="'Phần trăm'"/>--}}
+                                @foreach ($types as $key => $value)
+                                    <x-select-option :value="$key" :title="$value"/>
+                                @endforeach
                             </x-select>
                         </div>
                     </div>

@@ -11,7 +11,7 @@
                     <x-select
                         name="user_id"
                         class="select2-bs5-ajax"
-                        :data-url="route('admin.search.select.user')"
+                        :data-url="route('admin.search.select.customer')"
                         id="user_id"
                         :required="true">
                     </x-select>

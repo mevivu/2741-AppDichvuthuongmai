@@ -97,16 +97,6 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
 
         });
 
-    //Select Search
-    Route::prefix('/search')->as('search.')->group(function () {
-        Route::prefix('/select')->as('select.')->group(function () {
-            Route::get('/user', [App\Admin\Http\Controllers\User\UserSearchSelectController::class, 'selectSearch'])->name('user');
-            Route::get('/product', [App\Admin\Http\Controllers\Product\ProductSearchSelectController::class, 'selectSearch'])->name('product');
-
-        });
-    });
-
-
     //store
     Route::prefix('/stores')->as('store.')->group(function () {
 
@@ -619,7 +609,7 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
             Route::get('/driver', [App\Admin\Http\Controllers\Driver\DriverSearchSelectController::class, 'selectSearch'])->name('driver');
             Route::get('/product', [App\Admin\Http\Controllers\Product\ProductSearchSelectController::class, 'selectSearch'])->name('product');
             Route::get('/vehicle', [App\Admin\Http\Controllers\Vehicle\VehicleSearchSelectController::class, 'selectSearch'])->name('vehicle');
-
+            Route::get('/customer', [App\Admin\Http\Controllers\User\CustomerSearchSelectController::class, 'selectSearch'])->name('customer');
 
         });
         Route::get('/render-product-and-variation', [App\Admin\Http\Controllers\Product\ProductController::class, 'searchRenderProductAndVariation'])->name('render_product_and_variation');
