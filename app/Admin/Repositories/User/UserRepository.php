@@ -5,10 +5,12 @@ namespace App\Admin\Repositories\User;
 use App\Admin\Repositories\EloquentRepository;
 use App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Admin\Traits\BaseAuthCMS;
+use App\Admin\Traits\Roles;
 use App\Models\User;
 
 class UserRepository extends EloquentRepository implements UserRepositoryInterface
 {
+    use Roles;
     use BaseAuthCMS;
 
     protected $select = [];
@@ -20,7 +22,10 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
 
     public function searchAllLimit($keySearch = '', $meta = [], $select = ['id', 'fullname', 'phone'], $limit = 10, $role = 0)
     {
-        $this->instance = $this->model->select($select);
+        $this->instance = $this->model->select($select)
+            ->whereHas('roles', function ($query) {
+                $query->where('name',$this->getRoleCustomer());
+            });
         $this->getQueryBuilderFindByKey($keySearch);
 
         foreach ($meta as $key => $value) {
@@ -53,12 +58,6 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         return $this->instance;
     }
 
-    public function syncUserRoles($userId, $rolesRequestArray): int
-    {
-        $user = $this->findOrFail($userId);
-        $user->syncRoles($rolesRequestArray);
-        return 1;
-    }
 
 
 }
