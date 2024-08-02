@@ -10,36 +10,14 @@
             appId: "{{ config('firebase.app_id') }}",
             measurementId: "{{ config('firebase.measurement_id') }}"
         };
-        console.log(firebaseConfig)
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         const messaging = firebase.messaging();
         navigator.serviceWorker.addEventListener('message', function(event) {
             console.log("Message from Service Worker:", event.data);
-            // if(event.data && event.data.message === "Notification received") {
-            // }
              reloadData()
         });
-
-        // function clearCookies() {
-        //     console.log('Current cookies:', document.cookie);
-        //     var cookies = document.cookie.split(";");
-        //
-        //     if (!cookies[0]) console.log("No cookies to clear.");
-        //
-        //     for (var i = 0; i < cookies.length; i++) {
-        //         var cookie = cookies[i];
-        //         var eqPos = cookie.indexOf("=");
-        //         var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie.trim();
-        //         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-        //     }
-        //
-        //     console.log("Cookies cleared.");
-        // }
-        //
-        // clearCookies()
-        // clearCaches();
 
         function registerServiceWorker() {
             if ("serviceWorker" in navigator) {
@@ -87,7 +65,11 @@
                     console.log("Notification permission granted.");
                     retrieveAndUpdateToken(registration);
                 } else {
-                    alert("Please enable notifications to get information.");
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Vui lòng bật thông báo để nhận thông tin!',
+                    });
                 }
             });
         }
@@ -126,7 +108,7 @@
                 headers: {
                     'X-CSRF-TOKEN': token
                 },
-                data: {user_id: userId, device_token: deviceToken},
+                data: {device_token: deviceToken},
                 success: (data) => console.log(data.message),
                 error: err => {
                     console.error('Error updating token on server:', err);
@@ -150,14 +132,28 @@
             messaging.onTokenRefresh(() => retrieveAndUpdateToken(registration));
         }
 
-        // function handleIncomingMessages() {
-        //     messaging.onMessage(payload => {
-        //         console.log("Payload received:", payload);
-        //         const {title, body, icon} = payload.notification;
-        //         new Notification(title, {body, icon});
-        //         reloadData()
-        //     });
-        // }
+        function timeSince(date) {
+            const now = new Date();
+            const timestamp = new Date(date);
+
+            const seconds = Math.floor((now - timestamp) / 1000);
+            if (seconds < 60) {
+                return `${seconds} giây trước`;
+            }
+
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) {
+                return `${minutes} phút trước`;
+            }
+
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) {
+                return `${hours} giờ trước`;
+            }
+
+            const days = Math.floor(hours / 24);
+            return `${days} ngày trước`;
+        }
 
         function renderNotifications(notifications) {
             $('#message-box .badge').text(notifications?.length);
@@ -168,7 +164,7 @@
             notifications?.forEach(function (notification) {
                 const timeDiff = timeSince(notification.created_at);
                 const notificationElement = `
-            <a href="#" class="dropdown-item d-flex justify-content-between ">
+            <a href="${urlHome}/admin/notifications/edit/${notification.id}" class="dropdown-item d-flex justify-content-between message-item-{ notification.id }">
                 ${notification.title}
                 <div class="text-muted small mt-1">${timeDiff}</div>
             </a>
@@ -177,19 +173,20 @@
             });
 
             $messageBox.append('<div class="dropdown-divider"></div>');
-            $messageBox.append('<a href="#" class="dropdown-item text-center">Xem tất cả</a>');
+            $messageBox.append('<a href="{{route('admin.notification.index')}}" class="dropdown-item text-center">Xem tất cả</a>');
         }
 
         function reloadData() {
             const userId = getUserId();
             $.ajax({
-                url: urlHome + '/admin/notifications/not-read?admin_id=' + userId,
+                url: urlHome + '/admin/notifications/not-read-admin?admin_id=' + userId,
                 type: 'GET',
                 success: function (data) {
                     console.log(data.notifications)
                     renderNotifications(data.notifications);
                 },
                 error: function (error) {
+                    handleAjaxError(error)
                     console.error('Error fetching notifications:', error);
                 }
             });

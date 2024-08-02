@@ -121,16 +121,13 @@ class DriverController extends Controller
 
     public function update(DriverRequest $request): RedirectResponse
     {
-
         $response = $this->service->update($request);
         return $this->handleUpdateResponse($response);
-
     }
 
     public function delete($id): RedirectResponse
     {
-
-        $this->service->delete($id);
-        return to_route($this->route['index'])->with('success', __('notifySuccess'));
+        $response = $this->service->delete($id);
+        return $this->handleUpdateResponse($response);
     }
 }

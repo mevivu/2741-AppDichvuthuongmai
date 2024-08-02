@@ -5,10 +5,15 @@ namespace App\Admin\Http\Controllers\Notification;
 use App\Admin\DataTables\Notification\NotificationDataTable;
 use App\Admin\Http\Controllers\Controller;
 use App\Admin\Http\Requests\Notification\NotificationRequest;
+use App\Admin\Repositories\Driver\DriverRepositoryInterface;
 use App\Admin\Repositories\Notification\NotificationRepositoryInterface;
+use App\Admin\Repositories\Store\StoreRepositoryInterface;
+use App\Admin\Repositories\User\UserRepositoryInterface;
 use App\Admin\Services\Notification\NotificationServiceInterface;
+use App\Admin\Traits\Roles;
+use App\Enums\Notification\NotificationOption;
 use App\Enums\Notification\NotificationStatus;
-// use App\Admin\DataTables\Page\PageDataTable;
+use App\Enums\Notification\NotificationType;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -17,15 +22,25 @@ use Illuminate\View\View;
 
 class NotificationController extends Controller
 {
+    use Roles;
+    protected $driverRepository;
+    protected $storeRepository;
+    protected $userRepository;
+
     public function __construct(
         NotificationRepositoryInterface $repository,
+        DriverRepositoryInterface $driverRepository,
+        StoreRepositoryInterface $storeRepository,
+        UserRepositoryInterface $userRepository,
         NotificationServiceInterface    $service
-    )
-    {
+    ) {
 
         parent::__construct();
 
         $this->repository = $repository;
+        $this->driverRepository = $driverRepository;
+        $this->storeRepository = $storeRepository;
+        $this->userRepository = $userRepository;
         $this->service = $service;
     }
 
@@ -52,10 +67,6 @@ class NotificationController extends Controller
 
     public function index(NotificationDataTable $dataTable)
     {
-        $actionMultiple = [
-
-            'draftStatus' => NotificationStatus::NOT_READ->description(),
-        ];
         return $dataTable->render($this->view['index'], [
             'breadcrums' => $this->crums->add(__('page'))
         ]);
@@ -73,7 +84,14 @@ class NotificationController extends Controller
         return $this->service->updateStatus($request);
     }
 
-    public function getNotifications(NotificationRequest $request): JsonResponse
+
+    /**
+     * Get notification for admin
+     *
+     * @param NotificationRequest $request
+     * @return JsonResponse
+     */
+    public function getNotificationsForAdmin(NotificationRequest $request): JsonResponse
     {
         $notifications = $this->service->getNotifications($request);
 
@@ -83,37 +101,41 @@ class NotificationController extends Controller
             ]);
         }
         return response()->json([
-            'notifications' => []
-        ]);
+            'notifications' => [],
+            'errors' => ['Specific condition is not met']
+        ], 422);
     }
 
     public function create(): View|Application
     {
         return view($this->view['create'], [
+            'types' => NotificationType::asSelectArray(),
+            'options' => NotificationOption::asSelectArray(),
             'status' => NotificationStatus::asSelectArray(),
             'breadcrums' => $this->crums->add(__('notifications'), route($this->route['index']))->add(__('add'))
         ]);
     }
 
-    public function store(NotificationRequest $request): RedirectResponse
+    public function store(NotificationRequest $request)
     {
-
-        $instance = $this->service->store($request);
-
-        if ($instance == 1) {
-            return to_route($this->route['index'])->with('success', __('Thêm thành công'))->withInput();
+        $response = $this->service->store($request);
+        if ($response) {
+            return redirect()->route($this->route['index'])->with('success', __('notifySuccess'));
+        } else if ($response == false) {
+            return redirect()->route($this->route['create'])->with('error', __('Chưa có một ai để gửi thông báo'));
+        } else {
+            return redirect()->route($this->route['create'])->with('error', __('notifyFail'));
         }
-        return back()->with('error', __('notifyFail'))->withInput();
     }
 
     public function edit($id): View|Application
     {
-
         $response = $this->repository->findOrFail($id);
-
         return view(
             $this->view['edit'],
             [
+                'types' => NotificationType::asSelectArray(),
+                'options' => NotificationOption::asSelectArray(),
                 'status' => NotificationStatus::asSelectArray(),
                 'notification' => $response,
                 'breadcrums' => $this->crums->add(__('notification'), route($this->route['index']))->add(__('edit'))
@@ -127,16 +149,16 @@ class NotificationController extends Controller
         $response = $this->service->update($request);
 
         if ($response) {
-            return $request->input('submitter') == 'save'
-                ? back()->with('success', __('notifySuccess'))
-                : to_route($this->route['index'])->with('success', __('notifySuccess'));
+            return back()->with('success', __('notifySuccess'));
         }
 
         return back()->with('error', __('notifyFail'));
     }
 
+
     public function delete($id): RedirectResponse
     {
+
         $this->service->delete($id);
 
         return to_route($this->route['index'])->with('success', __('notifySuccess'));

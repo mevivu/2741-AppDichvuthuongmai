@@ -4,6 +4,7 @@ namespace App\Admin\Http\Requests\Notification;
 
 use App\Admin\Http\Requests\BaseRequest;
 use App\Enums\Notification\NotificationStatus;
+use App\Enums\Notification\NotificationType;
 use Illuminate\Validation\Rules\Enum;
 
 class NotificationRequest extends BaseRequest
@@ -21,8 +22,11 @@ class NotificationRequest extends BaseRequest
         return [
             'title' => ['required', 'string'],
             'message' => ['required'],
-            'user_id.*' => ['nullable'],
-            'device_token' => ['required'],
+            'type' => ['required', new Enum(NotificationType::class)],
+            'option' => 'required',
+            'driver_id' => ['nullable'],
+            'store_id' => ['nullable'],
+            'user_id' => ['nullable'],
             'status' => ['required', new Enum(NotificationStatus::class)],
         ];
     }
@@ -32,9 +36,7 @@ class NotificationRequest extends BaseRequest
         return [
             'id' => ['required', 'exists:App\Models\Notification,id'],
             'title' => ['required', 'string'],
-            'device_token' => ['required'],
             'message' => ['required'],
-            'user_id' => ['nullable'],
             'status' => ['required', new Enum(NotificationStatus::class)],
         ];
     }

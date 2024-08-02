@@ -62,7 +62,7 @@ class AreaController extends Controller
 
         return view($this->view['create'], [
             'breadcrumbs' => $this->crums->add(__('area'),
-                route($this->route['index']))->add(__('add')),
+            route($this->route['index']))->add(__('add')),
             'status' => AreaStatus::asSelectArray()
         ]);
     }
@@ -105,8 +105,8 @@ class AreaController extends Controller
     public function delete($id): RedirectResponse
     {
 
-        $this->service->delete($id);
+        $response = $this->service->delete($id);
 
-        return to_route($this->route['index'])->with('success', __('notifySuccess'));
+        return $this->handleUpdateResponse($response);
     }
 }

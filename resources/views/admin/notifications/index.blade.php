@@ -1,37 +1,40 @@
 @extends('admin.layouts.master')
 
 @push('libs-css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.6.2/css/select.bootstrap5.min.css">
+    <style>
+        td {
+            vertical-align: middle;
+        }
+    </style>
 @endpush
 
 @section('content')
-    <div class="page-header d-print-none">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <div class="col">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"
-                                                           class="text-muted">{{ __('Dashboard') }}</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ __('Danh sách thông báo') }}</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="page-body">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="card">
                 <div class="card-header justify-content-between">
-                    <h2 class="mb-0">{{ __('Danh sách thông báo') }}</h2>
-                    <x-link :href="route('admin.notification.create')" class="btn btn-primary"><i
-                            class="ti ti-plus"></i>{{ __('Thêm thông báo') }}</x-link>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive position-relative">
-                        <x-admin.partials.toggle-column-datatable/>
-                        {{$dataTable->table(['class' => 'table table-bordered', 'style' => 'min-width: 900px;'], true)}}
+                    <h2 class="mb-0">@lang('Danh Sách Thông Báo')</h2>
+                    <div class="d-flex justify-content-between gap-2">
+                        <x-button.modal-delete class="btn btn-danger d-none" id="deleteSelect">
+                            <i class="ti ti-trash"></i>
+                            <span class="ms-1">@lang('deleteMulti')</span>
+                        </x-button.modal-delete>
+                        <x-link :href="route('admin.notification.create')" class="btn btn-primary">
+                            <i class="ti ti-plus"></i>
+                            <span class="ms-1">@lang('add')</span>
+                        </x-link>
                     </div>
+                </div>
+
+                <div class="card-body">
+                        <div class="table-responsive position-relative">
+                            <x-admin.partials.toggle-column-datatable />
+                            @isset($actionMultiple)
+                                <x-admin.partials.select-action-multiple :actionMultiple="$actionMultiple" />
+                            @endisset
+                            {{ $dataTable->table(['class' => 'table table-bordered'], true) }}
+                        </div>
                 </div>
             </div>
         </div>
@@ -44,10 +47,9 @@
 @endpush
 
 @push('custom-js')
-
     {{ $dataTable->scripts() }}
-    @include('admin.scripts.datatable-toggle-columns', [
-       'id_table' => $dataTable->getTableAttribute('id')
-   ])
 
+    @include('admin.scripts.datatable-toggle-columns', [
+        'id_table' => $dataTable->getTableAttribute('id'),
+    ])
 @endpush

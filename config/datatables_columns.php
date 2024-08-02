@@ -34,21 +34,30 @@ return [
         ],
     ],
     'notifications' => [
-
         'title' => [
             'title' => 'Tiêu đề',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
-            'addClass' => 'text-center align-middle'
+        ],
+        'store_id' => [
+            'title' => 'Cửa hàng nhận',
+            'addClass' => 'text-center align-middle',
+            'orderable' => false,
+        ],
+        'driver_id' => [
+            'title' => 'Tài xế nhận',
+            'addClass' => 'text-center align-middle',
+            'orderable' => false,
         ],
         'user_id' => [
-            'title' => 'Người nhận',
+            'title' => 'Khách hàng nhận',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
-            'addClass' => 'text-center align-middle'
         ],
         'message' => [
             'title' => 'Nội dung',
+            'addClass' => 'text-center align-middle',
             'orderable' => false,
-            'addClass' => 'text-center align-middle'
         ],
         'status' => [
             'title' => 'status',

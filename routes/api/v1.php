@@ -46,6 +46,26 @@ Route::prefix('stores')->controller(StoreController::class)
         Route::put('/update-password', 'updatePassword')->name('updatePassword');
     });
 
+//notification
+Route::controller(App\Api\V1\Http\Controllers\Notification\UserNotificationController::class)
+    ->prefix('/notifications')
+    ->as('note.')
+    ->group(function () {
+        Route::get('/show/{id}', 'show')->name('show');
+        Route::get('/user', 'getUserNotifications')->name('getNotiUser');
+        Route::get('/driver', 'getDriverNotifications')->name('getNotiDriver');
+
+});
+
+//notification
+Route::controller(App\Api\V1\Http\Controllers\Notification\StoreNotificationController::class)
+    ->prefix('/notifications')
+    ->as('note.')
+    ->group(function () {
+        Route::get('/store', 'getStoreNotifications')->name('getNotiStore');
+
+});
+
 //products
 Route::controller(App\Api\V1\Http\Controllers\Product\ProductController::class)
     ->prefix('/products')

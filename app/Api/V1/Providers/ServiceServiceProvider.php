@@ -20,6 +20,7 @@ class ServiceServiceProvider extends ServiceProvider
         'App\Api\V1\Services\Review\ReviewServiceInterface' => 'App\Api\V1\Services\Review\ReviewService',
         'App\Api\V1\Services\Store\StoreServiceInterface' => 'App\Api\V1\Services\Store\StoreService',
         'App\Api\V1\Services\Vehicle\VehicleServiceInterface' => 'App\Api\V1\Services\Vehicle\VehicleService',
+        'App\Api\V1\Services\Notification\NotificationServiceInterface' => 'App\Api\V1\Services\Notification\NotificationService',
     ];
     /**
      * Register services.

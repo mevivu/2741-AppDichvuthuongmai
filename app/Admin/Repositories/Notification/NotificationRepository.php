@@ -13,12 +13,6 @@ class NotificationRepository extends EloquentRepository implements NotificationR
         return Notification::class;
     }
 
-    public function getQueryBuilderOrderBy($column = 'id', $sort = 'DESC'){
-        $this->getQueryBuilder();
-        $this->instance = $this->instance->orderBy($column, $sort);
-        return $this->instance->get();
-    }
-
     public function searchAllLimit($keySearch = '', $meta = [], $limit = 10)
     {
         // TODO: Implement searchAllLimit() method.
