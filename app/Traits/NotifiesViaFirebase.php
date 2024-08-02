@@ -3,9 +3,12 @@
 namespace App\Traits;
 
 use App\Admin\Repositories\Admin\AdminRepositoryInterface;
-use App\Admin\Repositories\Store\StoreRepositoryInterface;
+use App\Admin\Repositories\Notification\NotificationRepositoryInterface;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Factory;
+
 
 trait  NotifiesViaFirebase
 {
@@ -47,13 +50,15 @@ trait  NotifiesViaFirebase
     private function sendMessage(mixed $message): void
     {
         try {
-            $messaging = app('firebase.messaging');
+            $factory = (new Factory)->withServiceAccount(base_path('firebase_credentials.json'));
+            $messaging = $factory->createMessaging();
             $messaging->send($message);
             Log::info('Firebase notification sent successfully.');
         } catch (\Throwable $e) {
-            Log::error('Failed to send Firebase notification', ['error' => $e->getMessage()]);
+            Log::error('Failed to send Firebase notification', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
         }
     }
+
 
     /**
      * Registers a device token to a specific Firebase topic.
@@ -80,6 +85,7 @@ trait  NotifiesViaFirebase
      *
      * @param string $title Custom title of the notification.
      * @param string $body Custom body text of the notification.
+     * @throws Exception
      */
     public function sendNotificationsToAdmins(string $title, string $body): void
     {
@@ -90,25 +96,27 @@ trait  NotifiesViaFirebase
         if (!empty($deviceTokens)) {
             $this->sendFirebaseNotification($deviceTokens, null, $title, $body);
         }
-    }
-
-    /**
-     * Sends notifications to multiple stores with a custom title and body.
-     *
-     * @param array $storeIds Array of store IDs to send notifications to.
-     * @param string $title Custom title of the notification.
-     * @param string $body Custom body text of the notification.
-     */
-    public function sendNotificationsToStores(array $storeIds, string $title, string $body): void
-    {
-        $storeRepository = app(StoreRepositoryInterface::class);
-        $stores = $storeRepository->findByIds($storeIds);
-        $deviceTokens = $stores->pluck('device_token')->filter()->all();
-
-        if (!empty($deviceTokens)) {
-            $this->sendFirebaseNotification($deviceTokens, null, $title, $body);
+        foreach ($admins as $admin) {
+            $this->notificationRepository->create([
+                'admin_id' => $admin->id,
+                'title' => $title,
+                'message' => $body
+            ]);
         }
     }
 
 
+    public function sendFirebaseNotificationToParent($parent, string $title, string $body): void
+    {
+        $notificationRepository = app(NotificationRepositoryInterface::class);
+        $deviceToken = $parent->user->device_token;
+        if (!empty($deviceToken)) {
+            $this->sendFirebaseNotification([$deviceToken], null, $title, $body);
+        }
+        $notificationRepository->create([
+            'parent_id' => $parent->id,
+            'title' => $title,
+            'message' => $body
+        ]);
+    }
 }

@@ -1,17 +1,34 @@
 <div class="col-12 col-md-9">
     <div class="card">
         <div class="row card-body">
-            <!-- user_id -->
-            <div class="col-12">
+            {{-- @if ($notification->driver_id)
+            <!-- driver -->
+            <div id="notification-driver-select" class="col-12">
                 <div class="mb-3">
-                    <label class="control-label">@lang('name')</label>
-                    <x-select name="user_id" class="select2-bs5-ajax-many" :data-url="route('admin.search.select.user')"
-                              :required="true">
-                        <x-select-option :option="$notification->user_id" :value="$notification->user_id"
-                                         :title="$notification->user->fullname"/>
+                    <label class="control-label">{{ __('Tài xế') }}</label>
+                    <x-select class="select2-bs5-ajax" name="driver_id" :value="old('driver_id')">
+                        <x-select-option value="" :title="__('Chọn tài xế')" selected />
+                        @foreach ($drivers as $item)
+                            <x-select-option :selected="$item->id == $notification->driver_id" :value="$item->id" :title="$item->user->fullname . ' - ' . $item->user->phone" />
+                        @endforeach
                     </x-select>
                 </div>
             </div>
+            @endif
+            @if ($notification->parent_id)
+            <!-- parent -->
+            <div id="notification-parent-select" class="col-12">
+                <div class="mb-3">
+                    <label class="control-label">{{ __('Phụ huynh') }}</label>
+                    <x-select class="select2-bs5-ajax" name="parent_id" :value="old('parent_id')">
+                        <x-select-option value="" :title="__('Chọn phụ huynh')" selected />
+                        @foreach ($parents as $item)
+                            <x-select-option :selected="$item->id == $notification->parent_id" :value="$item->id" :title="$item->user->fullname . ' - ' . $item->user->phone" />
+                        @endforeach
+                    </x-select>
+                </div>
+            </div>
+            @endif --}}
             <!-- title -->
             <div class="col-12">
                 <div class="mb-3">

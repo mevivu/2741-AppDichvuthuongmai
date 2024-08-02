@@ -20,11 +20,18 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         return User::class;
     }
 
+    public function getUserByRole($role)
+    {
+        return $this->model->whereHas('roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        })->get();
+    }
+
     public function searchAllLimit($keySearch = '', $meta = [], $select = ['id', 'fullname', 'phone'], $limit = 10, $role = 0)
     {
         $this->instance = $this->model->select($select)
             ->whereHas('roles', function ($query) {
-                $query->where('name',$this->getRoleCustomer());
+                $query->where('name', $this->getRoleCustomer());
             });
         $this->getQueryBuilderFindByKey($keySearch);
 
@@ -32,7 +39,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
             $this->instance = $this->instance->where($key, $value);
         }
 
-        if($role){
+        if ($role) {
             $this->instance = $this->instance->whereHas('roles', function ($query) use ($role) {
                 $query->where('name', $role);
             });
@@ -57,7 +64,4 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         $this->instance = $this->instance->orderBy($column, $sort);
         return $this->instance;
     }
-
-
-
 }

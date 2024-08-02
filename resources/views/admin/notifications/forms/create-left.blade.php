@@ -1,11 +1,62 @@
 <div class="col-12 col-md-9">
     <div class="card">
         <div class="row card-body">
-            <!-- user_id -->
+            <!-- type -->
             <div class="col-12">
                 <div class="mb-3">
-                    <label class="control-label">@lang('name')</label>
-                    <x-select name="user_id[]" class="select2-bs5-ajax my-select2" :data-url="route('admin.search.select.user')" multiple>
+                    <label for="">{{ __('Đối tượng') }}</label>
+                    <x-select class="notification-type" name="type" :required="true">
+                        @foreach ($types as $key => $value)
+                            <x-select-option :value="$key" :title="$value" />
+                        @endforeach
+                    </x-select>
+                </div>
+            </div>
+            <div style="display: none" id="notification-option-select" class="col-12">
+                <div class="mb-3">
+                    <label for="">{{ __('Loại') }}</label>
+                    <x-select class="notification-option-select-value" name="option">
+                        <x-select-option value="100" :title="__('Chọn loại thông báo')" selected />
+                            @foreach ($options as $key => $value)
+                                <x-select-option :value="$key" :title="$value" />
+                            @endforeach
+                    </x-select>
+                </div>
+            </div>
+            <!-- driver -->
+            <div style="display: none" id="notification-driver-select" class="col-12">
+                <div class="mb-3">
+                    <label for="">{{ __('Tài xế') }}</label>
+                    <x-select
+                        name="driver_id"
+                        class="select2-bs5-ajax"
+                        :data-url="route('admin.search.select.driver')"
+                        id="driver_id">
+                    </x-select>
+                </div>
+            </div>
+            <!-- customer -->
+            <div style="display: none" id="notification-customer-select" class="col-12">
+                <div class="mb-3">
+                    <label for="">{{ __('Khách hàng') }}</label>
+                    <x-select
+                        name="user_id"
+                        class="select2-bs5-ajax"
+                        :data-url="route('admin.search.select.customer')"
+                        id="user_id">
+                    </x-select>
+                </div>
+            </div>
+
+            <!-- store -->
+            <div style="display: none" id="notification-store-select" class="col-12">
+                <div class="mb-3">
+                    <label for="">{{ __('Cửa hàng') }}</label>
+                    <x-select
+                        name="store_id"
+                        class="select2-bs5-ajax"
+                        :data-url="route('admin.search.select.store')"
+                        id="store_id">
                     </x-select>
                 </div>
             </div>
@@ -23,11 +74,7 @@
                     <x-input name="message" :value="old('message')"  :placeholder="__('message')" />
                 </div>
             </div>
-            <div class="col-12">
-                <div class="mb-3">
-                    <x-input-checkbox onchange="onShowSelect2(this)" class="cb_sendAll" name="sendAll" label="Gửi tất cả"  />
-                </div>
-            </div>
+
         </div>
     </div>
 </div>

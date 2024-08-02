@@ -13,6 +13,9 @@ use App\Enums\Payment\PaymentMethod;
 use App\Enums\PostCategory\PostCategoryStatus;
 use App\Enums\Post\PostStatus;
 use App\Enums\Module\ModuleStatus;
+use App\Enums\Notification\NotificationOption;
+use App\Enums\Notification\NotificationStatus;
+use App\Enums\Notification\NotificationType;
 use App\Enums\Order\OrderType;
 use App\Enums\PriorityStatus;
 use App\Enums\Store\StoreStatus;
@@ -30,6 +33,20 @@ return [
         Gender::Male->value => 'Nam',
         Gender::Female->value => 'Nữ',
         Gender::Other->value => 'Khác',
+    ],
+    NotificationStatus::class => [
+        NotificationStatus::READ->value => 'Đã đọc',
+        NotificationStatus::NOT_READ->value => 'Chưa đọc',
+    ],
+    NotificationOption::class => [
+        NotificationOption::All->value => 'Cho tất cả',
+        NotificationOption::One->value => 'Cho một người',
+    ],
+    NotificationType::class => [
+        NotificationType::All->value => 'Thông báo tất cả',
+        NotificationType::Driver->value => 'Thông báo tài xế',
+        NotificationType::Store->value => 'Thông báo cửa hàng',
+        NotificationType::Customer->value => 'Thông báo khách hàng',
     ],
     ProductStatus::class => [
         ProductStatus::Active->value => 'Đang hoạt động',

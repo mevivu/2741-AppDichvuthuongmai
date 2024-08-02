@@ -75,6 +75,11 @@ Route::group(['middleware' => 'admin.auth.admin:admin'], function () {
         ->prefix('/notifications')
         ->as('notification.')
         ->group(function () {
+            Route::get('/not-read-admin', 'getNotificationsForAdmin')->name('getNotificationAdmin');
+            Route::patch('/status', 'updateStatus')->name('status');
+            Route::post('/update-device-token', 'updateDeviceToken')->name('updateDeviceToken');
+
+
             Route::group(['middleware' => ['permission:createNotification', 'auth:admin']], function () {
                 Route::get('/add', 'create')->name('create');
                 Route::post('/add', 'store')->name('store');
