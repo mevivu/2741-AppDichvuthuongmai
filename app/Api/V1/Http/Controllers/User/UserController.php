@@ -63,7 +63,7 @@ class UserController extends Controller
             $token = JWTAuth::fromUser($user);
             $refreshToken = $this->createRefreshToken($user);
             return $this->respondWithToken($token, $refreshToken);
-            
+           
         }
 
         return response()->json([

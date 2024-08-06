@@ -4,6 +4,9 @@ namespace App\Api\V1\Repositories\Discount;
 use App\Admin\Repositories\Discount\DiscountRepository as AdminCategoryRepository;
 use App\Models\Product;
 use App\Models\Discount;
+use Illuminate\Support\Facades\Log;
+
+
 class DiscountRepository extends AdminCategoryRepository implements DiscountRepositoryInterface
 {
     public function getByProduct(Product $product, $page = 1, $limit = 10)
@@ -52,19 +55,28 @@ class DiscountRepository extends AdminCategoryRepository implements DiscountRepo
 
         return $discounts;
     }
-    public function getDiscountsByDriverId($driverId, $page=1, $limit=10)
+    public function getDiscountsByDriverId($driverId, $page = 1, $limit = 10)
 {
-    $offset = ($page -1) * $limit;
+    Log::info('Driver ID in Repository:', ['driverId' => $driverId]);
+
+    $offset = ($page - 1) * $limit;
     $discounts = $this->model
         ->join('discount_applications', 'discounts.id', '=', 'discount_applications.discount_code_id')
         ->where('discount_applications.driver_id', $driverId)
         ->select('discounts.*')
         ->offset($offset)
-        ->limit($limit)
+        ->limit($limit) 
         ->get();
+
+    Log::info('Discounts retrieved:', ['discounts' => $discounts]);
 
     return $discounts;
 }
+
+    
+
+    
+    
 
 
     public function getDiscountsByProductId($productId, $page = 1, $limit = 10)

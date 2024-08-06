@@ -21,20 +21,20 @@ use Illuminate\Support\Facades\Route;
 */
 //discount
 Route::prefix('/discounts')
-->as('discount.')
-->group(function () {
-    Route::middleware('auth:sanctum')
-    ->controller(App\Api\V1\Http\Controllers\Discount\DiscountController::class)
-    ->prefix('/auth')
-    ->as('auth.')
-    ->group(function(){
-        Route::get('/', 'getByUser')->name('index');
-        Route::get('/driver/{driverId}', 'getByDriver')->name('getByDriver');
-        Route::get('/store/{storeId}/discount/{discountId}', 'getDiscountByStoreAndId')->name('getDiscountByStoreAndId');
-        Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
-        
+    ->as('discount.')
+    ->group(function () {
+        Route::middleware('auth:sanctum')
+            ->controller(App\Api\V1\Http\Controllers\Discount\DiscountController::class)
+            ->prefix('/auth')
+            ->as('auth.')
+            ->group(function(){
+                Route::get('/', 'getByUser')->name('index');
+                Route::get('/driver', 'getByDriver')->name('getByDriver');
+                Route::get('/store/{storeId}/discount/{discountId}', 'getDiscountByStoreAndId')->name('getDiscountByStoreAndId');
+                Route::get('/product/{productId}', 'getByProduct')->name('getByProduct');
+            });
     });
-});
+
 //store
 Route::prefix('stores')->controller(StoreController::class)
     ->group(function () {

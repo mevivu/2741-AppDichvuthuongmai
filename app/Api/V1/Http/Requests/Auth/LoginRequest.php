@@ -15,7 +15,6 @@ class LoginRequest extends BaseRequest
     {
         return [
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-
         ];
     }
 }
